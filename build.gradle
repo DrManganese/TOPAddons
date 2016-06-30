@@ -1,0 +1,76 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
+    }
+}
+repositories {
+    maven {
+        name = "forestry"
+        url = "http://maven.ic2.player.to/"
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+repositories {
+    maven {
+        name "Probe Repo"
+        url "http://maven.tterrag.com"
+    }
+
+    maven {
+        name = "Player Repo"
+        url = "http://maven.ic2.player.to/"
+    }
+
+    maven {
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+}
+
+dependencies {
+    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-1.0.12-25"
+    compile "net.sengir.forestry:forestry_1.10:5.1.6.185"
+    compile "mezz.jei:jei_1.10:3.7.0.+"
+}
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = "1.10-0.1.0"
+group= "io.github.drmanganese"
+archivesBaseName = "topplugins"
+
+minecraft {
+    version = "1.10-12.18.0.2000-1.10.0"
+    runDir = "run"
+
+    mappings = "snapshot_20160525"
+}
+
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}

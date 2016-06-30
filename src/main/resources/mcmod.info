@@ -1,0 +1,16 @@
+[
+{
+  "modid": "topplugins",
+  "name": "TOP Plugins",
+  "description": "TheOneProbe support for some mods.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["DrManganese"],
+  "credits": "McJty, for making TheOneProbe",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": [theoneprobe]
+}
+]
