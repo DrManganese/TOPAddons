@@ -7,10 +7,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidTankInfo;
+import io.github.drmanganese.topplugins.api.ItemArmorProbed;
 import io.github.drmanganese.topplugins.api.TOPPlugin;
+import io.github.drmanganese.topplugins.helmets.ItemProbedApiaristArmor;
+import io.github.drmanganese.topplugins.helmets.ItemProbedArmorNaturalist;
 import io.github.drmanganese.topplugins.reference.Names;
 import io.github.drmanganese.topplugins.styles.ProgressStyleForestryMultiColored;
 import io.github.drmanganese.topplugins.styles.ProgressStyleTank;
@@ -25,7 +29,9 @@ import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IHiveTile;
 import forestry.api.arboriculture.EnumTreeChromosome;
 import forestry.api.arboriculture.ITree;
+import forestry.api.core.IErrorLogicSource;
 import forestry.api.core.IErrorState;
+import forestry.api.farming.FarmDirection;
 import forestry.api.lepidopterology.EnumButterflyChromosome;
 import forestry.api.lepidopterology.IButterfly;
 import forestry.api.lepidopterology.IEntityButterfly;
@@ -40,8 +46,9 @@ import forestry.core.tiles.TileAnalyzer;
 import forestry.core.tiles.TileEngine;
 import forestry.core.tiles.TileForestry;
 import forestry.core.utils.GeneticsUtil;
-import forestry.factory.recipes.MoistenerRecipeManager;
 import forestry.factory.tiles.TileMoistener;
+import forestry.farming.tiles.TileFarm;
+import forestry.farming.tiles.TileFarmValve;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
@@ -49,7 +56,7 @@ import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 
-@TOPPlugin(dependency = "forestry", fancyName = "Forestry")
+@TOPPlugin(dependency = "forestry")
 public class PluginForestry extends PluginBlank {
 
     /**
@@ -65,20 +72,24 @@ public class PluginForestry extends PluginBlank {
             EnumErrorCode.NOT_DARK
     );
 
-    public PluginForestry() {
-        super();
+    @Override
+    public boolean hasHelmets() {
+        return true;
+    }
+
+    @Override
+    public List<Class<? extends ItemArmorProbed>> getHelmets() {
+        return Arrays.asList(ItemProbedApiaristArmor.class, ItemProbedArmorNaturalist.class);
     }
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         TileEntity tile = world.getTileEntity(data.getPos());
-        if (tile != null && (tile instanceof TileForestry || tile instanceof TileAlveary || tile instanceof TileTreeContainer)) {
+        if (tile != null && (tile instanceof TileForestry || tile instanceof TileAlveary || tile instanceof TileTreeContainer || tile instanceof TileFarm)) {
 
             ImmutableSet<IErrorState> errorStates;
-            if (tile instanceof TileForestry) {
-                errorStates = ((TileForestry) tile).getErrorLogic().getErrorStates();
-            } else if (tile instanceof TileAlveary){
-                errorStates = ((TileAlveary) tile).getErrorLogic().getErrorStates();
+            if (tile instanceof IErrorLogicSource) {
+                errorStates = ((IErrorLogicSource) tile).getErrorLogic().getErrorStates();
             } else {
                 errorStates = ImmutableSet.of();
             }
@@ -120,7 +131,7 @@ public class PluginForestry extends PluginBlank {
 
                 //TODO probe spectacles
                 if (leaves.isPollinated() && GeneticsUtil.hasNaturalistEye(player)) {
-                    probeInfo.text("Pollinated");
+                    probeInfo.text(TextFormatting.GREEN + "Pollinated");
                 }
             }
 
@@ -147,14 +158,7 @@ public class PluginForestry extends PluginBlank {
                 String tankName = "Tank";
                 int i = 0;
                 for (FluidTankInfo tank : tanks) {
-                    if (Names.tankNamesMap.containsKey(((ILiquidTankTile) tile).getClass())) {
-                        tankName = Names.tankNamesMap.get(((ILiquidTankTile) tile).getClass())[i];
-                    }
-                    if (tank.fluid == null) {
-                        textPrefixed(probeInfo, tankName, "empty");
-                    } else {
-                        probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).text(TextFormatting.YELLOW + tankName + ": ").progress(tank.fluid.amount, tank.capacity, new ProgressStyleTank().withFluid(tank.fluid));
-                    }
+                    tankGauge(probeInfo, tile, tank, i);
                     i++;
                 }
             }
@@ -188,12 +192,13 @@ public class PluginForestry extends PluginBlank {
                 }
                 textPrefixed(probeInfo, "Speed", (speed == 0 ? TextFormatting.RED.toString() : "") + speed);
 
-                /** Wheat consumption process
-                    1) Loop through inventory slots 0-9 to count the amount of each "wheat-type"
-                    2) Get the type of wheat in slot 9 (working slot), the preceding '▶' will be white
-                    3) Display an ItemStack with the stackSize from 1) for each wheat-type with '▶' in between
-                    4) If there is a valid recipe in slot 10, display the ItemStacks of slots 10 and 11
-                    with a progress bar in between
+                /**
+                 *  Wheat consumption process
+                 *   1) Loop through inventory slots 0-9 to count the amount of each "wheat-type"
+                 *   2) Get the type of wheat in slot 9 (working slot), the preceding '▶' will be white
+                 *   3) Display an ItemStack with the stackSize from 1) for each wheat-type with '▶' in between
+                 *   4) If there is a valid recipe in slot 10, display the ItemStacks of slots 10 and 11
+                 *   with a progress bar in between
                  */
                 ItemStack[] wheats = new ItemStack[] {
                         new ItemStack(Items.WHEAT, 0),
@@ -232,20 +237,36 @@ public class PluginForestry extends PluginBlank {
                         .text(arrowColors[2] + "\u25b6")
                         .item(wheats[3]);
 
-                MoistenerRecipeManager.findMatchingRecipe(moistener.getInternalInventory().getStackInSlot(11)).getTimePerItem();
                 if (moistener.getInternalInventory().getStackInSlot(11) != null) {
                     probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                             .item(moistener.getInternalInventory().getStackInSlot(11))
-                            //15 here corresponds to seeds->mycelium on speed 4
                             .progress(15 - moistener.getProductionProgressScaled(15), 15, probeInfo.defaultProgressStyle().showText(false))
                             .item(moistener.getInternalInventory().getStackInSlot(10));
                 }
             }
 
 
-            /** Forestry error states (correspond to the "Ledgers" you see on the left of guis)
-                Show all errors if sneaking
-                Show important errors always (defined in {@link NORMAL_STATES}
+            if (tile instanceof TileFarm) {
+                TileFarm farm = (TileFarm) tile;
+
+                EnumFacing facing = player.getHorizontalFacing();
+                ItemStack[] farmIcons = new ItemStack[4];
+                for (int i = 0; i < 4; i++) {
+                    farmIcons[i] = farm.getMultiblockLogic().getController().getFarmLogic(FarmDirection.getFarmDirection(facing)).getIconItemStack();
+                    facing = facing.rotateY();
+                }
+                probeInfo.horizontal(probeInfo.defaultLayoutStyle().spacing(25)).text("").item(farmIcons[0]);
+                probeInfo.horizontal(probeInfo.defaultLayoutStyle().spacing(25)).item(farmIcons[3]).text("").item(farmIcons[1]);
+                probeInfo.horizontal(probeInfo.defaultLayoutStyle().spacing(25)).text("").item(farmIcons[2]);
+
+                if (!(farm instanceof TileFarmValve) && mode == ProbeMode.EXTENDED)
+                    tankGauge(probeInfo, farm, farm.getMultiblockLogic().getController().getTankManager().getTank(0).getInfo());
+            }
+
+            /**
+             * Forestry error states (correspond to the "Ledgers" you see on the left of guis)
+             * Show all errors if sneaking
+             * Show important errors always (defined in {@link NORMAL_STATES}
              */
             if (errorStates.size() > 0 && !(tile instanceof TileLeaves)) {
                 errorStates.forEach(state -> {
@@ -258,12 +279,24 @@ public class PluginForestry extends PluginBlank {
 
     }
 
-    private IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text) {
-        return textPrefixed(probeInfo, prefix, text, TextFormatting.YELLOW);
+
+    private IProbeInfo tankGauge(IProbeInfo probeInfo, TileEntity tile, FluidTankInfo tank) {
+        return tankGauge(probeInfo, tile, tank, 0);
     }
 
-    private IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
-        return probeInfo.text(formatting + prefix + ": " + TextFormatting.WHITE + text);
+    private IProbeInfo tankGauge(IProbeInfo probeInfo, TileEntity tile, FluidTankInfo tank, int index) {
+        String tankName = "Tank";
+        if (tile instanceof ILiquidTankTile && Names.tankNamesMap.containsKey(((ILiquidTankTile) tile).getClass())) {
+            tankName = Names.tankNamesMap.get(((ILiquidTankTile) tile).getClass())[index];
+        }
+
+        if (tank.fluid == null) {
+            textPrefixed(probeInfo, tankName, "empty");
+        } else {
+            probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).text(TextFormatting.YELLOW + tankName + ": ").progress(tank.fluid.amount, tank.capacity, new ProgressStyleTank().withFluid(tank.fluid));
+        }
+
+        return probeInfo;
     }
 
     @Override
