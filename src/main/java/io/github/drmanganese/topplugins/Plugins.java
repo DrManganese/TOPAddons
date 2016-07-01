@@ -7,8 +7,6 @@ import com.google.common.base.Function;
 
 import javax.annotation.Nullable;
 
-import mcjty.theoneprobe.api.IProbeConfigProvider;
-import mcjty.theoneprobe.api.IProbeInfoEntityProvider;
 import mcjty.theoneprobe.api.ITheOneProbe;
 
 public class Plugins {
@@ -33,9 +31,9 @@ public class Plugins {
             probe = theOneProbe;
             PluginManager.plugins.forEach(plugin -> {
                 probe.registerProvider(plugin);
-                probe.registerProbeConfigProvider((IProbeConfigProvider) plugin);
-                probe.registerEntityProvider((IProbeInfoEntityProvider) plugin);
-
+                probe.registerProbeConfigProvider(plugin);
+                probe.registerEntityProvider(plugin);
+                plugin.registerElements();
             });
 
             return null;

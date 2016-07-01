@@ -95,7 +95,7 @@ public class PluginManager {
                     helmets.add(helmet);
                     ret++;
                 } catch (InstantiationException | IllegalAccessException e) {
-                    TOPPlugins.LOGGER.error("An error occured while trying to add helmets for plugin {}", fancyName);
+                    TOPPlugins.LOGGER.error("An error occurred while trying to add helmets for plugin {}", fancyName);
                     e.printStackTrace();
                 }
             }

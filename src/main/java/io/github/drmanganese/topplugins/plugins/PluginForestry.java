@@ -11,8 +11,10 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidTankInfo;
+import io.github.drmanganese.topplugins.Plugins;
 import io.github.drmanganese.topplugins.api.ItemArmorProbed;
 import io.github.drmanganese.topplugins.api.TOPPlugin;
+import io.github.drmanganese.topplugins.elements.ElementForestryFarm;
 import io.github.drmanganese.topplugins.helmets.ItemProbedApiaristArmor;
 import io.github.drmanganese.topplugins.helmets.ItemProbedArmorNaturalist;
 import io.github.drmanganese.topplugins.reference.Names;
@@ -50,6 +52,7 @@ import forestry.factory.tiles.TileMoistener;
 import forestry.farming.tiles.TileFarm;
 import forestry.farming.tiles.TileFarmValve;
 import mcjty.theoneprobe.api.ElementAlignment;
+import mcjty.theoneprobe.api.IElement;
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
@@ -58,6 +61,8 @@ import mcjty.theoneprobe.api.ProbeMode;
 
 @TOPPlugin(dependency = "forestry")
 public class PluginForestry extends PluginBlank {
+
+    public static int ELEMENT_FARM;
 
     /**
      * Errors to display even when not sneaking
@@ -80,6 +85,21 @@ public class PluginForestry extends PluginBlank {
     @Override
     public List<Class<? extends ItemArmorProbed>> getHelmets() {
         return Arrays.asList(ItemProbedApiaristArmor.class, ItemProbedArmorNaturalist.class);
+    }
+
+    @Override
+    public boolean hasElements() {
+        return true;
+    }
+
+    @Override
+    public List<Class<? extends IElement>> getElements() {
+        return Arrays.asList(ElementForestryFarm.class);
+    }
+
+    @Override
+    public void registerElements() {
+        ELEMENT_FARM = Plugins.GetTheOneProbe.probe.registerElementFactory(ElementForestryFarm::new);
     }
 
     @Override
@@ -255,9 +275,8 @@ public class PluginForestry extends PluginBlank {
                     farmIcons[i] = farm.getMultiblockLogic().getController().getFarmLogic(FarmDirection.getFarmDirection(facing)).getIconItemStack();
                     facing = facing.rotateY();
                 }
-                probeInfo.horizontal(probeInfo.defaultLayoutStyle().spacing(25)).text("").item(farmIcons[0]);
-                probeInfo.horizontal(probeInfo.defaultLayoutStyle().spacing(25)).item(farmIcons[3]).text("").item(farmIcons[1]);
-                probeInfo.horizontal(probeInfo.defaultLayoutStyle().spacing(25)).text("").item(farmIcons[2]);
+
+                addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase());
 
                 if (!(farm instanceof TileFarmValve) && mode == ProbeMode.EXTENDED)
                     tankGauge(probeInfo, farm, farm.getMultiblockLogic().getController().getTankManager().getTank(0).getInfo());
@@ -320,6 +339,10 @@ public class PluginForestry extends PluginBlank {
                 }
             }
         }
+    }
+
+    public static IProbeInfo addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection) {
+        return probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection));
     }
 
     @Override
