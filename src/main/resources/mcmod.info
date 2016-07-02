@@ -1,7 +1,7 @@
 [
 {
-  "modid": "topplugins",
-  "name": "TOP Plugins",
+  "modid": "topaddons",
+  "name": "TOP Addons",
   "description": "TheOneProbe support for some mods.",
   "version": "${version}",
   "mcversion": "${mcversion}",
