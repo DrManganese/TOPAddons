@@ -276,10 +276,11 @@ public class AddonForestry extends AddonBlank {
              * Show all errors if sneaking
              * Show important errors always (defined in {@link NORMAL_STATES}
              */
-            if (errorStates.size() > 0 && !(tile instanceof TileLeaves)) {
+            if (errorStates.size() > 0) {
+                probeInfo.text(TextFormatting.RED + "Can't work");
                 errorStates.forEach(state -> {
                     if (mode == ProbeMode.EXTENDED || NORMAL_STATES.contains(state))
-                        probeInfo.text(TextFormatting.RED + I18n.format(state.getUnlocalizedDescription()));
+                        probeInfo.text(TextFormatting.RED + "↪ " + I18n.format(state.getUnlocalizedDescription()));
                 });
             }
         }
