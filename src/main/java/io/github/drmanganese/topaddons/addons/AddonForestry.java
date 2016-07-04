@@ -1,25 +1,26 @@
 package io.github.drmanganese.topaddons.addons;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidTankInfo;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.ItemArmorProbed;
 import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.elements.ElementForestryFarm;
+import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInventory;
+import io.github.drmanganese.topaddons.elements.forestry.ElementForestryFarm;
 import io.github.drmanganese.topaddons.helmets.ItemProbedApiaristArmor;
 import io.github.drmanganese.topaddons.helmets.ItemProbedArmorNaturalist;
 import io.github.drmanganese.topaddons.reference.Names;
 import io.github.drmanganese.topaddons.styles.ProgressStyleForestryMultiColored;
-import io.github.drmanganese.topaddons.styles.ProgressStyleTank;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -38,6 +39,10 @@ import forestry.api.lepidopterology.EnumButterflyChromosome;
 import forestry.api.lepidopterology.IButterfly;
 import forestry.api.lepidopterology.IEntityButterfly;
 import forestry.apiculture.multiblock.TileAlveary;
+import forestry.apiculture.multiblock.TileAlvearySieve;
+import forestry.apiculture.multiblock.TileAlvearySwarmer;
+import forestry.apiculture.tiles.TileApiary;
+import forestry.apiculture.tiles.TileBeeHousingBase;
 import forestry.arboriculture.tiles.TileLeaves;
 import forestry.arboriculture.tiles.TileSapling;
 import forestry.arboriculture.tiles.TileTreeContainer;
@@ -50,7 +55,6 @@ import forestry.core.tiles.TileForestry;
 import forestry.core.utils.GeneticsUtil;
 import forestry.factory.tiles.TileMoistener;
 import forestry.farming.tiles.TileFarm;
-import forestry.farming.tiles.TileFarmValve;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
@@ -62,7 +66,7 @@ import mcjty.theoneprobe.api.ProbeMode;
 public class AddonForestry extends AddonBlank {
 
     public static int ELEMENT_FARM;
-    public static int ELEMENT_TANK;
+    public static int ELEMENT_BEE_INV;
 
     /**
      * Errors to display even when not sneaking
@@ -90,13 +94,13 @@ public class AddonForestry extends AddonBlank {
     @Override
     public void registerElements() {
         ELEMENT_FARM = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementForestryFarm::new);
+        ELEMENT_BEE_INV = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementBeeHousingInventory::new);
     }
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         TileEntity tile = world.getTileEntity(data.getPos());
         if (tile != null && (tile instanceof TileForestry || tile instanceof TileAlveary || tile instanceof TileTreeContainer || tile instanceof TileFarm)) {
-
             ImmutableSet<IErrorState> errorStates;
             if (tile instanceof IErrorLogicSource) {
                 errorStates = ((IErrorLogicSource) tile).getErrorLogic().getErrorStates();
@@ -118,7 +122,29 @@ public class AddonForestry extends AddonBlank {
                     }
                 }
 
-                //TODO special apiary inventory renderer
+                if (mode == ProbeMode.EXTENDED) {
+                    ItemStack[] inventoryStacks = new ItemStack[(tile instanceof TileApiary) ? 12 : 9];
+                    if (tile instanceof TileAlveary) {
+                        for (int i = 0; i < 9; i++) {
+                            ItemStack stack = ((TileAlveary) tile).getMultiblockLogic().getController().getInternalInventory().getStackInSlot(i);
+                            inventoryStacks[i] = (stack != null) ? stack : new ItemStack(Blocks.BARRIER);
+                        }
+                    } else if (tile instanceof TileBeeHousingBase) {
+                        for (int i = 0; i < 9; i++) {
+                            ItemStack stack = ((TileBeeHousingBase) tile).getInternalInventory().getStackInSlot(i);
+                            inventoryStacks[i] = (stack != null) ? stack : new ItemStack(Blocks.BARRIER);
+                        }
+
+                        if (tile instanceof TileApiary) {
+                            for (int i = 9; i < 12; i++) {
+                                ItemStack stack = ((TileApiary) tile).getInternalInventory().getStackInSlot(i);
+                                inventoryStacks[i] = (stack != null) ? stack : new ItemStack(Blocks.BARRIER);
+                            }
+                        }
+                    }
+
+                    addBeeHouseInventory(probeInfo, tile instanceof TileApiary, reorderBeeInvStacks(inventoryStacks));
+                }
             }
 
             //Analyzer
@@ -161,23 +187,31 @@ public class AddonForestry extends AddonBlank {
                 }
             }
 
-            //All blocks with internal tanks
-            if (tile instanceof ILiquidTankTile) {
-                FluidTankInfo[] tanks = ((ILiquidTankTile) tile).getTankInfo(data.getSideHit());
-                String tankName = "Tank";
-                int i = 0;
-                for (FluidTankInfo tank : tanks) {
-                    tankGauge(probeInfo, tile, tank, i);
-                    i++;
-                }
-            }
+            if (tile instanceof TileFarm) {
+                TileFarm farm = (TileFarm) tile;
 
-            //All engines (sneaking only)
-            if (tile instanceof TileEngine) {
-                TileEngine engine = ((TileEngine) tile);
+                EnumFacing facing = player.getHorizontalFacing();
+                ItemStack[] farmIcons = new ItemStack[4];
+                for (int i = 0; i < 4; i++) {
+                    farmIcons[i] = farm.getMultiblockLogic().getController().getFarmLogic(FarmDirection.getFarmDirection(facing)).getIconItemStack();
+                    facing = facing.rotateY();
+                }
+
+                if (mode == ProbeMode.NORMAL) {
+                    addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase());
+                }
+
                 if (mode == ProbeMode.EXTENDED) {
-                    textPrefixed(probeInfo, "Stored", engine.getEnergyManager().getEnergyStored(null) + " RF");
-                    textPrefixed(probeInfo, "Heat", engine.getHeat() / 10 + " C" + (errorStates.contains(EnumErrorCode.FORCED_COOLDOWN) ? " (Cooling down)" : ""));
+                    ItemStack[] inventoryStacks = new ItemStack[20];
+                    for (int i = 0; i < 20; i++) {
+                        if (farm.getInternalInventory().getStackInSlot(i) == null) {
+                            inventoryStacks[i] = new ItemStack(Blocks.BARRIER);
+                        } else {
+                            inventoryStacks[i] = farm.getInternalInventory().getStackInSlot(i);
+                        }
+                    }
+                    addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase(), true, inventoryStacks);
+                    //Maybe add tank gauge to all farm blocks, might handle in ILiquidTankTile section
                 }
             }
 
@@ -254,33 +288,40 @@ public class AddonForestry extends AddonBlank {
                 }
             }
 
-
-            if (tile instanceof TileFarm) {
-                TileFarm farm = (TileFarm) tile;
-
-                EnumFacing facing = player.getHorizontalFacing();
-                ItemStack[] farmIcons = new ItemStack[4];
-                for (int i = 0; i < 4; i++) {
-                    farmIcons[i] = farm.getMultiblockLogic().getController().getFarmLogic(FarmDirection.getFarmDirection(facing)).getIconItemStack();
-                    facing = facing.rotateY();
+            //All engines (sneaking only)
+            if (tile instanceof TileEngine) {
+                TileEngine engine = ((TileEngine) tile);
+                if (mode == ProbeMode.EXTENDED) {
+                    textPrefixed(probeInfo, "Stored", engine.getEnergyManager().getEnergyStored(null) + " RF");
+                    textPrefixed(probeInfo, "Heat", engine.getHeat() / 10 + " C" + (errorStates.contains(EnumErrorCode.FORCED_COOLDOWN) ? " (Cooling down)" : ""));
                 }
+            }
 
-                addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase());
-
-                if (!(farm instanceof TileFarmValve) && mode == ProbeMode.EXTENDED)
-                    tankGauge(probeInfo, farm, farm.getMultiblockLogic().getController().getTankManager().getTank(0).getInfo());
+            //All blocks with internal tanks
+            if (tile instanceof ILiquidTankTile) {
+                FluidTankInfo[] tanks = ((ILiquidTankTile) tile).getTankInfo(data.getSideHit());
+                int i = 0;
+                for (FluidTankInfo tank : tanks) {
+                    if (Names.tankNamesMap.containsKey(tile.getClass()))
+                        AddonForge.addTankElement(probeInfo, Names.tankNamesMap.get(tile.getClass())[i], tank, mode);
+                    else
+                        AddonForge.addTankElement(probeInfo, "Tank", tank, mode);
+                    i++;
+                }
             }
 
             /**
              * Forestry error states (correspond to the "Ledgers" you see on the left of guis)
              * Show all errors if sneaking
              * Show important errors always (defined in {@link NORMAL_STATES}
+             *
+             * Using deprecated I18n here because it exists on the server.
              */
             if (errorStates.size() > 0) {
                 probeInfo.text(TextFormatting.RED + "Can't work");
                 errorStates.forEach(state -> {
                     if (mode == ProbeMode.EXTENDED || NORMAL_STATES.contains(state))
-                        probeInfo.text(TextFormatting.RED + "↪ " + I18n.format(state.getUnlocalizedDescription()));
+                        probeInfo.text(TextFormatting.RED + "↪ " + I18n.translateToLocal(state.getUnlocalizedDescription()));
                 });
             }
         }
@@ -289,23 +330,16 @@ public class AddonForestry extends AddonBlank {
     }
 
 
-    private IProbeInfo tankGauge(IProbeInfo probeInfo, TileEntity tile, FluidTankInfo tank) {
-        return tankGauge(probeInfo, tile, tank, 0);
+    private static IProbeInfo addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection) {
+        return addFarmElement(probeInfo, farmIcons, oneDirection, false, new ItemStack[]{});
     }
 
-    private IProbeInfo tankGauge(IProbeInfo probeInfo, TileEntity tile, FluidTankInfo tank, int index) {
-        String tankName = "Tank";
-        if (tile instanceof ILiquidTankTile && Names.tankNamesMap.containsKey(((ILiquidTankTile) tile).getClass())) {
-            tankName = Names.tankNamesMap.get(((ILiquidTankTile) tile).getClass())[index];
-        }
+    private static IProbeInfo addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection, boolean showInventory, ItemStack[] inventoryStacks) {
+        return probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection, showInventory, inventoryStacks));
+    }
 
-        if (tank.fluid == null) {
-            textPrefixed(probeInfo, tankName, "empty");
-        } else {
-            probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).text(TextFormatting.YELLOW + tankName + ": ").progress(tank.fluid.amount, tank.capacity, new ProgressStyleTank().withFluid(tank.fluid));
-        }
-
-        return probeInfo;
+    private static IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, ItemStack[] inventoryStacks) {
+        return probeInfo.element(new ElementBeeHousingInventory(isApiary, inventoryStacks));
     }
 
     @Override
@@ -331,21 +365,39 @@ public class AddonForestry extends AddonBlank {
         }
     }
 
-    public static IProbeInfo addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection) {
-        return probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection));
-    }
-
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
     }
 
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        TileEntity tile = world.getTileEntity(data.getPos());
         if (config != null && blockState != null
-                && (world.getTileEntity(data.getPos()) instanceof IBeeHousing) || world.getTileEntity(data.getPos()) instanceof TileMoistener) {
+                && (tile instanceof IBeeHousing && !(tile instanceof TileAlvearySieve || tile instanceof TileAlvearySwarmer)) || tile instanceof TileMoistener || tile instanceof TileFarm) {
             config.showChestContents(IProbeConfig.ConfigMode.NOT);
+
         } else {
             config.showChestContents(IProbeConfig.ConfigMode.EXTENDED);
         }
+    }
+
+    private ItemStack[] reorderBeeInvStacks(ItemStack[] old) {
+        ItemStack[] ret = new ItemStack[old.length];
+        ret[0] = old[0];
+        ret[1] = old[1];
+        ret[2] = old[7];
+        ret[3] = old[6];
+        ret[4] = old[8];
+        ret[5] = old[2];
+        ret[6] = old[5];
+        ret[7] = old[3];
+        ret[8] = old[4];
+        if (old.length > 9) {
+            ret[9] = old[9];
+            ret[10] = old[10];
+            ret[11] = old[11];
+        }
+
+        return ret;
     }
 }
