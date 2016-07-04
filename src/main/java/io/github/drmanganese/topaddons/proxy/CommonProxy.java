@@ -11,18 +11,18 @@ public abstract class CommonProxy implements IProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         AddonManager.preInit(event);
-        if (AddonManager.addons.size() > 0) {
+        if (AddonManager.ADDONS.size() > 0) {
             TOPRegistrar.register();
         }
 
-        if (AddonManager.helmets.size() > 0) {
+        if (AddonManager.HELMETS.size() > 0) {
             Helmets.registerHelmets();
         }
     }
 
     @Override
     public void init(FMLInitializationEvent event) {
-        if (AddonManager.helmets.size() > 0) {
+        if (AddonManager.HELMETS.size() > 0) {
             Helmets.registerRecipes();
         }
     }

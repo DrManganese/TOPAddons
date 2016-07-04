@@ -4,7 +4,7 @@ import mcjty.theoneprobe.apiimpl.styles.ProgressStyle;
 
 public class ProgressStyleForestryMultiColored extends ProgressStyle {
 
-    private int percentage;
+    private final int percentage;
 
     public ProgressStyleForestryMultiColored(int percentage) {
         this.percentage = percentage;

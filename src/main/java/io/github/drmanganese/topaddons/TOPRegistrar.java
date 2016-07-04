@@ -29,7 +29,7 @@ public class TOPRegistrar {
         @Override
         public Void apply(ITheOneProbe theOneProbe) {
             probe = theOneProbe;
-            AddonManager.addons.forEach(addon -> {
+            AddonManager.ADDONS.forEach(addon -> {
                 probe.registerProvider(addon);
                 probe.registerProbeConfigProvider(addon);
                 probe.registerEntityProvider(addon);

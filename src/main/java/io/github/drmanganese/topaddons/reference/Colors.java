@@ -11,7 +11,7 @@ import forestry.core.fluids.Fluids;
 
 public final class Colors {
 
-    public static Map<Fluid, Color> fluidColorMap = new HashMap<>();
+    public static final Map<Fluid, Color> fluidColorMap = new HashMap<>();
 
     static {
         //Forestry liquids

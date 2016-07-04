@@ -12,15 +12,15 @@ import mcjty.theoneprobe.items.AddProbeRecipe;
 public class Helmets {
 
     public static void registerHelmets() {
-        AddonManager.helmets.forEach(GameRegistry::register);
+        AddonManager.HELMETS.forEach(GameRegistry::register);
     }
 
     public static void registerRecipes() {
-        AddonManager.helmets.forEach(helmet -> GameRegistry.addRecipe(new AddProbeRecipe(helmet.parent, helmet)));
+        AddonManager.HELMETS.forEach(helmet -> GameRegistry.addRecipe(new AddProbeRecipe(helmet.parent, helmet)));
     }
 
     @SideOnly(Side.CLIENT)
     public static void registerModels() {
-        AddonManager.helmets.forEach(helmet -> ModelLoader.setCustomModelResourceLocation(helmet, 0, new ModelResourceLocation(helmet.getRegistryName().toString(), "inventory")));
+        AddonManager.HELMETS.forEach(helmet -> ModelLoader.setCustomModelResourceLocation(helmet, 0, new ModelResourceLocation(helmet.getRegistryName().toString(), "inventory")));
     }
 }

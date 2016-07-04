@@ -16,8 +16,8 @@ import java.util.Set;
 
 public class AddonManager {
 
-    public static List<ITOPAddon> addons = new ArrayList<>();
-    public static List<ItemArmorProbed> helmets = new ArrayList<>();
+    public static final List<ITOPAddon> ADDONS = new ArrayList<>();
+    public static final List<ItemArmorProbed> HELMETS = new ArrayList<>();
 
     public static void preInit(FMLPreInitializationEvent event) {
         /** Get all classes with the {@link TOPAddon} annotation */
@@ -52,7 +52,7 @@ public class AddonManager {
                         if (ITOPAddon.class.isAssignableFrom(clazz)) {
                             ITOPAddon instance = (ITOPAddon) clazz.newInstance();
                             numHelmets = addHelmets(instance, fancyName);
-                            addons.add(instance);
+                            ADDONS.add(instance);
                         }
                     } catch (ClassNotFoundException e) {
                         TOPAddons.LOGGER.fatal("Classloader error while trying to create addon {}.", fancyName);
@@ -87,10 +87,10 @@ public class AddonManager {
             for (Class<? extends ItemArmorProbed> clazz : addon.getHelmets()) {
                 try {
                     ItemArmorProbed helmet = clazz.newInstance();
-                    helmets.add(helmet);
+                    HELMETS.add(helmet);
                     ret++;
                 } catch (InstantiationException | IllegalAccessException e) {
-                    TOPAddons.LOGGER.error("An error occurred while trying to add helmets for addon {}", fancyName);
+                    TOPAddons.LOGGER.error("An error occurred while trying to add HELMETS for addon {}", fancyName);
                     e.printStackTrace();
                 }
             }

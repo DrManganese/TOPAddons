@@ -43,4 +43,6 @@ public abstract class AddonBlank implements ITOPAddon {
     IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
         return probeInfo.text(formatting + prefix + ": " + TextFormatting.WHITE + text);
     }
+
+
 }

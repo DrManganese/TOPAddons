@@ -9,7 +9,7 @@ import forestry.factory.tiles.TileStill;
 
 public final class Names {
 
-    public static Map<Class<? extends ILiquidTankTile>, String[]> tankNamesMap = new HashMap<>();
+    public static final Map<Class<? extends ILiquidTankTile>, String[]> tankNamesMap = new HashMap<>();
 
     static {
         tankNamesMap.put(TileEngineBiogas.class, new String[]{"Fuel", "Heating", "Burner"});
