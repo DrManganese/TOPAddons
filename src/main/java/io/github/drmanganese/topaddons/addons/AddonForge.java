@@ -4,7 +4,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
@@ -36,16 +38,28 @@ public class AddonForge extends AddonBlank {
             IFluidHandler capability = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, data.getSideHit());
             for (int i = 0; i < capability.getTankProperties().length; i++) {
                 IFluidTankProperties tank = capability.getTankProperties()[i];
-                int color = 0xff2222dd;
+                int color = 0xff777777;
                 String tankName = "Tank";
                 if (Names.tankNamesMap.containsKey(tile.getClass())) {
                     tankName = Names.tankNamesMap.get(tile.getClass())[i];
                 }
+                /**
+                 * Fluid color: - If the fluid doesn't return white in getColor, use this value;
+                 *              - if the fluid is registered by an addon, use its color;
+                 *              - if the fluid's name is stored in {@link Colors.fluidNameColorMap}, use that value;
+                 *              - otherwise use 0xff777777 (gray-ish)
+                 */
                 if (tank.getContents() != null) {
-                    if (Colors.fluidColorMap.containsKey(tank.getContents().getFluid())) {
-                        color = Colors.fluidColorMap.get(tank.getContents().getFluid());
+                    Fluid fluid = tank.getContents().getFluid();
+                    if (fluid.getColor(tank.getContents()) != 0xffffffff) {
+                        color = fluid.getColor(tank.getContents());
+                    } else if (Colors.fluidColorMap.containsKey(fluid)) {
+                        color = Colors.fluidColorMap.get(fluid);
+                    } else if (Colors.fluidNameColorMap.containsKey(tank.getContents().getFluid().getName())) {
+                        color = Colors.fluidNameColorMap.get(tank.getContents().getFluid().getName());
                     }
                     addTankElement(probeInfo, tankName, tank.getContents().getFluid().getLocalizedName(tank.getContents()), tank.getContents().amount, tank.getCapacity(), color, mode);
+                    probeInfo.text(TextFormatting.DARK_AQUA + tank.getContents().getFluid().getName());
                 } else {
                     addTankElement(probeInfo, tankName, "", 0, 0, color, mode);
                 }

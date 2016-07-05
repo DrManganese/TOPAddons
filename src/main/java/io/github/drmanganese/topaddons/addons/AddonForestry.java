@@ -313,12 +313,13 @@ public class AddonForestry extends AddonBlank {
              * Show important errors always (defined in {@link NORMAL_STATES}
              *
              * Using deprecated I18n here because it exists on the server.
+             * \u21aa = ↪
              */
             if (errorStates.size() > 0) {
                 probeInfo.text(TextFormatting.RED + "Can't work");
                 errorStates.forEach(state -> {
                     if (mode == ProbeMode.EXTENDED || NORMAL_STATES.contains(state))
-                        probeInfo.text(TextFormatting.RED + "↪ " + I18n.translateToLocal(state.getUnlocalizedDescription()));
+                        probeInfo.text(TextFormatting.RED + "\u21aa " + I18n.translateToLocal(state.getUnlocalizedDescription()));
                 });
             }
         }
