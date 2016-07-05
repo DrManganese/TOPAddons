@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "topaddons:items/apiarist_helmet_probe"
+    "layer0": "forestry:items/apiaristHelmet",
+    "layer1": "topaddons:items/apiarist_helmet_probe"
   }
 }
