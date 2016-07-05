@@ -38,4 +38,16 @@ public interface ITOPAddon extends IProbeInfoProvider, IProbeInfoEntityProvider,
      */
     void registerElements();
 
+    /**
+     * Add a <{@link net.minecraftforge.fluids.Fluid}, {@link Integer}> pair to the Map in
+     * {@link io.github.drmanganese.topaddons.reference.Colors}
+     */
+    void addFluidColors();
+
+    /**
+     * Add a <{@link net.minecraft.tileentity.TileEntity}, {@link String[]}> pair to the Map in
+     * {@link io.github.drmanganese.topaddons.reference.Names}
+     */
+    void addTankNames();
+
 }

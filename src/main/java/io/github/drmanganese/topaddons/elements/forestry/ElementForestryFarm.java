@@ -7,8 +7,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import io.github.drmanganese.topaddons.addons.AddonForestry;
 
-import forestry.core.PluginCore;
-import forestry.core.circuits.EnumCircuitBoardType;
 import io.netty.buffer.ByteBuf;
 import mcjty.theoneprobe.api.IElement;
 import mcjty.theoneprobe.network.NetworkTools;
@@ -30,8 +28,8 @@ public class ElementForestryFarm implements IElement {
     }
 
     public ElementForestryFarm(ByteBuf buf) {
-        this.farmIcons = new ItemStack[4];
-        for (int i = 0; i < 4; i++) {
+        this.farmIcons = new ItemStack[5];
+        for (int i = 0; i < 5; i++) {
             this.farmIcons[i] = NetworkTools.readItemStack(buf);
         }
         oneDirection = NetworkTools.readString(buf);
@@ -53,7 +51,7 @@ public class ElementForestryFarm implements IElement {
 
         drawPlus(centerX - 22, centerY - 22, centerX + 38, centerY + 38, 0xff969696, 0x44969696);
 
-        renderItemStack(minecraft, minecraft.getRenderItem(), PluginCore.items.circuitboards.get(EnumCircuitBoardType.INTRICATE), centerX, centerY + 2, "");
+        renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons[4], centerX, centerY + 2, "");
         renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons[0], centerX, centerY - 17, oneDirection);
         renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons[1], centerX + 19, centerY + 2, nextDirection());
         renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons[2], centerX, centerY + 21, nextDirection());

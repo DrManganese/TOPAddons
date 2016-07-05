@@ -34,6 +34,8 @@ public class TOPRegistrar {
                 probe.registerProbeConfigProvider(addon);
                 probe.registerEntityProvider(addon);
                 addon.registerElements();
+                addon.addFluidColors();
+                addon.addTankNames();
             });
 
             return null;

@@ -23,4 +23,12 @@ public @interface TOPAddon {
      * @return Optional localization key (might be used later for configs or something)
      */
     String unlocDescription() default "";
+
+    /**
+     * @return Optional order for registering the info providers etc. (mainly for general
+     * information across mods e.g. {@link io.github.drmanganese.topaddons.addons.AddonForge})
+     *
+     * Higher number is lower order.
+     */
+    int order() default 10;
 }

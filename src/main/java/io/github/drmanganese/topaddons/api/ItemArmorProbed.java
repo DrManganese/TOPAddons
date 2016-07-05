@@ -28,7 +28,7 @@ public class ItemArmorProbed extends ItemArmor {
     /** Parent class of the helmet, needed for the crafting recipe */
     public final ItemArmor parent;
 
-    public ItemArmorProbed(ArmorMaterial materialIn, String name, ItemArmor parent) {
+    protected ItemArmorProbed(ArmorMaterial materialIn, String name, ItemArmor parent) {
         super(materialIn, 0, EntityEquipmentSlot.HEAD);
         this.name = name;
         this.parent = parent;

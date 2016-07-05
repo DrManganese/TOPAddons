@@ -10,6 +10,7 @@ import io.github.drmanganese.topaddons.api.ItemArmorProbed;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -69,7 +70,10 @@ public class AddonManager {
                     }
 
                     if (success) {
-                        TOPAddons.LOGGER.info("Created addon {} with {} helmets.", fancyName, numHelmets);
+                        if (numHelmets > 0)
+                            TOPAddons.LOGGER.info("Created addon {} with {} helmets.", fancyName, numHelmets);
+                        else
+                            TOPAddons.LOGGER.info("Created addon {}.", fancyName);
                     } else {
                         TOPAddons.LOGGER.fatal("Failed to create addon {}", fancyName);
                     }
@@ -79,6 +83,14 @@ public class AddonManager {
                 }
             }
         }
+
+        /** Sorting */
+        Collections.sort(ADDONS, (o1, o2) -> {
+            int order1 = o1.getClass().getAnnotation(TOPAddon.class).order();
+            int order2 = o2.getClass().getAnnotation(TOPAddon.class).order();
+
+            return Integer.compare(order1, order2);
+        });
     }
 
     private static int addHelmets(ITOPAddon addon, String fancyName) {

@@ -32,6 +32,16 @@ public abstract class AddonBlank implements ITOPAddon {
     }
 
     @Override
+    public void addTankNames() {
+
+    }
+
+    @Override
+    public void addFluidColors() {
+
+    }
+
+    @Override
     public List<Class<? extends ItemArmorProbed>> getHelmets() {
         return new ArrayList<>();
     }

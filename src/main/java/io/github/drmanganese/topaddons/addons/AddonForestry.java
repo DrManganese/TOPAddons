@@ -11,7 +11,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidTankInfo;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.ItemArmorProbed;
 import io.github.drmanganese.topaddons.api.TOPAddon;
@@ -19,6 +18,7 @@ import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInvent
 import io.github.drmanganese.topaddons.elements.forestry.ElementForestryFarm;
 import io.github.drmanganese.topaddons.helmets.ItemProbedApiaristArmor;
 import io.github.drmanganese.topaddons.helmets.ItemProbedArmorNaturalist;
+import io.github.drmanganese.topaddons.reference.Colors;
 import io.github.drmanganese.topaddons.reference.Names;
 import io.github.drmanganese.topaddons.styles.ProgressStyleForestryMultiColored;
 
@@ -47,13 +47,18 @@ import forestry.arboriculture.tiles.TileLeaves;
 import forestry.arboriculture.tiles.TileSapling;
 import forestry.arboriculture.tiles.TileTreeContainer;
 import forestry.core.PluginCore;
+import forestry.core.blocks.BlockBogEarth;
 import forestry.core.errors.EnumErrorCode;
-import forestry.core.tiles.ILiquidTankTile;
+import forestry.core.fluids.Fluids;
 import forestry.core.tiles.TileAnalyzer;
 import forestry.core.tiles.TileEngine;
 import forestry.core.tiles.TileForestry;
 import forestry.core.utils.GeneticsUtil;
+import forestry.energy.tiles.TileEngineBiogas;
+import forestry.factory.tiles.TileFermenter;
 import forestry.factory.tiles.TileMoistener;
+import forestry.factory.tiles.TileRaintank;
+import forestry.factory.tiles.TileStill;
 import forestry.farming.tiles.TileFarm;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IProbeConfig;
@@ -76,7 +81,6 @@ public class AddonForestry extends AddonBlank {
             EnumErrorCode.IS_RAINING,
             EnumErrorCode.NOT_DAY,
             EnumErrorCode.FORCED_COOLDOWN,
-            EnumErrorCode.NO_RECIPE,
             EnumErrorCode.NO_SPECIMEN,
             EnumErrorCode.NOT_DARK
     );
@@ -99,6 +103,10 @@ public class AddonForestry extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        if (blockState.getBlock() == PluginCore.blocks.bogEarth) {
+            probeInfo.text(TextFormatting.GREEN + "Maturity: " + blockState.getValue(BlockBogEarth.MATURITY) * 100 / 3 + "%");
+        }
+
         TileEntity tile = world.getTileEntity(data.getPos());
         if (tile != null && (tile instanceof TileForestry || tile instanceof TileAlveary || tile instanceof TileTreeContainer || tile instanceof TileFarm)) {
             ImmutableSet<IErrorState> errorStates;
@@ -191,7 +199,9 @@ public class AddonForestry extends AddonBlank {
                 TileFarm farm = (TileFarm) tile;
 
                 EnumFacing facing = player.getHorizontalFacing();
-                ItemStack[] farmIcons = new ItemStack[4];
+                ItemStack[] farmIcons = new ItemStack[5];
+                ItemStack socket = farm.getMultiblockLogic().getController().getSocket(0);
+                farmIcons[4] = (socket != null) ? socket : new ItemStack(Blocks.BARRIER);
                 for (int i = 0; i < 4; i++) {
                     farmIcons[i] = farm.getMultiblockLogic().getController().getFarmLogic(FarmDirection.getFarmDirection(facing)).getIconItemStack();
                     facing = facing.rotateY();
@@ -297,19 +307,6 @@ public class AddonForestry extends AddonBlank {
                 }
             }
 
-            //All blocks with internal tanks
-            if (tile instanceof ILiquidTankTile) {
-                FluidTankInfo[] tanks = ((ILiquidTankTile) tile).getTankInfo(data.getSideHit());
-                int i = 0;
-                for (FluidTankInfo tank : tanks) {
-                    if (Names.tankNamesMap.containsKey(tile.getClass()))
-                        AddonForge.addTankElement(probeInfo, Names.tankNamesMap.get(tile.getClass())[i], tank, mode);
-                    else
-                        AddonForge.addTankElement(probeInfo, "Tank", tank, mode);
-                    i++;
-                }
-            }
-
             /**
              * Forestry error states (correspond to the "Ledgers" you see on the left of guis)
              * Show all errors if sneaking
@@ -329,13 +326,27 @@ public class AddonForestry extends AddonBlank {
 
     }
 
-
-    private static IProbeInfo addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection) {
-        return addFarmElement(probeInfo, farmIcons, oneDirection, false, new ItemStack[]{});
+    @Override
+    public void addFluidColors() {
+        for (Fluids fluid : Fluids.values()) {
+            Colors.fluidColorMap.put(fluid.getFluid(), fluid.getParticleColor().hashCode());
+        }
     }
 
-    private static IProbeInfo addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection, boolean showInventory, ItemStack[] inventoryStacks) {
-        return probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection, showInventory, inventoryStacks));
+    @Override
+    public void addTankNames() {
+        Names.tankNamesMap.put(TileEngineBiogas.class, new String[]{"Fuel", "Heating", "Burner"});
+        Names.tankNamesMap.put(TileStill.class, new String[]{"In", "Out"});
+        Names.tankNamesMap.put(TileFermenter.class, new String[]{"Resource Tank", "Product Tank"});
+        Names.tankNamesMap.put(TileRaintank.class, new String[]{"Reservoir"});
+    }
+
+    private static void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection) {
+        addFarmElement(probeInfo, farmIcons, oneDirection, false, new ItemStack[]{});
+    }
+
+    private static void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection, boolean showInventory, ItemStack[] inventoryStacks) {
+        probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection, showInventory, inventoryStacks));
     }
 
     private static IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, ItemStack[] inventoryStacks) {
