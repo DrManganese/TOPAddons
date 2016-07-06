@@ -4,7 +4,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -59,7 +58,6 @@ public class AddonForge extends AddonBlank {
                         color = Colors.fluidNameColorMap.get(tank.getContents().getFluid().getName());
                     }
                     addTankElement(probeInfo, tankName, tank.getContents().getFluid().getLocalizedName(tank.getContents()), tank.getContents().amount, tank.getCapacity(), color, mode);
-                    probeInfo.text(TextFormatting.DARK_AQUA + tank.getContents().getFluid().getName());
                 } else {
                     addTankElement(probeInfo, tankName, "", 0, 0, color, mode);
                 }

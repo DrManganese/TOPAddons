@@ -1,7 +1,6 @@
 package io.github.drmanganese.topaddons.elements;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
 import io.github.drmanganese.topaddons.addons.AddonForge;
 import io.github.drmanganese.topaddons.styles.ProgressStyleTank;
 
@@ -13,6 +12,8 @@ import mcjty.theoneprobe.apiimpl.client.ElementProgressRender;
 import mcjty.theoneprobe.apiimpl.client.ElementTextRender;
 import mcjty.theoneprobe.network.NetworkTools;
 import mcjty.theoneprobe.rendering.RenderHelper;
+
+import static io.github.drmanganese.topaddons.elements.ElementRenderHelper.drawSmallText;
 
 public class ElementTankGauge implements IElement {
 
@@ -84,14 +85,5 @@ public class ElementTankGauge implements IElement {
     @Override
     public int getID() {
         return AddonForge.ELEMENT_TANK;
-    }
-
-    private int drawSmallText(int x, int y, String text, int color) {
-        Minecraft mc = Minecraft.getMinecraft();
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(0.5F, 0.5F, 1.0F);
-        mc.fontRendererObj.drawStringWithShadow(text, x * 2, y * 2, color);
-        GlStateManager.popMatrix();
-        return mc.fontRendererObj.getStringWidth(text) / 2;
     }
 }
