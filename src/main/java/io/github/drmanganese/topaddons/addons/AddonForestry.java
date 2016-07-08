@@ -305,6 +305,7 @@ public class AddonForestry extends AddonBlank {
                     textPrefixed(probeInfo, "Stored", engine.getEnergyManager().getEnergyStored(null) + " RF");
                     textPrefixed(probeInfo, "Heat", engine.getHeat() / 10 + " C" + (errorStates.contains(EnumErrorCode.FORCED_COOLDOWN) ? " (Cooling down)" : ""));
                 }
+                probeInfo.text(TextFormatting.GREEN + "Producing "  + engine.getEnergyManager() + " RF/t");
             }
 
             /**
