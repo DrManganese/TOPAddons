@@ -37,14 +37,19 @@ repositories {
     maven {
         url "http://dvs1.progwml6.com/files/maven"
     }
+
+    maven {
+        url "http://tehnut.info/maven/"
+    }
 }
 
 dependencies {
     deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-1.0.12-25"
-    compile "net.sengir.forestry:forestry_1.10.2:5.1.8.189"
+    compile "net.sengir.forestry:forestry_1.10.2:5.1.12.199"
     deobfCompile "net.darkhax.tesla:Tesla:1.9.4-1.1.0.24"
     deobfCompile "slimeknights.mantle:Mantle:1.10-0.10.3.jenkins157"
     deobfCompile "slimeknights:TConstruct:1.10-2.3.3a.jenkins281"
+    deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.9.4-2.0.2-288-ss"
 }
 
 

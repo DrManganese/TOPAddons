@@ -11,6 +11,7 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.ElementTankGauge;
@@ -32,7 +33,12 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        /* Disable for enderio */
+        if (ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain().equals("enderio"))
+            return;
+
         TileEntity tile = world.getTileEntity(data.getPos());
+
         if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, data.getSideHit())) {
             IFluidHandler capability = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, data.getSideHit());
             for (int i = 0; i < capability.getTankProperties().length; i++) {
