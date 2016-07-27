@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+import io.github.drmanganese.topaddons.Config;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.tconstruct.ElementSmelteryTank;
@@ -45,6 +46,6 @@ public class AddonTinkersConstruct extends AddonBlank {
     }
 
     private void addSmelteryTankElement(IProbeInfo probeInfo, List<FluidStack> fluids, int capacity, ProbeMode mode) {
-        probeInfo.element(new ElementSmelteryTank(fluids, capacity, mode == ProbeMode.EXTENDED));
+        probeInfo.element(new ElementSmelteryTank(fluids, capacity, mode == ProbeMode.EXTENDED || Config.TinkersConstruct.alwaysFullGauge));
     }
 }

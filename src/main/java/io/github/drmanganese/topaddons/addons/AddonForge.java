@@ -1,7 +1,6 @@
 package io.github.drmanganese.topaddons.addons;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -12,6 +11,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import io.github.drmanganese.topaddons.Config;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.ElementTankGauge;
@@ -20,9 +20,7 @@ import io.github.drmanganese.topaddons.reference.Names;
 
 import java.awt.*;
 
-import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 
@@ -33,6 +31,9 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        if (!Config.Forge.showTankGauge)
+            return;
+
         /* Disable for enderio */
         if (ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain().equals("enderio"))
             return;
@@ -78,27 +79,12 @@ public class AddonForge extends AddonBlank {
     }
 
     @Override
-    public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
-
-    }
-
-    @Override
-    public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-
-    }
-
-    @Override
-    public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
-
-    }
-
-    @Override
     public void registerElements() {
         ELEMENT_TANK = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementTankGauge::new);
     }
 
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, int color, ProbeMode mode) {
-        return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, color, mode == ProbeMode.EXTENDED));
+        return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, color, mode == ProbeMode.EXTENDED || Config.Forge.alwaysFullGauge));
     }
 
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode) {
