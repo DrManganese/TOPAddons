@@ -84,7 +84,7 @@ public class AddonForge extends AddonBlank {
     }
 
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, int color, ProbeMode mode) {
-        return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, color, mode == ProbeMode.EXTENDED || Config.Forge.alwaysFullGauge));
+        return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, color, mode == ProbeMode.EXTENDED));
     }
 
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode) {
