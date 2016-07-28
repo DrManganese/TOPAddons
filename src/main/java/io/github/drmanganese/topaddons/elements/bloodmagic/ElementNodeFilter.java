@@ -3,6 +3,7 @@ package io.github.drmanganese.topaddons.elements.bloodmagic;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import io.github.drmanganese.topaddons.addons.AddonBloodMagic;
+import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 
 import WayofTime.bloodmagic.item.inventory.ItemInventory;
 import io.netty.buffer.ByteBuf;
@@ -31,10 +32,10 @@ public class ElementNodeFilter implements IElement {
     @Override
     public void render(int x, int y) {
         Minecraft mc = Minecraft.getMinecraft();
-        RenderHelper.drawBeveledBox(x, y, x + 18, y + 18, 0xff969696, 0xff969696, 0x44969696);
+        ElementRenderHelper.drawGreyBox(x, y, x + 18, y + 18);
         RenderHelper.renderItemStack(mc, mc.getRenderItem(), inventoryOnSide, x + 1, y + 1, "");
         RenderHelper.renderItemStack(mc, mc.getRenderItem(), filterStack, x + 18, y + 1, "");
-        RenderHelper.drawBeveledBox(x + 34, y, x + 180, y + 18, 0xff969696, 0xff969696, 0x44969696);
+        ElementRenderHelper.drawGreyBox(x + 34, y, x + 180, y + 18);
 
         ItemInventory filterInv = new ItemInventory(filterStack, 9, "");
         int xOffset = 0;
