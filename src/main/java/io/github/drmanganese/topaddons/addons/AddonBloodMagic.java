@@ -9,16 +9,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import io.github.drmanganese.topaddons.Config;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.elements.bloodmagic.ElementAltarCrafting;
 import io.github.drmanganese.topaddons.elements.bloodmagic.ElementNodeFilter;
 
+import WayofTime.bloodmagic.altar.BloodAltar;
 import WayofTime.bloodmagic.api.altar.IBloodAltar;
+import WayofTime.bloodmagic.api.iface.IAltarReader;
 import WayofTime.bloodmagic.block.BlockLifeEssence;
-import WayofTime.bloodmagic.item.sigil.ItemSigilDivination;
+import WayofTime.bloodmagic.item.sigil.ItemSigilHolding;
+import WayofTime.bloodmagic.item.sigil.ItemSigilSeer;
 import WayofTime.bloodmagic.routing.IMasterRoutingNode;
+import WayofTime.bloodmagic.tile.TileAltar;
+import WayofTime.bloodmagic.tile.TileIncenseAltar;
 import WayofTime.bloodmagic.tile.routing.TileFilteredRoutingNode;
+import WayofTime.bloodmagic.util.helper.NumeralHelper;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -27,39 +35,39 @@ import mcjty.theoneprobe.api.ProbeMode;
 public class AddonBloodMagic extends AddonBlank {
 
     public static int ELEMENT_NODE_FILTER;
+    public static int ELEMENT_ALTAR_CRAFTING;
 
     @Override
     public void registerElements() {
         ELEMENT_NODE_FILTER = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementNodeFilter::new);
+        ELEMENT_ALTAR_CRAFTING = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementAltarCrafting::new);
     }
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        boolean holdingSigil = !Config.BloodMagic.requireSigil || isAltarSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || isAltarSeer(player.getHeldItem(EnumHand.OFF_HAND));
+        boolean holdingSeer = !Config.BloodMagic.requireSigil  || holdingSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || holdingSeer(player.getHeldItem(EnumHand.OFF_HAND));
+
         TileEntity tile = world.getTileEntity(data.getPos());
-        boolean holdingSigil = isDivinationSigil(player.getHeldItem(EnumHand.MAIN_HAND)) || isDivinationSigil(player.getHeldItem(EnumHand.OFF_HAND));
         if (tile != null) {
-            if (tile instanceof IBloodAltar && (!Config.BloodMagic.requireSigil || holdingSigil)) {
+            if (tile instanceof IBloodAltar && holdingSigil) {
                 IBloodAltar altar = (IBloodAltar) tile;
-                textPrefixed(probeInfo, "Tier", altar.getTier().toInt() + "", TextFormatting.RED);
+                textPrefixed(probeInfo, "Tier", NumeralHelper.toRoman(altar.getTier().toInt()), TextFormatting.RED);
                 AddonForge.addTankElement(probeInfo, "Blood Altar", "Life Essence", altar.getCurrentBlood(), altar.getCapacity(), BlockLifeEssence.getLifeEssence().getColor(), mode);
+
+                if (altar instanceof TileAltar && altar.isActive() && holdingSeer) {
+                    BloodAltar bloodAltar = ReflectionHelper.getPrivateValue(TileAltar.class, (TileAltar) altar, "bloodAltar");
+                    ItemStack input = ((TileAltar) altar).getStackInSlot(0);
+                    ItemStack result = ReflectionHelper.getPrivateValue(BloodAltar.class, bloodAltar, "result");
+                    if (input != null && result != null)
+                        addAltarCraftingElement(probeInfo, input, result, bloodAltar.getProgress(), bloodAltar.getLiquidRequired(), bloodAltar.getConsumptionRate());
+                }
             }
 
             if (tile instanceof TileFilteredRoutingNode && !(tile instanceof IMasterRoutingNode)) {
                 TileFilteredRoutingNode node = (TileFilteredRoutingNode) tile;
                 ItemStack filterStack = node.getFilterStack(data.getSideHit());
                 if (filterStack != null) {
-//                    ItemInventory filterInv = new ItemInventory(filterStack, 9, "");
-//                    probeInfo.horizontal(new LayoutStyle().spacing(-4))
-//                            .item(filterStack)
-//                            .item(filterInv.getStackInSlot(0))
-//                            .item(filterInv.getStackInSlot(1))
-//                            .item(filterInv.getStackInSlot(2))
-//                            .item(filterInv.getStackInSlot(3))
-//                            .item(filterInv.getStackInSlot(4))
-//                            .item(filterInv.getStackInSlot(5))
-//                            .item(filterInv.getStackInSlot(6))
-//                            .item(filterInv.getStackInSlot(7))
-//                            .item(filterInv.getStackInSlot(8));
                     BlockPos sidePos = data.getPos().offset(data.getSideHit());
                     if (world.getTileEntity(sidePos) != null) {
                         IBlockState sideState = world.getBlockState(sidePos);
@@ -68,6 +76,12 @@ public class AddonBloodMagic extends AddonBlank {
                     }
                 }
             }
+
+            if (tile instanceof TileIncenseAltar && holdingSigil) {
+                TileIncenseAltar altar = (TileIncenseAltar) tile;
+                textPrefixed(probeInfo, "Tranquility", (int) ((100D * (int) (100 * altar.tranquility)) / 100D) + "", TextFormatting.RED);
+                textPrefixed(probeInfo, "Bonus", (int) (altar.incenseAddition * 100) + "%", TextFormatting.RED);
+            }
         }
     }
 
@@ -75,7 +89,28 @@ public class AddonBloodMagic extends AddonBlank {
         probeInfo.element(new ElementNodeFilter(side, inventoryOnSide, filterStack));
     }
 
-    private boolean isDivinationSigil(ItemStack heldStack) {
-        return heldStack != null && heldStack.getItem() instanceof ItemSigilDivination;
+    private void addAltarCraftingElement(IProbeInfo probeInfo, ItemStack input, ItemStack result, int progress, int required, float consumption) {
+        probeInfo.element(new ElementAltarCrafting(input, result, progress, required, consumption));
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private boolean isAltarSeer(ItemStack heldStack) {
+        if (heldStack == null)
+            return false;
+
+        if (heldStack.getItem() instanceof IAltarReader) {
+            if (heldStack.getItem() instanceof ItemSigilHolding) {
+                ItemStack currentHoldingStack = ItemSigilHolding.getItemStackInSlot(heldStack, (ItemSigilHolding.getCurrentItemOrdinal(heldStack)));
+                return currentHoldingStack != null && currentHoldingStack.getItem() instanceof IAltarReader;
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean holdingSeer(ItemStack heldStack) {
+        return heldStack != null && heldStack.getItem() instanceof ItemSigilSeer;
     }
 }

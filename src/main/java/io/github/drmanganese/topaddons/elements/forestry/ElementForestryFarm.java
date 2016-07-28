@@ -6,6 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import io.github.drmanganese.topaddons.addons.AddonForestry;
+import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 
 import io.netty.buffer.ByteBuf;
 import mcjty.theoneprobe.api.IElement;
@@ -59,10 +60,10 @@ public class ElementForestryFarm implements IElement {
         nextDirection();
 
         if (this.inventoryStacks.length > 0) {
-            RenderHelper.drawBeveledBox(x, y + 60, x + 38, y + 116, 0xff969696, 0xff969696, 0x44969696);
-            RenderHelper.drawBeveledBox(x + 40, y + 60, x + 78, y + 116, 0xff969696, 0xff969696, 0x44969696);
-            RenderHelper.drawBeveledBox(x , y + 120, x + 38, y + 158, 0xff969696, 0xff969696, 0x44969696);
-            RenderHelper.drawBeveledBox(x + 40, y + 120, x + 78, y + 158, 0xff969696, 0xff969696, 0x44969696);
+            ElementRenderHelper.drawGreyBox(x, y + 60, x + 38, y + 116);
+            ElementRenderHelper.drawGreyBox(x + 40, y + 60, x + 78, y + 116);
+            ElementRenderHelper.drawGreyBox(x , y + 120, x + 38, y + 158);
+            ElementRenderHelper.drawGreyBox(x + 40, y + 120, x + 78, y + 158);
             for (int i = 0; i < 2; i++) {
                 for (int j = 0; j < 3; j++) {
                     for (int k = 0; k < 2; k++) {

@@ -5,11 +5,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import io.github.drmanganese.topaddons.addons.AddonForestry;
+import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 
 import io.netty.buffer.ByteBuf;
 import mcjty.theoneprobe.api.IElement;
 import mcjty.theoneprobe.network.NetworkTools;
-import mcjty.theoneprobe.rendering.RenderHelper;
 
 import static mcjty.theoneprobe.rendering.RenderHelper.renderItemStack;
 
@@ -38,12 +38,12 @@ public class ElementBeeHousingInventory implements IElement {
     @Override
     public void render(int x, int y) {
         Minecraft minecraft = Minecraft.getMinecraft();
-        RenderHelper.drawBeveledBox(x + 9, y, x + 47, y + 20, 0xff969696, 0xff969696, 0x44969696);
+        ElementRenderHelper.drawGreyBox(x + 9, y, x + 47, y + 20);
         if (inventoryStacks[0].getItem() != Item.getItemFromBlock(Blocks.BARRIER))
             renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks[0], x + 11, y + 2, "");
         if (inventoryStacks[1].getItem() != Item.getItemFromBlock(Blocks.BARRIER))
             renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks[1], x + 29, y + 2, inventoryStacks[1].stackSize + "");
-        RenderHelper.drawBeveledBox(x, y + 22, x + 56, y + 80, 0xff969696, 0xff969696,0x44969696);
+        ElementRenderHelper.drawGreyBox(x, y + 22, x + 56, y + 80);
         for (int i = 2; i < 9; i++) {
             int xPos = x + 2;
             int yPos = y + 22;
@@ -72,7 +72,7 @@ public class ElementBeeHousingInventory implements IElement {
         }
 
         if (isApiary) {
-            RenderHelper.drawBeveledBox(x + 58, y + 22, x + 78, y + 80, 0xff969696, 0xff969696,0x44969696);
+            ElementRenderHelper.drawGreyBox(x + 58, y + 22, x + 78, y + 80);
             for (int i = 9; i < 12; i++) {
                 if (inventoryStacks[i].getItem() != Item.getItemFromBlock(Blocks.BARRIER)) {
                     renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks[i], x + 60, y + 24 + 19 * (i-9), "");

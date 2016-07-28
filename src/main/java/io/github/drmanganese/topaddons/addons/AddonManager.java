@@ -21,7 +21,7 @@ public class AddonManager {
     public static final List<ItemArmorProbed> HELMETS = new ArrayList<>();
 
     public static void preInit(FMLPreInitializationEvent event) {
-        /** Get all classes with the {@link TOPAddon} annotation */
+        /* Get all classes with the {@link TOPAddon} annotation */
         Set<ASMDataTable.ASMData> asmDataSet = event.getAsmData().getAll(TOPAddon.class.getName());
 
         TOPAddons.LOGGER.info("Found {} addon candidates.", asmDataSet.size());

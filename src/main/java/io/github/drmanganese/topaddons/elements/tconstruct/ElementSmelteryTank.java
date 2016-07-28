@@ -3,6 +3,7 @@ package io.github.drmanganese.topaddons.elements.tconstruct;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fluids.FluidStack;
 import io.github.drmanganese.topaddons.addons.AddonTinkersConstruct;
+import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 import io.github.drmanganese.topaddons.styles.ProgressStyleSmelteryFluid;
 import io.github.drmanganese.topaddons.styles.ProgressStyleTank;
 
@@ -58,7 +59,7 @@ public class ElementSmelteryTank implements IElement {
             }
             RenderHelper.drawVerticalLine(109, y, y + 12, 0xff969696);
         } else {
-            RenderHelper.drawBeveledBox(x, y, x + 100, y + 100, 0xff767676, 0xff767676, 0x44767676);
+            ElementRenderHelper.drawGreyBox(x, y, x + 100, y + 100);
             int yOffset = 0;
             for (int i = 0; i < fluids.size(); i++) {
                 SmelteryFluid fluid = fluids.get(i);

@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.helmets;
+package io.github.drmanganese.topaddons.helmets.forestry;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
