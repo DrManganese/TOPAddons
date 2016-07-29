@@ -60,9 +60,9 @@ public class ElementAltarCrafting implements IElement {
         tessellator.draw();
         GlStateManager.disableBlend();
 
-        String text = progress + "/" + required  + " mB";
+        String text = progress + "/" + required  + " LP";
         ElementRenderHelper.drawSmallText(x + 50 - mc.fontRendererObj.getStringWidth(text)/4, y + 6, text, 0xffffffff);
-        text = "Consumption: " + consumption + " mB";
+        text = "Consumption: " + consumption + " LP";
         ElementRenderHelper.drawSmallText(x + 50 - mc.fontRendererObj.getStringWidth(text)/4, y + 14, text, 0xffffffff);
     }
 

@@ -64,9 +64,9 @@ public class AddonForge extends AddonBlank {
                     } else if (Colors.fluidNameColorMap.containsKey(tank.getContents().getFluid().getName())) {
                         color = Colors.fluidNameColorMap.get(tank.getContents().getFluid().getName());
                     }
-                    addTankElement(probeInfo, tankName, tank.getContents().getFluid().getLocalizedName(tank.getContents()), tank.getContents().amount, tank.getCapacity(), color, mode);
+                    addTankElement(probeInfo, tankName, tank.getContents().getFluid().getLocalizedName(tank.getContents()), tank.getContents().amount, tank.getCapacity(), "mB", color, mode);
                 } else {
-                    addTankElement(probeInfo, tankName, "", 0, 0, color, mode);
+                    addTankElement(probeInfo, tankName, "", 0, 0, "", color, mode);
                 }
             }
         }
@@ -83,8 +83,8 @@ public class AddonForge extends AddonBlank {
         ELEMENT_TANK = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementTankGauge::new);
     }
 
-    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, int color, ProbeMode mode) {
-        return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, color, mode == ProbeMode.EXTENDED));
+    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, String suffix, int color, ProbeMode mode) {
+        return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
     }
 
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode) {
@@ -93,13 +93,13 @@ public class AddonForge extends AddonBlank {
 
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode, int i) {
         if (tank.fluid == null) {
-            return probeInfo.element(new ElementTankGauge(name, "", 0, 0, 0, mode == ProbeMode.EXTENDED));
+            return probeInfo.element(new ElementTankGauge(name, "", 0, 0, "mB", 0, mode == ProbeMode.EXTENDED));
         } else {
             int color = tank.fluid.getFluid().getColor(tank.fluid);
             if (Colors.fluidColorMap.containsKey(tank.fluid.getFluid())) {
                 color = Colors.fluidColorMap.get(tank.fluid.getFluid()).hashCode();
             }
-            return probeInfo.element(new ElementTankGauge(name, tank.fluid.getLocalizedName(), tank.fluid.amount, tank.capacity, color, mode == ProbeMode.EXTENDED));
+            return probeInfo.element(new ElementTankGauge(name, tank.fluid.getLocalizedName(), tank.fluid.amount, tank.capacity, "mB", color, mode == ProbeMode.EXTENDED));
         }
     }
 }

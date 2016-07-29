@@ -17,15 +17,16 @@ import static io.github.drmanganese.topaddons.elements.ElementRenderHelper.drawS
 
 public class ElementTankGauge implements IElement {
 
-    private final String tankName, fluidName;
+    private final String tankName, fluidName, suffix;
     private final int amount, capacity, color1, color2;
     private final boolean sneaking;
 
-    public ElementTankGauge(String tankName, String fluidName, int amount, int capacity, int color1, boolean sneaking) {
+    public ElementTankGauge(String tankName, String fluidName, int amount, int capacity, String suffix, int color1, boolean sneaking) {
         this.tankName = tankName;
         this.fluidName = fluidName;
         this.amount = amount;
         this.capacity = capacity;
+        this.suffix = suffix;
         this.color1 = color1;
         this.color2 = new Color(this.color1).darker().hashCode();
         this.sneaking = sneaking;
@@ -36,6 +37,7 @@ public class ElementTankGauge implements IElement {
         this.fluidName = NetworkTools.readString(buf);
         this.amount = buf.readInt();
         this.capacity = buf.readInt();
+        this.suffix = NetworkTools.readString(buf);
         this.color1 = buf.readInt();
         this.color2 = new Color(this.color1).darker().hashCode();
         this.sneaking = buf.readBoolean();
@@ -54,7 +56,7 @@ public class ElementTankGauge implements IElement {
                 RenderHelper.drawVerticalLine(x + i * 10, y + 1, y + (i == 5 ? 11 : 6), 0xff767676);
             }
 
-            ElementTextRender.render((capacity > 0) ? amount + "/" + capacity + " mB" : "Empty", x + 3, y + 2);
+            ElementTextRender.render((capacity > 0) ? amount + "/" + capacity + " " + suffix : "Empty", x + 3, y + 2);
             drawSmallText(x + 99 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(fluidName) / 2, y + 13, fluidName, color1);
         }
 
@@ -78,6 +80,7 @@ public class ElementTankGauge implements IElement {
         NetworkTools.writeString(buf, this.fluidName);
         buf.writeInt(this.amount);
         buf.writeInt(this.capacity);
+        NetworkTools.writeString(buf, this.suffix);
         buf.writeInt(this.color1);
         buf.writeBoolean(sneaking);
     }

@@ -53,7 +53,7 @@ public class AddonBloodMagic extends AddonBlank {
             if (tile instanceof IBloodAltar && holdingSigil) {
                 IBloodAltar altar = (IBloodAltar) tile;
                 textPrefixed(probeInfo, "Tier", NumeralHelper.toRoman(altar.getTier().toInt()), TextFormatting.RED);
-                AddonForge.addTankElement(probeInfo, "Blood Altar", "Life Essence", altar.getCurrentBlood(), altar.getCapacity(), BlockLifeEssence.getLifeEssence().getColor(), mode);
+                AddonForge.addTankElement(probeInfo, "Blood Altar", "Life Essence", altar.getCurrentBlood(), altar.getCapacity(), "LP", BlockLifeEssence.getLifeEssence().getColor(), mode);
 
                 if (altar instanceof TileAltar && altar.isActive() && holdingSeer) {
                     BloodAltar bloodAltar = ReflectionHelper.getPrivateValue(TileAltar.class, (TileAltar) altar, "bloodAltar");
