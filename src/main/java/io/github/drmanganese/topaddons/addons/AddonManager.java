@@ -11,13 +11,14 @@ import io.github.drmanganese.topaddons.api.TOPAddon;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class AddonManager {
 
-    public static final List<ITOPAddon> ADDONS = new ArrayList<>();
+    public static final List<ITOPAddon> ADDONS = new LinkedList<>();
     public static final List<ItemArmorProbed> HELMETS = new ArrayList<>();
 
     public static void preInit(FMLPreInitializationEvent event) {
@@ -84,7 +85,10 @@ public class AddonManager {
             }
         }
 
-        /** Sorting */
+        /** Sort alphabetically for client/server element IDs */
+        Collections.sort(ADDONS, (o1, o2) -> o1.getClass().getName().compareToIgnoreCase(o2.getClass().getName()));
+
+        /** Sorting order */
         Collections.sort(ADDONS, (o1, o2) -> {
             int order1 = o1.getClass().getAnnotation(TOPAddon.class).order();
             int order2 = o2.getClass().getAnnotation(TOPAddon.class).order();
