@@ -10,12 +10,7 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
-repositories {
-    maven {
-        name = "forestry"
-        url = "http://maven.ic2.player.to/"
-    }
-}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 repositories {
@@ -44,12 +39,12 @@ repositories {
 }
 
 dependencies {
-    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-1.0.12-25"
-    compile "net.sengir.forestry:forestry_1.10.2:5.1.12.199"
-    deobfCompile "net.darkhax.tesla:Tesla:1.9.4-1.1.0.24"
-    deobfCompile "slimeknights.mantle:Mantle:1.10-0.10.3.jenkins157"
-    deobfCompile "slimeknights:TConstruct:1.10-2.3.3a.jenkins281"
-    deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.9.4-2.0.2-288-ss"
+    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-1.0.13-26"
+    compile "net.sengir.forestry:forestry_1.10.2:5.2.3.213"
+    deobfCompile "net.darkhax.tesla:Tesla:1.10.2-1.2.1.41"
+    deobfCompile "slimeknights.mantle:Mantle:1.10.2-0.10.4.jenkins163"
+    deobfCompile "slimeknights:TConstruct:1.10.2-2.4.0.jenkins313"
+    deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.9.4-2.0.3-339-ss"
 }
 
 

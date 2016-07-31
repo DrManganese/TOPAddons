@@ -16,13 +16,19 @@ public class Config {
         static final String CATEGORY = "Forge";
     }
 
+    public static class Vanilla {
+        public static boolean noteBlock = true;
+        static final String CATEGORY = "Vanilla";
+    }
+
     public static void init(File file) {
         Configuration config = new Configuration(file);
         config.load();
 
         BloodMagic.requireSigil = config.getBoolean("requireSigil", BloodMagic.CATEGORY, true, "Is holding a divination sigil required to see certain information.");
-
         Forge.showTankGauge = config.getBoolean("showTankGauge", Forge.CATEGORY, true, "Show tank gauge for internal tanks on most Tile Entities.");
+        Vanilla.noteBlock = config.getBoolean("noteBlockPitch", Vanilla.CATEGORY, true, "Show note block pitch and instrument.");
+
         if (config.hasChanged())
             config.save();
     }
