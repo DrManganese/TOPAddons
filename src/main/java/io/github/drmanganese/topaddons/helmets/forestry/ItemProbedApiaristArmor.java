@@ -11,7 +11,7 @@ import forestry.api.apiculture.IArmorApiarist;
 import forestry.api.core.IArmorNaturalist;
 import forestry.apiculture.PluginApiculture;
 
-public class ItemProbedApiaristArmor extends ItemArmorProbed implements IArmorNaturalist, IArmorApiarist{
+public class ItemProbedApiaristArmor extends ItemArmorProbed implements IArmorNaturalist, IArmorApiarist {
 
     public ItemProbedApiaristArmor() {
         super(ArmorMaterial.LEATHER, "apiarist_helmet_probe", PluginApiculture.items.apiaristHat);

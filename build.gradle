@@ -39,7 +39,7 @@ repositories {
 }
 
 dependencies {
-    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-1.0.13-26"
+    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-1.0.14-27"
     compile "net.sengir.forestry:forestry_1.10.2:5.2.3.213"
     deobfCompile "net.darkhax.tesla:Tesla:1.10.2-1.2.1.41"
     deobfCompile "slimeknights.mantle:Mantle:1.10.2-0.10.4.jenkins163"
