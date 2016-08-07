@@ -34,8 +34,9 @@ public class AddonForge extends AddonBlank {
         if (!Config.Forge.showTankGauge)
             return;
 
-        /* Disable for enderio */
-        if (ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain().equals("enderio"))
+        /* Disable for enderio, endertanks */
+        String modid = ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain();
+        if (modid.equals("enderio") || modid.equals("endertanks"))
             return;
 
         TileEntity tile = world.getTileEntity(data.getPos());
