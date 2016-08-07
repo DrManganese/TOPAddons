@@ -18,7 +18,8 @@ import mcjty.theoneprobe.api.ProbeMode;
 public class AddonVanilla extends AddonBlank {
 
     private static String[] notes = new String[]{
-            "F♯/G♭", "G", "G♯/A♭", "A", "A♯/B♭", "B", "C", "C♯/D♭", "D", "D♯/E♭", "E", "F"
+            "F\u266f/G\u266d", "G", "G\u266f/A\u266d", "A", "A\u266f/B\u266d", "B", "C", "C\u266f/D\u266d", "D", "D\u266f/E\u266d", "E", "F"
+
     };
 
     @Override
