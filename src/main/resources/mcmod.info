@@ -11,6 +11,6 @@
   "credits": "McJty, for making TheOneProbe",
   "logoFile": "",
   "screenshots": [],
-  "dependencies": [theoneprobe]
+  "dependencies": ["theoneprobe"]
 }
 ]
