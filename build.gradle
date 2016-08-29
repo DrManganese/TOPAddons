@@ -18,28 +18,22 @@ repositories {
         name "Probe Repo"
         url "http://maven.tterrag.com"
     }
-
     maven {
         name = "Player Repo"
         url = "http://maven.ic2.player.to/"
     }
-
     maven {
         name = "Tesla"
         url "http://maven.epoxide.xyz"
     }
-
-    maven {
-        url "http://dvs1.progwml6.com/files/maven"
-    }
-
-    maven {
-        url "http://tehnut.info/maven/"
-    }
+    maven { url "http://dvs1.progwml6.com/files/maven" }
+    maven { url "http://tehnut.info/maven/" }
 }
 
 dependencies {
-    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-1.0.14-27"
+    //Storage drawers (+ Chameleon),
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-1.1.0-30"
     compile "net.sengir.forestry:forestry_1.10.2:5.2.3.213"
     deobfCompile "net.darkhax.tesla:Tesla:1.10.2-1.2.1.41"
     deobfCompile "slimeknights.mantle:Mantle:1.10.2-0.10.4.jenkins163"
