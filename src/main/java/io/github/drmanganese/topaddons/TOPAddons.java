@@ -4,6 +4,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import io.github.drmanganese.topaddons.addons.AddonManager;
+import io.github.drmanganese.topaddons.helmets.Helmets;
 import io.github.drmanganese.topaddons.proxy.IProxy;
 import io.github.drmanganese.topaddons.reference.Reference;
 
@@ -20,11 +23,24 @@ public class TOPAddons {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        Config.init(event.getSuggestedConfigurationFile());
+
+        AddonManager.preInit(event);
+        if (AddonManager.ADDONS.size() > 0) {
+            TOPRegistrar.register();
+        }
+
+        if (AddonManager.HELMETS.size() > 0) {
+            Helmets.registerHelmets();
+        }
+
         proxy.preInit(event);
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        proxy.init(event);
+        if (AddonManager.HELMETS.size() > 0) {
+            Helmets.registerRecipes();
+        }
     }
 }
