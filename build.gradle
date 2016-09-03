@@ -14,6 +14,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 repositories {
+    mavenCentral()
     maven {
         name "Probe Repo"
         url "http://maven.tterrag.com"
@@ -28,10 +29,15 @@ repositories {
     }
     maven { url "http://dvs1.progwml6.com/files/maven" }
     maven { url "http://tehnut.info/maven/" }
+
+    ivy {
+        name "Botania"
+        artifactPattern "http://botaniamod.net/files/deobf/[module] [revision]-deobf.[ext]"
+    }
 }
 
 dependencies {
-    //Storage drawers (+ Chameleon), Botania
+    //Storage drawers (+ Chameleon)
     compile fileTree(dir: 'libs', include: ['*.jar'])
     deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-1.1.0-30"
     compile "net.sengir.forestry:forestry_1.10.2:5.2.3.213"
@@ -39,6 +45,7 @@ dependencies {
     deobfCompile "slimeknights.mantle:Mantle:1.10.2-0.10.4.jenkins163"
     deobfCompile "slimeknights:TConstruct:1.10.2-2.4.0.jenkins313"
     deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.9.4-2.0.3-339-ss"
+    compile name: 'Botania', version: "r1.8-249", ext: 'jar'
 }
 
 

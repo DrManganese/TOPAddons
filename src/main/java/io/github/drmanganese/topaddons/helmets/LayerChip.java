@@ -35,23 +35,25 @@ public class LayerChip implements LayerRenderer<EntityPlayer> {
         if (helmet != null) {
             if (helmet.getItem() instanceof ItemArmor && AddonManager.HELMETS.containsKey(((ItemArmor) helmet.getItem()).getClass()) && helmet.hasTagCompound() && helmet.getTagCompound().hasKey(PROBETAG)) {
                 EnumChip chip = AddonManager.HELMETS.get(((ItemArmor) helmet.getItem()).getClass());
-                TextureAtlasSprite sprite = chip.getSprite();
+                if (chip != null) {
+                    TextureAtlasSprite sprite = chip.getSprite();
 
-                GlStateManager.pushMatrix();
-                GlStateManager.rotate(player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * partialTicks, 0, -1, 0);
-                GlStateManager.rotate(player.prevRotationYawHead + (player.rotationYawHead - player.prevRotationYawHead) * partialTicks - 270, 0, 1, 0);
-                GlStateManager.rotate(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks, 0, 0, 1);
+                    GlStateManager.pushMatrix();
+                    GlStateManager.rotate(player.prevRenderYawOffset + (player.renderYawOffset - player.prevRenderYawOffset) * partialTicks, 0, -1, 0);
+                    GlStateManager.rotate(player.prevRotationYawHead + (player.rotationYawHead - player.prevRotationYawHead) * partialTicks - 270, 0, 1, 0);
+                    GlStateManager.rotate(player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * partialTicks, 0, 0, 1);
 
-                GlStateManager.translate(0, -player.getDefaultEyeHeight(), 0);
-                if (player.isSneaking())
-                    GlStateManager.translate(0.25F * MathHelper.sin(player.rotationPitch * (float) Math.PI / 180), 0.25F * MathHelper.cos(player.rotationPitch * (float) Math.PI / 180), 0F);
-                Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-                GlStateManager.rotate(90F, 0F, 1F, 0F);
-                GlStateManager.rotate(180F, 1F, 0F, 0F);
-                chip.translateAndScale();
-                GlStateManager.color(1F, 1F, 1F);
-                renderSpriteIn3D(Tessellator.getInstance(), sprite.getMinU(), sprite.getMinV(), sprite.getMaxU(), sprite.getMaxV(), sprite.getIconWidth(), sprite.getIconHeight(), chip.getThickness());
-                GlStateManager.popMatrix();
+                    GlStateManager.translate(0, -player.getDefaultEyeHeight(), 0);
+                    if (player.isSneaking())
+                        GlStateManager.translate(0.25F * MathHelper.sin(player.rotationPitch * (float) Math.PI / 180), 0.25F * MathHelper.cos(player.rotationPitch * (float) Math.PI / 180), 0F);
+                    Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+                    GlStateManager.rotate(90F, 0F, 1F, 0F);
+                    GlStateManager.rotate(180F, 1F, 0F, 0F);
+                    chip.translateAndScale();
+                    GlStateManager.color(1F, 1F, 1F);
+                    renderSpriteIn3D(Tessellator.getInstance(), sprite.getMinU(), sprite.getMinV(), sprite.getMaxU(), sprite.getMaxV(), sprite.getIconWidth(), sprite.getIconHeight(), chip.getThickness());
+                    GlStateManager.popMatrix();
+                }
             }
         }
     }
