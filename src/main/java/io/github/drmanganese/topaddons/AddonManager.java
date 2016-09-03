@@ -1,16 +1,17 @@
-package io.github.drmanganese.topaddons.addons;
+package io.github.drmanganese.topaddons;
 
+import net.minecraft.item.ItemArmor;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import io.github.drmanganese.topaddons.TOPAddons;
-import io.github.drmanganese.topaddons.api.ITOPAddon;
-import io.github.drmanganese.topaddons.api.ItemArmorProbed;
-import io.github.drmanganese.topaddons.api.TOPAddon;
 
-import java.util.ArrayList;
+import io.github.drmanganese.topaddons.api.ITOPAddon;
+import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.reference.EnumChip;
+
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Set;
 public class AddonManager {
 
     public static final List<ITOPAddon> ADDONS = new LinkedList<>();
-    public static final List<ItemArmorProbed> HELMETS = new ArrayList<>();
+    public static final Map<Class<? extends ItemArmor>, EnumChip> HELMETS = new HashMap<>();
 
     public static void preInit(FMLPreInitializationEvent event) {
         /* Get all classes with the {@link TOPAddon} annotation */
@@ -53,7 +54,7 @@ public class AddonManager {
                         /** Does {@link clazz} implement/extend {@link ITOPAddon} */
                         if (ITOPAddon.class.isAssignableFrom(clazz)) {
                             ITOPAddon instance = (ITOPAddon) clazz.newInstance();
-                            numHelmets = addHelmets(instance, fancyName);
+                            numHelmets = addHelmets(instance);
                             ADDONS.add(instance);
                         }
                     } catch (ClassNotFoundException e) {
@@ -97,21 +98,12 @@ public class AddonManager {
         });
     }
 
-    private static int addHelmets(ITOPAddon addon, String fancyName) {
-        int ret = 0;
+    private static int addHelmets(ITOPAddon addon) {
         if (addon.hasHelmets()) {
-            for (Class<? extends ItemArmorProbed> clazz : addon.getHelmets()) {
-                try {
-                    ItemArmorProbed helmet = clazz.newInstance();
-                    HELMETS.add(helmet);
-                    ret++;
-                } catch (InstantiationException | IllegalAccessException e) {
-                    TOPAddons.LOGGER.error("An error occurred while trying to add HELMETS for addon {}", fancyName);
-                    e.printStackTrace();
-                }
-            }
+            //Safe because duplicates are impossible
+            HELMETS.putAll(addon.getHelmets());
         }
 
-        return ret;
+        return addon.getHelmets().size();
     }
 }

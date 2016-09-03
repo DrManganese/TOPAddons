@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    //Storage drawers (+ Chameleon),
+    //Storage drawers (+ Chameleon), Botania
     compile fileTree(dir: 'libs', include: ['*.jar'])
     deobfCompile "mcjty.theoneprobe:TheOneProbe:1.10-1.1.0-30"
     compile "net.sengir.forestry:forestry_1.10.2:5.2.3.213"

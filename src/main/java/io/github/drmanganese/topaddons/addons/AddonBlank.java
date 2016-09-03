@@ -3,15 +3,17 @@ package io.github.drmanganese.topaddons.addons;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+
 import io.github.drmanganese.topaddons.api.ITOPAddon;
-import io.github.drmanganese.topaddons.api.ItemArmorProbed;
 import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Reference;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
@@ -40,11 +42,6 @@ public abstract class AddonBlank implements ITOPAddon {
     }
 
     @Override
-    public boolean hasHelmets() {
-        return false;
-    }
-
-    @Override
     public void addTankNames() {
 
     }
@@ -55,8 +52,13 @@ public abstract class AddonBlank implements ITOPAddon {
     }
 
     @Override
-    public List<Class<? extends ItemArmorProbed>> getHelmets() {
-        return new ArrayList<>();
+    public Map<Class<? extends ItemArmor>, EnumChip> getHelmets() {
+        return new HashMap<>(0);
+    }
+
+    @Override
+    public boolean hasHelmets() {
+        return false;
     }
 
     @Override

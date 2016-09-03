@@ -5,27 +5,29 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+
 import io.github.drmanganese.topaddons.TOPRegistrar;
-import io.github.drmanganese.topaddons.api.ItemArmorProbed;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInventory;
 import io.github.drmanganese.topaddons.elements.forestry.ElementForestryFarm;
-import io.github.drmanganese.topaddons.helmets.forestry.ItemProbedApiaristArmor;
-import io.github.drmanganese.topaddons.helmets.forestry.ItemProbedArmorNaturalist;
 import io.github.drmanganese.topaddons.reference.Colors;
+import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Names;
 import io.github.drmanganese.topaddons.styles.ProgressStyleForestryMultiColored;
 
 import com.google.common.collect.ImmutableSet;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
@@ -38,6 +40,7 @@ import forestry.api.farming.FarmDirection;
 import forestry.api.lepidopterology.EnumButterflyChromosome;
 import forestry.api.lepidopterology.IButterfly;
 import forestry.api.lepidopterology.IEntityButterfly;
+import forestry.apiculture.items.ItemArmorApiarist;
 import forestry.apiculture.multiblock.TileAlveary;
 import forestry.apiculture.multiblock.TileAlvearySieve;
 import forestry.apiculture.multiblock.TileAlvearySwarmer;
@@ -50,6 +53,7 @@ import forestry.core.PluginCore;
 import forestry.core.blocks.BlockBogEarth;
 import forestry.core.errors.EnumErrorCode;
 import forestry.core.fluids.Fluids;
+import forestry.core.items.ItemArmorNaturalist;
 import forestry.core.tiles.TileAnalyzer;
 import forestry.core.tiles.TileEngine;
 import forestry.core.tiles.TileForestry;
@@ -91,8 +95,11 @@ public class AddonForestry extends AddonBlank {
     }
 
     @Override
-    public List<Class<? extends ItemArmorProbed>> getHelmets() {
-        return Arrays.asList(ItemProbedApiaristArmor.class, ItemProbedArmorNaturalist.class);
+    public Map<Class<? extends ItemArmor>, EnumChip> getHelmets() {
+        Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>(2);
+        map.put(ItemArmorApiarist.class, EnumChip.STANDARD);
+        map.put(ItemArmorNaturalist.class, EnumChip.SPECTACLES);
+        return map;
     }
 
     @Override

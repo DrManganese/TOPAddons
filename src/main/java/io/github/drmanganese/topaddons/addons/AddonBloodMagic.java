@@ -2,6 +2,7 @@ package io.github.drmanganese.topaddons.addons;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
@@ -15,11 +16,17 @@ import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.bloodmagic.ElementAltarCrafting;
 import io.github.drmanganese.topaddons.elements.bloodmagic.ElementNodeFilter;
+import io.github.drmanganese.topaddons.reference.EnumChip;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import WayofTime.bloodmagic.altar.BloodAltar;
 import WayofTime.bloodmagic.api.altar.IBloodAltar;
 import WayofTime.bloodmagic.api.iface.IAltarReader;
 import WayofTime.bloodmagic.block.BlockLifeEssence;
+import WayofTime.bloodmagic.item.armour.ItemLivingArmour;
+import WayofTime.bloodmagic.item.armour.ItemSentientArmour;
 import WayofTime.bloodmagic.item.sigil.ItemSigilHolding;
 import WayofTime.bloodmagic.item.sigil.ItemSigilSeer;
 import WayofTime.bloodmagic.routing.IMasterRoutingNode;
@@ -36,6 +43,19 @@ public class AddonBloodMagic extends AddonBlank {
 
     public static int ELEMENT_NODE_FILTER;
     public static int ELEMENT_ALTAR_CRAFTING;
+
+    @Override
+    public boolean hasHelmets() {
+        return true;
+    }
+
+    @Override
+    public Map<Class<? extends ItemArmor>, EnumChip> getHelmets() {
+        Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>();
+        map.put(ItemLivingArmour.class, EnumChip.STANDARD);
+        map.put(ItemSentientArmour.class, EnumChip.STANDARD);
+        return map;
+    }
 
     @Override
     public void registerElements() {

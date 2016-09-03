@@ -1,7 +1,6 @@
 package io.github.drmanganese.topaddons;
 
 import net.minecraftforge.fml.common.event.FMLInterModComms;
-import io.github.drmanganese.topaddons.addons.AddonManager;
 
 import com.google.common.base.Function;
 

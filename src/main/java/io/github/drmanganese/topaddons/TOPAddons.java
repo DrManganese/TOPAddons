@@ -3,10 +3,13 @@ package io.github.drmanganese.topaddons;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.RecipeSorter;
 
-import io.github.drmanganese.topaddons.addons.AddonManager;
-import io.github.drmanganese.topaddons.helmets.Helmets;
+import io.github.drmanganese.topaddons.helmets.ProbedHelmetCrafting;
+import io.github.drmanganese.topaddons.helmets.UnprobedHelmetCrafting;
 import io.github.drmanganese.topaddons.proxy.IProxy;
 import io.github.drmanganese.topaddons.reference.Reference;
 
@@ -30,17 +33,19 @@ public class TOPAddons {
             TOPRegistrar.register();
         }
 
-        if (AddonManager.HELMETS.size() > 0) {
-            Helmets.registerHelmets();
-        }
-
         proxy.preInit(event);
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        if (AddonManager.HELMETS.size() > 0) {
-            Helmets.registerRecipes();
-        }
+        GameRegistry.addRecipe(new ProbedHelmetCrafting());
+        GameRegistry.addRecipe(new UnprobedHelmetCrafting());
+        RecipeSorter.register("topaddons:helmet", ProbedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "");
+        RecipeSorter.register("topaddons:remhelmet", UnprobedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "");
+    }
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        proxy.postInit(event);
     }
 }

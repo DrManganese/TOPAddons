@@ -1,9 +1,12 @@
 package io.github.drmanganese.topaddons.api;
 
-import io.github.drmanganese.topaddons.addons.AddonBlank;
-import io.github.drmanganese.topaddons.addons.AddonManager;
+import net.minecraft.item.ItemArmor;
 
-import java.util.List;
+import io.github.drmanganese.topaddons.AddonManager;
+import io.github.drmanganese.topaddons.addons.AddonBlank;
+import io.github.drmanganese.topaddons.reference.EnumChip;
+
+import java.util.Map;
 
 import mcjty.theoneprobe.api.IProbeConfigProvider;
 import mcjty.theoneprobe.api.IProbeInfoEntityProvider;
@@ -22,9 +25,9 @@ public interface ITOPAddon extends IProbeInfoProvider, IProbeInfoEntityProvider,
     boolean hasHelmets();
 
     /**
-     * @return a {@link List} containing {@link ItemArmorProbed} classes
+     * @return A {@link Map} containing {@link ItemArmor}, {@link EnumChip} pairs.
      */
-    List<Class<? extends ItemArmorProbed>> getHelmets();
+    Map<Class<? extends ItemArmor>, EnumChip> getHelmets();
 
     /**
      * Custom {@link mcjty.theoneprobe.api.IElement}s have to be registered here.<p>
