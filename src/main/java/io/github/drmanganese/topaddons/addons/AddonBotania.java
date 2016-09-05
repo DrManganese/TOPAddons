@@ -30,10 +30,10 @@ public class AddonBotania extends AddonBlank {
     @Override
     public Map<Class<? extends ItemArmor>, EnumChip> getHelmets() {
         Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>();
-        map.put(ItemElementiumHelm.class, null);
-        map.put(ItemManasteelHelm.class, null);
+        map.put(ItemElementiumHelm.class, EnumChip.EYE_RIGHT);
+        map.put(ItemManasteelHelm.class, EnumChip.EYE_RIGHT);
         map.put(ItemManaweaveHelm.class, EnumChip.STANDARD);
-        map.put(ItemTerrasteelHelm.class, null);
+        map.put(ItemTerrasteelHelm.class, EnumChip.EYE_RIGHT);
         return map;
     }
 

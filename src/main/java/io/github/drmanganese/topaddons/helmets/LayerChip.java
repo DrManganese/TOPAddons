@@ -50,8 +50,10 @@ public class LayerChip implements LayerRenderer<EntityPlayer> {
                     GlStateManager.rotate(90F, 0F, 1F, 0F);
                     GlStateManager.rotate(180F, 1F, 0F, 0F);
                     chip.translateAndScale();
-                    GlStateManager.color(1F, 1F, 1F);
+                    GlStateManager.color(1F, 1F, 1F, 1F);
+                    GlStateManager.enableBlend();
                     renderSpriteIn3D(Tessellator.getInstance(), sprite.getMinU(), sprite.getMinV(), sprite.getMaxU(), sprite.getMaxV(), sprite.getIconWidth(), sprite.getIconHeight(), chip.getThickness());
+                    GlStateManager.disableBlend();
                     GlStateManager.popMatrix();
                 }
             }
