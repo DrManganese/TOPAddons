@@ -1,8 +1,14 @@
 # TOPAddons
 
+![Logo](images/logo.jpg)
+
 A Minecraft mod which adds mod support to The One Probe by McJty
 
 ## Currenty supports:
+
+### Forge
+
+- Tank display (a.t.m. just for blocks with the FluidHandler Capability)
 
 ### Forestry ([album](http://imgur.com/a/APS3S))
 
@@ -11,12 +17,6 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - Breeding progress (no values) and queen display for all beehouses
 - Special information displays for Moistener and Multiblock Farms
 - Show fruit ripeness on leaves and whether they are pollinated (only when wearing spectacles or apiarist's hat)
-- Apiarist's Hat with Probe
-- Spectacles with Probe
-
-### Forge
-
-- Tank display (a.t.m. just for blocks with the FluidHandler Capability)
 
 ### Tinkers' Construct ([album](http://imgur.com/a/F7LbA))
 
@@ -36,3 +36,14 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - Stack capacity
 
 *Also works in sigil of holding
+
+## Probing Helmets
+Craft modded helmets with a probe to get their *probing* variants, currently works with:
+
+- Botania: Manasteel, Elementium, Manaweave and Terrasteel helmets(non-revealing versions)
+- Forestry: Apiarist helmet and Spectacles
+- Blood Magic: Living and Sentient helmets
+
+![helmets](images/probing_helmets.gif)
+
+Uncraft by putting the helmet back in the crafting grid with nothing else.
