@@ -43,8 +43,15 @@ public class AddonForge extends AddonBlank {
 
         if (tile != null && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
             IFluidHandler capability = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
-            for (int i = 0; i < capability.getTankProperties().length; i++) {
-                IFluidTankProperties tank = capability.getTankProperties()[i];
+            IFluidTankProperties[] tanks;
+            try {
+                tanks = capability.getTankProperties();
+            } catch (NullPointerException ignored) {
+                return;
+            }
+
+            for (int i = 0; i < tanks.length; i++) {
+                IFluidTankProperties tank = tanks[i];
                 int color = 0xff777777;
                 String tankName = "Tank";
                 if (Names.tankNamesMap.containsKey(tile.getClass())) {
