@@ -309,7 +309,7 @@ public class AddonForestry extends AddonBlank {
             if (tile instanceof TileEngine) {
                 TileEngine engine = ((TileEngine) tile);
                 if (mode == ProbeMode.EXTENDED) {
-                    textPrefixed(probeInfo, "Stored", engine.getEnergyManager().getEnergyStored(null) + " RF");
+                    textPrefixed(probeInfo, "Stored", engine.getEnergyManager().getEnergyStored() + " RF");
                     textPrefixed(probeInfo, "Heat", engine.getHeat() / 10 + " C" + (errorStates.contains(EnumErrorCode.FORCED_COOLDOWN) ? " (Cooling down)" : ""));
                 }
                 probeInfo.text(TextFormatting.GREEN + "Producing "  + engine.getCurrentOutput() + " RF/t");
