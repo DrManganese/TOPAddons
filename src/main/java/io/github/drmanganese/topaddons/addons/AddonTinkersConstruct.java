@@ -14,6 +14,7 @@ import java.util.List;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+import slimeknights.tconstruct.gadgets.tileentity.TileDryingRack;
 import slimeknights.tconstruct.library.smeltery.SmelteryTank;
 import slimeknights.tconstruct.smeltery.tileentity.TileCasting;
 import slimeknights.tconstruct.smeltery.tileentity.TileSmeltery;
@@ -39,8 +40,13 @@ public class AddonTinkersConstruct extends AddonBlank {
         if (tile instanceof TileCasting) {
             TileCasting tileCasting = (TileCasting) tile;
             if (tileCasting.getCurrentResult() != null) {
-                textPrefixed(probeInfo, "Progress", (int) (Math.round(tileCasting.getProgress()  * 100))+ "%");
+                textPrefixed(probeInfo, "Progress", (Math.round(tileCasting.getProgress()  * 100)) + "%");
             }
+        }
+
+        if (tile instanceof TileDryingRack) {
+            TileDryingRack tileDrying = (TileDryingRack) tile;
+            textPrefixed(probeInfo, "Progress", (Math.round(tileDrying.getProgress()  * 100)) + "%");
         }
     }
 
