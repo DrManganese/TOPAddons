@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "forestry:items/spectacles",
-    "layer1": "topaddons:items/naturalist_helmet_probe"
-  }
-}
