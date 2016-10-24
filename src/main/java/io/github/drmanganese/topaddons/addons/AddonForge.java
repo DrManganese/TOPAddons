@@ -11,6 +11,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+
 import io.github.drmanganese.topaddons.Config;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
@@ -28,6 +29,34 @@ import mcjty.theoneprobe.api.ProbeMode;
 public class AddonForge extends AddonBlank {
 
     public static int ELEMENT_TANK;
+
+    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, String suffix, int color, ProbeMode mode) {
+        return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
+    }
+
+    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode) {
+        return addTankElement(probeInfo, name, tank, mode, 0);
+    }
+
+    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode, int i) {
+        if (tank.fluid == null) {
+            return probeInfo.element(new ElementTankGauge(name, "", 0, 0, "mB", 0, mode == ProbeMode.EXTENDED));
+        } else {
+            int color = 0xff777777;
+            if (tank.fluid.getFluid().getColor(tank.fluid) != 0xffffffff) {
+                color = tank.fluid.getFluid().getColor(tank.fluid);
+            } else if (Colors.fluidColorMap.containsKey(tank.fluid.getFluid())) {
+                color = Colors.fluidColorMap.get(tank.fluid.getFluid());
+            } else if (Colors.fluidNameColorMap.containsKey(tank.fluid.getFluid().getName())) {
+                color = Colors.fluidNameColorMap.get(tank.fluid.getFluid().getName());
+            }
+
+            if (Colors.fluidColorMap.containsKey(tank.fluid.getFluid())) {
+                color = Colors.fluidColorMap.get(tank.fluid.getFluid()).hashCode();
+            }
+            return probeInfo.element(new ElementTankGauge(name, tank.fluid.getLocalizedName(), tank.fluid.amount, tank.capacity, "mB", color, mode == ProbeMode.EXTENDED));
+        }
+    }
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
@@ -77,6 +106,25 @@ public class AddonForge extends AddonBlank {
                     addTankElement(probeInfo, tankName, "", 0, 0, "", color, mode);
                 }
             }
+
+        } else if (tile instanceof net.minecraftforge.fluids.IFluidHandler) {
+            net.minecraftforge.fluids.IFluidHandler handler = (net.minecraftforge.fluids.IFluidHandler) tile;
+            FluidTankInfo[] tanks = handler.getTankInfo(null);
+            if (tanks != null) {
+                for (int i = 0; i < tanks.length; i++) {
+                    if (tanks[i] != null) {
+                        String tankName = "Tank";
+                        if (Names.tankNamesMap.containsKey(tile.getClass())) {
+                            tankName = Names.tankNamesMap.get(tile.getClass())[i];
+                        }
+                        if (tanks[i].fluid != null) {
+                            addTankElement(probeInfo, tankName, tanks[i], mode);
+                        } else {
+                            addTankElement(probeInfo, tankName, "", 0, 0, "", 0xff777777, mode);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -89,25 +137,5 @@ public class AddonForge extends AddonBlank {
     @Override
     public void registerElements() {
         ELEMENT_TANK = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementTankGauge::new);
-    }
-
-    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, String suffix, int color, ProbeMode mode) {
-        return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
-    }
-
-    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode) {
-        return addTankElement(probeInfo, name, tank, mode, 0);
-    }
-
-    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode, int i) {
-        if (tank.fluid == null) {
-            return probeInfo.element(new ElementTankGauge(name, "", 0, 0, "mB", 0, mode == ProbeMode.EXTENDED));
-        } else {
-            int color = tank.fluid.getFluid().getColor(tank.fluid);
-            if (Colors.fluidColorMap.containsKey(tank.fluid.getFluid())) {
-                color = Colors.fluidColorMap.get(tank.fluid.getFluid()).hashCode();
-            }
-            return probeInfo.element(new ElementTankGauge(name, tank.fluid.getLocalizedName(), tank.fluid.amount, tank.capacity, "mB", color, mode == ProbeMode.EXTENDED));
-        }
     }
 }
