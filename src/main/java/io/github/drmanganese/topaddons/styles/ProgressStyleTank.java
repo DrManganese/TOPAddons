@@ -1,26 +1,8 @@
 package io.github.drmanganese.topaddons.styles;
 
-import mcjty.theoneprobe.apiimpl.styles.ProgressStyle;
-
-public class ProgressStyleTank extends ProgressStyle {
-
-    @Override
-    public int getBorderColor() {
-        return 0xff969696;
-    }
-
-    @Override
-    public int getWidth() {
-        return 100;
-    }
-
+public class ProgressStyleTank extends ProgressStyleTOPAddonGrey {
     @Override
     public boolean isShowText() {
         return false;
-    }
-
-    @Override
-    public int getBackgroundColor() {
-        return 0x44969696;
     }
 }
