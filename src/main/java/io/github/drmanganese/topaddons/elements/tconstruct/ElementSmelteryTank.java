@@ -2,6 +2,7 @@ package io.github.drmanganese.topaddons.elements.tconstruct;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fluids.FluidStack;
+
 import io.github.drmanganese.topaddons.addons.AddonTinkersConstruct;
 import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 import io.github.drmanganese.topaddons.styles.ProgressStyleSmelteryFluid;
@@ -25,21 +26,35 @@ public class ElementSmelteryTank implements IElement {
     private final int capacity;
     private final boolean sneaking;
 
+    private final int gaugeHeight;
+
     public ElementSmelteryTank(List<FluidStack> fluids, int capacity, boolean sneaking) {
         this.fluids = new ArrayList<>();
-        fluids.forEach(fluidStack -> this.fluids.add(new SmelteryFluid(fluidStack.getLocalizedName(), fluidStack.amount, fluidStack.getFluid().getColor())));
+        fluids.forEach(fluidStack -> this.fluids.add(new SmelteryFluid(fluidStack.getLocalizedName(), fluidStack.amount, fluidStack.getFluid().getColor(), capacity)));
         this.capacity = capacity;
         this.sneaking = sneaking;
+
+        gaugeHeight = calcGaugeHeight();
     }
 
     public ElementSmelteryTank(ByteBuf buf) {
         this.fluids = new ArrayList<>();
         int count = buf.readInt();
-        for (int i = 0; i < count; i++) {
-            this.fluids.add(new SmelteryFluid(NetworkTools.readString(buf), buf.readInt(), buf.readInt()));
-        }
         this.capacity = buf.readInt();
+        for (int i = 0; i < count; i++) {
+            this.fluids.add(new SmelteryFluid(NetworkTools.readString(buf), buf.readInt(), buf.readInt(), this.capacity));
+        }
         this.sneaking = buf.readBoolean();
+        gaugeHeight = calcGaugeHeight();
+    }
+
+    private int calcGaugeHeight() {
+        int sum = 0;
+        for (SmelteryFluid fluid : this.fluids) {
+            sum += fluid.height;
+        }
+
+        return (sum > 100) ? sum : 100;
     }
 
     @Override
@@ -50,7 +65,7 @@ public class ElementSmelteryTank implements IElement {
             for (int i = 0; i < fluids.size(); i++) {
                 SmelteryFluid fluid = fluids.get(i);
                 if (i > 0) {
-                    xOffset += fluids.get(i - 1).amount * 100 / capacity;
+                    xOffset += Math.ceil(100 * fluids.get(i - 1).amount / capacity);
                 }
                 ElementProgressRender.render(new ProgressStyleSmelteryFluid().backgroundColor(0x00ffffff).filledColor(fluid.color).alternateFilledColor(fluid.darker).showText(false), fluid.amount, capacity, x + xOffset, y, 100, 12);
             }
@@ -59,23 +74,24 @@ public class ElementSmelteryTank implements IElement {
             }
             RenderHelper.drawVerticalLine(109, y, y + 12, 0xff969696);
         } else {
-            ElementRenderHelper.drawGreyBox(x, y, x + 100, y + 100);
+            ElementRenderHelper.drawGreyBox(x, y, x + 100, y + gaugeHeight + 2);
             int yOffset = 0;
             for (int i = 0; i < fluids.size(); i++) {
                 SmelteryFluid fluid = fluids.get(i);
                 if (i > 0) {
-                    yOffset += fluids.get(i - 1).amount * 100 / capacity;
+                    yOffset += fluids.get(i - 1).height;
                 }
 
-                drawVerticalProgress(x, y - yOffset, fluid.amount, capacity, fluid.color, fluid.darker);
+                drawVerticalProgress(x, y - yOffset, fluid.amount, capacity, fluid.color, fluid.darker, fluid.height);
                 String text = fluid.amount + "mB of " + fluid.name;
-                drawSmallText(x + 98 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(text)/2, y + 94 - yOffset, text, fluid.brighter2);
+                //noinspection MethodCallSideOnly
+                drawSmallText(x + 98 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(text) / 2, y + gaugeHeight - 4 - yOffset, text, fluid.brighter2);
             }
             for (int i = 1; i < 10; i++) {
-                RenderHelper.drawHorizontalLine(x, y + 10 * i, x + (i == 5 ? 100 : (i % 2 == 0) ? 25 : 15), 0xff767676);
+                RenderHelper.drawHorizontalLine(x + 1, y + 10 * i, x + (i == 5 ? 99 : (i % 2 == 0) ? 25 : 15), 0xaa767676);
             }
         }
-        drawSmallText(x + 1, y + (sneaking ? 102 : 13),  "" + "Smeltery", 0xffffffff);
+        drawSmallText(x + 1, y + (sneaking ? gaugeHeight + 4 : 13), "" + "Smeltery", 0xffffffff);
     }
 
     @Override
@@ -85,19 +101,25 @@ public class ElementSmelteryTank implements IElement {
 
     @Override
     public int getHeight() {
-        return sneaking ? 107 : 18;
+        return sneaking ? gaugeHeight + 8 : 18;
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         buf.writeInt(fluids.size());
+        buf.writeInt(this.capacity);
         fluids.forEach(fluid -> {
             NetworkTools.writeString(buf, fluid.name);
             buf.writeInt(fluid.amount);
             buf.writeInt(fluid.color);
         });
-        buf.writeInt(this.capacity);
         buf.writeBoolean(this.sneaking);
+    }
+
+    private void drawVerticalProgress(int x, int y, int amount, int capacity, int color, int dcolor, int height) {
+        for (int i = 0; i < height; i++) {
+            RenderHelper.drawHorizontalLine(x + 1, y + gaugeHeight - i, x + 99, (y + gaugeHeight - 2 - i) % 2 == 0 ? dcolor : color);
+        }
     }
 
     @Override
@@ -105,26 +127,38 @@ public class ElementSmelteryTank implements IElement {
         return AddonTinkersConstruct.ELEMENT_SMELTERY_TANK;
     }
 
-    private void drawVerticalProgress(int x, int y, int amount, int capacity, int color, int dcolor) {
-        int pct = (int) Math.floor(amount * 100 / capacity);
-        for (int i = 0; i < pct; i++) {
-            RenderHelper.drawHorizontalLine(x + 1, y + 98 - i, x + 99, (y + 98 - i) % 2 == 0 ? dcolor : color);
-        }
-    }
-
     private final class SmelteryFluid {
+
         final String name;
         final int amount;
         final int color;
         final int darker;
         final int brighter2;
 
-        SmelteryFluid(String name, int amount, int color) {
+        int height;
+        boolean wasTooShort = false;
+
+        SmelteryFluid(String name, int amount, int color, int capacity) {
             this.name = name;
             this.amount = amount;
             this.color = color;
             this.darker = new Color(color).darker().hashCode();
             this.brighter2 = new Color(color).brighter().brighter().hashCode();
+
+            height = (int) Math.floor(amount * 100 / capacity);
+            if (height < 5) {
+                height = 5;
+                wasTooShort = true;
+            }
+        }
+
+        boolean decreaseHeight(int amount) {
+            if (wasTooShort) {
+                return false;
+            } else {
+                height += amount;
+            }
+            return true;
         }
     }
 }
