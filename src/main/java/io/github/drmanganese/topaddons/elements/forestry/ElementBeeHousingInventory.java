@@ -83,7 +83,7 @@ public class ElementBeeHousingInventory implements IElement {
 
     @Override
     public int getWidth() {
-        return 60;
+        return 79;
     }
 
     @Override
