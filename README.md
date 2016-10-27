@@ -21,7 +21,7 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 ### Tinkers' Construct ([album](http://imgur.com/a/F7LbA))
 
 - Extended view of fluids inside the controller when sneaking
-- Progress for casting table/basin
+- Drying rack progress
 
 ### Blood Magic: Alchemical Wizardry ([album](http://imgur.com/a/t9aNg))
 
@@ -30,10 +30,19 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - Incense altar tranquility and sacrifice bonus (requires divination/seer sigil)
 - Filter configuration for routing nodes (side-sensitive)
 
-### Storage Drawers ([album](http://imgur.com/lXSgOm5))
+### Storage Drawers ([album](http://imgur.com/lXSgOm5))http://imgur.com/a/8jY8H
 
 - More detailed information on stored item stacks
 - Stack capacity
+
+### IndustrialCraft 2 ([album](http://imgur.com/a/8jY8H))
+
+- EU bar on most tiles (availability of stored energy varies because of protected/private fields)
+- Progress bars on many machine tiles
+- Teleporter linked coordinates
+- Heat display
+- TFBP display
+- ...
 
 *Also works in sigil of holding
 
