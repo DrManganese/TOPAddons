@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
+
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.tconstruct.ElementSmelteryTank;
@@ -16,7 +17,6 @@ import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 import slimeknights.tconstruct.gadgets.tileentity.TileDryingRack;
 import slimeknights.tconstruct.library.smeltery.SmelteryTank;
-import slimeknights.tconstruct.smeltery.tileentity.TileCasting;
 import slimeknights.tconstruct.smeltery.tileentity.TileSmeltery;
 
 @TOPAddon(dependency = "tconstruct")
@@ -35,13 +35,6 @@ public class AddonTinkersConstruct extends AddonBlank {
         if (tile instanceof TileSmeltery) {
             SmelteryTank tank = ((TileSmeltery) world.getTileEntity(data.getPos())).getTank();
             addSmelteryTankElement(probeInfo, tank.getFluids(), Math.max(tank.getFluidAmount(), tank.getCapacity()), mode);
-        }
-
-        if (tile instanceof TileCasting) {
-            TileCasting tileCasting = (TileCasting) tile;
-            if (tileCasting.getCurrentResult() != null) {
-                textPrefixed(probeInfo, "Progress", (Math.round(tileCasting.getProgress()  * 100)) + "%");
-            }
         }
 
         if (tile instanceof TileDryingRack) {
