@@ -25,7 +25,7 @@ import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 
-@TOPAddon(dependency = "Forge", fancyName = "Base", order = 0)
+@TOPAddon(dependency = "Forge", fancyName = "Base", order = 1)
 public class AddonForge extends AddonBlank {
 
     public static int ELEMENT_TANK;

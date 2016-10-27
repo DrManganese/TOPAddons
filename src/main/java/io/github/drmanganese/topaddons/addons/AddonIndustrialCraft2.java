@@ -16,11 +16,13 @@ import io.github.drmanganese.topaddons.styles.ProgressStyleTOPAddonGrey;
 import java.util.HashMap;
 import java.util.Map;
 
+import ic2.core.block.TileEntityHeatSourceInventory;
 import ic2.core.block.comp.Energy;
 import ic2.core.block.generator.tileentity.TileEntityGeoGenerator;
 import ic2.core.block.generator.tileentity.TileEntitySolarGenerator;
 import ic2.core.block.machine.tileentity.TileEntityCanner;
 import ic2.core.block.machine.tileentity.TileEntityFermenter;
+import ic2.core.block.machine.tileentity.TileEntityPump;
 import ic2.core.block.machine.tileentity.TileEntityStandardMachine;
 import ic2.core.block.machine.tileentity.TileEntityTeleporter;
 import ic2.core.block.machine.tileentity.TileEntityTerra;
@@ -35,7 +37,7 @@ import mcjty.theoneprobe.api.NumberFormat;
 import mcjty.theoneprobe.api.ProbeMode;
 import mcjty.theoneprobe.config.Config;
 
-@TOPAddon(dependency = "IC2")
+@TOPAddon(dependency = "IC2", order = 0)
 public class AddonIndustrialCraft2 extends AddonBlank {
 
     @Override
@@ -95,10 +97,20 @@ public class AddonIndustrialCraft2 extends AddonBlank {
                     textPrefixed(probeInfo, "Blueprint", "None", TextFormatting.AQUA);
             }
 
+            if (tile instanceof TileEntityHeatSourceInventory) {
+                textPrefixed(probeInfo, "Transmitting", ((TileEntityHeatSourceInventory) tile).gettransmitHeat() + " hU");
+                textPrefixed(probeInfo, "Buffer", ((TileEntityHeatSourceInventory) tile).getHeatBuffer() + " hU");
+                textPrefixed(probeInfo, "Max transfer", ((TileEntityHeatSourceInventory) tile).getMaxHeatEmittedPerTick() + " hU");
+            }
+
             if (tile instanceof TileEntityFermenter) {
                 TileEntityFermenter fermenter = (TileEntityFermenter) tile;
                 probeInfo.progress(Math.round(100 * fermenter.getGuiValue("heat")), 100, new ProgressStyleTOPAddonGrey().prefix("Conversion: ").suffix("%").alternateFilledColor(0xFFE12121).filledColor(0xFF871414));
                 probeInfo.progress(Math.round(100 * fermenter.getGuiValue("progress")), 100, new ProgressStyleTOPAddonGrey().prefix("Waste: ").suffix("%").alternateFilledColor(0xFF0E760E).filledColor(0xFF084708));
+            }
+
+            if (tile instanceof TileEntityPump) {
+                euBar(probeInfo, (int) ((TileEntityPump) tile).getEnergy(), 40);
             }
         }
     }
