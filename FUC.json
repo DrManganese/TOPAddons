@@ -1,0 +1,16 @@
+{
+  "homepage": "https://minecraft.curseforge.com/projects/top-addons",
+  "1.10.2": {
+    "1.10.2-0.8.0": "- [Forge] Fluid gauges on outdated IFluidHandler tiles\n- [TiCon] Drying rack progress, removed casting table progress, fixed smeltery tank appearance\n - [StorageDrawers] Better integration with 1.2.0 TOP changes\n - [IC²] Started support, EU bars (on most tiles), progress bars, teleporter coords, hU display, TFBP, probing helmet chips"
+  },
+  "1.9.4": {
+    "1.10.2-0.8.0": "- [Forge] Fluid gauges on outdated IFluidHandler tiles\n- [TiCon] Drying rack progress, removed casting table progress, fixed smeltery tank appearance\n - [StorageDrawers] Better integration with 1.2.0 TOP changes\n - [IC²] Started support, EU bars (on most tiles), progress bars, teleporter coords, hU display, TFBP, probing helmet chips"
+  },
+  "promos": {
+    "1.10.2-latest": "0.8.0",
+    "1.10.2-recommended": "0.8.0",
+    "1.9.4-latest": "0.8.0",
+    "1.9.4-recommended": "0.8.0"
+  }
+
+}

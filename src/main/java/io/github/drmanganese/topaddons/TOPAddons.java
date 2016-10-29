@@ -29,7 +29,8 @@ import org.apache.logging.log4j.Logger;
                 "after:bloodmagic;" +
                 "after:StorageDrawers;" +
                 "after:Botania;" +
-                "after:IC2"
+                "after:IC2",
+        updateJSON = "https://raw.githubusercontent.com/DrManganese/TOPAddons/master/FUC.json"
 )
 public class TOPAddons {
 

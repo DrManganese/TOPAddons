@@ -5,11 +5,11 @@
   "description": "TheOneProbe support for some mods.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
+  "url": "drmanganese.github.io",
+  "updateUrl": "https://minecraft.curseforge.com/projects/top-addons",
   "authorList": ["DrManganese"],
   "credits": "McJty, for making TheOneProbe",
-  "logoFile": "",
+  "logoFile": "/TOPAddonslogo.png",
   "screenshots": [],
   "dependencies": ["theoneprobe"]
 }
