@@ -90,12 +90,12 @@ public class AddonForestry extends AddonBlank {
     );
 
     @Override
-    public boolean hasHelmets() {
+    public boolean hasSpecialHelmets() {
         return true;
     }
 
     @Override
-    public Map<Class<? extends ItemArmor>, EnumChip> getHelmets() {
+    public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
         Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>(2);
         map.put(ItemArmorApiarist.class, EnumChip.STANDARD);
         map.put(ItemArmorNaturalist.class, EnumChip.SPECTACLES);

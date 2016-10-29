@@ -52,12 +52,12 @@ public abstract class AddonBlank implements ITOPAddon {
     }
 
     @Override
-    public Map<Class<? extends ItemArmor>, EnumChip> getHelmets() {
+    public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
         return new HashMap<>(0);
     }
 
     @Override
-    public boolean hasHelmets() {
+    public boolean hasSpecialHelmets() {
         return false;
     }
 

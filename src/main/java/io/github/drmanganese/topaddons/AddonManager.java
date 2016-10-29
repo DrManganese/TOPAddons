@@ -20,7 +20,7 @@ import java.util.Set;
 public class AddonManager {
 
     public static final List<ITOPAddon> ADDONS = new LinkedList<>();
-    public static final Map<Class<? extends ItemArmor>, EnumChip> HELMETS = new HashMap<>();
+    public static final Map<Class<? extends ItemArmor>, EnumChip> SPECIAL_HELMETS = new HashMap<>();
 
     public static void preInit(FMLPreInitializationEvent event) {
         /* Get all classes with the {@link TOPAddon} annotation */
@@ -73,7 +73,7 @@ public class AddonManager {
 
                     if (success) {
                         if (numHelmets > 0)
-                            TOPAddons.LOGGER.info("Created addon {} with {} helmets.", fancyName, numHelmets);
+                            TOPAddons.LOGGER.info("Created addon {} with {} special helmets.", fancyName, numHelmets);
                         else
                             TOPAddons.LOGGER.info("Created addon {}.", fancyName);
                     } else {
@@ -99,11 +99,11 @@ public class AddonManager {
     }
 
     private static int addHelmets(ITOPAddon addon) {
-        if (addon.hasHelmets()) {
+        if (addon.hasSpecialHelmets()) {
             //Safe because duplicates are impossible
-            HELMETS.putAll(addon.getHelmets());
+            SPECIAL_HELMETS.putAll(addon.getSpecialHelmets());
         }
 
-        return addon.getHelmets().size();
+        return addon.getSpecialHelmets().size();
     }
 }

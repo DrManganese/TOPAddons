@@ -33,8 +33,8 @@ public class LayerChip implements LayerRenderer<EntityPlayer> {
     public void doRenderLayer(@Nonnull EntityPlayer player, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         ItemStack helmet = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
         if (helmet != null) {
-            if (helmet.getItem() instanceof ItemArmor && AddonManager.HELMETS.containsKey(((ItemArmor) helmet.getItem()).getClass()) && helmet.hasTagCompound() && helmet.getTagCompound().hasKey(PROBETAG)) {
-                EnumChip chip = AddonManager.HELMETS.get(((ItemArmor) helmet.getItem()).getClass());
+            if (helmet.getItem() instanceof ItemArmor && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor) helmet.getItem()).getClass()) && helmet.hasTagCompound() && helmet.getTagCompound().hasKey(PROBETAG)) {
+                EnumChip chip = AddonManager.SPECIAL_HELMETS.get(((ItemArmor) helmet.getItem()).getClass());
                 if (chip != null) {
                     TextureAtlasSprite sprite = chip.getSprite();
 

@@ -20,14 +20,14 @@ import mcjty.theoneprobe.api.IProbeInfoProvider;
 public interface ITOPAddon extends IProbeInfoProvider, IProbeInfoEntityProvider, IProbeConfigProvider {
 
     /**
-     * @return <i>true</i> if the addon adds helmets
+     * @return <i>true</i> if the addon adds special helmets
      */
-    boolean hasHelmets();
+    boolean hasSpecialHelmets();
 
     /**
      * @return A {@link Map} containing {@link ItemArmor}, {@link EnumChip} pairs.
      */
-    Map<Class<? extends ItemArmor>, EnumChip> getHelmets();
+    Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets();
 
     /**
      * Custom {@link mcjty.theoneprobe.api.IElement}s have to be registered here.<p>

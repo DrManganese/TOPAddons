@@ -7,10 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-
 import net.minecraftforge.common.ForgeHooks;
 
 import io.github.drmanganese.topaddons.AddonManager;
+import io.github.drmanganese.topaddons.Config;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -29,8 +29,10 @@ public class ProbedHelmetCrafting implements IRecipe {
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             ItemStack stack = inv.getStackInSlot(i);
             if (stack != null) {
-                if (stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == EntityEquipmentSlot.HEAD && AddonManager.HELMETS.containsKey(((ItemArmor) stack.getItem()).getClass()) && !helmet) {
-                    helmet = !stack.hasTagCompound() || !stack.getTagCompound().hasKey(PROBETAG);
+                if (stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == EntityEquipmentSlot.HEAD && !helmet) {
+                    if (Config.Helmets.allHelmetsProbable && !Config.Helmets.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !Config.Helmets.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
+                        helmet = !stack.hasTagCompound() || !stack.getTagCompound().hasKey(PROBETAG);
+                    }
                 } else if (stack.getItem() == ModItems.probe && !probe) {
                     probe = true;
                 } else {

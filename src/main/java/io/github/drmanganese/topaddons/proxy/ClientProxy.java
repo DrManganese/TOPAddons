@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import io.github.drmanganese.topaddons.AddonManager;
+import io.github.drmanganese.topaddons.Config;
 import io.github.drmanganese.topaddons.helmets.LayerChip;
 import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Reference;
@@ -44,7 +45,7 @@ public final class ClientProxy implements IProxy {
 
     @SubscribeEvent
     public void onItemTooltip(ItemTooltipEvent event) {
-        if (event.getItemStack().getItem() instanceof ItemArmor && AddonManager.HELMETS.containsKey(((ItemArmor) event.getItemStack().getItem()).getClass())) {
+        if (event.getItemStack().getItem() instanceof ItemArmor && (AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor) event.getItemStack().getItem()).getClass()) || !Config.Helmets.helmetBlacklistSet.contains(event.getItemStack().getItem().getRegistryName()))) {
             if (event.getItemStack().hasTagCompound() && event.getItemStack().getTagCompound().getInteger(PROBETAG) == 1) {
                 event.getToolTip().add(TextFormatting.AQUA + "Probing");
             }
