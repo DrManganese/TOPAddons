@@ -61,7 +61,7 @@ public class ElementTankGauge implements IElement {
         }
 
         drawSmallText(sneaking ? x + 1 :  x +2, sneaking ? y + 13 : y + 2, tankName, 0xffffffff);
-        RenderHelper.drawVerticalLine(109, y, y + (sneaking ? 12 : 8), 0xff969696);
+        RenderHelper.drawVerticalLine(x + 99, y, y + (sneaking ? 12 : 8), 0xff969696);
     }
 
     @Override
