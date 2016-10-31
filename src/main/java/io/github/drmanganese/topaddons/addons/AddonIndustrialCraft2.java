@@ -70,8 +70,10 @@ public class AddonIndustrialCraft2 extends AddonBlank {
                 TileEntityStandardMachine machine = (TileEntityStandardMachine) tile;
                 double energyStorage = machine.defaultEnergyStorage * 2 + machine.upgradeSlot.extraEnergyStorage;
                 euBar(probeInfo, (int) machine.getEnergy(),(int) (machine.getEnergy() > energyStorage ? machine.getEnergy() : energyStorage));
-                textPrefixed(probeInfo, "Consumption", machine.energyConsume + " EU/t");
-                textPrefixed(probeInfo, "Progress", (Math.round(((TileEntityStandardMachine) tile).getProgress()  * 100)) + "%");
+                if (mode == ProbeMode.EXTENDED) {
+                    textPrefixed(probeInfo, "Consumption", machine.energyConsume + " EU/t");
+                    textPrefixed(probeInfo, "Progress", (Math.round(((TileEntityStandardMachine) tile).getProgress() * 100)) + "%");
+                }
             }
 
             if (tile instanceof TileEntitySolarGenerator) {
