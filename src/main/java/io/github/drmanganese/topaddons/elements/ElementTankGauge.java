@@ -1,6 +1,7 @@
 package io.github.drmanganese.topaddons.elements;
 
 import net.minecraft.client.Minecraft;
+
 import io.github.drmanganese.topaddons.addons.AddonForge;
 import io.github.drmanganese.topaddons.styles.ProgressStyleTank;
 

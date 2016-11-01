@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import io.github.drmanganese.topaddons.Config;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.capabilities.ModCapabilities;
 import io.github.drmanganese.topaddons.elements.ElementTankGauge;
 import io.github.drmanganese.topaddons.reference.Colors;
 import io.github.drmanganese.topaddons.reference.Names;
@@ -60,7 +61,7 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (!Config.Forge.showTankGauge)
+        if (!Config.Forge.showTankGauge || !player.getCapability(ModCapabilities.OPTIONS, null).getBoolean("fluidGauge"))
             return;
 
         /* Disable for enderio, endertanks */

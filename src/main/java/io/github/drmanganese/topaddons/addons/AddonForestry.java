@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.capabilities.ModCapabilities;
 import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInventory;
 import io.github.drmanganese.topaddons.elements.forestry.ElementForestryFarm;
 import io.github.drmanganese.topaddons.reference.Colors;
@@ -326,7 +327,7 @@ public class AddonForestry extends AddonBlank {
             if (errorStates.size() > 0) {
                 probeInfo.text(TextFormatting.RED + "Can't work");
                 errorStates.forEach(state -> {
-                    if (mode == ProbeMode.EXTENDED || NORMAL_STATES.contains(state))
+                    if (mode == ProbeMode.EXTENDED || NORMAL_STATES.contains(state) && !player.getCapability(ModCapabilities.OPTIONS, null).getBoolean("forestryReasonCrouch"))
                         probeInfo.text(TextFormatting.RED + "\u21aa " + I18n.translateToLocal(state.getUnlocalizedDescription()));
                 });
             }

@@ -17,7 +17,7 @@ import mcjty.theoneprobe.api.ProbeMode;
 @TOPAddon(dependency = "Forge", fancyName = "Vanilla")
 public class AddonVanilla extends AddonBlank {
 
-    private static String[] notes = new String[]{
+    private static final String[] NOTES = new String[]{
             "F\u266f/G\u266d", "G", "G\u266f/A\u266d", "A", "A\u266f/B\u266d", "B", "C", "C\u266f/D\u266d", "D", "D\u266f/E\u266d", "E", "F"
 
     };
@@ -26,7 +26,7 @@ public class AddonVanilla extends AddonBlank {
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         TileEntity tile = world.getTileEntity(data.getPos());
         if (tile instanceof TileEntityNote && Config.Vanilla.noteBlock) {
-            textPrefixed(probeInfo, "Pitch", notes[((TileEntityNote) tile).note % 12], TextFormatting.AQUA);
+            textPrefixed(probeInfo, "Pitch", NOTES[((TileEntityNote) tile).note % 12], TextFormatting.AQUA);
 
             Material material = world.getBlockState(data.getPos().down()).getMaterial();
             String instrument;

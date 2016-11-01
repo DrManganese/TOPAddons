@@ -55,7 +55,7 @@ public class UnprobedHelmetCrafting implements IRecipe {
         }
 
         if (helmet != null ) {
-            helmet.getTagCompound().removeTag(PROBETAG);;
+            helmet.getTagCompound().removeTag(PROBETAG);
             return helmet;
         }
 

@@ -4,6 +4,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -14,6 +15,10 @@ import net.minecraft.util.text.TextFormatting;
 
 import io.github.drmanganese.topaddons.AddonManager;
 import io.github.drmanganese.topaddons.Config;
+import io.github.drmanganese.topaddons.capabilities.ModCapabilities;
+import io.github.drmanganese.topaddons.network.MessageClientOption;
+import io.github.drmanganese.topaddons.network.PacketHandler;
+import io.github.drmanganese.topaddons.reference.Names;
 
 import com.google.common.collect.Lists;
 
@@ -50,6 +55,8 @@ public class CommandTOPAddons implements ICommand {
             return;
         }
 
+        if (args.length < 2) return;
+
         if ("blacklist".equals(args[0]) && ("add".equals(args[1]) || "remove".equals(args[1]))) {
             if (sender instanceof EntityPlayer) {
                 ItemStack stack = (((EntityPlayer) sender).getHeldItemMainhand());
@@ -82,6 +89,25 @@ public class CommandTOPAddons implements ICommand {
 
                 Config.updateHelmetBlacklistConfig();
             }
+        } else if (args[0] != null && Names.clientConfigOptions.containsKey(args[0])) {
+            if (args[1] == null || args[1].isEmpty()) {
+                sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Accepted VALUES for " + args[0] + ": 0-1"));
+                return;
+            }
+            String option = args[0];
+            int value = Integer.valueOf(args[1]);
+            if (Names.clientConfigOptions.get(option) == Boolean.TYPE) {
+                if (value > 1 || value < 0) {
+                    sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Accepted VALUES for " + option + ": 0-1"));
+                    return;
+                }
+            }
+
+            PacketHandler.INSTANCE.sendTo(new MessageClientOption(option, value), (EntityPlayerMP) sender);
+            ((EntityPlayerMP) sender).getCapability(ModCapabilities.OPTIONS, null).setOption(option, value);
+            sender.addChatMessage(new TextComponentString(TextFormatting.GREEN + "Config changed!"));
+        } else {
+            sender.addChatMessage(new TextComponentString(TextFormatting.RED + args[0] + " is not a valid option."));
         }
     }
 
@@ -96,6 +122,7 @@ public class CommandTOPAddons implements ICommand {
         List<String> opts = new ArrayList<>();
         if (args.length == 1) {
             opts.add("blacklist");
+            opts.addAll(Names.clientConfigOptions.keySet());
         } else if (args.length == 2 && "blacklist".equals(args[0])) {
             opts.add("add");
             opts.add("remove");

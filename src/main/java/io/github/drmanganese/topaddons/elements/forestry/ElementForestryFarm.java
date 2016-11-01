@@ -50,7 +50,7 @@ public class ElementForestryFarm implements IElement {
         int centerX = x + 31;
         int centerY = y + 18;
 
-        drawPlus(centerX - 22, centerY - 22, centerX + 38, centerY + 38, 0xff969696, 0x44969696);
+        drawPlus(centerX - 22, centerY - 22, centerX + 38, centerY + 38);
 
         renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons[4], centerX, centerY + 2, "");
         renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons[0], centerX, centerY - 17, oneDirection);
@@ -148,31 +148,29 @@ public class ElementForestryFarm implements IElement {
         }
     }
 
-    private static void drawPlus(int x1, int y1, int x2, int y2, int border, int fillcolor) {
-        if (fillcolor != -1) {
-            Gui.drawRect(x1 + 21, y1 + 4, x2 - 21, y2 - 37, fillcolor);
-            Gui.drawRect(x1 + 21, y1 + 41, x2 - 21, y2, fillcolor);
-            Gui.drawRect(x1 + 2, y1 + 23, x2 - 2, y2 - 19, fillcolor);
-        }
+    private static void drawPlus(int x1, int y1, int x2, int y2) {
+        Gui.drawRect(x1 + 21, y1 + 4, x2 - 21, y2 - 37, 0x44969696);
+        Gui.drawRect(x1 + 21, y1 + 41, x2 - 21, y2, 0x44969696);
+        Gui.drawRect(x1 + 2, y1 + 23, x2 - 2, y2 - 19, 0x44969696);
 
         //TOP
-        RenderHelper.drawHorizontalLine(x1 + 21, y1 + 3, x2 - 21, border);
-        RenderHelper.drawVerticalLine(x1 + 20, y1 + 3, y1 + 23, border);
-        RenderHelper.drawVerticalLine(x2 - 21, y1 + 3, y1 + 23, border);
+        RenderHelper.drawHorizontalLine(x1 + 21, y1 + 3, x2 - 21, 0xff969696);
+        RenderHelper.drawVerticalLine(x1 + 20, y1 + 3, y1 + 23, 0xff969696);
+        RenderHelper.drawVerticalLine(x2 - 21, y1 + 3, y1 + 23, 0xff969696);
 
         //RIGHT
-        RenderHelper.drawHorizontalLine(x1 + 40, y1 + 22, x2 - 2, border);
-        RenderHelper.drawVerticalLine(x2 - 2, y1 + 22, y1 + 42, border);
-        RenderHelper.drawHorizontalLine(x1 + 40, y1 + 41, x2 - 2, border);
+        RenderHelper.drawHorizontalLine(x1 + 40, y1 + 22, x2 - 2, 0xff969696);
+        RenderHelper.drawVerticalLine(x2 - 2, y1 + 22, y1 + 42, 0xff969696);
+        RenderHelper.drawHorizontalLine(x1 + 40, y1 + 41, x2 - 2, 0xff969696);
 
         //BOTTOM
-        RenderHelper.drawVerticalLine(x1 + 20, y1 + 41, y1 + 61, border);
-        RenderHelper.drawVerticalLine(x2 - 21, y1 + 41, y1 + 61, border);
-        RenderHelper.drawHorizontalLine(x1 + 21, y1 + 60, x2 - 21, border);
+        RenderHelper.drawVerticalLine(x1 + 20, y1 + 41, y1 + 61, 0xff969696);
+        RenderHelper.drawVerticalLine(x2 - 21, y1 + 41, y1 + 61, 0xff969696);
+        RenderHelper.drawHorizontalLine(x1 + 21, y1 + 60, x2 - 21, 0xff969696);
 
         //LEFT
-        RenderHelper.drawHorizontalLine(x1 + 2, y1 + 22, x2 - 40, border);
-        RenderHelper.drawVerticalLine(x1 + 1, y1 + 22, y1 + 42, border);
-        RenderHelper.drawHorizontalLine(x1 + 2, y1 + 41, x2 - 40, border);
+        RenderHelper.drawHorizontalLine(x1 + 2, y1 + 22, x2 - 40, 0xff969696);
+        RenderHelper.drawVerticalLine(x1 + 1, y1 + 22, y1 + 42, 0xff969696);
+        RenderHelper.drawHorizontalLine(x1 + 2, y1 + 41, x2 - 40, 0xff969696);
     }
 }
