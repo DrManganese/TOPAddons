@@ -72,7 +72,7 @@ public class ElementSmelteryTank implements IElement {
             for (int i = 1; i < 10; i++) {
                 RenderHelper.drawVerticalLine(x + i * 10, y + 1, y + (i == 5 ? 11 : 6), 0xff767676);
             }
-            RenderHelper.drawVerticalLine(109, y, y + 12, 0xff969696);
+            RenderHelper.drawVerticalLine(x + 99, y, y + 12, 0xff969696);
         } else {
             ElementRenderHelper.drawGreyBox(x, y, x + 100, y + gaugeHeight + 2);
             int yOffset = 0;

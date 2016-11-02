@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.capabilities;
+package io.github.drmanganese.topaddons.config.capabilities;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.EnumFacing;

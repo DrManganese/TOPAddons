@@ -1,10 +1,11 @@
-package io.github.drmanganese.topaddons;
+package io.github.drmanganese.topaddons.config;
 
 import net.minecraft.util.Tuple;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.reference.Names;
 
 import java.util.HashMap;
@@ -20,15 +21,16 @@ public class ConfigClient {
     private static final Map<String, Tuple<Integer, String>> DEFAULTS = new HashMap<>();
 
     static {
-        DEFAULTS.put("fluidGauge", new Tuple<>(1, "Display fluid gauge for internal tanks on tiles (0 to disable)."));
+        DEFAULTS.put("fluidGauge", new Tuple<>(1, "Display the TOP Addons fluid gauge for internal tanks on tiles (0 to disable)."));
+        DEFAULTS.put("hideTOPTank", new Tuple<>(0, "Hide the vanilla TOP fluid gauge (1 to hide)."));
         DEFAULTS.put("forestryReasonCrouch", new Tuple<>(0, "Only show Forestry machines' important failure reasons when crouching (1 to enable)."));
+        DEFAULTS.put("showPitch", new Tuple<>(1, "Display pitch and instrument on Note Blocks (0 to disable)"));
     }
 
     public static void init(Configuration config) {
         config.load();
 
-        VALUES.put("fluidGauge", config.getInt("fluidGauge", "Options", DEFAULTS.get("fluidGauge").getFirst(), 0, 1, DEFAULTS.get("fluidGauge").getSecond()));
-        VALUES.put("forestryReasonCrouch", config.getInt("forestryReasonCrouch", "Options", DEFAULTS.get("forestryReasonCrouch").getFirst(), 0, 1, DEFAULTS.get("forestryReasonCrouch").getSecond()));
+        DEFAULTS.forEach((s, t) -> VALUES.put(s, config.getInt(s, "Options", t.getFirst(), 0, 1, t.getSecond())));
 
         if (config.hasChanged()) {
             config.save();

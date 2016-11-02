@@ -13,13 +13,16 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.RecipeSorter;
 
-import io.github.drmanganese.topaddons.capabilities.ClientOptsCapability;
-import io.github.drmanganese.topaddons.capabilities.IClientOptsCapability;
-import io.github.drmanganese.topaddons.capabilities.ModCapabilities;
-import io.github.drmanganese.topaddons.helmets.CommandTOPAddons;
+import io.github.drmanganese.topaddons.config.CommandTOPAddons;
+import io.github.drmanganese.topaddons.config.capabilities.ClientOptsCapability;
+import io.github.drmanganese.topaddons.config.capabilities.IClientOptsCapability;
+import io.github.drmanganese.topaddons.config.capabilities.ModCapabilities;
+import io.github.drmanganese.topaddons.config.Config;
+import io.github.drmanganese.topaddons.config.ConfigClient;
+import io.github.drmanganese.topaddons.helmets.CommandTOPHelmet;
 import io.github.drmanganese.topaddons.helmets.ProbedHelmetCrafting;
 import io.github.drmanganese.topaddons.helmets.UnprobedHelmetCrafting;
-import io.github.drmanganese.topaddons.network.PacketHandler;
+import io.github.drmanganese.topaddons.config.network.PacketHandler;
 import io.github.drmanganese.topaddons.proxy.IProxy;
 import io.github.drmanganese.topaddons.reference.Reference;
 
@@ -90,6 +93,7 @@ public class TOPAddons {
 
     @Mod.EventHandler
     public void onFMLServerStarting(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandTOPHelmet());
         event.registerServerCommand(new CommandTOPAddons());
     }
 }

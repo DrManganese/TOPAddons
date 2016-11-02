@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import io.github.drmanganese.topaddons.AddonManager;
-import io.github.drmanganese.topaddons.Config;
+import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.helmets.LayerChip;
 import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Reference;

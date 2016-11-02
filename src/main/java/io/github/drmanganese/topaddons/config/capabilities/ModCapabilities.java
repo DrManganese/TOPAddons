@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.capabilities;
+package io.github.drmanganese.topaddons.config.capabilities;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
@@ -11,9 +11,9 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import io.github.drmanganese.topaddons.ConfigClient;
-import io.github.drmanganese.topaddons.network.MessageClientOptions;
-import io.github.drmanganese.topaddons.network.PacketHandler;
+import io.github.drmanganese.topaddons.config.ConfigClient;
+import io.github.drmanganese.topaddons.config.network.MessageClientOptions;
+import io.github.drmanganese.topaddons.config.network.PacketHandler;
 import io.github.drmanganese.topaddons.reference.Reference;
 
 import javax.annotation.Nullable;

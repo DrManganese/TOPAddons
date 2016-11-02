@@ -11,7 +11,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import io.github.drmanganese.topaddons.Config;
+import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.bloodmagic.ElementAltarCrafting;

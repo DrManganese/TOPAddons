@@ -1,9 +1,11 @@
-package io.github.drmanganese.topaddons;
+package io.github.drmanganese.topaddons.config;
 
 import net.minecraft.item.ItemArmor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+
+import io.github.drmanganese.topaddons.TOPAddons;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;

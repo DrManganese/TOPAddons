@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.capabilities;
+package io.github.drmanganese.topaddons.config.capabilities;
 
 import java.util.Map;
 

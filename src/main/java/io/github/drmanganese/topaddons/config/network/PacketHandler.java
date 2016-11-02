@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.network;
+package io.github.drmanganese.topaddons.config.network;
 
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;

@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.capabilities.ModCapabilities;
+import io.github.drmanganese.topaddons.config.capabilities.ModCapabilities;
 import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInventory;
 import io.github.drmanganese.topaddons.elements.forestry.ElementForestryFarm;
 import io.github.drmanganese.topaddons.reference.Colors;

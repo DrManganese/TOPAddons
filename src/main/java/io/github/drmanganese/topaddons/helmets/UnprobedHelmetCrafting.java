@@ -8,7 +8,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.AddonManager;
-import io.github.drmanganese.topaddons.Config;
+import io.github.drmanganese.topaddons.config.Config;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.network;
+package io.github.drmanganese.topaddons.config.network;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import io.github.drmanganese.topaddons.capabilities.ModCapabilities;
+import io.github.drmanganese.topaddons.config.capabilities.ModCapabilities;
 
 import java.util.HashMap;
 import java.util.Map;

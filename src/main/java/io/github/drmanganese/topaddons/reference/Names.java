@@ -13,6 +13,8 @@ public final class Names {
 
     static {
         clientConfigOptions.put("fluidGauge", Boolean.TYPE);
+        clientConfigOptions.put("hideTOPTank", Boolean.TYPE);
         clientConfigOptions.put("forestryReasonCrouch", Boolean.TYPE);
+        clientConfigOptions.put("showPitch", Boolean.TYPE);
     }
 }

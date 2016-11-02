@@ -7,8 +7,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import io.github.drmanganese.topaddons.Config;
+
 import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.config.capabilities.ModCapabilities;
 
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -25,7 +26,7 @@ public class AddonVanilla extends AddonBlank {
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         TileEntity tile = world.getTileEntity(data.getPos());
-        if (tile instanceof TileEntityNote && Config.Vanilla.noteBlock) {
+        if (tile instanceof TileEntityNote && player.getCapability(ModCapabilities.OPTIONS, null).getBoolean("showPitch")) {
             textPrefixed(probeInfo, "Pitch", NOTES[((TileEntityNote) tile).note % 12], TextFormatting.AQUA);
 
             Material material = world.getBlockState(data.getPos().down()).getMaterial();
