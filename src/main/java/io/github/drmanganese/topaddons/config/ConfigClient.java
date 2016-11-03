@@ -29,9 +29,7 @@ public class ConfigClient {
 
     public static void init(Configuration config) {
         config.load();
-
         DEFAULTS.forEach((s, t) -> VALUES.put(s, config.getInt(s, "Options", t.getFirst(), 0, 1, t.getSecond())));
-
         if (config.hasChanged()) {
             config.save();
         }

@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
-import io.github.drmanganese.topaddons.config.capabilities.ModCapabilities;
+import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.config.network.MessageClientOption;
 import io.github.drmanganese.topaddons.config.network.PacketHandler;
 import io.github.drmanganese.topaddons.reference.Names;
@@ -64,7 +64,7 @@ public class CommandTOPAddons implements ICommand {
                 }
 
                 PacketHandler.INSTANCE.sendTo(new MessageClientOption(option, value), (EntityPlayerMP) sender);
-                ((EntityPlayerMP) sender).getCapability(ModCapabilities.OPTIONS, null).setOption(option, value);
+                ((EntityPlayerMP) sender).getCapability(TOPAddons.OPTS_CAP, null).setOption(option, value);
                 sender.addChatMessage(new TextComponentString(TextFormatting.GREEN + "Config changed!"));
             } else {
                 sender.addChatMessage(new TextComponentString(TextFormatting.RED + args[0] + " is not a valid option."));

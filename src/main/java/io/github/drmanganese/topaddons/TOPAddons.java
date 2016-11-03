@@ -1,6 +1,8 @@
 package io.github.drmanganese.topaddons;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
@@ -14,15 +16,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.RecipeSorter;
 
 import io.github.drmanganese.topaddons.config.CommandTOPAddons;
-import io.github.drmanganese.topaddons.config.capabilities.ClientOptsCapability;
-import io.github.drmanganese.topaddons.config.capabilities.IClientOptsCapability;
-import io.github.drmanganese.topaddons.config.capabilities.ModCapabilities;
 import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.config.ConfigClient;
+import io.github.drmanganese.topaddons.config.capabilities.CapEvents;
+import io.github.drmanganese.topaddons.config.capabilities.ClientOptsCapability;
+import io.github.drmanganese.topaddons.config.capabilities.IClientOptsCapability;
+import io.github.drmanganese.topaddons.config.network.PacketHandler;
 import io.github.drmanganese.topaddons.helmets.CommandTOPHelmet;
 import io.github.drmanganese.topaddons.helmets.ProbedHelmetCrafting;
 import io.github.drmanganese.topaddons.helmets.UnprobedHelmetCrafting;
-import io.github.drmanganese.topaddons.config.network.PacketHandler;
 import io.github.drmanganese.topaddons.proxy.IProxy;
 import io.github.drmanganese.topaddons.reference.Reference;
 
@@ -32,7 +34,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 
 @Mod(modid = Reference.MOD_ID,
-    name = Reference.MOD_NAME,
+        name = Reference.MOD_NAME,
         version = Reference.VERSION,
         acceptedMinecraftVersions = "[1.9.4,1.10.2]",
         dependencies = "required-after:theoneprobe@[1.2.0,);" +
@@ -49,6 +51,9 @@ public class TOPAddons {
     @SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.SERVER_PROXY)
     public static IProxy proxy;
 
+    @CapabilityInject(IClientOptsCapability.class)
+    public static final Capability<IClientOptsCapability> OPTS_CAP = null;
+
     public static final Logger LOGGER = LogManager.getLogger(Reference.MOD_NAME);
     public static Configuration config;
     public static Configuration configClient = null;
@@ -59,13 +64,14 @@ public class TOPAddons {
 
         if (event.getSide() == Side.CLIENT) {
             configClient = new Configuration(new File(event.getModConfigurationDirectory().getPath(), Reference.MOD_ID + "_client.cfg"));
+            //noinspection MethodCallSideOnly
             ConfigClient.init(configClient);
         }
 
         Config.init(config);
 
-        CapabilityManager.INSTANCE.register(IClientOptsCapability.class, new ClientOptsCapability.ClientOptsCapStorage(), ClientOptsCapability.class);
-        MinecraftForge.EVENT_BUS.register(new ModCapabilities());
+        CapabilityManager.INSTANCE.register(IClientOptsCapability.class, new ClientOptsCapability.Storage(), ClientOptsCapability.class);
+        MinecraftForge.EVENT_BUS.register(new CapEvents());
 
         PacketHandler.init();
 

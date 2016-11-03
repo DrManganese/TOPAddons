@@ -12,10 +12,10 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import io.github.drmanganese.topaddons.config.Config;
+import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.config.capabilities.ModCapabilities;
+import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.elements.ElementTankGauge;
 import io.github.drmanganese.topaddons.reference.Colors;
 import io.github.drmanganese.topaddons.reference.Names;
@@ -62,7 +62,7 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (!Config.Forge.showTankGauge || !player.getCapability(ModCapabilities.OPTIONS, null).getBoolean("fluidGauge"))
+        if (!Config.Forge.showTankGauge || !player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("fluidGauge"))
             return;
 
         /* Disable for enderio, endertanks */
@@ -132,10 +132,11 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (player.getCapability(ModCapabilities.OPTIONS, null).getBoolean("hideTOPTank"))
+        if (player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("hideTOPTank")) {
             config.showTankSetting(IProbeConfig.ConfigMode.NOT);
-        else
+        } else {
             config.showTankSetting(IProbeConfig.ConfigMode.EXTENDED);
+        }
     }
 
     @Override

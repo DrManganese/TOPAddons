@@ -13,9 +13,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
+import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.config.capabilities.ModCapabilities;
 import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInventory;
 import io.github.drmanganese.topaddons.elements.forestry.ElementForestryFarm;
 import io.github.drmanganese.topaddons.reference.Colors;
@@ -89,6 +89,18 @@ public class AddonForestry extends AddonBlank {
             EnumErrorCode.NO_SPECIMEN,
             EnumErrorCode.NOT_DARK
     );
+
+    private static void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection) {
+        addFarmElement(probeInfo, farmIcons, oneDirection, false, new ItemStack[]{});
+    }
+
+    private static void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection, boolean showInventory, ItemStack[] inventoryStacks) {
+        probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection, showInventory, inventoryStacks));
+    }
+
+    private static IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, ItemStack[] inventoryStacks) {
+        return probeInfo.element(new ElementBeeHousingInventory(isApiary, inventoryStacks));
+    }
 
     @Override
     public boolean hasSpecialHelmets() {
@@ -167,7 +179,7 @@ public class AddonForestry extends AddonBlank {
             if (tile instanceof TileAnalyzer) {
                 TileAnalyzer analyzer = (TileAnalyzer) tile;
                 if (analyzer.getIndividualOnDisplay() != null) {
-                    probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).item(analyzer.getIndividualOnDisplay()).progress(analyzer.getProgressScaled(100), 100, new ProgressStyleForestryMultiColored(analyzer.getProgressScaled(100)));
+                    probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).item(analyzer.getIndividualOnDisplay()).progress(analyzer.getProgressScaled(100), 100, new ProgressStyleForestryMultiColored(analyzer.getProgressScaled(100)).width(81));
                 }
             }
 
@@ -178,7 +190,7 @@ public class AddonForestry extends AddonBlank {
             if (tile instanceof TileLeaves) {
                 TileLeaves leaves = (TileLeaves) tile;
                 if (leaves.hasFruit()) {
-                    textPrefixed(probeInfo, "Fruit", leaves.getTree().getGenome().getFruitProvider().getDescription() + " - " +(leaves.getRipeness() >= 1.0F ? TextFormatting.GREEN + "Ripe" : TextFormatting.RED + "Unripe"));
+                    textPrefixed(probeInfo, "Fruit", leaves.getTree().getGenome().getFruitProvider().getDescription() + " - " + (leaves.getRipeness() >= 1.0F ? TextFormatting.GREEN + "Ripe" : TextFormatting.RED + "Unripe"));
                 }
 
                 if (leaves.isPollinated() && GeneticsUtil.hasNaturalistEye(player)) {
@@ -261,14 +273,14 @@ public class AddonForestry extends AddonBlank {
                  *   4) If there is a valid recipe in slot 10, display the ItemStacks of slots 10 and 11
                  *   with a progress bar in between
                  */
-                ItemStack[] wheats = new ItemStack[] {
+                ItemStack[] wheats = new ItemStack[]{
                         new ItemStack(Items.WHEAT, 0),
                         new ItemStack(PluginCore.items.mouldyWheat, 0),
                         new ItemStack(PluginCore.items.decayingWheat, 0),
                         new ItemStack(PluginCore.items.mulch, 0)
                 };
 
-                TextFormatting[] arrowColors = new TextFormatting[] {
+                TextFormatting[] arrowColors = new TextFormatting[]{
                         TextFormatting.DARK_GRAY,
                         TextFormatting.DARK_GRAY,
                         TextFormatting.DARK_GRAY
@@ -313,7 +325,7 @@ public class AddonForestry extends AddonBlank {
                     textPrefixed(probeInfo, "Stored", engine.getEnergyManager().getEnergyStored() + " RF");
                     textPrefixed(probeInfo, "Heat", engine.getHeat() / 10 + " C" + (errorStates.contains(EnumErrorCode.FORCED_COOLDOWN) ? " (Cooling down)" : ""));
                 }
-                probeInfo.text(TextFormatting.GREEN + "Producing "  + engine.getCurrentOutput() + " RF/t");
+                probeInfo.text(TextFormatting.GREEN + "Producing " + engine.getCurrentOutput() + " RF/t");
             }
 
             /**
@@ -327,7 +339,7 @@ public class AddonForestry extends AddonBlank {
             if (errorStates.size() > 0) {
                 probeInfo.text(TextFormatting.RED + "Can't work");
                 errorStates.forEach(state -> {
-                    if (mode == ProbeMode.EXTENDED || NORMAL_STATES.contains(state) && !player.getCapability(ModCapabilities.OPTIONS, null).getBoolean("forestryReasonCrouch"))
+                    if (mode == ProbeMode.EXTENDED || NORMAL_STATES.contains(state) && !player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("forestryReasonCrouch"))
                         probeInfo.text(TextFormatting.RED + "\u21aa " + I18n.translateToLocal(state.getUnlocalizedDescription()));
                 });
             }
@@ -349,18 +361,6 @@ public class AddonForestry extends AddonBlank {
         Names.tankNamesMap.put(TileStill.class, new String[]{"In", "Out"});
         Names.tankNamesMap.put(TileFermenter.class, new String[]{"Resource Tank", "Product Tank"});
         Names.tankNamesMap.put(TileRaintank.class, new String[]{"Reservoir"});
-    }
-
-    private static void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection) {
-        addFarmElement(probeInfo, farmIcons, oneDirection, false, new ItemStack[]{});
-    }
-
-    private static void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection, boolean showInventory, ItemStack[] inventoryStacks) {
-        probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection, showInventory, inventoryStacks));
-    }
-
-    private static IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, ItemStack[] inventoryStacks) {
-        return probeInfo.element(new ElementBeeHousingInventory(isApiary, inventoryStacks));
     }
 
     @Override
@@ -393,13 +393,14 @@ public class AddonForestry extends AddonBlank {
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         TileEntity tile = world.getTileEntity(data.getPos());
-        if (config != null && blockState != null
-                && (tile instanceof IBeeHousing && !(tile instanceof TileAlvearySieve || tile instanceof TileAlvearySwarmer)) || tile instanceof TileMoistener || tile instanceof TileFarm) {
+        if ((tile instanceof IBeeHousing && !(tile instanceof TileAlvearySieve || tile instanceof TileAlvearySwarmer)) || tile instanceof TileMoistener || tile instanceof TileFarm) {
             config.showChestContents(IProbeConfig.ConfigMode.NOT);
-
+            config.showChestContentsDetailed(IProbeConfig.ConfigMode.NOT);
         } else {
             config.showChestContents(IProbeConfig.ConfigMode.EXTENDED);
+            config.showChestContentsDetailed(IProbeConfig.ConfigMode.EXTENDED);
         }
+
     }
 
     private ItemStack[] reorderBeeInvStacks(ItemStack[] old) {

@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-import io.github.drmanganese.topaddons.config.capabilities.ModCapabilities;
+import io.github.drmanganese.topaddons.TOPAddons;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +52,7 @@ public class MessageClientOptions implements IMessage, IMessageHandler<MessageCl
     @Override
     public IMessage onMessage(MessageClientOptions message, MessageContext ctx) {
         FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().getPlayerEntityByUUID(UUID.fromString(message.playerUUID))
-           .getCapability(ModCapabilities.OPTIONS, null).setAll(message.optionsToSend));
+           .getCapability(TOPAddons.OPTS_CAP, null).setAll(message.optionsToSend));
         return null;
     }
 }

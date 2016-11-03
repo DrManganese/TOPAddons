@@ -1,17 +1,18 @@
 package io.github.drmanganese.topaddons.config.capabilities;
 
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 
 public class ClientOptsCapability implements IClientOptsCapability {
 
-    private static Map<String, Integer> options = new HashMap<>();
+    private final Map<String, Integer> options = new HashMap<>();
 
     @Override
     public boolean getBoolean(String option) {
@@ -36,20 +37,23 @@ public class ClientOptsCapability implements IClientOptsCapability {
     }
 
     @Override
-    public void setAll(@Nullable Map<String, Integer> newOptions) {
-        options = newOptions;
-    }
-
-    @Override
     public Map<String, Integer> getAll() {
         return options;
     }
 
-    public static class ClientOptsCapStorage implements Capability.IStorage<IClientOptsCapability> {
+    @Override
+    public void setAll(@Nonnull Map<String, Integer> newOptions) {
+        newOptions.forEach(options::put);
+    }
+
+    public static class Storage implements Capability.IStorage<IClientOptsCapability> {
 
         @Override
-        public NBTBase writeNBT(Capability<IClientOptsCapability> capability, IClientOptsCapability instance, EnumFacing side) {
+        public NBTTagCompound writeNBT(Capability<IClientOptsCapability> capability, IClientOptsCapability instance, EnumFacing side) {
+            NBTTagCompound tag = new NBTTagCompound();
+            instance.getAll().forEach(tag::setInteger);
             return null;
+            //return tag;
         }
 
         @Override
