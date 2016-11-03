@@ -41,8 +41,11 @@ public class AddonForge extends AddonBlank {
     }
 
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode, int i) {
+        String suffix = "mB";
+        if (name.equals("Blood Altar")) suffix = "LP";
+
         if (tank.fluid == null) {
-            return probeInfo.element(new ElementTankGauge(name, "", 0, 0, "mB", 0, mode == ProbeMode.EXTENDED));
+            return probeInfo.element(new ElementTankGauge(name, "", 0, 0, suffix, 0, mode == ProbeMode.EXTENDED));
         } else {
             int color = 0xff777777;
             if (tank.fluid.getFluid().getColor(tank.fluid) != 0xffffffff) {
@@ -56,7 +59,7 @@ public class AddonForge extends AddonBlank {
             if (Colors.fluidColorMap.containsKey(tank.fluid.getFluid())) {
                 color = Colors.fluidColorMap.get(tank.fluid.getFluid()).hashCode();
             }
-            return probeInfo.element(new ElementTankGauge(name, tank.fluid.getLocalizedName(), tank.fluid.amount, tank.capacity, "mB", color, mode == ProbeMode.EXTENDED));
+            return probeInfo.element(new ElementTankGauge(name, tank.fluid.getLocalizedName(), tank.fluid.amount, tank.capacity, suffix, color, mode == ProbeMode.EXTENDED));
         }
     }
 

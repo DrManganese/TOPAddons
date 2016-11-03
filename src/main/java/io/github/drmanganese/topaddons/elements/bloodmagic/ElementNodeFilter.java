@@ -2,6 +2,7 @@ package io.github.drmanganese.topaddons.elements.bloodmagic;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+
 import io.github.drmanganese.topaddons.addons.AddonBloodMagic;
 import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 

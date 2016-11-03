@@ -72,7 +72,7 @@ public class ElementTankGauge implements IElement {
 
     @Override
     public int getHeight() {
-        return (sneaking) ? 18 : 10;
+        return (sneaking) ? 18 : 8;
     }
 
     @Override

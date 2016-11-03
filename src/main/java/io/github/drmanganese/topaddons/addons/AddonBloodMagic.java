@@ -11,12 +11,14 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
-import io.github.drmanganese.topaddons.config.Config;
+
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.elements.bloodmagic.ElementAltarCrafting;
 import io.github.drmanganese.topaddons.elements.bloodmagic.ElementNodeFilter;
 import io.github.drmanganese.topaddons.reference.EnumChip;
+import io.github.drmanganese.topaddons.reference.Names;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +26,6 @@ import java.util.Map;
 import WayofTime.bloodmagic.altar.BloodAltar;
 import WayofTime.bloodmagic.api.altar.IBloodAltar;
 import WayofTime.bloodmagic.api.iface.IAltarReader;
-import WayofTime.bloodmagic.block.BlockLifeEssence;
 import WayofTime.bloodmagic.item.armour.ItemLivingArmour;
 import WayofTime.bloodmagic.item.armour.ItemSentientArmour;
 import WayofTime.bloodmagic.item.sigil.ItemSigilHolding;
@@ -64,6 +65,11 @@ public class AddonBloodMagic extends AddonBlank {
     }
 
     @Override
+    public void addTankNames() {
+        Names.tankNamesMap.put(TileAltar.class, new String[]{"Blood Altar"});
+    }
+
+    @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         boolean holdingSigil = !Config.BloodMagic.requireSigil || isAltarSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || isAltarSeer(player.getHeldItem(EnumHand.OFF_HAND));
         boolean holdingSeer = !Config.BloodMagic.requireSigil  || holdingSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || holdingSeer(player.getHeldItem(EnumHand.OFF_HAND));
@@ -73,7 +79,7 @@ public class AddonBloodMagic extends AddonBlank {
             if (tile instanceof IBloodAltar && holdingSigil) {
                 IBloodAltar altar = (IBloodAltar) tile;
                 textPrefixed(probeInfo, "Tier", NumeralHelper.toRoman(altar.getTier().toInt()), TextFormatting.RED);
-                AddonForge.addTankElement(probeInfo, "Blood Altar", "Life Essence", altar.getCurrentBlood(), altar.getCapacity(), "LP", BlockLifeEssence.getLifeEssence().getColor(), mode);
+                //AddonForge.addTankElement(probeInfo, "Blood Altar", "Life Essence", altar.getCurrentBlood(), altar.getCapacity(), "LP", BlockLifeEssence.getLifeEssence().getColor(), mode);
 
                 if (altar instanceof TileAltar && altar.isActive() && holdingSeer) {
                     BloodAltar bloodAltar = ReflectionHelper.getPrivateValue(TileAltar.class, (TileAltar) altar, "bloodAltar");

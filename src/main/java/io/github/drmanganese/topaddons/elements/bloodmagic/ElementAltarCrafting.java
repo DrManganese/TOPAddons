@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+
 import io.github.drmanganese.topaddons.addons.AddonBloodMagic;
 import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 
