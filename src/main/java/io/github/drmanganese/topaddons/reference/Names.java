@@ -16,5 +16,6 @@ public final class Names {
         clientConfigOptions.put("hideTOPTank", Boolean.TYPE);
         clientConfigOptions.put("forestryReasonCrouch", Boolean.TYPE);
         clientConfigOptions.put("showPitch", Boolean.TYPE);
+        clientConfigOptions.put("ic2Progress", Boolean.TYPE);
     }
 }

@@ -179,7 +179,7 @@ public class AddonForestry extends AddonBlank {
             if (tile instanceof TileAnalyzer) {
                 TileAnalyzer analyzer = (TileAnalyzer) tile;
                 if (analyzer.getIndividualOnDisplay() != null) {
-                    probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).item(analyzer.getIndividualOnDisplay()).progress(analyzer.getProgressScaled(100), 100, new ProgressStyleForestryMultiColored(analyzer.getProgressScaled(100)).width(81));
+                    probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).item(analyzer.getIndividualOnDisplay()).progress(analyzer.getProgressScaled(100), 100, new ProgressStyleForestryMultiColored(analyzer.getProgressScaled(100)));
                 }
             }
 

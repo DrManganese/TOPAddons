@@ -8,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
+import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Names;
@@ -72,7 +73,10 @@ public class AddonIndustrialCraft2 extends AddonBlank {
                 euBar(probeInfo, (int) machine.getEnergy(),(int) (machine.getEnergy() > energyStorage ? machine.getEnergy() : energyStorage));
                 if (mode == ProbeMode.EXTENDED) {
                     textPrefixed(probeInfo, "Consumption", machine.energyConsume + " EU/t");
-                    textPrefixed(probeInfo, "Progress", (Math.round(((TileEntityStandardMachine) tile).getProgress() * 100)) + "%");
+                }
+
+                if (player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("ic2Progress") && machine.getProgress() > 0 || mode == ProbeMode.EXTENDED) {
+                    probeInfo.progress((long) (machine.getProgress()*100), 100, new ProgressStyleTOPAddonGrey().prefix("Progress: ").suffix("%").filledColor(0xffaaaaaa).alternateFilledColor(0xff888888));
                 }
             }
 

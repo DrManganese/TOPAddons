@@ -44,4 +44,9 @@ public class ProgressStyleForestryMultiColored extends ProgressStyle {
     public String getSuffix() {
         return "%";
     }
+
+    @Override
+    public int getWidth() {
+        return 81;
+    }
 }

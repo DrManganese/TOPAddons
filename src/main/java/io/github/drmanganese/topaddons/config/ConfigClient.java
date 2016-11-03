@@ -24,7 +24,8 @@ public class ConfigClient {
         DEFAULTS.put("fluidGauge", new Tuple<>(1, "Display the TOP Addons fluid gauge for internal tanks on tiles (0 to disable)."));
         DEFAULTS.put("hideTOPTank", new Tuple<>(0, "Hide the vanilla TOP fluid gauge (1 to hide)."));
         DEFAULTS.put("forestryReasonCrouch", new Tuple<>(0, "Only show Forestry machines' important failure reasons when crouching (1 to enable)."));
-        DEFAULTS.put("showPitch", new Tuple<>(1, "Display pitch and instrument on Note Blocks (0 to disable)"));
+        DEFAULTS.put("showPitch", new Tuple<>(1, "Display pitch and instrument on Note Blocks (0 to disable)."));
+        DEFAULTS.put("ic2Progress", new Tuple<>(0, "Show IC² machine progress bar (0: Extended mode, 1: Normal mode)."));
     }
 
     public static void init(Configuration config) {
