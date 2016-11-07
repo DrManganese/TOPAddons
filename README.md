@@ -8,7 +8,7 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 
 ### Forge
 
-- Tank display (a.t.m. just for blocks with the FluidHandler Capability)
+- Tank display
 
 ### Forestry ([album](http://imgur.com/a/APS3S))
 
@@ -47,12 +47,28 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 *Also works in sigil of holding
 
 ## Probing Helmets
-Craft modded helmets with a probe to get their *probing* variants, currently works with:
+Craft modded helmets with a probe to get their *probing* variants, works with all non-blacklisted helmets (configurable):
+#### These helmets will additionally have a visual "chip" when worn:
 
 - Botania: Manasteel, Elementium, Manaweave and Terrasteel helmets(non-revealing versions)
 - Forestry: Apiarist helmet and Spectacles
 - Blood Magic: Living and Sentient helmets
+- IndustrialCraft 2: Quantum, Nano and Hazmat helmets
 
 ![helmets](images/probing_helmets.gif)
 
 Uncraft by putting the helmet back in the crafting grid with nothing else.
+
+## Commands
+
+```/topaddons [option] [value]```
+##### This command will modify client-only settings:
+
+- Show the TOP Addons fluid gauge on tiles with internal tanks. (0 to hide) [default: 1] 
+- Hide the *vanilla* TOP fluid gauge. (1 to hide) [default: 0]
+- Only show Forestry machines' *critical* failure reasons when crouched.(0 for always, 1 for crouching) [default: 0]
+- Show IC² machine progress bar in *normal mode*. (0 for crouching only) [default: 1]
+- Show note block pitch and instrument. (0 to hide) [default: 1]
+
+```/tophelmet blacklist <add/remove>```
+##### Add or remove the currently held helmet to or from the blacklist
