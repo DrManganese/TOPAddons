@@ -8,4 +8,6 @@ public class Reference {
 
     public static final String CLIENT_PROXY = "io.github.drmanganese.topaddons.proxy.ClientProxy";
     public static final String SERVER_PROXY = "io.github.drmanganese.topaddons.proxy.ServerProxy";
+
+    public static final String GUI_FACTORY = "io.github.drmanganese.topaddons.config.TOPAddonsGuiFactory";
 }

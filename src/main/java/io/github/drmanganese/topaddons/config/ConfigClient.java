@@ -1,12 +1,19 @@
 package io.github.drmanganese.topaddons.config;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Tuple;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import io.github.drmanganese.topaddons.TOPAddons;
+import io.github.drmanganese.topaddons.config.network.MessageClientOptions;
+import io.github.drmanganese.topaddons.config.network.PacketHandler;
 import io.github.drmanganese.topaddons.reference.Names;
+import io.github.drmanganese.topaddons.reference.Reference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,9 +37,18 @@ public class ConfigClient {
 
     public static void init(Configuration config) {
         config.load();
-        DEFAULTS.forEach((s, t) -> VALUES.put(s, config.getInt(s, "Options", t.getFirst(), 0, 1, t.getSecond())));
+        DEFAULTS.forEach((s, t) -> VALUES.put(s, config.getInt(s, Configuration.CATEGORY_CLIENT, t.getFirst(), 0, 1, t.getSecond())));
         if (config.hasChanged()) {
             config.save();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onConfigChangedOnConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equals(Reference.MOD_ID)) {
+            DEFAULTS.forEach((s, t) -> VALUES.put(s, TOPAddons.configClient.getInt(s, Configuration.CATEGORY_CLIENT, t.getFirst(), 0, 1, t.getSecond())));
+            if (Minecraft.getMinecraft().theWorld != null)
+                PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(ConfigClient.VALUES, (EntityPlayer) Minecraft.getMinecraft().thePlayer));
         }
     }
 

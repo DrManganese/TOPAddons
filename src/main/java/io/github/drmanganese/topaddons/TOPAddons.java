@@ -36,6 +36,7 @@ import java.io.File;
 @Mod(modid = Reference.MOD_ID,
         name = Reference.MOD_NAME,
         version = Reference.VERSION,
+        guiFactory = Reference.GUI_FACTORY,
         acceptedMinecraftVersions = "[1.9.4,1.10.2]",
         dependencies = "required-after:theoneprobe@[1.2.0,);" +
                 "after:forestry;" +
@@ -66,6 +67,7 @@ public class TOPAddons {
             configClient = new Configuration(new File(event.getModConfigurationDirectory().getPath(), Reference.MOD_ID + "_client.cfg"));
             //noinspection MethodCallSideOnly
             ConfigClient.init(configClient);
+            MinecraftForge.EVENT_BUS.register(ConfigClient.class);
         }
 
         Config.init(config);
