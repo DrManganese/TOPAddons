@@ -12,6 +12,9 @@ import net.minecraftforge.common.ForgeHooks;
 import io.github.drmanganese.topaddons.AddonManager;
 import io.github.drmanganese.topaddons.config.Config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -20,6 +23,11 @@ import mcjty.theoneprobe.items.ModItems;
 import static mcjty.theoneprobe.items.ModItems.PROBETAG;
 
 public class ProbedHelmetCrafting implements IRecipe {
+
+    public static List<String> neverCraftList = Arrays.asList("neotech:electricArmorHelmet",
+            "minecraft:diamond_helmet", "minecraft:golden_helmet", "minecraft:iron_helmet",
+            "theoneprobe:diamond_helmet_probe", "theoneprobe:gold_helmet_probe", "theoneprobe:iron_helmet_probe",
+            "enderio:darkSteel_helmet");
 
     @Override
     public boolean matches(@Nonnull InventoryCrafting inv, @Nonnull World worldIn) {
@@ -30,7 +38,7 @@ public class ProbedHelmetCrafting implements IRecipe {
             ItemStack stack = inv.getStackInSlot(i);
             if (stack != null) {
                 if (stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == EntityEquipmentSlot.HEAD && !helmet) {
-                    if (Config.Helmets.allHelmetsProbable && !Config.Helmets.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !Config.Helmets.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
+                    if (Config.Helmets.allHelmetsProbable && !ProbedHelmetCrafting.neverCraftList.contains(stack.getItem().getRegistryName().toString()) && !Config.Helmets.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !Config.Helmets.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
                         helmet = !stack.hasTagCompound() || !stack.getTagCompound().hasKey(PROBETAG);
                     }
                 } else if (stack.getItem() == ModItems.probe && !probe) {

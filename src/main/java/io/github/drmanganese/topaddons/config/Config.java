@@ -30,14 +30,7 @@ public class Config {
 
     public static class Helmets {
         public static boolean allHelmetsProbable = true;
-        private static String[] helmetBlacklist = {
-                "minecraft:diamond_helmet",
-                "minecraft:golden_helmet",
-                "minecraft:iron_helmet",
-                "theoneprobe:diamond_helmet_probe",
-                "theoneprobe:gold_helmet_probe",
-                "theoneprobe:iron_helmet_probe",
-                "enderio:darkSteel_helmet"};
+        private static String[] helmetBlacklist = {};
 
         public static Set<ResourceLocation> helmetBlacklistSet = new LinkedHashSet<>();
         static final String CATEGORY = "Helmets";
@@ -50,7 +43,7 @@ public class Config {
         Forge.showTankGauge = config.getBoolean("showTankGauge", Forge.CATEGORY, true, "Show tank gauge for internal tanks on most Tile Entities.");
         Vanilla.noteBlock = config.getBoolean("noteBlockPitch", Vanilla.CATEGORY, true, "Show note block pitch and instrument.");
         Helmets.allHelmetsProbable = config.getBoolean("allHelmetsProbable", Helmets.CATEGORY, true, "All non-blacklisted helmets can be combined with a probe.\n!!! When this is false you can't uncraft previously probified helmets !!!");
-        Helmets.helmetBlacklist = config.getStringList("helmetBlacklist", Helmets.CATEGORY, Helmets.helmetBlacklist, "Put registry names of helmets that shouldn't be combinable with a probe\n(don't remove the default ones)");
+        Helmets.helmetBlacklist = config.getStringList("helmetBlacklist", Helmets.CATEGORY, Helmets.helmetBlacklist, "Put registry names of helmets that shouldn't be combinable with a probe");
 
 
         if (config.hasChanged()) {
