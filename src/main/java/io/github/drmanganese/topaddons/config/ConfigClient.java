@@ -37,7 +37,7 @@ public class ConfigClient {
 
     public static void init(Configuration config) {
         config.load();
-        DEFAULTS.forEach((s, t) -> VALUES.put(s, config.getInt(s, Configuration.CATEGORY_CLIENT, t.getFirst(), 0, 1, t.getSecond())));
+        DEFAULTS.forEach((s, t) -> VALUES.put(s, config.getInt(s, "Options", t.getFirst(), 0, 1, t.getSecond())));
         if (config.hasChanged()) {
             config.save();
         }
@@ -46,7 +46,7 @@ public class ConfigClient {
     @SubscribeEvent
     public static void onConfigChangedOnConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
         if (event.getModID().equals(Reference.MOD_ID)) {
-            DEFAULTS.forEach((s, t) -> VALUES.put(s, TOPAddons.configClient.getInt(s, Configuration.CATEGORY_CLIENT, t.getFirst(), 0, 1, t.getSecond())));
+            DEFAULTS.forEach((s, t) -> VALUES.put(s, TOPAddons.configClient.getInt(s, "Options", t.getFirst(), 0, 1, t.getSecond())));
             if (Minecraft.getMinecraft().theWorld != null)
                 PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(ConfigClient.VALUES, (EntityPlayer) Minecraft.getMinecraft().thePlayer));
         }
