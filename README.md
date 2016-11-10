@@ -30,7 +30,7 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - Incense altar tranquility and sacrifice bonus (requires divination/seer sigil)
 - Filter configuration for routing nodes (side-sensitive)
 
-### Storage Drawers ([album](http://imgur.com/lXSgOm5))http://imgur.com/a/8jY8H
+### Storage Drawers ([album](http://imgur.com/lXSgOm5))
 
 - More detailed information on stored item stacks
 - Stack capacity
