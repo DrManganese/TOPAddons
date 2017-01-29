@@ -8,19 +8,20 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 import io.github.drmanganese.topaddons.TOPAddons;
+import io.github.drmanganese.topaddons.config.capabilities.IClientOptsCapability;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import io.netty.buffer.ByteBuf;
 
-public class MessageClientOptions implements IMessage, IMessageHandler<MessageClientOptions, IMessage>{
+public class MessageClientOptions implements IMessage, IMessageHandler<MessageClientOptions, IMessage> {
 
     private Map<String, Integer> optionsToSend;
     private String playerUUID;
 
-    public MessageClientOptions(){}
+    public MessageClientOptions() {
+    }
 
     public MessageClientOptions(Map<String, Integer> options, EntityPlayer player) {
         this.optionsToSend = options;
@@ -51,8 +52,12 @@ public class MessageClientOptions implements IMessage, IMessageHandler<MessageCl
 
     @Override
     public IMessage onMessage(MessageClientOptions message, MessageContext ctx) {
-        FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().getPlayerEntityByUUID(UUID.fromString(message.playerUUID))
-           .getCapability(TOPAddons.OPTS_CAP, null).setAll(message.optionsToSend));
+        FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
+                    IClientOptsCapability cap = ctx.getServerHandler().playerEntity.getCapability(TOPAddons.OPTS_CAP, null);
+                    cap.setAll(message.optionsToSend);
+//                    TOPAddons.LOGGER.info("Synced opts cap with server for player " + ctx.getServerHandler().playerEntity.getName() + " -> " + cap.getAll().toString());
+                }
+        );
         return null;
     }
 }

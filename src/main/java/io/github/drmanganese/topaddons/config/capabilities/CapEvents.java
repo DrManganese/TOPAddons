@@ -1,5 +1,6 @@
 package io.github.drmanganese.topaddons.config.capabilities;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -42,12 +43,11 @@ public class CapEvents {
 
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if (event.getEntity() instanceof EntityPlayer) {
-            if (event.getWorld().isRemote) {
-                //noinspection VariableUseSideOnly
-                PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(ConfigClient.VALUES, (EntityPlayer) event.getEntity()));
-            }
+        if (event.getWorld().isRemote && event.getEntity() == Minecraft.getMinecraft().thePlayer) {
+            //noinspection VariableUseSideOnly
+            PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(ConfigClient.VALUES, (EntityPlayer) event.getEntity()));
         }
+
     }
 
     @SubscribeEvent

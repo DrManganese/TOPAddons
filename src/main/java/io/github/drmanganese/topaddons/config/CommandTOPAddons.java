@@ -34,7 +34,7 @@ public class CommandTOPAddons implements ICommand {
     @Nonnull
     @Override
     public String getCommandUsage(@Nonnull ICommandSender sender) {
-        return "/topaddons [option] <0/1>";
+        return "/topaddons [option] <0/1>\n/topaddons [option] <0-" + Integer.MAX_VALUE + ">";
     }
 
     @Nonnull
@@ -45,17 +45,20 @@ public class CommandTOPAddons implements ICommand {
 
     @Override
     public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
-        if (args.length == 0) {
+        if (args.length < 2) {
             sender.addChatMessage(new TextComponentString(getCommandUsage(sender)));
         } else {
 
-            if (args[0] != null && Names.clientConfigOptions.containsKey(args[0])) {
-                if (args[1] == null || args[1].isEmpty()) {
-                    sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Accepted VALUES for " + args[0] + ": 0-1"));
+            if (Names.clientConfigOptions.containsKey(args[0])) {
+                int value;
+                String option = args[0];
+                try {
+                    value = Integer.valueOf(args[1]);
+                } catch (NumberFormatException e) {
+                    sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Please enter a number as your second argument"));
                     return;
                 }
-                String option = args[0];
-                int value = Integer.valueOf(args[1]);
+
                 if (Names.clientConfigOptions.get(option) == Boolean.TYPE) {
                     if (value > 1 || value < 0) {
                         sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Accepted VALUES for " + option + ": 0-1"));
