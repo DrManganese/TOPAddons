@@ -116,7 +116,7 @@ public class AddonBloodMagic extends AddonBlank {
     }
 
     private void addAltarCraftingElement(IProbeInfo probeInfo, ItemStack input, ItemStack result, int progress, int required, float consumption) {
-        probeInfo.element(new ElementAltarCrafting(input, result, progress, required, consumption));
+        probeInfo.element(new ElementAltarCrafting(input, result, progress, required * input.stackSize, consumption));
     }
 
     @SuppressWarnings("ConstantConditions")
