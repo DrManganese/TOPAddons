@@ -26,6 +26,12 @@ import java.util.Map;
 import WayofTime.bloodmagic.altar.BloodAltar;
 import WayofTime.bloodmagic.api.altar.IBloodAltar;
 import WayofTime.bloodmagic.api.iface.IAltarReader;
+import WayofTime.bloodmagic.api.iface.IBindable;
+import WayofTime.bloodmagic.api.orb.BloodOrb;
+import WayofTime.bloodmagic.api.orb.IBloodOrb;
+import WayofTime.bloodmagic.api.registry.OrbRegistry;
+import WayofTime.bloodmagic.api.saving.SoulNetwork;
+import WayofTime.bloodmagic.api.util.helper.NetworkHelper;
 import WayofTime.bloodmagic.item.armour.ItemLivingArmour;
 import WayofTime.bloodmagic.item.armour.ItemSentientArmour;
 import WayofTime.bloodmagic.item.sigil.ItemSigilHolding;
@@ -72,23 +78,32 @@ public class AddonBloodMagic extends AddonBlank {
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         boolean holdingSigil = !Config.BloodMagic.requireSigil || isAltarSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || isAltarSeer(player.getHeldItem(EnumHand.OFF_HAND));
-        boolean holdingSeer = !Config.BloodMagic.requireSigil  || holdingSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || holdingSeer(player.getHeldItem(EnumHand.OFF_HAND));
+        boolean holdingSeer = !Config.BloodMagic.requireSigil || holdingSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || holdingSeer(player.getHeldItem(EnumHand.OFF_HAND));
 
         TileEntity tile = world.getTileEntity(data.getPos());
         if (tile != null) {
             if (tile instanceof IBloodAltar && holdingSigil) {
                 IBloodAltar altar = (IBloodAltar) tile;
                 textPrefixed(probeInfo, "Tier", NumeralHelper.toRoman(altar.getTier().toInt()), TextFormatting.RED);
-                //AddonForge.addTankElement(probeInfo, "Blood Altar", "Life Essence", altar.getCurrentBlood(), altar.getCapacity(), "LP", BlockLifeEssence.getLifeEssence().getColor(), mode);
 
-                if (altar instanceof TileAltar && altar.isActive() && holdingSeer) {
-                    BloodAltar bloodAltar = ReflectionHelper.getPrivateValue(TileAltar.class, (TileAltar) altar, "bloodAltar");
+                if (altar instanceof TileAltar && holdingSeer) {
                     ItemStack input = ((TileAltar) altar).getStackInSlot(0);
-                    ItemStack result = ReflectionHelper.getPrivateValue(BloodAltar.class, bloodAltar, "result");
-                    if (input != null && result != null)
-                        addAltarCraftingElement(probeInfo, input, result, bloodAltar.getProgress(), bloodAltar.getLiquidRequired(), bloodAltar.getConsumptionRate());
+                    if (input == null) return;
+                    BloodAltar bloodAltar = ReflectionHelper.getPrivateValue(TileAltar.class, (TileAltar) altar, "bloodAltar");
+
+                    if (input.getItem() instanceof IBloodOrb) {
+                        SoulNetwork network = NetworkHelper.getSoulNetwork(((IBindable) input.getItem()).getOwnerUUID(input));
+                        BloodOrb orb = OrbRegistry.getOrb(network.getOrbTier() - 1);
+                        addAltarCraftingElement(probeInfo, input, new ItemStack(WayofTime.bloodmagic.registry.ModItems.BLOOD_ORB, 1, network.getOrbTier() - 1), network.getCurrentEssence(), orb.getCapacity(), 0);
+                    } else if (altar.isActive()) {
+                        ItemStack result = ReflectionHelper.getPrivateValue(BloodAltar.class, bloodAltar, "result");
+                        if (result != null) {
+                            addAltarCraftingElement(probeInfo, input, result, bloodAltar.getProgress(), bloodAltar.getLiquidRequired(), bloodAltar.getConsumptionRate());
+                        }
+                    }
                 }
             }
+
 
             if (tile instanceof TileFilteredRoutingNode && !(tile instanceof IMasterRoutingNode)) {
                 TileFilteredRoutingNode node = (TileFilteredRoutingNode) tile;
@@ -109,6 +124,7 @@ public class AddonBloodMagic extends AddonBlank {
                 textPrefixed(probeInfo, "Bonus", (int) (altar.incenseAddition * 100) + "%", TextFormatting.RED);
             }
         }
+
     }
 
     private void addFilterElement(IProbeInfo probeInfo, String side, ItemStack inventoryOnSide, ItemStack filterStack) {

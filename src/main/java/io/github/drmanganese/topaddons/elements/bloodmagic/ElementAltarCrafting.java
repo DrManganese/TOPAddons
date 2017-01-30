@@ -13,6 +13,7 @@ import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 
 import org.lwjgl.opengl.GL11;
 
+import WayofTime.bloodmagic.api.orb.IBloodOrb;
 import io.netty.buffer.ByteBuf;
 import mcjty.theoneprobe.api.IElement;
 import mcjty.theoneprobe.network.NetworkTools;
@@ -63,7 +64,10 @@ public class ElementAltarCrafting implements IElement {
 
         String text = progress + "/" + required  + " LP";
         ElementRenderHelper.drawSmallText(x + 50 - mc.fontRendererObj.getStringWidth(text)/4, y + 6, text, 0xffffffff);
-        text = "Consumption: " + consumption + " LP";
+        if (input.getItem() instanceof IBloodOrb)
+            text = "Filling network";
+        else
+            text = "Consumption: " + consumption + " LP";
         ElementRenderHelper.drawSmallText(x + 50 - mc.fontRendererObj.getStringWidth(text)/4, y + 14, text, 0xffffffff);
     }
 
