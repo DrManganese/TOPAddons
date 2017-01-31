@@ -78,4 +78,19 @@ jar {
     from "LICENSE"
 }
 
+sourceSets {
+    main {
+        java {
+            exclude '**/addons/AddonBloodMagic.java'
+            exclude '**/addons/AddonIndustrialCraft2.java'
+            exclude '**/addons/AddonBotania.java'
+            exclude '**/addons/AddonNeoTech.java'
+            exclude '**/addons/AddonTinkersConstruct.java'
+
+            exclude '**/elements/tconstruct/**'
+            exclude '**/elements/bloodmagic/**'
+        }
+    }
+}
+
 idea { module { inheritOutputDirs = true } }
