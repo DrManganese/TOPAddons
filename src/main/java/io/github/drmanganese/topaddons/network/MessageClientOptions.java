@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.config.network;
+package io.github.drmanganese.topaddons.network;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -53,7 +53,7 @@ public class MessageClientOptions implements IMessage, IMessageHandler<MessageCl
     @Override
     public IMessage onMessage(MessageClientOptions message, MessageContext ctx) {
         FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
-                    IClientOptsCapability cap = ctx.getServerHandler().playerEntity.getCapability(TOPAddons.OPTS_CAP, null);
+                    IClientOptsCapability cap = ctx.getServerHandler().player.getCapability(TOPAddons.OPTS_CAP, null);
                     cap.setAll(message.optionsToSend);
 //                    TOPAddons.LOGGER.info("Synced opts cap with server for player " + ctx.getServerHandler().playerEntity.getName() + " -> " + cap.getAll().toString());
                 }

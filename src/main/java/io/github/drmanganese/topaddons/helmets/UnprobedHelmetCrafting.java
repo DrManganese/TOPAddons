@@ -5,13 +5,13 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.AddonManager;
 import io.github.drmanganese.topaddons.config.Config;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import mcjty.theoneprobe.items.ModItems;
 
@@ -24,7 +24,7 @@ public class UnprobedHelmetCrafting implements IRecipe {
         boolean helmet = false;
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             ItemStack stack = inv.getStackInSlot(i);
-            if (stack != null) {
+            if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == EntityEquipmentSlot.HEAD && !helmet) {
                     if (Config.Helmets.allHelmetsProbable && !Config.Helmets.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !Config.Helmets.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
                         helmet = stack.hasTagCompound() && stack.getTagCompound().hasKey(PROBETAG);
@@ -39,13 +39,13 @@ public class UnprobedHelmetCrafting implements IRecipe {
 
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public ItemStack getCraftingResult(@Nonnull InventoryCrafting inv) {
-        ItemStack helmet = null;
+        ItemStack helmet = ItemStack.EMPTY;
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             ItemStack stack = inv.getStackInSlot(i);
-            if (stack != null) {
+            if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == EntityEquipmentSlot.HEAD) {
                     if (Config.Helmets.allHelmetsProbable && !Config.Helmets.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !Config.Helmets.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
                         helmet = stack.copy();
@@ -59,7 +59,7 @@ public class UnprobedHelmetCrafting implements IRecipe {
             return helmet;
         }
 
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -67,17 +67,17 @@ public class UnprobedHelmetCrafting implements IRecipe {
         return 10;
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public ItemStack getRecipeOutput() {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Nonnull
     @Override
-    public ItemStack[] getRemainingItems(@Nonnull InventoryCrafting inv) {
-        ItemStack[] ret = new ItemStack[inv.getSizeInventory()];
-        ret[0] = new ItemStack(ModItems.probe, 1);
+    public NonNullList<ItemStack> getRemainingItems(@Nonnull InventoryCrafting inv) {
+        NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
+        ret.set(0, new ItemStack(ModItems.probe));
         return ret;
     }
 }

@@ -27,26 +27,26 @@ public class CommandTOPHelmet implements ICommand {
 
     @Nonnull
     @Override
-    public String getCommandName() {
+    public String getName() {
         return "tophelmet";
     }
 
     @Nonnull
     @Override
-    public String getCommandUsage(@Nonnull ICommandSender sender) {
+    public String getUsage(@Nonnull ICommandSender sender) {
         return "/tophelmet blacklist <add/remove>";
     }
 
     @Nonnull
     @Override
-    public List<String> getCommandAliases() {
+    public List<String> getAliases() {
         return Lists.newArrayList("tophelmet", "th");
     }
 
     @Override
     public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
         if (!Config.Helmets.allHelmetsProbable) {
-            sender.addChatMessage(new TextComponentString(TextFormatting.RED + TextFormatting.ITALIC.toString() + "AllHelmetsProbable config is set to false"));
+            sender.sendMessage(new TextComponentString(TextFormatting.RED + TextFormatting.ITALIC.toString() + "AllHelmetsProbable config is set to false"));
             return;
         }
 
@@ -56,29 +56,29 @@ public class CommandTOPHelmet implements ICommand {
             if (sender instanceof EntityPlayer) {
                 ItemStack stack = (((EntityPlayer) sender).getHeldItemMainhand());
                 if (stack == null || !(stack.getItem() instanceof ItemArmor)) {
-                    sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Hold a helmet in your main hand to add/remove it to the blacklist"));
+                    sender.sendMessage(new TextComponentString(TextFormatting.RED + "Hold a helmet in your main hand to add/remove it to the blacklist"));
                     return;
                 }
 
                 ResourceLocation loc = stack.getItem().getRegistryName();
                 if ("add".equals(args[1])) {
                     if (AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
-                        sender.addChatMessage(new TextComponentString(TextFormatting.RED + "This helmet cannot be added to the blacklist"));
+                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "This helmet cannot be added to the blacklist"));
                         return;
                     }
 
                     if (Config.Helmets.helmetBlacklistSet.contains(loc)) {
-                        sender.addChatMessage(new TextComponentString(TextFormatting.RED + "This helmet is already on the blacklist"));
+                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "This helmet is already on the blacklist"));
                     } else {
                         Config.Helmets.helmetBlacklistSet.add(loc);
-                        sender.addChatMessage(new TextComponentString(TextFormatting.GREEN + "Helmet was added to the blacklist"));
+                        sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Helmet was added to the blacklist"));
                     }
                 } else {
                     if (Config.Helmets.helmetBlacklistSet.contains(loc)) {
                         Config.Helmets.helmetBlacklistSet.remove(loc);
-                        sender.addChatMessage(new TextComponentString(TextFormatting.GREEN + "Helmet was removed from the blacklist"));
+                        sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Helmet was removed from the blacklist"));
                     } else {
-                        sender.addChatMessage(new TextComponentString(TextFormatting.RED + "This helmet is not on the blacklist"));
+                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "This helmet is not on the blacklist"));
                     }
                 }
 
@@ -89,12 +89,12 @@ public class CommandTOPHelmet implements ICommand {
 
     @Override
     public boolean checkPermission(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender) {
-        return sender.canCommandSenderUseCommand(4, this.getCommandName());
+        return sender.canUseCommand(4, this.getName());
     }
 
     @Nonnull
     @Override
-    public List<String> getTabCompletionOptions(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args, @Nullable BlockPos pos) {
+    public List<String> getTabCompletions(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args, @Nullable BlockPos pos) {
         List<String> opts = new ArrayList<>();
         if (args.length == 1) {
             opts.add("blacklist");
@@ -113,6 +113,6 @@ public class CommandTOPHelmet implements ICommand {
 
     @Override
     public int compareTo(@Nonnull ICommand o) {
-        return getCommandName().compareTo(o.getCommandName());
+        return getName().compareTo(o.getName());
     }
 }

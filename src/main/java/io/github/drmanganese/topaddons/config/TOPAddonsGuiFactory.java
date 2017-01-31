@@ -6,6 +6,8 @@ import net.minecraftforge.fml.client.IModGuiFactory;
 
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 public class TOPAddonsGuiFactory implements IModGuiFactory {
 
     @Override
@@ -23,6 +25,7 @@ public class TOPAddonsGuiFactory implements IModGuiFactory {
         return null;
     }
 
+    @Nullable
     @Override
     public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element) {
         return null;

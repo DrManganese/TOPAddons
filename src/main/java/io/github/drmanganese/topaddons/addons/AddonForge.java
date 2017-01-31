@@ -27,7 +27,7 @@ import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 
-@TOPAddon(dependency = "Forge", fancyName = "Base", order = 1)
+@TOPAddon(dependency = "forge", fancyName = "Base", order = 1)
 public class AddonForge extends AddonBlank {
 
     public static int ELEMENT_TANK;
@@ -112,25 +112,26 @@ public class AddonForge extends AddonBlank {
                 }
             }
 
-        } else if (tile instanceof net.minecraftforge.fluids.IFluidHandler) {
-            net.minecraftforge.fluids.IFluidHandler handler = (net.minecraftforge.fluids.IFluidHandler) tile;
-            FluidTankInfo[] tanks = handler.getTankInfo(null);
-            if (tanks != null) {
-                for (int i = 0; i < tanks.length; i++) {
-                    if (tanks[i] != null) {
-                        String tankName = "Tank";
-                        if (Names.tankNamesMap.containsKey(tile.getClass())) {
-                            tankName = Names.tankNamesMap.get(tile.getClass())[i];
-                        }
-                        if (tanks[i].fluid != null) {
-                            addTankElement(probeInfo, tankName, tanks[i], mode);
-                        } else {
-                            addTankElement(probeInfo, tankName, "", 0, 0, "", 0xff777777, mode);
-                        }
-                    }
-                }
-            }
         }
+//        else if (tile instanceof net.minecraftforge.fluids.IFluidHandler) {
+//            net.minecraftforge.fluids.IFluidHandler handler = (net.minecraftforge.fluids.IFluidHandler) tile;
+//            FluidTankInfo[] tanks = handler.getTankInfo(null);
+//            if (tanks != null) {
+//                for (int i = 0; i < tanks.length; i++) {
+//                    if (tanks[i] != null) {
+//                        String tankName = "Tank";
+//                        if (Names.tankNamesMap.containsKey(tile.getClass())) {
+//                            tankName = Names.tankNamesMap.get(tile.getClass())[i];
+//                        }
+//                        if (tanks[i].fluid != null) {
+//                            addTankElement(probeInfo, tankName, tanks[i], mode);
+//                        } else {
+//                            addTankElement(probeInfo, tankName, "", 0, 0, "", 0xff777777, mode);
+//                        }
+//                    }
+//                }
+//            }
+//        }
     }
 
     @Override

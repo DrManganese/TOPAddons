@@ -20,7 +20,7 @@ import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 import mcjty.theoneprobe.config.Config;
 
-@TOPAddon(dependency = "StorageDrawers")
+@TOPAddon(dependency = "storagedrawers")
 public class AddonStorageDrawers extends AddonBlank {
 
     @Override
@@ -37,8 +37,9 @@ public class AddonStorageDrawers extends AddonBlank {
             if (mode == ProbeMode.EXTENDED) {
                 List<ItemStack> stacks = new ArrayList<>();
                 for (int i = 0; i < tile.getDrawerCount(); i++) {
-                    ItemStack stack = tile.getDrawer(i).getStoredItemCopy();
-                    if (stack != null) {
+                    ItemStack stack = tile.getDrawer(i).getStoredItemPrototype();
+                    if (!stack.isEmpty()) {
+                        stack.setCount(tile.getDrawer(i).getStoredItemCount());
                         stacks.add(stack);
                     }
                 }
@@ -47,8 +48,8 @@ public class AddonStorageDrawers extends AddonBlank {
                     IProbeInfo vertical = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(Config.chestContentsBorderColor).spacing(0));
                     for (ItemStack stack : stacks) {
                         if (tile.isVending()) {
-                            ItemStack infiStack = ItemStack.copyItemStack(stack);
-                            infiStack.stackSize = 1;
+                            ItemStack infiStack = stack.copy();
+                            infiStack.setCount(1);
                             vertical.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                                     .item(infiStack)
                                     .vertical(probeInfo.defaultLayoutStyle().spacing(0))
@@ -56,12 +57,12 @@ public class AddonStorageDrawers extends AddonBlank {
                                     .text(TextFormatting.GRAY + "[\u221e]");
 
                         } else {
-                            int r = stack.stackSize % 64;
-                            int q = (stack.stackSize - r) / 64;
+                            int r = stack.getCount() % 64;
+                            int q = (stack.getCount() - r) / 64;
                             vertical.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).item(stack)
                                     .vertical(probeInfo.defaultLayoutStyle().spacing(0))
                                     .text(stack.getDisplayName())
-                                    .text(TextFormatting.GRAY + "[" + (stack.stackSize >= 64 ? q + "x64 + " : "") + r + "]");
+                                    .text(TextFormatting.GRAY + "[" + (stack.getCount() >= 64 ? q + "x64 + " : "") + r + "]");
                         }
                     }
             }

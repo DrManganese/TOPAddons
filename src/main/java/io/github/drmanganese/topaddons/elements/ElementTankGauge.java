@@ -58,7 +58,7 @@ public class ElementTankGauge implements IElement {
             }
 
             ElementTextRender.render((capacity > 0) ? amount + "/" + capacity + " " + suffix : "Empty", x + 3, y + 2);
-            drawSmallText(x + 99 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(fluidName) / 2, y + 13, fluidName, color1);
+            drawSmallText(x + 99 - Minecraft.getMinecraft().fontRenderer.getStringWidth(fluidName) / 2, y + 13, fluidName, color1);
         }
 
         drawSmallText(sneaking ? x + 1 :  x +2, sneaking ? y + 13 : y + 2, tankName, 0xffffffff);

@@ -15,7 +15,7 @@ import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 
-@TOPAddon(dependency = "Forge", fancyName = "Vanilla")
+@TOPAddon(dependency = "forge", fancyName = "Vanilla")
 public class AddonVanilla extends AddonBlank {
 
     private static final String[] NOTES = new String[]{

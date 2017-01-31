@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.config.network;
+package io.github.drmanganese.topaddons.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.ByteBufUtils;

@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 
 import io.github.drmanganese.topaddons.addons.AddonForestry;
 import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
@@ -16,10 +17,10 @@ import static mcjty.theoneprobe.rendering.RenderHelper.renderItemStack;
 
 public class ElementBeeHousingInventory implements IElement {
 
-    private final ItemStack[] inventoryStacks;
+    private final NonNullList<ItemStack> inventoryStacks;
     private boolean isApiary = false;
 
-    public ElementBeeHousingInventory(boolean isApiary, ItemStack[] inventoryStacks) {
+    public ElementBeeHousingInventory(boolean isApiary, NonNullList<ItemStack> inventoryStacks) {
         this.inventoryStacks = inventoryStacks;
         this.isApiary = isApiary;
     }
@@ -30,9 +31,9 @@ public class ElementBeeHousingInventory implements IElement {
             isApiary = true;
             slots = 12;
         }
-        this.inventoryStacks = new ItemStack[slots];
+        this.inventoryStacks = NonNullList.withSize(slots, ItemStack.EMPTY);
         for (int i = 0; i < slots; i++) {
-            this.inventoryStacks[i] = NetworkTools.readItemStack(buf);
+            this.inventoryStacks.set(i, NetworkTools.readItemStack(buf));
         }
     }
 
@@ -40,10 +41,10 @@ public class ElementBeeHousingInventory implements IElement {
     public void render(int x, int y) {
         Minecraft minecraft = Minecraft.getMinecraft();
         ElementRenderHelper.drawGreyBox(x + 9, y, x + 47, y + 20);
-        if (inventoryStacks[0].getItem() != Item.getItemFromBlock(Blocks.BARRIER))
-            renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks[0], x + 11, y + 2, "");
-        if (inventoryStacks[1].getItem() != Item.getItemFromBlock(Blocks.BARRIER))
-            renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks[1], x + 29, y + 2, inventoryStacks[1].stackSize + "");
+        if (inventoryStacks.get(0).getItem() != Item.getItemFromBlock(Blocks.BARRIER))
+            renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks.get(0), x + 11, y + 2, "");
+        if (inventoryStacks.get(1).getItem() != Item.getItemFromBlock(Blocks.BARRIER))
+            renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks.get(1), x + 29, y + 2, inventoryStacks.get(1).getCount() + "");
         ElementRenderHelper.drawGreyBox(x, y + 22, x + 56, y + 80);
         for (int i = 2; i < 9; i++) {
             int xPos = x + 2;
@@ -67,16 +68,16 @@ public class ElementBeeHousingInventory implements IElement {
             }
 
 
-            if (inventoryStacks[i].getItem() != Item.getItemFromBlock(Blocks.BARRIER)) {
-                renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks[i], xPos, yPos, inventoryStacks[i].stackSize + "");
+            if (inventoryStacks.get(i).getItem() != Item.getItemFromBlock(Blocks.BARRIER)) {
+                renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks.get(i), xPos, yPos, inventoryStacks.get(i).getCount() + "");
             }
         }
 
         if (isApiary) {
             ElementRenderHelper.drawGreyBox(x + 58, y + 22, x + 78, y + 80);
             for (int i = 9; i < 12; i++) {
-                if (inventoryStacks[i].getItem() != Item.getItemFromBlock(Blocks.BARRIER)) {
-                    renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks[i], x + 60, y + 24 + 19 * (i-9), "");
+                if (inventoryStacks.get(i).getItem() != Item.getItemFromBlock(Blocks.BARRIER)) {
+                    renderItemStack(minecraft, minecraft.getRenderItem(), inventoryStacks.get(i), x + 60, y + 24 + 19 * (i-9), "");
                 }
             }
         }
@@ -96,10 +97,7 @@ public class ElementBeeHousingInventory implements IElement {
     public void toBytes(ByteBuf buf) {
         buf.writeBoolean(isApiary);
         for (ItemStack inventoryStack : inventoryStacks) {
-            if (inventoryStack != null)
-                NetworkTools.writeItemStack(buf, inventoryStack);
-            else
-                NetworkTools.writeItemStack(buf, new ItemStack(Blocks.BARRIER, 0));
+            NetworkTools.writeItemStack(buf, inventoryStack);
         }
     }
 

@@ -9,8 +9,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.TOPAddons;
@@ -90,15 +90,15 @@ public class AddonForestry extends AddonBlank {
             EnumErrorCode.NOT_DARK
     );
 
-    private static void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection) {
-        addFarmElement(probeInfo, farmIcons, oneDirection, false, new ItemStack[]{});
+    private static void addFarmElement(IProbeInfo probeInfo, NonNullList<ItemStack> farmIcons, String oneDirection) {
+        addFarmElement(probeInfo, farmIcons, oneDirection, false, NonNullList.create());
     }
 
-    private static void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection, boolean showInventory, ItemStack[] inventoryStacks) {
+    private static void addFarmElement(IProbeInfo probeInfo, NonNullList<ItemStack> farmIcons, String oneDirection, boolean showInventory, NonNullList<ItemStack> inventoryStacks) {
         probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection, showInventory, inventoryStacks));
     }
 
-    private static IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, ItemStack[] inventoryStacks) {
+    private static IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, NonNullList<ItemStack> inventoryStacks) {
         return probeInfo.element(new ElementBeeHousingInventory(isApiary, inventoryStacks));
     }
 
@@ -123,7 +123,7 @@ public class AddonForestry extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (blockState.getBlock() == PluginCore.blocks.bogEarth) {
+        if (blockState.getBlock() == PluginCore.getBlocks().bogEarth) {
             probeInfo.text(TextFormatting.GREEN + "Maturity: " + blockState.getValue(BlockBogEarth.MATURITY) * 100 / 3 + "%");
         }
 
@@ -141,7 +141,7 @@ public class AddonForestry extends AddonBlank {
                 IBeeHousing beeHousing = (IBeeHousing) tile;
                 ItemStack queen = beeHousing.getBeeInventory().getQueen();
 
-                if (queen != null) {
+                if (!queen.isEmpty()) {
                     int progress = beeHousing.getBeekeepingLogic().getBeeProgressPercent();
                     probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).item(queen).progress(progress, 100, new ProgressStyleForestryMultiColored(progress).showText(false));
 
@@ -151,22 +151,22 @@ public class AddonForestry extends AddonBlank {
                 }
 
                 if (mode == ProbeMode.EXTENDED) {
-                    ItemStack[] inventoryStacks = new ItemStack[(tile instanceof TileApiary) ? 12 : 9];
+                    NonNullList<ItemStack> inventoryStacks = NonNullList.withSize((tile instanceof TileApiary) ? 12 : 9, ItemStack.EMPTY);
                     if (tile instanceof TileAlveary) {
                         for (int i = 0; i < 9; i++) {
                             ItemStack stack = ((TileAlveary) tile).getMultiblockLogic().getController().getInternalInventory().getStackInSlot(i);
-                            inventoryStacks[i] = (stack != null) ? stack : new ItemStack(Blocks.BARRIER);
+                            inventoryStacks.set(i, !stack.isEmpty() ? stack : new ItemStack(Blocks.BARRIER));
                         }
                     } else if (tile instanceof TileBeeHousingBase) {
                         for (int i = 0; i < 9; i++) {
                             ItemStack stack = ((TileBeeHousingBase) tile).getInternalInventory().getStackInSlot(i);
-                            inventoryStacks[i] = (stack != null) ? stack : new ItemStack(Blocks.BARRIER);
+                            inventoryStacks.set(i, !stack.isEmpty() ? stack : new ItemStack(Blocks.BARRIER));
                         }
 
                         if (tile instanceof TileApiary) {
                             for (int i = 9; i < 12; i++) {
                                 ItemStack stack = ((TileApiary) tile).getInternalInventory().getStackInSlot(i);
-                                inventoryStacks[i] = (stack != null) ? stack : new ItemStack(Blocks.BARRIER);
+                                inventoryStacks.set(i, !stack.isEmpty() ? stack : new ItemStack(Blocks.BARRIER));
                             }
                         }
                     }
@@ -178,7 +178,7 @@ public class AddonForestry extends AddonBlank {
             //Analyzer
             if (tile instanceof TileAnalyzer) {
                 TileAnalyzer analyzer = (TileAnalyzer) tile;
-                if (analyzer.getIndividualOnDisplay() != null) {
+                if (!analyzer.getIndividualOnDisplay().isEmpty()) {
                     probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).item(analyzer.getIndividualOnDisplay()).progress(analyzer.getProgressScaled(100), 100, new ProgressStyleForestryMultiColored(analyzer.getProgressScaled(100)));
                 }
             }
@@ -219,11 +219,11 @@ public class AddonForestry extends AddonBlank {
                 TileFarm farm = (TileFarm) tile;
 
                 EnumFacing facing = player.getHorizontalFacing();
-                ItemStack[] farmIcons = new ItemStack[5];
+                NonNullList<ItemStack> farmIcons = NonNullList.withSize(5, ItemStack.EMPTY);
                 ItemStack socket = farm.getMultiblockLogic().getController().getSocket(0);
-                farmIcons[4] = (socket != null) ? socket : new ItemStack(Blocks.BARRIER);
+                farmIcons.set(4, !socket.isEmpty() ? socket : new ItemStack(Blocks.BARRIER));
                 for (int i = 0; i < 4; i++) {
-                    farmIcons[i] = farm.getMultiblockLogic().getController().getFarmLogic(FarmDirection.getFarmDirection(facing)).getIconItemStack();
+                    farmIcons.set(i, farm.getMultiblockLogic().getController().getFarmLogic(FarmDirection.getFarmDirection(facing)).getIconItemStack());
                     facing = facing.rotateY();
                 }
 
@@ -232,13 +232,9 @@ public class AddonForestry extends AddonBlank {
                 }
 
                 if (mode == ProbeMode.EXTENDED) {
-                    ItemStack[] inventoryStacks = new ItemStack[20];
+                    NonNullList<ItemStack> inventoryStacks = NonNullList.withSize(20, ItemStack.EMPTY);
                     for (int i = 0; i < 20; i++) {
-                        if (farm.getInternalInventory().getStackInSlot(i) == null) {
-                            inventoryStacks[i] = new ItemStack(Blocks.BARRIER);
-                        } else {
-                            inventoryStacks[i] = farm.getInternalInventory().getStackInSlot(i);
-                        }
+                        inventoryStacks.set(i, farm.getInternalInventory().getStackInSlot(i));
                     }
                     addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase(), true, inventoryStacks);
                     //Maybe add tank gauge to all farm blocks, might handle in ILiquidTankTile section
@@ -274,10 +270,10 @@ public class AddonForestry extends AddonBlank {
                  *   with a progress bar in between
                  */
                 ItemStack[] wheats = new ItemStack[]{
-                        new ItemStack(Items.WHEAT, 0),
-                        new ItemStack(PluginCore.items.mouldyWheat, 0),
-                        new ItemStack(PluginCore.items.decayingWheat, 0),
-                        new ItemStack(PluginCore.items.mulch, 0)
+                        new ItemStack(Items.WHEAT, 1),
+                        new ItemStack(PluginCore.getItems().mouldyWheat, 1),
+                        new ItemStack(PluginCore.getItems().decayingWheat, 1),
+                        new ItemStack(PluginCore.getItems().mulch, 1)
                 };
 
                 TextFormatting[] arrowColors = new TextFormatting[]{
@@ -288,10 +284,10 @@ public class AddonForestry extends AddonBlank {
 
                 for (int i = 0; i < 10; i++) {
                     ItemStack stack = moistener.getInternalInventory().getStackInSlot(i);
-                    if (stack != null) {
+                    if (!stack.isEmpty()) {
                         for (int j = 0; j < wheats.length; j++) {
                             if (stack.isItemEqual(wheats[j])) {
-                                wheats[j].stackSize += stack.stackSize;
+                                wheats[j].grow(stack.getCount() - 1);
                                 if (i == 9) {
                                     arrowColors[j] = TextFormatting.WHITE;
                                 }
@@ -310,7 +306,7 @@ public class AddonForestry extends AddonBlank {
                         .text(arrowColors[2] + "\u25b6")
                         .item(wheats[3]);
 
-                if (moistener.getInternalInventory().getStackInSlot(11) != null) {
+                if (!moistener.getInternalInventory().getStackInSlot(11).isEmpty()) {
                     probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                             .item(moistener.getInternalInventory().getStackInSlot(11))
                             .progress(15 - moistener.getProductionProgressScaled(15), 15, probeInfo.defaultProgressStyle().showText(false))
@@ -333,19 +329,17 @@ public class AddonForestry extends AddonBlank {
              * Show all errors if sneaking
              * Show important errors always (defined in {@link NORMAL_STATES}
              *
-             * Using deprecated I18n here because it exists on the server.
              * \u21aa = ↪
              */
             if (errorStates.size() > 0) {
                 probeInfo.text(TextFormatting.RED + "Can't work");
                 errorStates.forEach(state -> {
-                    if (mode == ProbeMode.EXTENDED || NORMAL_STATES.contains(state) && !player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("forestryReasonCrouch"))
-                        probeInfo.text(TextFormatting.RED + "\u21aa " + I18n.translateToLocal(state.getUnlocalizedDescription()));
+                    if (mode == ProbeMode.EXTENDED || NORMAL_STATES.contains(state) && !player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("forestryReasonCrouch")) {
+                        probeInfo.text(TextFormatting.RED + "\u21aa " + Names.getTranslation(state.getUnlocalizedDescription(), player));
+                    }
                 });
             }
         }
-
-
     }
 
     @Override
@@ -403,21 +397,21 @@ public class AddonForestry extends AddonBlank {
 
     }
 
-    private ItemStack[] reorderBeeInvStacks(ItemStack[] old) {
-        ItemStack[] ret = new ItemStack[old.length];
-        ret[0] = old[0];
-        ret[1] = old[1];
-        ret[2] = old[7];
-        ret[3] = old[6];
-        ret[4] = old[8];
-        ret[5] = old[2];
-        ret[6] = old[5];
-        ret[7] = old[3];
-        ret[8] = old[4];
-        if (old.length > 9) {
-            ret[9] = old[9];
-            ret[10] = old[10];
-            ret[11] = old[11];
+    private NonNullList<ItemStack> reorderBeeInvStacks(NonNullList<ItemStack> old) {
+        NonNullList<ItemStack> ret = NonNullList.withSize(old.size(), ItemStack.EMPTY);
+        ret.set(0, old.get(0));
+        ret.set(1, old.get(1));
+        ret.set(2, old.get(7));
+        ret.set(3, old.get(6));
+        ret.set(4, old.get(8));
+        ret.set(5, old.get(2));
+        ret.set(6, old.get(5));
+        ret.set(7, old.get(3));
+        ret.set(8, old.get(4));
+        if (old.size() > 9) {
+            ret.set(9, old.get(9));
+            ret.set(10, old.get(10));
+            ret.set(11, old.get(11));
         }
 
         return ret;

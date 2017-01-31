@@ -11,8 +11,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 import io.github.drmanganese.topaddons.TOPAddons;
-import io.github.drmanganese.topaddons.config.network.MessageClientOption;
-import io.github.drmanganese.topaddons.config.network.PacketHandler;
+import io.github.drmanganese.topaddons.network.MessageClientOption;
+import io.github.drmanganese.topaddons.network.PacketHandler;
 import io.github.drmanganese.topaddons.reference.Names;
 
 import com.google.common.collect.Lists;
@@ -27,26 +27,26 @@ public class CommandTOPAddons implements ICommand {
 
     @Nonnull
     @Override
-    public String getCommandName() {
+    public String getName() {
         return "topaddons";
     }
 
     @Nonnull
     @Override
-    public String getCommandUsage(@Nonnull ICommandSender sender) {
+    public String getUsage(@Nonnull ICommandSender sender) {
         return "/topaddons [option] <0/1>\n/topaddons [option] <0-" + Integer.MAX_VALUE + ">";
     }
 
     @Nonnull
     @Override
-    public List<String> getCommandAliases() {
+    public List<String> getAliases() {
         return Lists.newArrayList("topaddons");
     }
 
     @Override
     public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
         if (args.length < 2) {
-            sender.addChatMessage(new TextComponentString(getCommandUsage(sender)));
+            sender.sendMessage(new TextComponentString(getUsage(sender)));
         } else {
 
             if (Names.clientConfigOptions.containsKey(args[0])) {
@@ -55,22 +55,22 @@ public class CommandTOPAddons implements ICommand {
                 try {
                     value = Integer.valueOf(args[1]);
                 } catch (NumberFormatException e) {
-                    sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Please enter a number as your second argument"));
+                    sender.sendMessage(new TextComponentString(TextFormatting.RED + "Please enter a number as your second argument"));
                     return;
                 }
 
                 if (Names.clientConfigOptions.get(option) == Boolean.TYPE) {
                     if (value > 1 || value < 0) {
-                        sender.addChatMessage(new TextComponentString(TextFormatting.RED + "Accepted VALUES for " + option + ": 0-1"));
+                        sender.sendMessage(new TextComponentString(TextFormatting.RED + "Accepted VALUES for " + option + ": 0-1"));
                         return;
                     }
                 }
 
                 PacketHandler.INSTANCE.sendTo(new MessageClientOption(option, value), (EntityPlayerMP) sender);
                 ((EntityPlayerMP) sender).getCapability(TOPAddons.OPTS_CAP, null).setOption(option, value);
-                sender.addChatMessage(new TextComponentString(TextFormatting.GREEN + "Config changed!"));
+                sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Config changed!"));
             } else {
-                sender.addChatMessage(new TextComponentString(TextFormatting.RED + args[0] + " is not a valid option."));
+                sender.sendMessage(new TextComponentString(TextFormatting.RED + args[0] + " is not a valid option."));
             }
         }
     }
@@ -82,7 +82,7 @@ public class CommandTOPAddons implements ICommand {
 
     @Nonnull
     @Override
-    public List<String> getTabCompletionOptions(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args, @Nullable BlockPos pos) {
+    public List<String> getTabCompletions(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args, @Nullable BlockPos pos) {
         List<String> opts = new ArrayList<>();
         if (args.length == 1) {
             opts.addAll(Names.clientConfigOptions.keySet());
@@ -101,7 +101,7 @@ public class CommandTOPAddons implements ICommand {
 
     @Override
     public int compareTo(@Nonnull ICommand o) {
-        return getCommandName().compareTo(o.getCommandName());
+        return getName().compareTo(o.getName());
     }
 
 }

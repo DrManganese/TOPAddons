@@ -12,8 +12,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import io.github.drmanganese.topaddons.config.ConfigClient;
-import io.github.drmanganese.topaddons.config.network.MessageClientOptions;
-import io.github.drmanganese.topaddons.config.network.PacketHandler;
+import io.github.drmanganese.topaddons.network.MessageClientOptions;
+import io.github.drmanganese.topaddons.network.PacketHandler;
 import io.github.drmanganese.topaddons.reference.Reference;
 
 import javax.annotation.Nullable;
@@ -43,7 +43,7 @@ public class CapEvents {
 
     @SubscribeEvent
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if (event.getWorld().isRemote && event.getEntity() == Minecraft.getMinecraft().thePlayer) {
+        if (event.getWorld().isRemote && event.getEntity() == Minecraft.getMinecraft().player) {
             //noinspection VariableUseSideOnly
             PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(ConfigClient.VALUES, (EntityPlayer) event.getEntity()));
         }

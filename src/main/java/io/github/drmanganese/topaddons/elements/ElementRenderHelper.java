@@ -10,9 +10,9 @@ public final class ElementRenderHelper {
         Minecraft mc = Minecraft.getMinecraft();
         GlStateManager.pushMatrix();
         GlStateManager.scale(0.5F, 0.5F, 1.0F);
-        mc.fontRendererObj.drawStringWithShadow(text, x * 2, y * 2, color);
+        mc.fontRenderer.drawStringWithShadow(text, x * 2, y * 2, color);
         GlStateManager.popMatrix();
-        return mc.fontRendererObj.getStringWidth(text) / 2;
+        return mc.fontRenderer.getStringWidth(text) / 2;
     }
 
     public static void drawGreyBox(int x, int y, int x2, int y2) {

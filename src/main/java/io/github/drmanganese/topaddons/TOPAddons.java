@@ -21,7 +21,7 @@ import io.github.drmanganese.topaddons.config.ConfigClient;
 import io.github.drmanganese.topaddons.config.capabilities.CapEvents;
 import io.github.drmanganese.topaddons.config.capabilities.ClientOptsCapability;
 import io.github.drmanganese.topaddons.config.capabilities.IClientOptsCapability;
-import io.github.drmanganese.topaddons.config.network.PacketHandler;
+import io.github.drmanganese.topaddons.network.PacketHandler;
 import io.github.drmanganese.topaddons.helmets.CommandTOPHelmet;
 import io.github.drmanganese.topaddons.helmets.ProbedHelmetCrafting;
 import io.github.drmanganese.topaddons.helmets.UnprobedHelmetCrafting;
@@ -37,12 +37,12 @@ import java.io.File;
         name = Reference.MOD_NAME,
         version = Reference.VERSION,
         guiFactory = Reference.GUI_FACTORY,
-        acceptedMinecraftVersions = "[1.9.4,1.10.2]",
-        dependencies = "required-after:theoneprobe@[1.3.0,);" +
+        acceptedMinecraftVersions = "[1.11,)",
+        dependencies = "required-after:theoneprobe@[1.4.0,);" +
                 "after:forestry;" +
                 "after:tconstruct;" +
                 "after:bloodmagic;" +
-                "after:StorageDrawers;" +
+                "after:storagedrawers;" +
                 "after:Botania;" +
                 "after:IC2;" +
                 "after:neotech;",

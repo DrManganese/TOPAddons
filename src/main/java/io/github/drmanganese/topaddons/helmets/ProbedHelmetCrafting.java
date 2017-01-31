@@ -6,6 +6,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
@@ -16,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import mcjty.theoneprobe.items.ModItems;
 
@@ -36,7 +36,7 @@ public class ProbedHelmetCrafting implements IRecipe {
 
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             ItemStack stack = inv.getStackInSlot(i);
-            if (stack != null) {
+            if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == EntityEquipmentSlot.HEAD && !helmet) {
                     if (Config.Helmets.allHelmetsProbable && !ProbedHelmetCrafting.neverCraftList.contains(stack.getItem().getRegistryName().toString()) && !Config.Helmets.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !Config.Helmets.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
                         helmet = !stack.hasTagCompound() || !stack.getTagCompound().hasKey(PROBETAG);
@@ -52,13 +52,13 @@ public class ProbedHelmetCrafting implements IRecipe {
         return helmet && probe;
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public ItemStack getCraftingResult(@Nonnull InventoryCrafting inv) {
-        ItemStack helmet = null;
+        ItemStack helmet = ItemStack.EMPTY;
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             ItemStack stack = inv.getStackInSlot(i);
-            if (stack != null) {
+            if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof ItemArmor) {
                     helmet = stack.copy();
                 }
@@ -77,7 +77,7 @@ public class ProbedHelmetCrafting implements IRecipe {
             return helmet;
         }
 
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -85,15 +85,15 @@ public class ProbedHelmetCrafting implements IRecipe {
         return 10;
     }
 
-    @Nullable
+    @Nonnull
     @Override
     public ItemStack getRecipeOutput() {
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Nonnull
     @Override
-    public ItemStack[] getRemainingItems(@Nonnull InventoryCrafting inv) {
+    public NonNullList<ItemStack> getRemainingItems(@Nonnull InventoryCrafting inv) {
         return ForgeHooks.defaultRecipeGetRemainingItems(inv);
     }
 }

@@ -63,12 +63,12 @@ public class ElementAltarCrafting implements IElement {
         GlStateManager.disableBlend();
 
         String text = progress + "/" + required  + " LP";
-        ElementRenderHelper.drawSmallText(x + 50 - mc.fontRendererObj.getStringWidth(text)/4, y + 6, text, 0xffffffff);
+        ElementRenderHelper.drawSmallText(x + 50 - mc.fontRenderer.getStringWidth(text)/4, y + 6, text, 0xffffffff);
         if (input.getItem() instanceof IBloodOrb)
             text = "Filling network";
         else
             text = "Consumption: " + consumption + " LP";
-        ElementRenderHelper.drawSmallText(x + 50 - mc.fontRendererObj.getStringWidth(text)/4, y + 14, text, 0xffffffff);
+        ElementRenderHelper.drawSmallText(x + 50 - mc.fontRenderer.getStringWidth(text)/4, y + 14, text, 0xffffffff);
     }
 
     @Override

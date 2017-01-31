@@ -85,7 +85,7 @@ public class ElementSmelteryTank implements IElement {
                 drawVerticalProgress(x, y - yOffset, fluid.amount, capacity, fluid.color, fluid.darker, fluid.height);
                 String text = fluid.amount + "mB of " + fluid.name;
                 //noinspection MethodCallSideOnly
-                drawSmallText(x + 98 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(text) / 2, y + gaugeHeight - 4 - yOffset, text, fluid.brighter2);
+                drawSmallText(x + 98 - Minecraft.getMinecraft().fontRenderer.getStringWidth(text) / 2, y + gaugeHeight - 4 - yOffset, text, fluid.brighter2);
             }
             for (int i = 1; i < 10; i++) {
                 RenderHelper.drawHorizontalLine(x + 1, y + 10 * i, x + (i == 5 ? 99 : (i % 2 == 0) ? 25 : 15), 0xaa767676);
