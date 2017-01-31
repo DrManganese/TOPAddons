@@ -6,11 +6,13 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 
 ## Currenty supports:
 
-### Forge
+##### &#129069;: Updated to 1.11
+
+### Forge &#129069;
 
 - Tank display
 
-### Forestry ([album](http://imgur.com/a/APS3S))
+### Forestry ([album](http://imgur.com/a/APS3S)) &#129069;
 
 - Error messages for all blocks with GUIs that display them
 - Internal tank display
@@ -30,7 +32,7 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - Incense altar tranquility and sacrifice bonus (requires divination/seer sigil)
 - Filter configuration for routing nodes (side-sensitive)
 
-### Storage Drawers ([album](http://imgur.com/lXSgOm5))
+### Storage Drawers ([album](http://imgur.com/lXSgOm5)) &#129069;
 
 - More detailed information on stored item stacks
 - Stack capacity
@@ -43,6 +45,13 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - Heat display
 - TFBP display
 - ...
+
+### NeoTech ([album](http://imgur.com/a/n1Zd4))
+
+- Progress on all processing machines (Electric Furnace, Solidifer, Alloyer, etc.)
+- Grinding progress for Grinder and any pressure plate right above it
+- RF/t on generating machines (Solar Panels, Furnace Generator, etc.)
+- Errors, axe durability and logging range on Electric Logger
 
 *Also works in sigil of holding
 
