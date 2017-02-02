@@ -49,26 +49,32 @@ public class AddonManager {
                         }
                     }
 
-                    try {
-                        Class<?> clazz = Class.forName(asmData.getClassName());
-                        /** Does {@link clazz} implement/extend {@link ITOPAddon} */
-                        if (ITOPAddon.class.isAssignableFrom(clazz)) {
-                            ITOPAddon instance = (ITOPAddon) clazz.newInstance();
-                            numHelmets = addHelmets(instance);
-                            ADDONS.add(instance);
+
+                    if (dependency.equals("IC2") && Loader.isModLoaded("IC2-Classic-Spmod")) {
+                        TOPAddons.LOGGER.info("IC2 Classic found, skipping addon IC2");
+                        success = false;
+                    } else {
+                        try {
+                            Class<?> clazz = Class.forName(asmData.getClassName());
+                            /** Does {@link clazz} implement/extend {@link ITOPAddon} */
+                            if (ITOPAddon.class.isAssignableFrom(clazz)) {
+                                ITOPAddon instance = (ITOPAddon) clazz.newInstance();
+                                numHelmets = addHelmets(instance);
+                                ADDONS.add(instance);
+                            }
+                        } catch (ClassNotFoundException e) {
+                            TOPAddons.LOGGER.fatal("Classloader error while trying to create addon {}.", fancyName);
+                            e.printStackTrace();
+                            success = false;
+                        } catch (InstantiationException e) {
+                            TOPAddons.LOGGER.error("Addon {} couldn't be instantiated, does its class have a constructor?", fancyName);
+                            e.printStackTrace();
+                            success = false;
+                        } catch (IllegalAccessException e) {
+                            TOPAddons.LOGGER.error("Couldn't access constructor for addon {}.", fancyName);
+                            e.printStackTrace();
+                            success = false;
                         }
-                    } catch (ClassNotFoundException e) {
-                        TOPAddons.LOGGER.fatal("Classloader error while trying to create addon {}.", fancyName);
-                        e.printStackTrace();
-                        success = false;
-                    } catch (InstantiationException e) {
-                        TOPAddons.LOGGER.error("Addon {} couldn't be instantiated, does its class have a constructor?", fancyName);
-                        e.printStackTrace();
-                        success = false;
-                    } catch (IllegalAccessException e) {
-                        TOPAddons.LOGGER.error("Couldn't access constructor for addon {}.", fancyName);
-                        e.printStackTrace();
-                        success = false;
                     }
 
                     if (success) {
