@@ -13,6 +13,11 @@ import java.util.Set;
 
 public class Config {
 
+    public static class AgriCraft {
+        public static boolean extendedMode = true;
+        static final String CATEGORY = "AgriCraft";
+    }
+
     public static class BloodMagic {
         public static boolean requireSigil = true;
         static final String CATEGORY = "Blood Magic";
@@ -39,6 +44,7 @@ public class Config {
     public static void init(Configuration config) {
         config.load();
 
+        AgriCraft.extendedMode = config.getBoolean("extendedMode", AgriCraft.CATEGORY, true, "Require a Probe to see growth stages");
         BloodMagic.requireSigil = config.getBoolean("requireSigil", BloodMagic.CATEGORY, true, "Is holding a divination sigil required to see certain information.");
         Forge.showTankGauge = config.getBoolean("showTankGauge", Forge.CATEGORY, true, "Show tank gauge for internal tanks on most Tile Entities.");
         Vanilla.noteBlock = config.getBoolean("noteBlockPitch", Vanilla.CATEGORY, true, "Show note block pitch and instrument.");
