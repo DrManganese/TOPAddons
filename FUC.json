@@ -3,12 +3,14 @@
   "1.10.2": {
     "1.10.2-0.8.0": "- [Forge] Fluid gauges on outdated IFluidHandler tiles\n- [TiCon] Drying rack progress, removed casting table progress, fixed smeltery tank appearance\n - [StorageDrawers] Better integration with 1.2.0 TOP changes\n - [IC²] Started support, EU bars (on most tiles), progress bars, teleporter coords, hU display, TFBP, probing helmet chips",
     "1.10.2-0.9.0": "- All helmets are now \"probifiable\", this behaviour can be turned off or customized via blacklist and in-game commands (/tophelmet)\n- Added client-only configs + commands (/topaddons)\n- [IC²] Only show consumption/progress in extended mode",
-    "1.10.2-0.9.1": "- Attempt at fixing the NPE on world joins"
+    "1.10.2-0.9.1": "- Attempt at fixing the NPE on world joins",
+    "1.10.2-0.10.0": "- Added AgriCraft support (mallrat208)"
   },
   "1.9.4": {
     "1.10.2-0.8.0": "- [Forge] Fluid gauges on outdated IFluidHandler tiles\n- [TiCon] Drying rack progress, removed casting table progress, fixed smeltery tank appearance\n - [StorageDrawers] Better integration with 1.2.0 TOP changes\n - [IC²] Started support, EU bars (on most tiles), progress bars, teleporter coords, hU display, TFBP, probing helmet chips",
     "1.10.2-0.9.0": "- All helmets are now \"probifiable\", this behaviour can be turned off or customized via blacklist and in-game commands (/tophelmet)\n- Added client-only configs + commands (/topaddons)\n- [IC²] Only show consumption/progress in extended mode",
-    "1.10.2-0.9.1": "- Attempt at fixing the NPE on world joins"
+    "1.10.2-0.9.1": "- Attempt at fixing the NPE on world joins",
+    "1.10.2-0.10.0": "- Added AgriCraft support (mallrat208)"
   },
   "1.11.2": {
     "1.11.2-0.9.2": "- Port to 1.11\n- Better localization handling for Forestry\n- Ported Forge, Vanilla, Forestry and Storage Drawers addons to 1.11"
@@ -16,9 +18,9 @@
   "promos": {
     "1.11.2-latest": "1.11.2-0.9.2",
     "1.11.2-recommended": "1.11.2-0.9.2",
-    "1.10.2-latest": "1.10.2-0.9.1",
-    "1.10.2-recommended": "1.10.2-0.9.1",
-    "1.9.4-latest": "1.10.2-0.9.1",
-    "1.9.4-recommended": "1.10.2-0.9.1"
+    "1.10.2-latest": "1.10.2-0.10.0",
+    "1.10.2-recommended": "1.10.2-0.10.0",
+    "1.9.4-latest": "1.10.2-0.10.0",
+    "1.9.4-recommended": "1.10.2-0.10.0"
   }
 }

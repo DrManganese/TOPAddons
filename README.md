@@ -53,6 +53,11 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - RF/t on generating machines (Solar Panels, Furnace Generator, etc.)
 - Errors, axe durability and logging range on Electric Logger
 
+### AgriCraft
+
+- Show crop growth stages (requires probe by default)
+- Soil, seed name
+
 *Also works in sigil of holding
 
 ## Probing Helmets
