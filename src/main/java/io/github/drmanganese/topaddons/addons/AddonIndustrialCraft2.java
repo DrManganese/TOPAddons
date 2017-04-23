@@ -38,7 +38,7 @@ import mcjty.theoneprobe.api.NumberFormat;
 import mcjty.theoneprobe.api.ProbeMode;
 import mcjty.theoneprobe.config.Config;
 
-@TOPAddon(dependency = "IC2", order = 0)
+@TOPAddon(dependency = "ic2", order = 0)
 public class AddonIndustrialCraft2 extends AddonBlank {
 
     @Override

@@ -38,13 +38,13 @@ import java.io.File;
         version = Reference.VERSION,
         guiFactory = Reference.GUI_FACTORY,
         acceptedMinecraftVersions = "[1.11,)",
-        dependencies = "required-after:theoneprobe@[1.4.0,);" +
+        dependencies = "required-after:theoneprobe@[1.4.6,);" +
                 "after:forestry;" +
                 "after:tconstruct;" +
                 "after:bloodmagic;" +
                 "after:storagedrawers;" +
-                "after:Botania;" +
-                "after:IC2;" +
+                "after:botania;" +
+                "after:ic2;" +
                 "after:neotech;",
         updateJSON = "https://raw.githubusercontent.com/DrManganese/TOPAddons/master/FUC.json"
 )

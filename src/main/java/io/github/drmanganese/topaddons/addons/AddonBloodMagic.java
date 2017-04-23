@@ -45,7 +45,7 @@ import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 
-@TOPAddon(dependency = "BloodMagic")
+@TOPAddon(dependency = "bloodmagic")
 public class AddonBloodMagic extends AddonBlank {
 
     public static int ELEMENT_NODE_FILTER;
@@ -88,7 +88,7 @@ public class AddonBloodMagic extends AddonBlank {
 
                 if (altar instanceof TileAltar && holdingSeer) {
                     ItemStack input = ((TileAltar) altar).getStackInSlot(0);
-                    if (input == null) return;
+                    if (input.isEmpty()) return;
                     BloodAltar bloodAltar = ReflectionHelper.getPrivateValue(TileAltar.class, (TileAltar) altar, "bloodAltar");
 
                     if (input.getItem() instanceof IBloodOrb) {
@@ -97,7 +97,7 @@ public class AddonBloodMagic extends AddonBlank {
                         addAltarCraftingElement(probeInfo, input, new ItemStack(WayofTime.bloodmagic.registry.ModItems.BLOOD_ORB, 1, network.getOrbTier() - 1), network.getCurrentEssence(), orb.getCapacity(), 0);
                     } else if (altar.isActive()) {
                         ItemStack result = ReflectionHelper.getPrivateValue(BloodAltar.class, bloodAltar, "result");
-                        if (result != null) {
+                        if (!result.isEmpty()) {
                             addAltarCraftingElement(probeInfo, input, result, bloodAltar.getProgress(), bloodAltar.getLiquidRequired(), bloodAltar.getConsumptionRate());
                         }
                     }
@@ -108,7 +108,7 @@ public class AddonBloodMagic extends AddonBlank {
             if (tile instanceof TileFilteredRoutingNode && !(tile instanceof IMasterRoutingNode)) {
                 TileFilteredRoutingNode node = (TileFilteredRoutingNode) tile;
                 ItemStack filterStack = node.getFilterStack(data.getSideHit());
-                if (filterStack != null) {
+                if (!filterStack.isEmpty()) {
                     BlockPos sidePos = data.getPos().offset(data.getSideHit());
                     if (world.getTileEntity(sidePos) != null) {
                         IBlockState sideState = world.getBlockState(sidePos);
@@ -132,18 +132,18 @@ public class AddonBloodMagic extends AddonBlank {
     }
 
     private void addAltarCraftingElement(IProbeInfo probeInfo, ItemStack input, ItemStack result, int progress, int required, float consumption) {
-        probeInfo.element(new ElementAltarCrafting(input, result, progress, required * input.stackSize, consumption));
+        probeInfo.element(new ElementAltarCrafting(input, result, progress, required * input.getCount(), consumption));
     }
 
     @SuppressWarnings("ConstantConditions")
     private boolean isAltarSeer(ItemStack heldStack) {
-        if (heldStack == null)
+        if (heldStack.isEmpty())
             return false;
 
         if (heldStack.getItem() instanceof IAltarReader) {
             if (heldStack.getItem() instanceof ItemSigilHolding) {
                 ItemStack currentHoldingStack = ItemSigilHolding.getItemStackInSlot(heldStack, (ItemSigilHolding.getCurrentItemOrdinal(heldStack)));
-                return currentHoldingStack != null && currentHoldingStack.getItem() instanceof IAltarReader;
+                return !currentHoldingStack.isEmpty() && currentHoldingStack.getItem() instanceof IAltarReader;
             }
 
             return true;
@@ -153,6 +153,6 @@ public class AddonBloodMagic extends AddonBlank {
     }
 
     private boolean holdingSeer(ItemStack heldStack) {
-        return heldStack != null && heldStack.getItem() instanceof ItemSigilSeer;
+        return !heldStack.isEmpty() && heldStack.getItem() instanceof ItemSigilSeer;
     }
 }

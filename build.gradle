@@ -34,8 +34,10 @@ repositories {
 dependencies {
     //Storage drawers (+ Chameleon), Botania, ...
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.1x-1.4.1-51"
-    compile "net.sengir.forestry:forestry_1.11.2:5.3.0.30"
+    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.1x-1.4.6-56"
+    compile "net.sengir.forestry:forestry_1.11.2:5.3.3.93"
+    deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.11-2.1.8-77"
+    deobfCompile "net.industrial-craft:industrialcraft-2:2.7.9-ex111"
 }
 
 
@@ -81,14 +83,10 @@ jar {
 sourceSets {
     main {
         java {
-            exclude '**/addons/AddonBloodMagic.java'
-            exclude '**/addons/AddonIndustrialCraft2.java'
             exclude '**/addons/AddonBotania.java'
-            exclude '**/addons/AddonNeoTech.java'
             exclude '**/addons/AddonTinkersConstruct.java'
 
             exclude '**/elements/tconstruct/**'
-            exclude '**/elements/bloodmagic/**'
         }
     }
 }
