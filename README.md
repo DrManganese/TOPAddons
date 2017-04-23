@@ -25,7 +25,7 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - Extended view of fluids inside the controller when sneaking
 - Drying rack progress
 
-### Blood Magic: Alchemical Wizardry ([album](http://imgur.com/a/t9aNg))
+### Blood Magic: Alchemical Wizardry ([album](http://imgur.com/a/t9aNg)) &#129069;
 
 - Altar tier and Essence contents (requires divination/seer sigil*)
 - Altar crafting progress (requires seer sigil)
@@ -37,7 +37,7 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - More detailed information on stored item stacks
 - Stack capacity
 
-### IndustrialCraft 2 ([album](http://imgur.com/a/8jY8H))
+### IndustrialCraft 2 ([album](http://imgur.com/a/8jY8H)) &#129069;
 
 - EU bar on most tiles (availability of stored energy varies because of protected/private fields)
 - Progress bars on many machine tiles
@@ -46,17 +46,12 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - TFBP display
 - ...
 
-### NeoTech ([album](http://imgur.com/a/n1Zd4))
+### NeoTech ([album](http://imgur.com/a/n1Zd4))  &#129069;
 
 - Progress on all processing machines (Electric Furnace, Solidifer, Alloyer, etc.)
-- Grinding progress for Grinder and any pressure plate right above it
+- Grinding progress for Grinder and any pressure plate right above it ~~&#129069;~~
 - RF/t on generating machines (Solar Panels, Furnace Generator, etc.)
-- Errors, axe durability and logging range on Electric Logger
-
-### AgriCraft
-
-- Show crop growth stages (requires probe by default)
-- Soil, seed name
+- Axe durability and logging range on Electric Logger
 
 *Also works in sigil of holding
 

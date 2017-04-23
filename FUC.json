@@ -13,11 +13,12 @@
     "1.10.2-0.10.0": "- Added AgriCraft support (mallrat208)"
   },
   "1.11.2": {
-    "1.11.2-0.9.2": "- Port to 1.11\n- Better localization handling for Forestry\n- Ported Forge, Vanilla, Forestry and Storage Drawers addons to 1.11"
+    "1.11.2-0.9.2": "- Port to 1.11\n- Better localization handling for Forestry\n- Ported Forge, Vanilla, Forestry and Storage Drawers addons to 1.11",
+    "1.11.2-0.10.0": "- Ported Neotech, IC², Blood Magic to 1.11\n - No more Neotech Grinder (not present in 1.11 version), removed Logger sapling error (access control)"
   },
   "promos": {
-    "1.11.2-latest": "1.11.2-0.9.2",
-    "1.11.2-recommended": "1.11.2-0.9.2",
+    "1.11.2-latest": "1.11.2-0.10.0",
+    "1.11.2-recommended": "1.11.2-0.10.0",
     "1.10.2-latest": "1.10.2-0.10.0",
     "1.10.2-recommended": "1.10.2-0.10.0",
     "1.9.4-latest": "1.10.2-0.10.0",
