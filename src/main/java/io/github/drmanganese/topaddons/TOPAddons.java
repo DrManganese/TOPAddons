@@ -46,7 +46,8 @@ import java.io.File;
                 "after:Botania;" +
                 "after:IC2;" +
                 "after:neotech;" +
-                "after:agricraft;",
+                "after:agricraft;" +
+                "after:chickens",
         updateJSON = "https://raw.githubusercontent.com/DrManganese/TOPAddons/master/FUC.json"
 )
 public class TOPAddons {
