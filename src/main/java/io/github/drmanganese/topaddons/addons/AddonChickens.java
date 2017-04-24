@@ -8,6 +8,7 @@ import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.api.TOPAddon;
 
+import com.setycz.chickens.ChickensMod;
 import com.setycz.chickens.chicken.EntityChickensChicken;
 
 import mcjty.theoneprobe.api.IProbeHitData;
@@ -37,7 +38,7 @@ public class AddonChickens extends AddonBlank {
 
 
             if (mode == ProbeMode.EXTENDED) {
-                if (chicken.getStatsAnalyzed()) {
+                if (chicken.getStatsAnalyzed() || ChickensMod.instance.getAlwaysShowStats()) {
                     IProbeInfo vert = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(0xff5555ff));
                     textPrefixed(vert, "Growth", String.valueOf(chicken.getGrowth()), TextFormatting.GRAY);
                     textPrefixed(vert, "Gain", String.valueOf(chicken.getGain()), TextFormatting.GRAY);
