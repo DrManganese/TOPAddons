@@ -28,6 +28,11 @@ public class Config {
         static final String CATEGORY = "Forge";
     }
 
+    public static class MooFluids {
+        public static boolean showFluid = true;
+        static final String CATEGORY = "Moo Fluids";
+    }
+
     public static class Vanilla {
         public static boolean noteBlock = true;
         static final String CATEGORY = "Vanilla";
@@ -47,6 +52,7 @@ public class Config {
         AgriCraft.extendedMode = config.getBoolean("extendedMode", AgriCraft.CATEGORY, true, "Require a Probe to see growth stages");
         BloodMagic.requireSigil = config.getBoolean("requireSigil", BloodMagic.CATEGORY, true, "Is holding a divination sigil required to see certain information.");
         Forge.showTankGauge = config.getBoolean("showTankGauge", Forge.CATEGORY, true, "Show tank gauge for internal tanks on most Tile Entities.");
+        MooFluids.showFluid = config.getBoolean("showFluid", MooFluids.CATEGORY, true, "Show the Fluid of Fluid Cows");
         Vanilla.noteBlock = config.getBoolean("noteBlockPitch", Vanilla.CATEGORY, true, "Show note block pitch and instrument.");
         Helmets.allHelmetsProbable = config.getBoolean("allHelmetsProbable", Helmets.CATEGORY, true, "All non-blacklisted helmets can be combined with a probe.\n!!! When this is false you can't uncraft previously probified helmets !!!");
         Helmets.helmetBlacklist = config.getStringList("helmetBlacklist", Helmets.CATEGORY, Helmets.helmetBlacklist, "Put registry names of helmets that shouldn't be combinable with a probe");
