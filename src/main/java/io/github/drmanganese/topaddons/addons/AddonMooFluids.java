@@ -30,7 +30,7 @@ public class AddonMooFluids extends AddonBlank {
 
 			Fluid cowFluid = ((EntityFluidCow) entity).getEntityFluid();
 			FluidStack fluid = new FluidStack(cowFluid,1000);
-			probeInfo.text("Fluid: " + fluid.getLocalizedName());
+			textPrefixed(probeInfo,"Fluid", fluid.getLocalizedName());
 		}
 	}
 }
