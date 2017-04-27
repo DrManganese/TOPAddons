@@ -12,9 +12,12 @@ import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Reference;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import mcjty.theoneprobe.api.IBlockDisplayOverride;
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
@@ -84,4 +87,8 @@ public abstract class AddonBlank implements ITOPAddon {
 
     }
 
+    @Override
+    public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
+        return Collections.emptyList();
+    }
 }
