@@ -20,6 +20,7 @@ public class Config {
 
     public static class BloodMagic {
         public static boolean requireSigil = true;
+        public static boolean seeMimickWithSigil = true;
         static final String CATEGORY = "Blood Magic";
     }
 
@@ -51,6 +52,7 @@ public class Config {
 
         AgriCraft.extendedMode = config.getBoolean("extendedMode", AgriCraft.CATEGORY, true, "Require a Probe to see growth stages");
         BloodMagic.requireSigil = config.getBoolean("requireSigil", BloodMagic.CATEGORY, true, "Is holding a divination sigil required to see certain information.");
+        BloodMagic.seeMimickWithSigil = config.getBoolean("seeMimickWithSigil", BloodMagic.CATEGORY, true, "Shows the player that they're looking at a mimick block when holding a seer sigil.");
         Forge.showTankGauge = config.getBoolean("showTankGauge", Forge.CATEGORY, true, "Show tank gauge for internal tanks on most Tile Entities.");
         MooFluids.showFluid = config.getBoolean("showFluid", MooFluids.CATEGORY, true, "Show the Fluid of Fluid Cows");
         Vanilla.noteBlock = config.getBoolean("noteBlockPitch", Vanilla.CATEGORY, true, "Show note block pitch and instrument.");

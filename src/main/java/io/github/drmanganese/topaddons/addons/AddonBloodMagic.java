@@ -165,7 +165,7 @@ public class AddonBloodMagic extends AddonBlank {
                 textPrefixed(probeInfo, "Bonus", (int) (altar.incenseAddition * 100) + "%", TextFormatting.RED);
             }
 
-            if (tile instanceof TileMimic && holdingSeer) {
+            if (tile instanceof TileMimic &&  (!Config.BloodMagic.seeMimickWithSigil || holdingSeer)) {
                 ItemStack mimicStack = ((TileMimic) world.getTileEntity(data.getPos())).getStackInSlot(0);
                 if (mimicStack != null) {
                     probeInfo.text(TextFormatting.GRAY + data.getPickBlock().getDisplayName());
