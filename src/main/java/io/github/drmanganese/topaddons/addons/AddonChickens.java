@@ -49,4 +49,16 @@ public class AddonChickens extends AddonBlank {
             }
         }
     }
+
+    public static void addChickensChickenInfo(IProbeInfo probeInfo, Entity entity) {
+        if (entity instanceof EntityChickensChicken) {
+            EntityChickensChicken chicken = (EntityChickensChicken) entity;
+            if (chicken.getStatsAnalyzed() || ChickensMod.instance.getAlwaysShowStats()) {
+                IProbeInfo vert = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(0xff5555ff));
+                textPrefixed(vert, "Growth", String.valueOf(chicken.getGrowth()), TextFormatting.GRAY);
+                textPrefixed(vert, "Gain", String.valueOf(chicken.getGain()), TextFormatting.GRAY);
+                textPrefixed(vert, "Strength", String.valueOf(chicken.getStrength()), TextFormatting.GRAY);
+            }
+        }
+    }
 }
