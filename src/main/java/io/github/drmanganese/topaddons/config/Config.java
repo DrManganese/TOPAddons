@@ -15,6 +15,7 @@ public class Config {
 
     public static class BloodMagic {
         public static boolean requireSigil = true;
+        public static boolean seeMimickWithSigil = true;
         static final String CATEGORY = "Blood Magic";
     }
 
@@ -40,6 +41,7 @@ public class Config {
         config.load();
 
         BloodMagic.requireSigil = config.getBoolean("requireSigil", BloodMagic.CATEGORY, true, "Is holding a divination sigil required to see certain information.");
+        BloodMagic.seeMimickWithSigil = config.getBoolean("seeMimickWithSigil", BloodMagic.CATEGORY, true, "Shows the player that they're looking at a mimick block when holding a seer sigil.");
         Forge.showTankGauge = config.getBoolean("showTankGauge", Forge.CATEGORY, true, "Show tank gauge for internal tanks on most Tile Entities.");
         Vanilla.noteBlock = config.getBoolean("noteBlockPitch", Vanilla.CATEGORY, true, "Show note block pitch and instrument.");
         Helmets.allHelmetsProbable = config.getBoolean("allHelmetsProbable", Helmets.CATEGORY, true, "All non-blacklisted helmets can be combined with a probe.\n!!! When this is false you can't uncraft previously probified helmets !!!");
