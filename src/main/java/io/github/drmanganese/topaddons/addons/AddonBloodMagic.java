@@ -3,6 +3,7 @@ package io.github.drmanganese.topaddons.addons;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
@@ -20,7 +21,10 @@ import io.github.drmanganese.topaddons.elements.bloodmagic.ElementNodeFilter;
 import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Names;
 
+import com.google.common.collect.Lists;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import WayofTime.bloodmagic.altar.BloodAltar;
@@ -36,14 +40,21 @@ import WayofTime.bloodmagic.item.armour.ItemLivingArmour;
 import WayofTime.bloodmagic.item.armour.ItemSentientArmour;
 import WayofTime.bloodmagic.item.sigil.ItemSigilHolding;
 import WayofTime.bloodmagic.item.sigil.ItemSigilSeer;
+import WayofTime.bloodmagic.registry.ModBlocks;
 import WayofTime.bloodmagic.routing.IMasterRoutingNode;
 import WayofTime.bloodmagic.tile.TileAltar;
 import WayofTime.bloodmagic.tile.TileIncenseAltar;
+import WayofTime.bloodmagic.tile.TileMimic;
 import WayofTime.bloodmagic.tile.routing.TileFilteredRoutingNode;
 import WayofTime.bloodmagic.util.helper.NumeralHelper;
+import mcjty.theoneprobe.Tools;
+import mcjty.theoneprobe.api.ElementAlignment;
+import mcjty.theoneprobe.api.IBlockDisplayOverride;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+
+import static mcjty.theoneprobe.api.TextStyleClass.MODNAME;
 
 @TOPAddon(dependency = "bloodmagic")
 public class AddonBloodMagic extends AddonBlank {
@@ -73,6 +84,36 @@ public class AddonBloodMagic extends AddonBlank {
     @Override
     public void addTankNames() {
         Names.tankNamesMap.put(TileAltar.class, new String[]{"Blood Altar"});
+    }
+
+    @Override
+    public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
+        return Lists.newArrayList((IBlockDisplayOverride) (mode, probeInfo, player, world, blockState, data) -> {
+            /*
+             * Show the mimic block's "mimicked" block when it has an ItemBlock in its
+             * internal inventory.
+             */
+            if (blockState.getBlock() == ModBlocks.MIMIC) {
+                ItemStack mimicStack = ((TileMimic) world.getTileEntity(data.getPos())).getStackInSlot(0);
+
+                if (!mimicStack.isEmpty() && mimicStack.getItem() instanceof ItemBlock) {
+                    if (Tools.show(mode, mcjty.theoneprobe.config.Config.getRealConfig().getShowModName())) {
+                        probeInfo.horizontal()
+                                .item(mimicStack)
+                                .vertical()
+                                .itemLabel(mimicStack)
+                                .text(MODNAME + Tools.getModName(((ItemBlock) mimicStack.getItem()).getBlock()));
+                    } else {
+                        probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
+                                .item(mimicStack)
+                                .itemLabel(mimicStack);
+                    }
+
+                    return true;
+                }
+            }
+            return false;
+        });
     }
 
     @Override
@@ -125,6 +166,13 @@ public class AddonBloodMagic extends AddonBlank {
             }
         }
 
+
+        if (tile instanceof TileMimic && (!Config.BloodMagic.seeMimickWithSigil || holdingSeer)) {
+            ItemStack mimicStack = ((TileMimic) world.getTileEntity(data.getPos())).getStackInSlot(0);
+            if (!mimicStack.isEmpty()) {
+                probeInfo.text(TextFormatting.GRAY + data.getPickBlock().getDisplayName());
+            }
+        }
     }
 
     private void addFilterElement(IProbeInfo probeInfo, String side, ItemStack inventoryOnSide, ItemStack filterStack) {

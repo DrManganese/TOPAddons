@@ -6,8 +6,10 @@ import io.github.drmanganese.topaddons.AddonManager;
 import io.github.drmanganese.topaddons.addons.AddonBlank;
 import io.github.drmanganese.topaddons.reference.EnumChip;
 
+import java.util.List;
 import java.util.Map;
 
+import mcjty.theoneprobe.api.IBlockDisplayOverride;
 import mcjty.theoneprobe.api.IProbeConfigProvider;
 import mcjty.theoneprobe.api.IProbeInfoEntityProvider;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
@@ -52,5 +54,7 @@ public interface ITOPAddon extends IProbeInfoProvider, IProbeInfoEntityProvider,
      * {@link io.github.drmanganese.topaddons.reference.Names}
      */
     void addTankNames();
+
+    List<IBlockDisplayOverride> getBlockDisplayOverrides();
 
 }
