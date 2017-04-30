@@ -46,6 +46,17 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - TFBP display
 - ...
 
+### Chickens Mod ([album](http://imgur.com/a/lHOlX))
+
+- Chicken stats
+- Chicken time until next lay
+
+### Hatchery Mod ([webm](https://webmshare.com/play/xAXm6))
+
+- Egg nest hatching progress
+- Feeder gauge
+- Nest pen chicken stats, next lay
+
 ### NeoTech ([album](http://imgur.com/a/n1Zd4))  &#129069;
 
 - Progress on all processing machines (Electric Furnace, Solidifer, Alloyer, etc.)
