@@ -123,7 +123,7 @@ public class AddonForestry extends AddonBlank {
         }
 
         TileEntity tile = world.getTileEntity(data.getPos());
-        if (tile != null && (tile instanceof TileForestry || tile instanceof TileAlveary || tile instanceof TileTreeContainer || tile instanceof TileFarm)) {
+        if (tile instanceof TileForestry || tile instanceof TileAlveary || tile instanceof TileTreeContainer || tile instanceof TileFarm) {
             ImmutableSet<IErrorState> errorStates;
             if (tile instanceof IErrorLogicSource) {
                 errorStates = ((IErrorLogicSource) tile).getErrorLogic().getErrorStates();
@@ -232,7 +232,6 @@ public class AddonForestry extends AddonBlank {
                         inventoryStacks.set(i, farm.getInternalInventory().getStackInSlot(i));
                     }
                     addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase(), true, inventoryStacks);
-                    //Maybe add tank gauge to all farm blocks, might handle in ILiquidTankTile section
                 }
             }
 
@@ -264,12 +263,12 @@ public class AddonForestry extends AddonBlank {
                  *   4) If there is a valid recipe in slot 10, display the ItemStacks of slots 10 and 11
                  *   with a progress bar in between
                  */
-                ItemStack[] wheats = new ItemStack[]{
-                        new ItemStack(Items.WHEAT, 1),
-                        new ItemStack(PluginCore.getItems().mouldyWheat, 1),
-                        new ItemStack(PluginCore.getItems().decayingWheat, 1),
-                        new ItemStack(PluginCore.getItems().mulch, 1)
-                };
+                NonNullList<ItemStack> wheats = NonNullList.create();
+                wheats.set(0, new ItemStack(Items.WHEAT, 1));
+                wheats.set(1, new ItemStack(PluginCore.getItems().mouldyWheat, 1));
+                wheats.set(2, new ItemStack(PluginCore.getItems().decayingWheat, 1));
+                wheats.set(3, new ItemStack(PluginCore.getItems().mulch, 1));
+
 
                 TextFormatting[] arrowColors = new TextFormatting[]{
                         TextFormatting.DARK_GRAY,
@@ -280,9 +279,9 @@ public class AddonForestry extends AddonBlank {
                 for (int i = 0; i < 10; i++) {
                     ItemStack stack = moistener.getInternalInventory().getStackInSlot(i);
                     if (!stack.isEmpty()) {
-                        for (int j = 0; j < wheats.length; j++) {
-                            if (stack.isItemEqual(wheats[j])) {
-                                wheats[j].grow(stack.getCount() - 1);
+                        for (int j = 0; j < wheats.size(); j++) {
+                            if (stack.isItemEqual(wheats.get(j))) {
+                                wheats.get(j).grow(stack.getCount() - 1);
                                 if (i == 9) {
                                     arrowColors[j] = TextFormatting.WHITE;
                                 }
@@ -293,13 +292,13 @@ public class AddonForestry extends AddonBlank {
 
                 //\u25b6 = ▶
                 probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
-                        .item(wheats[0])
+                        .item(wheats.get(0))
                         .text(arrowColors[0] + "\u25b6")
-                        .item(wheats[1])
+                        .item(wheats.get(1))
                         .text(arrowColors[1] + "\u25b6")
-                        .item(wheats[2])
+                        .item(wheats.get(2))
                         .text(arrowColors[2] + "\u25b6")
-                        .item(wheats[3]);
+                        .item(wheats.get(3));
 
                 if (!moistener.getInternalInventory().getStackInSlot(11).isEmpty()) {
                     probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
@@ -309,7 +308,6 @@ public class AddonForestry extends AddonBlank {
                 }
             }
 
-            //All engines (sneaking only)
             if (tile instanceof TileEngine) {
                 TileEngine engine = ((TileEngine) tile);
                 if (mode == ProbeMode.EXTENDED) {
@@ -335,6 +333,7 @@ public class AddonForestry extends AddonBlank {
                 });
             }
         }
+
     }
 
     @Override
@@ -354,29 +353,24 @@ public class AddonForestry extends AddonBlank {
 
     @Override
     public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
-        if (world != null && entity != null) {
-            if (entity instanceof IEntityButterfly) {
-                IButterfly butterfly = ((IEntityButterfly) entity).getButterfly();
-                if (!butterfly.isPureBred(EnumButterflyChromosome.SPECIES)) {
-                    probeInfo.text("Hybrid (" + butterfly.getGenome().getInactiveAllele(EnumButterflyChromosome.SPECIES).getName());
-                }
+        if (entity instanceof IEntityButterfly) {
+            IButterfly butterfly = ((IEntityButterfly) entity).getButterfly();
+            if (!butterfly.isPureBred(EnumButterflyChromosome.SPECIES)) {
+                probeInfo.text("Hybrid (" + butterfly.getGenome().getInactiveAllele(EnumButterflyChromosome.SPECIES).getName());
+            }
 
-                if (mode == ProbeMode.EXTENDED) {
-                    if (butterfly.isAnalyzed()) {
-                        textPrefixed(probeInfo, "Size", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SIZE).getName());
-                        textPrefixed(probeInfo, "Production", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SPEED).getName());
-                        textPrefixed(probeInfo, "Lifespan", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.LIFESPAN).getName());
-                        textPrefixed(probeInfo, "Fertility", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.FERTILITY).getName());
-                    } else {
-                        probeInfo.text("Unknown Genome");
-                    }
+            if (mode == ProbeMode.EXTENDED) {
+                if (butterfly.isAnalyzed()) {
+                    textPrefixed(probeInfo, "Size", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SIZE).getName());
+                    textPrefixed(probeInfo, "Production", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SPEED).getName());
+                    textPrefixed(probeInfo, "Lifespan", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.LIFESPAN).getName());
+                    textPrefixed(probeInfo, "Fertility", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.FERTILITY).getName());
+                } else {
+                    probeInfo.text("Unknown Genome");
                 }
             }
         }
-    }
 
-    @Override
-    public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
     }
 
     @Override
@@ -389,7 +383,6 @@ public class AddonForestry extends AddonBlank {
             config.showChestContents(IProbeConfig.ConfigMode.EXTENDED);
             config.showChestContentsDetailed(IProbeConfig.ConfigMode.EXTENDED);
         }
-
     }
 
     private NonNullList<ItemStack> reorderBeeInvStacks(NonNullList<ItemStack> old) {

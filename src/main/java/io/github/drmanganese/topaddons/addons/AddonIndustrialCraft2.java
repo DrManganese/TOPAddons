@@ -61,59 +61,62 @@ public class AddonIndustrialCraft2 extends AddonBlank {
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         TileEntity tile = world.getTileEntity(data.getPos());
-        if (tile != null) {
-            if (tile instanceof TileEntityStandardMachine) {
-                TileEntityStandardMachine machine = (TileEntityStandardMachine) tile;
-                double energyStorage = machine.defaultEnergyStorage * 2 + machine.upgradeSlot.extraEnergyStorage;
-                euBar(probeInfo, (int) machine.getEnergy(),(int) (machine.getEnergy() > energyStorage ? machine.getEnergy() : energyStorage));
-                if (mode == ProbeMode.EXTENDED) {
-                    textPrefixed(probeInfo, "Consumption", machine.energyConsume + " EU/t");
-                }
 
-                if (player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("ic2Progress") && machine.getProgress() > 0 || mode == ProbeMode.EXTENDED) {
-                    probeInfo.progress((long) (machine.getProgress()*100), 100, new ProgressStyleTOPAddonGrey().prefix("Progress: ").suffix("%").filledColor(0xffaaaaaa).alternateFilledColor(0xff888888));
-                }
+        if (tile instanceof TileEntityStandardMachine) {
+            TileEntityStandardMachine machine = (TileEntityStandardMachine) tile;
+
+            double energyStorage = machine.defaultEnergyStorage * 2 + machine.upgradeSlot.extraEnergyStorage;
+            euBar(probeInfo, (int) machine.getEnergy(), (int) (machine.getEnergy() > energyStorage ? machine.getEnergy() : energyStorage));
+
+            if (mode == ProbeMode.EXTENDED) {
+                textPrefixed(probeInfo, "Consumption", machine.energyConsume + " EU/t");
             }
 
-            if (tile instanceof TileEntitySolarGenerator) {
-                if (((TileEntitySolarGenerator) tile).skyLight == 0F) {
-                    probeInfo.text(TextFormatting.RED + "Sky Obstructed/Too Dark");
-                }
-            }
-
-            if (tile instanceof TileEntityElectricBlock) {
-                Energy energy = ((TileEntityElectricBlock) tile).energy;
-                euBar(probeInfo, (int) energy.getEnergy(), (int) energy.getCapacity());
-            }
-
-            if (tile instanceof TileEntityTeleporter) {
-                BlockPos pos = ((TileEntityTeleporter) tile).getTarget();
-                textPrefixed(probeInfo, "Destination", ((TileEntityTeleporter) tile).hasTarget() ? String.format("%d %d %d", pos.getX(), pos.getY(), pos.getZ()) : "none");
-            }
-
-            if (tile instanceof TileEntityTerra) {
-                if (!((TileEntityTerra) tile).tfbpSlot.isEmpty())
-                    textPrefixed(probeInfo, "Blueprint", ((TileEntityTerra) tile).tfbpSlot.get().getDisplayName().substring(7), TextFormatting.AQUA);
-                else
-                    textPrefixed(probeInfo, "Blueprint", "None", TextFormatting.AQUA);
-            }
-
-            if (tile instanceof TileEntityHeatSourceInventory) {
-                textPrefixed(probeInfo, "Transmitting", ((TileEntityHeatSourceInventory) tile).gettransmitHeat() + " hU");
-                textPrefixed(probeInfo, "Buffer", ((TileEntityHeatSourceInventory) tile).getHeatBuffer() + " hU");
-                textPrefixed(probeInfo, "Max transfer", ((TileEntityHeatSourceInventory) tile).getMaxHeatEmittedPerTick() + " hU");
-            }
-
-            if (tile instanceof TileEntityFermenter) {
-                TileEntityFermenter fermenter = (TileEntityFermenter) tile;
-                probeInfo.progress(Math.round(100 * fermenter.getGuiValue("heat")), 100, new ProgressStyleTOPAddonGrey().prefix("Conversion: ").suffix("%").alternateFilledColor(0xFFE12121).filledColor(0xFF871414));
-                probeInfo.progress(Math.round(100 * fermenter.getGuiValue("progress")), 100, new ProgressStyleTOPAddonGrey().prefix("Waste: ").suffix("%").alternateFilledColor(0xFF0E760E).filledColor(0xFF084708));
-            }
-
-            if (tile instanceof TileEntityPump) {
-                euBar(probeInfo, (int) ((TileEntityPump) tile).getEnergy(), 40);
+            if (player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("ic2Progress") && machine.getProgress() > 0 || mode == ProbeMode.EXTENDED) {
+                progressBar(probeInfo, (int) machine.getProgress() * 100, 0xffaaaaaa, 0xff888888);
             }
         }
+
+        if (tile instanceof TileEntitySolarGenerator) {
+            if (((TileEntitySolarGenerator) tile).skyLight == 0F) {
+                probeInfo.text(TextFormatting.RED + "Sky Obstructed/Too Dark");
+            }
+        }
+
+        if (tile instanceof TileEntityElectricBlock) {
+            Energy energy = ((TileEntityElectricBlock) tile).energy;
+            euBar(probeInfo, (int) energy.getEnergy(), (int) energy.getCapacity());
+        }
+
+        if (tile instanceof TileEntityTeleporter) {
+            BlockPos pos = ((TileEntityTeleporter) tile).getTarget();
+            textPrefixed(probeInfo, "Destination", ((TileEntityTeleporter) tile).hasTarget() ? String.format("%d %d %d", pos.getX(), pos.getY(), pos.getZ()) : "none");
+        }
+
+        if (tile instanceof TileEntityTerra) {
+            if (!((TileEntityTerra) tile).tfbpSlot.isEmpty()) {
+                textPrefixed(probeInfo, "Blueprint", ((TileEntityTerra) tile).tfbpSlot.get().getDisplayName().substring(7), TextFormatting.AQUA);
+            } else {
+                textPrefixed(probeInfo, "Blueprint", "None", TextFormatting.AQUA);
+            }
+        }
+
+        if (tile instanceof TileEntityHeatSourceInventory) {
+            textPrefixed(probeInfo, "Transmitting", ((TileEntityHeatSourceInventory) tile).gettransmitHeat() + " hU");
+            textPrefixed(probeInfo, "Buffer", ((TileEntityHeatSourceInventory) tile).getHeatBuffer() + " hU");
+            textPrefixed(probeInfo, "Max transfer", ((TileEntityHeatSourceInventory) tile).getMaxHeatEmittedPerTick() + " hU");
+        }
+
+        if (tile instanceof TileEntityFermenter) {
+            TileEntityFermenter fermenter = (TileEntityFermenter) tile;
+            probeInfo.progress(Math.round(100 * fermenter.getGuiValue("heat")), 100, new ProgressStyleTOPAddonGrey().prefix("Conversion: ").suffix("%").alternateFilledColor(0xFFE12121).filledColor(0xFF871414));
+            probeInfo.progress(Math.round(100 * fermenter.getGuiValue("progress")), 100, new ProgressStyleTOPAddonGrey().prefix("Waste: ").suffix("%").alternateFilledColor(0xFF0E760E).filledColor(0xFF084708));
+        }
+
+        if (tile instanceof TileEntityPump) {
+            euBar(probeInfo, (int) ((TileEntityPump) tile).getEnergy(), 40);
+        }
+
     }
 
     private void euBar(IProbeInfo probeInfo, int energy, int capacity) {

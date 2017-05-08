@@ -3,15 +3,13 @@ package io.github.drmanganese.topaddons.addons;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.api.TOPAddon;
 
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IProbeConfig;
@@ -25,7 +23,7 @@ public class AddonStorageDrawers extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (world.getTileEntity(data.getPos()) != null && world.getTileEntity(data.getPos()) instanceof TileEntityDrawers) {
+        if (world.getTileEntity(data.getPos()) instanceof TileEntityDrawers) {
             TileEntityDrawers tile = (TileEntityDrawers) world.getTileEntity(data.getPos());
 
             if (tile.isShrouded()) {
@@ -35,7 +33,7 @@ public class AddonStorageDrawers extends AddonBlank {
 
 
             if (mode == ProbeMode.EXTENDED) {
-                List<ItemStack> stacks = new ArrayList<>();
+                NonNullList<ItemStack> stacks = NonNullList.create();
                 for (int i = 0; i < tile.getDrawerCount(); i++) {
                     ItemStack stack = tile.getDrawer(i).getStoredItemPrototype();
                     if (!stack.isEmpty()) {
@@ -44,7 +42,7 @@ public class AddonStorageDrawers extends AddonBlank {
                     }
                 }
 
-                if (!stacks.isEmpty()) {
+                if (stacks.size() > 0) {
                     IProbeInfo vertical = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(Config.chestContentsBorderColor).spacing(0));
                     for (ItemStack stack : stacks) {
                         if (tile.isVending()) {

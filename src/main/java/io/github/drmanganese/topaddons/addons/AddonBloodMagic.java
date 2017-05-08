@@ -117,48 +117,47 @@ public class AddonBloodMagic extends AddonBlank {
         boolean holdingSeer = !Config.BloodMagic.requireSigil || holdingSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || holdingSeer(player.getHeldItem(EnumHand.OFF_HAND));
 
         TileEntity tile = world.getTileEntity(data.getPos());
-        if (tile != null) {
-            if (tile instanceof IBloodAltar && holdingSigil) {
-                IBloodAltar altar = (IBloodAltar) tile;
-                textPrefixed(probeInfo, "Tier", NumeralHelper.toRoman(altar.getTier().toInt()), TextFormatting.RED);
 
-                if (altar instanceof TileAltar && holdingSeer) {
-                    ItemStack input = ((TileAltar) altar).getStackInSlot(0);
-                    if (input.isEmpty()) return;
-                    BloodAltar bloodAltar = ReflectionHelper.getPrivateValue(TileAltar.class, (TileAltar) altar, "bloodAltar");
+        if (tile instanceof IBloodAltar && holdingSigil) {
+            IBloodAltar altar = (IBloodAltar) tile;
+            textPrefixed(probeInfo, "Tier", NumeralHelper.toRoman(altar.getTier().toInt()), TextFormatting.RED);
 
-                    if (input.getItem() instanceof IBloodOrb) {
-                        SoulNetwork network = NetworkHelper.getSoulNetwork(((IBindable) input.getItem()).getOwnerUUID(input));
-                        BloodOrb orb = OrbRegistry.getOrb(network.getOrbTier() - 1);
-                        addAltarCraftingElement(probeInfo, input, new ItemStack(WayofTime.bloodmagic.registry.ModItems.BLOOD_ORB, 1, network.getOrbTier() - 1), network.getCurrentEssence(), orb.getCapacity(), 0);
-                    } else if (altar.isActive()) {
-                        ItemStack result = ReflectionHelper.getPrivateValue(BloodAltar.class, bloodAltar, "result");
-                        if (!result.isEmpty()) {
-                            addAltarCraftingElement(probeInfo, input, result, bloodAltar.getProgress(), bloodAltar.getLiquidRequired(), bloodAltar.getConsumptionRate());
-                        }
+            if (altar instanceof TileAltar && holdingSeer) {
+                ItemStack input = ((TileAltar) altar).getStackInSlot(0);
+                if (input.isEmpty()) return;
+                BloodAltar bloodAltar = ReflectionHelper.getPrivateValue(TileAltar.class, (TileAltar) altar, "bloodAltar");
+
+                if (input.getItem() instanceof IBloodOrb) {
+                    SoulNetwork network = NetworkHelper.getSoulNetwork(((IBindable) input.getItem()).getOwnerUUID(input));
+                    BloodOrb orb = OrbRegistry.getOrb(network.getOrbTier() - 1);
+                    addAltarCraftingElement(probeInfo, input, new ItemStack(WayofTime.bloodmagic.registry.ModItems.BLOOD_ORB, 1, network.getOrbTier() - 1), network.getCurrentEssence(), orb.getCapacity(), 0);
+                } else if (altar.isActive()) {
+                    ItemStack result = ReflectionHelper.getPrivateValue(BloodAltar.class, bloodAltar, "result");
+                    if (!result.isEmpty()) {
+                        addAltarCraftingElement(probeInfo, input, result, bloodAltar.getProgress(), bloodAltar.getLiquidRequired(), bloodAltar.getConsumptionRate());
                     }
                 }
             }
+        }
 
 
-            if (tile instanceof TileFilteredRoutingNode && !(tile instanceof IMasterRoutingNode)) {
-                TileFilteredRoutingNode node = (TileFilteredRoutingNode) tile;
-                ItemStack filterStack = node.getFilterStack(data.getSideHit());
-                if (!filterStack.isEmpty()) {
-                    BlockPos sidePos = data.getPos().offset(data.getSideHit());
-                    if (world.getTileEntity(sidePos) != null) {
-                        IBlockState sideState = world.getBlockState(sidePos);
-                        ItemStack inventoryOnSide = sideState.getBlock().getPickBlock(sideState, new RayTraceResult(data.getHitVec(), data.getSideHit().getOpposite(), sidePos), world, sidePos, player);
-                        addFilterElement(probeInfo, data.getSideHit().getName(), inventoryOnSide, filterStack);
-                    }
+        if (tile instanceof TileFilteredRoutingNode && !(tile instanceof IMasterRoutingNode)) {
+            TileFilteredRoutingNode node = (TileFilteredRoutingNode) tile;
+            ItemStack filterStack = node.getFilterStack(data.getSideHit());
+            if (!filterStack.isEmpty()) {
+                BlockPos sidePos = data.getPos().offset(data.getSideHit());
+                if (world.getTileEntity(sidePos) != null) {
+                    IBlockState sideState = world.getBlockState(sidePos);
+                    ItemStack inventoryOnSide = sideState.getBlock().getPickBlock(sideState, new RayTraceResult(data.getHitVec(), data.getSideHit().getOpposite(), sidePos), world, sidePos, player);
+                    addFilterElement(probeInfo, data.getSideHit().getName(), inventoryOnSide, filterStack);
                 }
             }
+        }
 
-            if (tile instanceof TileIncenseAltar && holdingSigil) {
-                TileIncenseAltar altar = (TileIncenseAltar) tile;
-                textPrefixed(probeInfo, "Tranquility", (int) ((100D * (int) (100 * altar.tranquility)) / 100D) + "", TextFormatting.RED);
-                textPrefixed(probeInfo, "Bonus", (int) (altar.incenseAddition * 100) + "%", TextFormatting.RED);
-            }
+        if (tile instanceof TileIncenseAltar && holdingSigil) {
+            TileIncenseAltar altar = (TileIncenseAltar) tile;
+            textPrefixed(probeInfo, "Tranquility", (int) ((100D * (int) (100 * altar.tranquility)) / 100D) + "", TextFormatting.RED);
+            textPrefixed(probeInfo, "Bonus", (int) (altar.incenseAddition * 100) + "%", TextFormatting.RED);
         }
 
 
@@ -178,7 +177,6 @@ public class AddonBloodMagic extends AddonBlank {
         probeInfo.element(new ElementAltarCrafting(input, result, progress, required * input.getCount(), consumption));
     }
 
-    @SuppressWarnings("ConstantConditions")
     private boolean isAltarSeer(ItemStack heldStack) {
         if (heldStack.isEmpty())
             return false;
@@ -188,11 +186,10 @@ public class AddonBloodMagic extends AddonBlank {
                 ItemStack currentHoldingStack = ItemSigilHolding.getItemStackInSlot(heldStack, (ItemSigilHolding.getCurrentItemOrdinal(heldStack)));
                 return !currentHoldingStack.isEmpty() && currentHoldingStack.getItem() instanceof IAltarReader;
             }
-
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     private boolean holdingSeer(ItemStack heldStack) {

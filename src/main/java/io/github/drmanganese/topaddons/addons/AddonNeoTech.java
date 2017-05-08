@@ -7,7 +7,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.styles.ProgressStyleTOPAddonGrey;
 
 import com.teambrmodding.neotech.common.tiles.MachineGenerator;
 import com.teambrmodding.neotech.common.tiles.MachineProcessor;
@@ -24,28 +23,24 @@ public class AddonNeoTech extends AddonBlank {
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         TileEntity tile = world.getTileEntity(data.getPos());
-        if (tile != null) {
-            if (tile instanceof MachineProcessor && ((MachineProcessor) tile).canProcess()) {
-                probeInfo.progress(((MachineProcessor) tile).getCookProgressScaled(100), 100, new ProgressStyleTOPAddonGrey().filledColor(0xff111111).alternateFilledColor(0xff222222).suffix("%").prefix("Progress: "));
+        if (tile instanceof MachineProcessor && ((MachineProcessor) tile).canProcess()) {
+            progressBar(probeInfo, ((MachineProcessor) tile).getCookProgressScaled(100), 0xff111111, 0xff222222);
+        }
+
+        if (tile instanceof TileTreeFarm) {
+            ItemStack axe = ((TileTreeFarm) tile).inventoryContents.get(TileTreeFarm.AXE_SLOT);
+            if (!axe.isEmpty()) {
+                textPrefixed(probeInfo, "Durability", axe.getMaxDamage() - axe.getItemDamage() + "/" + axe.getMaxDamage());
             }
 
-            if (tile instanceof TileTreeFarm) {
-                ItemStack axe = ((TileTreeFarm) tile).inventoryContents.get(TileTreeFarm.AXE_SLOT);
-                if (!axe.isEmpty()) {
-                    textPrefixed(probeInfo, "Durability", axe.getMaxDamage() - axe.getItemDamage() + "/" + axe.getMaxDamage());
-                }
-
-                if (mode == ProbeMode.EXTENDED) {
-                    int range = 7 + 2 * ((TileTreeFarm) tile).getModifierForCategory(IUpgradeItem.ENUM_UPGRADE_CATEGORY.MEMORY);
-                    textPrefixed(probeInfo, "Range", String.format("%dx%d", range, range));
-                }
-
-
+            if (mode == ProbeMode.EXTENDED) {
+                int range = 7 + 2 * ((TileTreeFarm) tile).getModifierForCategory(IUpgradeItem.ENUM_UPGRADE_CATEGORY.MEMORY);
+                textPrefixed(probeInfo, "Range", String.format("%dx%d", range, range));
             }
+        }
 
-            if (tile instanceof MachineGenerator) {
-                    textPrefixed(probeInfo, "Generating", ((MachineGenerator) tile).getEnergyProduced() + " RF/t");
-            }
+        if (tile instanceof MachineGenerator) {
+            textPrefixed(probeInfo, "Generating", ((MachineGenerator) tile).getEnergyProduced() + " RF/t");
         }
     }
 }

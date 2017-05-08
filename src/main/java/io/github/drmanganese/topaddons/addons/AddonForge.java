@@ -36,10 +36,6 @@ public class AddonForge extends AddonBlank {
         return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
     }
 
-    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode) {
-        return addTankElement(probeInfo, name, tank, mode, 0);
-    }
-
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode, int i) {
         String suffix = "mB";
         if (name.equals("Blood Altar")) suffix = "LP";
@@ -113,25 +109,6 @@ public class AddonForge extends AddonBlank {
             }
 
         }
-//        else if (tile instanceof net.minecraftforge.fluids.IFluidHandler) {
-//            net.minecraftforge.fluids.IFluidHandler handler = (net.minecraftforge.fluids.IFluidHandler) tile;
-//            FluidTankInfo[] tanks = handler.getTankInfo(null);
-//            if (tanks != null) {
-//                for (int i = 0; i < tanks.length; i++) {
-//                    if (tanks[i] != null) {
-//                        String tankName = "Tank";
-//                        if (Names.tankNamesMap.containsKey(tile.getClass())) {
-//                            tankName = Names.tankNamesMap.get(tile.getClass())[i];
-//                        }
-//                        if (tanks[i].fluid != null) {
-//                            addTankElement(probeInfo, tankName, tanks[i], mode);
-//                        } else {
-//                            addTankElement(probeInfo, tankName, "", 0, 0, "", 0xff777777, mode);
-//                        }
-//                    }
-//                }
-//            }
-//        }
     }
 
     @Override

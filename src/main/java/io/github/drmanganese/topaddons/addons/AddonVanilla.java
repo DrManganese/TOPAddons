@@ -20,7 +20,6 @@ public class AddonVanilla extends AddonBlank {
 
     private static final String[] NOTES = new String[]{
             "F\u266f/G\u266d", "G", "G\u266f/A\u266d", "A", "A\u266f/B\u266d", "B", "C", "C\u266f/D\u266d", "D", "D\u266f/E\u266d", "E", "F"
-
     };
 
     @Override
