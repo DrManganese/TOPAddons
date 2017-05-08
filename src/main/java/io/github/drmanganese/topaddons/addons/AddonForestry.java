@@ -387,10 +387,6 @@ public class AddonForestry extends AddonBlank {
     }
 
     @Override
-    public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
-    }
-
-    @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         TileEntity tile = world.getTileEntity(data.getPos());
         if ((tile instanceof IBeeHousing && !(tile instanceof TileAlvearySieve || tile instanceof TileAlvearySwarmer)) || tile instanceof TileMoistener || tile instanceof TileFarm) {
