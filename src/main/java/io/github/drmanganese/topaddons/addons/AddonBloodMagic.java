@@ -63,11 +63,6 @@ public class AddonBloodMagic extends AddonBlank {
     public static int ELEMENT_ALTAR_CRAFTING;
 
     @Override
-    public boolean hasSpecialHelmets() {
-        return true;
-    }
-
-    @Override
     public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
         Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>();
         map.put(ItemLivingArmour.class, EnumChip.STANDARD);

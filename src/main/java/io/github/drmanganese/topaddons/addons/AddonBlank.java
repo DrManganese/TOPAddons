@@ -60,11 +60,6 @@ public abstract class AddonBlank implements ITOPAddon {
     }
 
     @Override
-    public boolean hasSpecialHelmets() {
-        return false;
-    }
-
-    @Override
     public void registerElements() {
 
     }

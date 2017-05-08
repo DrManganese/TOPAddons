@@ -48,11 +48,6 @@ public class AddonIndustrialCraft2 extends AddonBlank {
     }
 
     @Override
-    public boolean hasSpecialHelmets() {
-        return true;
-    }
-
-    @Override
     public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
         Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>();
         map.put(ItemArmorNanoSuit.class, EnumChip.IC2);

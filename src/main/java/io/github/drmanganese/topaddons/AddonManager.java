@@ -10,7 +10,6 @@ import io.github.drmanganese.topaddons.api.ITOPAddon;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.reference.EnumChip;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,10 +18,10 @@ import java.util.Set;
 
 public class AddonManager {
 
-    public static final List<ITOPAddon> ADDONS = new LinkedList<>();
+    static final List<ITOPAddon> ADDONS = new LinkedList<>();
     public static final Map<Class<? extends ItemArmor>, EnumChip> SPECIAL_HELMETS = new HashMap<>();
 
-    public static void preInit(FMLPreInitializationEvent event) {
+    static void preInit(FMLPreInitializationEvent event) {
         /* Get all classes with the {@link TOPAddon} annotation */
         Set<ASMDataTable.ASMData> asmDataSet = event.getAsmData().getAll(TOPAddon.class.getName());
 
@@ -80,17 +79,15 @@ public class AddonManager {
                         TOPAddons.LOGGER.fatal("Failed to create addon {}", fancyName);
                     }
 
-                } else {
-                    TOPAddons.LOGGER.info("Dependency ({}) for addon {} not found, skipping...", dependency, fancyName);
                 }
             }
         }
 
         /** Sort alphabetically for client/server element IDs */
-        Collections.sort(ADDONS, (o1, o2) -> o1.getClass().getName().compareToIgnoreCase(o2.getClass().getName()));
+        ADDONS.sort((o1, o2) -> o1.getClass().getName().compareToIgnoreCase(o2.getClass().getName()));
 
-        /** Sorting order */
-        Collections.sort(ADDONS, (o1, o2) -> {
+        /** Sort by order option */
+        ADDONS.sort((o1, o2) -> {
             int order1 = o1.getClass().getAnnotation(TOPAddon.class).order();
             int order2 = o2.getClass().getAnnotation(TOPAddon.class).order();
 
@@ -99,11 +96,7 @@ public class AddonManager {
     }
 
     private static int addHelmets(ITOPAddon addon) {
-        if (addon.hasSpecialHelmets()) {
-            //Safe because duplicates are impossible
-            SPECIAL_HELMETS.putAll(addon.getSpecialHelmets());
-        }
-
+        SPECIAL_HELMETS.putAll(addon.getSpecialHelmets());
         return addon.getSpecialHelmets().size();
     }
 }
