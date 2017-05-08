@@ -65,21 +65,25 @@ public class AddonStorageDrawers extends AddonBlank {
                                     .text(TextFormatting.GRAY + "[" + (stack.getCount() >= 64 ? q + "x64 + " : "") + r + "]");
                         }
                     }
-            }
+                }
 
-            textPrefixed(probeInfo, "Stack limit", tile.isUnlimited() ? "\u221e" : tile.getDrawerCapacity() * tile.getEffectiveStorageMultiplier() + " (x" + tile.getEffectiveStorageMultiplier() + ")", TextFormatting.AQUA);
-            if (tile.getOwner() != null && tile.getOwner().compareTo(player.getUniqueID()) != 0) {
-                probeInfo.text(TextFormatting.RED + TextFormatting.ITALIC.toString() + "Protected");
+                textPrefixed(probeInfo, "Stack limit", tile.isUnlimited() ? "\u221e" : tile.getDrawerCapacity() * tile.getEffectiveStorageMultiplier() + " (x" + tile.getEffectiveStorageMultiplier() + ")", TextFormatting.AQUA);
+                if (tile.getOwner() != null && tile.getOwner().compareTo(player.getUniqueID()) != 0) {
+                    probeInfo.text(TextFormatting.RED + TextFormatting.ITALIC.toString() + "Protected");
+                }
             }
         }
-    }
 
-}
+    }
 
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (world.getTileEntity(data.getPos()) instanceof TileEntityDrawers && player.isSneaking()) {
-            config.showChestContents(IProbeConfig.ConfigMode.NOT);
+        if (world.getTileEntity(data.getPos()) instanceof TileEntityDrawers) {
+            if (player.isSneaking()) {
+                config.showChestContents(IProbeConfig.ConfigMode.NOT);
+            } else {
+                config.showChestContents(IProbeConfig.ConfigMode.EXTENDED);
+            }
         }
     }
 }
