@@ -30,17 +30,17 @@ public class AddonNeoTech extends AddonBlank {
         if (tile instanceof TileTreeFarm) {
             ItemStack axe = ((TileTreeFarm) tile).inventoryContents.get(TileTreeFarm.AXE_SLOT);
             if (!axe.isEmpty()) {
-                textPrefixed(probeInfo, "Durability", axe.getMaxDamage() - axe.getItemDamage() + "/" + axe.getMaxDamage());
+                textPrefixed(probeInfo, "{*topaddons.neotech:durability*}", axe.getMaxDamage() - axe.getItemDamage() + "/" + axe.getMaxDamage());
             }
 
             if (mode == ProbeMode.EXTENDED) {
                 int range = 7 + 2 * ((TileTreeFarm) tile).getModifierForCategory(IUpgradeItem.ENUM_UPGRADE_CATEGORY.MEMORY);
-                textPrefixed(probeInfo, "Range", String.format("%dx%d", range, range));
+                textPrefixed(probeInfo, "{*neotech.text.rangeTree*}", String.format("%dx%d", range, range));
             }
         }
 
         if (tile instanceof MachineGenerator) {
-            textPrefixed(probeInfo, "Generating", ((MachineGenerator) tile).getEnergyProduced() + " RF/t");
+            textPrefixed(probeInfo, "{*topaddons:generating*}", ((MachineGenerator) tile).getEnergyProduced() + " RF/t");
         }
     }
 }

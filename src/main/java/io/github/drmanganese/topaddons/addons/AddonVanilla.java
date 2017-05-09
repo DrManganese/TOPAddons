@@ -5,7 +5,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityNote;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.TOPAddons;
@@ -26,23 +25,23 @@ public class AddonVanilla extends AddonBlank {
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         TileEntity tile = world.getTileEntity(data.getPos());
         if (tile instanceof TileEntityNote && player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("showPitch")) {
-            textPrefixed(probeInfo, "Pitch", NOTES[((TileEntityNote) tile).note % 12], TextFormatting.AQUA);
+            textPrefixed(probeInfo, "{*topaddons.vanilla:pitch*}", NOTES[((TileEntityNote) tile).note % 12]);
 
             Material material = world.getBlockState(data.getPos().down()).getMaterial();
             String instrument;
             if (material == Material.ROCK) {
-                instrument = "Bass drum";
+                instrument = "{*topaddons.vanilla:rock*}";
             } else if (material == Material.SAND) {
-                instrument = "Snare drum";
+                instrument = "{*topaddons.vanilla:sand*}";
             } else if (material == Material.GLASS) {
-                instrument = "Clicks and sticks";
+                instrument = "{*topaddons.vanilla:glass*}";
             } else if (material == Material.WOOD) {
-                instrument = "Bass guitar";
+                instrument = "{*topaddons.vanilla:wood*}";
             } else {
-                instrument = "Piano/Harp";
+                instrument = "{*topaddons.vanilla:else*}";
             }
 
-            textPrefixed(probeInfo, "Instrument", instrument, TextFormatting.AQUA);
+            textPrefixed(probeInfo, "{*topaddons.vanilla:instrument*}", instrument);
         }
     }
 }

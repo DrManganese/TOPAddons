@@ -69,7 +69,7 @@ public class AddonIndustrialCraft2 extends AddonBlank {
             euBar(probeInfo, (int) machine.getEnergy(), (int) (machine.getEnergy() > energyStorage ? machine.getEnergy() : energyStorage));
 
             if (mode == ProbeMode.EXTENDED) {
-                textPrefixed(probeInfo, "Consumption", machine.energyConsume + " EU/t");
+                textPrefixed(probeInfo, "{*topaddons.ic2:consumption*}", machine.energyConsume + " EU/t");
             }
 
             if (player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("ic2Progress") && machine.getProgress() > 0 || mode == ProbeMode.EXTENDED) {
@@ -79,7 +79,7 @@ public class AddonIndustrialCraft2 extends AddonBlank {
 
         if (tile instanceof TileEntitySolarGenerator) {
             if (((TileEntitySolarGenerator) tile).skyLight == 0F) {
-                probeInfo.text(TextFormatting.RED + "Sky Obstructed/Too Dark");
+                probeInfo.text(TextFormatting.RED + "{*topaddons.ic2:no_sky*}");
             }
         }
 
@@ -90,21 +90,21 @@ public class AddonIndustrialCraft2 extends AddonBlank {
 
         if (tile instanceof TileEntityTeleporter) {
             BlockPos pos = ((TileEntityTeleporter) tile).getTarget();
-            textPrefixed(probeInfo, "Destination", ((TileEntityTeleporter) tile).hasTarget() ? String.format("%d %d %d", pos.getX(), pos.getY(), pos.getZ()) : "none");
+            textPrefixed(probeInfo, "{*topaddons.ic2:destination*}", ((TileEntityTeleporter) tile).hasTarget() ? String.format("%d %d %d", pos.getX(), pos.getY(), pos.getZ()) : "none");
         }
 
         if (tile instanceof TileEntityTerra) {
             if (!((TileEntityTerra) tile).tfbpSlot.isEmpty()) {
-                textPrefixed(probeInfo, "Blueprint", ((TileEntityTerra) tile).tfbpSlot.get().getDisplayName().substring(7), TextFormatting.AQUA);
+                textPrefixed(probeInfo, "{*topaddons.ic2:blueprint*}", ((TileEntityTerra) tile).tfbpSlot.get().getDisplayName().substring(7));
             } else {
-                textPrefixed(probeInfo, "Blueprint", "None", TextFormatting.AQUA);
+                textPrefixed(probeInfo, "{*topaddons.ic2:blueprint*}", "{*topaddons.ic2:no_blueprint*}");
             }
         }
 
         if (tile instanceof TileEntityHeatSourceInventory) {
-            textPrefixed(probeInfo, "Transmitting", ((TileEntityHeatSourceInventory) tile).gettransmitHeat() + " hU");
-            textPrefixed(probeInfo, "Buffer", ((TileEntityHeatSourceInventory) tile).getHeatBuffer() + " hU");
-            textPrefixed(probeInfo, "Max transfer", ((TileEntityHeatSourceInventory) tile).getMaxHeatEmittedPerTick() + " hU");
+            textPrefixed(probeInfo, "{*topaddons.ic2:transmitting*}", ((TileEntityHeatSourceInventory) tile).gettransmitHeat() + " hU");
+            textPrefixed(probeInfo, "{*topaddons.ic2:buffer*}", ((TileEntityHeatSourceInventory) tile).getHeatBuffer() + " hU");
+            textPrefixed(probeInfo, "{*topaddons.ic2:max_transfer*}", ((TileEntityHeatSourceInventory) tile).getMaxHeatEmittedPerTick() + " hU");
         }
 
         if (tile instanceof TileEntityFermenter) {

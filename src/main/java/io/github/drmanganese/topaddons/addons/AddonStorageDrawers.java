@@ -4,7 +4,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.api.TOPAddon;
@@ -16,6 +15,7 @@ import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.TextStyleClass;
 import mcjty.theoneprobe.config.Config;
 
 @TOPAddon(dependency = "storagedrawers")
@@ -27,7 +27,7 @@ public class AddonStorageDrawers extends AddonBlank {
             TileEntityDrawers tile = (TileEntityDrawers) world.getTileEntity(data.getPos());
 
             if (tile.isShrouded()) {
-                probeInfo.text(TextFormatting.GRAY + TextFormatting.ITALIC.toString() + "Shrouded");
+                probeInfo.text(TextStyleClass.LABEL + "{*topaddons.storage_drawers:shrouded*}");
                 return;
             }
 
@@ -52,7 +52,7 @@ public class AddonStorageDrawers extends AddonBlank {
                                     .item(infiStack)
                                     .vertical(probeInfo.defaultLayoutStyle().spacing(0))
                                     .text(stack.getDisplayName())
-                                    .text(TextFormatting.GRAY + "[\u221e]");
+                                    .text(TextStyleClass.INFOIMP + "[\u221e]");
 
                         } else {
                             int r = stack.getCount() % 64;
@@ -60,14 +60,14 @@ public class AddonStorageDrawers extends AddonBlank {
                             vertical.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).item(stack)
                                     .vertical(probeInfo.defaultLayoutStyle().spacing(0))
                                     .text(stack.getDisplayName())
-                                    .text(TextFormatting.GRAY + "[" + (stack.getCount() >= 64 ? q + "x64 + " : "") + r + "]");
+                                    .text(TextStyleClass.LABEL + "[" + (stack.getCount() >= 64 ? q + "x64 + " : "") + r + "]");
                         }
                     }
                 }
 
-                textPrefixed(probeInfo, "Stack limit", tile.isUnlimited() ? "\u221e" : tile.getDrawerCapacity() * tile.getEffectiveStorageMultiplier() + " (x" + tile.getEffectiveStorageMultiplier() + ")", TextFormatting.AQUA);
+                textPrefixed(probeInfo, "{*storagedrawers.waila.config.displayStackLimit*}", tile.isUnlimited() ? "\u221e" : tile.getDrawerCapacity() * tile.getEffectiveStorageMultiplier() + " (x" + tile.getEffectiveStorageMultiplier() + ")");
                 if (tile.getOwner() != null && tile.getOwner().compareTo(player.getUniqueID()) != 0) {
-                    probeInfo.text(TextFormatting.RED + TextFormatting.ITALIC.toString() + "Protected");
+                    probeInfo.text(TextStyleClass.ERROR + "{*storagedrawers.waila.protected*}");
                 }
             }
         }

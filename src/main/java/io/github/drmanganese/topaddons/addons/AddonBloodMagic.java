@@ -120,7 +120,7 @@ public class AddonBloodMagic extends AddonBlank {
 
         if (tile instanceof IBloodAltar && holdingSigil) {
             IBloodAltar altar = (IBloodAltar) tile;
-            textPrefixed(probeInfo, "Tier", NumeralHelper.toRoman(altar.getTier().toInt()), TextFormatting.RED);
+            textPrefixed(probeInfo, "{*topaddons.bloodmagic:tier*}", NumeralHelper.toRoman(altar.getTier().toInt()), TextFormatting.RED);
 
             if (altar instanceof TileAltar && holdingSeer) {
                 ItemStack input = ((TileAltar) altar).getStackInSlot(0);
@@ -156,8 +156,8 @@ public class AddonBloodMagic extends AddonBlank {
 
         if (tile instanceof TileIncenseAltar && holdingSigil) {
             TileIncenseAltar altar = (TileIncenseAltar) tile;
-            textPrefixed(probeInfo, "Tranquility", (int) ((100D * (int) (100 * altar.tranquility)) / 100D) + "", TextFormatting.RED);
-            textPrefixed(probeInfo, "Bonus", (int) (altar.incenseAddition * 100) + "%", TextFormatting.RED);
+            textPrefixed(probeInfo, "{*topaddons.bloodmagic:tranquility*}", Integer.toString((int) ((100D * (int) (100 * altar.tranquility)) / 100D)));
+            textPrefixed(probeInfo, "{*topaddons.bloodmagic:bonus*}", (int) (altar.incenseAddition * 100) + "%");
         }
 
 

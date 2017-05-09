@@ -318,7 +318,7 @@ public class AddonForestry extends AddonBlank {
                     textPrefixed(probeInfo, "{*topaddons.forestry:engine_stored*}", engine.getEnergyManager().getEnergyStored() + " RF");
                     textPrefixed(probeInfo, "{*topaddons.forestry:engine_heat*}", engine.getHeat() / 10 + " C" + (errorStates.contains(EnumErrorCode.FORCED_COOLDOWN) ? TextStyleClass.ERROR + " ({*for.errors.forced_cooldown.desc*})" : ""));
                 }
-                probeInfo.text(TextStyleClass.LABEL + "{*topaddons.forestry:engine_generating*} " + TextStyleClass.INFOIMP + engine.getCurrentOutput() + TextStyleClass.LABEL + " RF/t");
+                probeInfo.text(TextStyleClass.LABEL + "{*topaddons:generating*} " + TextStyleClass.INFOIMP + engine.getCurrentOutput() + TextStyleClass.LABEL + " RF/t");
             }
 
             /**
