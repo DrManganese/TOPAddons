@@ -2,6 +2,7 @@ package io.github.drmanganese.topaddons.elements.forestry;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
@@ -53,10 +54,10 @@ public class ElementForestryFarm implements IElement {
         drawPlus(centerX - 22, centerY - 22, centerX + 38, centerY + 38);
 
         renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons.get(4), centerX, centerY + 2, "");
-        renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons.get(0), centerX, centerY - 17, oneDirection);
-        renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons.get(1), centerX + 19, centerY + 2, nextDirection());
-        renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons.get(2), centerX, centerY + 21, nextDirection());
-        renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons.get(3), centerX - 19, centerY + 2, nextDirection());
+        renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons.get(0), centerX, centerY - 17, I18n.format("for.gui.solder." + oneDirection));
+        renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons.get(1), centerX + 19, centerY + 2, I18n.format("for.gui.solder." +nextDirection()));
+        renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons.get(2), centerX, centerY + 21, I18n.format("for.gui.solder." +nextDirection()));
+        renderItemStack(minecraft, minecraft.getRenderItem(), farmIcons.get(3), centerX - 19, centerY + 2, I18n.format("for.gui.solder." +nextDirection()));
         nextDirection();
 
         if (this.inventoryStacks.size() > 0) {
@@ -128,18 +129,18 @@ public class ElementForestryFarm implements IElement {
 
     private String nextDirection() {
         switch (this.oneDirection) {
-            case "N":
-                this.oneDirection = "E";
-                return "E";
-            case "E":
-                this.oneDirection = "S";
-                return "S";
-            case "S":
-                this.oneDirection = "W";
-                return "W";
-            case "W":
-                this.oneDirection = "N";
-                return "N";
+            case "north":
+                this.oneDirection = "east";
+                return "east";
+            case "east":
+                this.oneDirection = "south";
+                return "south";
+            case "south":
+                this.oneDirection = "west";
+                return "west";
+            case "west":
+                this.oneDirection = "north";
+                return "north";
             default:
                 return this.oneDirection;
         }

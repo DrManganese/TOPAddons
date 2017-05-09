@@ -24,6 +24,7 @@ import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.TextStyleClass;
 
 public abstract class AddonBlank implements ITOPAddon {
 
@@ -64,13 +65,16 @@ public abstract class AddonBlank implements ITOPAddon {
     public void registerElements() {
 
     }
-
-    IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text) {
-        return textPrefixed(probeInfo, prefix, text, TextFormatting.YELLOW);
+    IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
+        return probeInfo.text(formatting + prefix + ": " + TextStyleClass.INFO + text);
     }
 
-    IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
-        return probeInfo.text(formatting + prefix + ": " + TextFormatting.WHITE + text);
+    IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text) {
+        return textPrefixed(probeInfo, prefix, text, TextStyleClass.LABEL);
+    }
+
+    IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextStyleClass styleClass) {
+        return probeInfo.text(styleClass + prefix + ": " + TextStyleClass.INFO + text);
     }
 
     IProbeInfo progressBar(IProbeInfo probeInfo, int current, int color1, int color2) {
