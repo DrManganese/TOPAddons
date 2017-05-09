@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -65,9 +66,9 @@ public class ElementAltarCrafting implements IElement {
         String text = progress + "/" + required  + " LP";
         ElementRenderHelper.drawSmallText(x + 50 - mc.fontRenderer.getStringWidth(text)/4, y + 6, text, 0xffffffff);
         if (input.getItem() instanceof IBloodOrb)
-            text = "Filling network";
+            text = I18n.format("topaddons.bloodmagic:filling");
         else
-            text = "Consumption: " + consumption + " LP";
+            text = I18n.format("topaddons.ic2:consumption") + ": " + consumption + " LP";
         ElementRenderHelper.drawSmallText(x + 50 - mc.fontRenderer.getStringWidth(text)/4, y + 14, text, 0xffffffff);
     }
 

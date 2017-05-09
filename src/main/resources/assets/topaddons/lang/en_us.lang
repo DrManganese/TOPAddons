@@ -1,4 +1,5 @@
 topaddons:generating=Generating
+topaddons:tank_empty=Empty
 
 topaddons.forestry:fruit=Fruit
 topaddons.forestry:ripe=Ripe
@@ -13,6 +14,7 @@ topaddons.forestry:errors_nowork=Can't Work
 topaddons.bloodmagic:tranquility=Tranquility
 topaddons.bloodmagic:bonus=Bonus
 topaddons.bloodmagic:tier=Tier
+topaddons.bloodmagic:filling=Filling network
 
 topaddons.ic2:consumption=Consumption
 topaddons.ic2:no_sky=Sky Obstructed/Too Dark
