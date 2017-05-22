@@ -56,12 +56,13 @@ public class AddonStorageDrawers extends AddonBlank {
                                     .text(TextFormatting.GRAY + "[\u221e]");
 
                         } else {
-                            int r = stack.stackSize % 64;
-                            int q = (stack.stackSize - r) / 64;
+                            int mss = stack.getMaxStackSize();
+                            int r = stack.stackSize % mss;
+                            int q = (stack.stackSize - r) / mss;
                             vertical.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).item(stack)
                                     .vertical(probeInfo.defaultLayoutStyle().spacing(0))
                                     .text(stack.getDisplayName())
-                                    .text(TextFormatting.GRAY + "[" + (stack.stackSize >= 64 ? q + "x64 + " : "") + r + "]");
+                                    .text(TextFormatting.GRAY + "[" + (stack.stackSize >= mss ? q + "x" + mss + " + " : "") + r + "]");
                         }
                     }
             }
