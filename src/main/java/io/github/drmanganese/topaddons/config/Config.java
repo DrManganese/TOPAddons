@@ -36,6 +36,7 @@ public class Config {
 
     public static class Vanilla {
         public static boolean noteBlock = true;
+        public static boolean breedingCooldown = true;
         static final String CATEGORY = "Vanilla";
     }
 
@@ -56,6 +57,7 @@ public class Config {
         Forge.showTankGauge = config.getBoolean("showTankGauge", Forge.CATEGORY, true, "Show tank gauge for internal tanks on most Tile Entities.");
         MooFluids.showFluid = config.getBoolean("showFluid", MooFluids.CATEGORY, true, "Show the Fluid of Fluid Cows");
         Vanilla.noteBlock = config.getBoolean("noteBlockPitch", Vanilla.CATEGORY, true, "Show note block pitch and instrument.");
+        Vanilla.breedingCooldown = config.getBoolean("breedingCooldown", Vanilla.CATEGORY, true, "Show breeding cooldown on animals while sneaking.");
         Helmets.allHelmetsProbable = config.getBoolean("allHelmetsProbable", Helmets.CATEGORY, true, "All non-blacklisted helmets can be combined with a probe.\n!!! When this is false you can't uncraft previously probified helmets !!!");
         Helmets.helmetBlacklist = config.getStringList("helmetBlacklist", Helmets.CATEGORY, Helmets.helmetBlacklist, "Put registry names of helmets that shouldn't be combinable with a probe");
 
