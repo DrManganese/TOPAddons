@@ -86,7 +86,7 @@ public class AddonVanilla extends AddonBlank {
     @Override
     public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
         if (entity instanceof EntityAnimal) {
-            if (mode == ProbeMode.EXTENDED || ((EntityAnimal) entity).isBreedingItem(player.getHeldItem(EnumHand.MAIN_HAND)) ||  ((EntityAnimal) entity).isBreedingItem(player.getHeldItem(EnumHand.OFF_HAND))) {
+            if (mode == ProbeMode.EXTENDED || ((EntityAnimal) entity).isBreedingItem(player.getHeldItem(EnumHand.MAIN_HAND)) || ((EntityAnimal) entity).isBreedingItem(player.getHeldItem(EnumHand.OFF_HAND))) {
                 int age = ((EntityAnimal) entity).getGrowingAge();
                 int mins = age / 1200;
                 int secs = age / 20 - mins * 60;

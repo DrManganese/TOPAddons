@@ -34,7 +34,7 @@ repositories {
 dependencies {
     //Storage drawers (+ Chameleon), Botania, ...
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.1x-1.4.6-56"
+    deobfCompile "mcjty.theoneprobe:TheOneProbe:1.1x-1.4.7-57"
     compile "net.sengir.forestry:forestry_1.10.2:5.2.17.360"
     deobfCompile "net.darkhax.tesla:Tesla:1.10.2-1.2.1.49"
     deobfCompile "slimeknights.mantle:Mantle:1.10.2-1.1.4.203"
