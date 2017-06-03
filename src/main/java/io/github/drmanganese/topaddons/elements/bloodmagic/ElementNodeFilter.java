@@ -14,11 +14,14 @@ import mcjty.theoneprobe.rendering.RenderHelper;
 
 public class ElementNodeFilter implements IElement {
 
+    private int id;
+
     private final String side;
     private final ItemStack inventoryOnSide;
     private final ItemStack filterStack;
 
-    public ElementNodeFilter(String side, ItemStack inventoryOnSide, ItemStack filterStack) {
+    public ElementNodeFilter(int id, String side, ItemStack inventoryOnSide, ItemStack filterStack) {
+        this.id = id;
         this.side = side;
         this.inventoryOnSide = inventoryOnSide;
         this.filterStack = filterStack;
@@ -67,6 +70,6 @@ public class ElementNodeFilter implements IElement {
 
     @Override
     public int getID() {
-        return AddonBloodMagic.ELEMENT_NODE_FILTER;
+        return id;
     }
 }

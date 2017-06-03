@@ -13,6 +13,7 @@ import javax.annotation.Nonnull;
 public class ClientOptsCapability implements IClientOptsCapability {
 
     private final Map<String, Integer> options = new HashMap<>();
+    private final Map<String, Integer> elements = new HashMap<>();
 
     @Override
     public boolean getBoolean(String option) {
@@ -37,13 +38,28 @@ public class ClientOptsCapability implements IClientOptsCapability {
     }
 
     @Override
-    public Map<String, Integer> getAll() {
+    public Map<String, Integer> getAllOptions() {
         return options;
     }
 
     @Override
-    public void setAll(@Nonnull Map<String, Integer> newOptions) {
+    public void setAllOptions(@Nonnull Map<String, Integer> newOptions) {
         newOptions.forEach(options::put);
+    }
+
+    @Override
+    public void setAllElementIds(@Nonnull Map<String, Integer> elementIds) {
+        elementIds.forEach(elements::put);
+    }
+
+    @Override
+    public Map<String, Integer> getAllElementIds() {
+        return elements;
+    }
+
+    @Override
+    public int getElementId(String name) {
+        return elements.get(name);
     }
 
     public static class Storage implements Capability.IStorage<IClientOptsCapability> {
@@ -51,9 +67,9 @@ public class ClientOptsCapability implements IClientOptsCapability {
         @Override
         public NBTTagCompound writeNBT(Capability<IClientOptsCapability> capability, IClientOptsCapability instance, EnumFacing side) {
             NBTTagCompound tag = new NBTTagCompound();
-            instance.getAll().forEach(tag::setInteger);
+            instance.getAllOptions().forEach(tag::setInteger);
+            instance.getAllElementIds().forEach(tag::setInteger);
             return null;
-            //return tag;
         }
 
         @Override

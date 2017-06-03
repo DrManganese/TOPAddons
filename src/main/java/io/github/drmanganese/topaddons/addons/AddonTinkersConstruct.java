@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
-import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.tconstruct.ElementSmelteryTank;
 
@@ -22,11 +21,10 @@ import slimeknights.tconstruct.smeltery.tileentity.TileSmeltery;
 @TOPAddon(dependency = "tconstruct")
 public class AddonTinkersConstruct extends AddonBlank {
 
-    public static int ELEMENT_SMELTERY_TANK;
 
     @Override
     public void registerElements() {
-        ELEMENT_SMELTERY_TANK = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementSmelteryTank::new);
+        registerElement("smeltery", ElementSmelteryTank::new);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class AddonTinkersConstruct extends AddonBlank {
         TileEntity tile = world.getTileEntity(data.getPos());
         if (tile instanceof TileSmeltery) {
             SmelteryTank tank = ((TileSmeltery) world.getTileEntity(data.getPos())).getTank();
-            addSmelteryTankElement(probeInfo, tank.getFluids(), Math.max(tank.getFluidAmount(), tank.getCapacity()), mode);
+            addSmelteryTankElement(probeInfo, tank.getFluids(), Math.max(tank.getFluidAmount(), tank.getCapacity()), mode, getElementId(player, "smeltery"));
         }
 
         if (tile instanceof TileDryingRack) {
@@ -43,7 +41,7 @@ public class AddonTinkersConstruct extends AddonBlank {
         }
     }
 
-    private void addSmelteryTankElement(IProbeInfo probeInfo, List<FluidStack> fluids, int capacity, ProbeMode mode) {
-        probeInfo.element(new ElementSmelteryTank(fluids, capacity, mode == ProbeMode.EXTENDED));
+    private void addSmelteryTankElement(IProbeInfo probeInfo, List<FluidStack> fluids, int capacity, ProbeMode mode, int id) {
+        probeInfo.element(new ElementSmelteryTank(id, fluids, capacity, mode == ProbeMode.EXTENDED));
     }
 }

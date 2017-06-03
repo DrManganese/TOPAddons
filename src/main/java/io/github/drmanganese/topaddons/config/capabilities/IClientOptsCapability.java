@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
  * turning off functionality, modifying behaviour/appearance.
  * This approach is necessary because TheOneProbe does all its logic for what to display on the
  * server-side.
+ * v1.10.2-0.14.1: Now also includes custom element ids
  */
 public interface IClientOptsCapability {
 
@@ -21,7 +22,13 @@ public interface IClientOptsCapability {
 
     void setOption(String option, int value);
 
-    void setAll(@Nonnull Map<String, Integer> options);
+    void setAllOptions(@Nonnull Map<String, Integer> options);
 
-    Map<String, Integer> getAll();
+    Map<String, Integer> getAllOptions();
+
+    int getElementId(String name);
+
+    void setAllElementIds(@Nonnull Map<String, Integer> elementIds);
+
+    Map<String, Integer> getAllElementIds();
 }

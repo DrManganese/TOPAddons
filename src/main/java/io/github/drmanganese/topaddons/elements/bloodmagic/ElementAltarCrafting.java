@@ -21,11 +21,14 @@ import mcjty.theoneprobe.rendering.RenderHelper;
 
 public class ElementAltarCrafting implements IElement {
 
+    private int id;
+
     private final ItemStack input, result;
     private final int progress, required;
     private final float consumption;
 
-    public ElementAltarCrafting(ItemStack input, ItemStack result, int progress, int required, float consumption) {
+    public ElementAltarCrafting(int id, ItemStack input, ItemStack result, int progress, int required, float consumption) {
+        this.id = id;
         this.input = input;
         this.result = result;
         this.progress = progress;
@@ -92,6 +95,6 @@ public class ElementAltarCrafting implements IElement {
 
     @Override
     public int getID() {
-        return AddonBloodMagic.ELEMENT_ALTAR_CRAFTING;
+        return id;
     }
 }

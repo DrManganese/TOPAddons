@@ -14,7 +14,6 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.TOPAddons;
-import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInventory;
 import io.github.drmanganese.topaddons.elements.forestry.ElementForestryFarm;
@@ -75,9 +74,6 @@ import mcjty.theoneprobe.api.ProbeMode;
 @TOPAddon(dependency = "forestry")
 public class AddonForestry extends AddonBlank {
 
-    public static int ELEMENT_FARM;
-    public static int ELEMENT_BEE_INV;
-
     /**
      * Errors to display even when not sneaking
      */
@@ -90,16 +86,16 @@ public class AddonForestry extends AddonBlank {
             EnumErrorCode.NOT_DARK
     );
 
-    private static void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection) {
-        addFarmElement(probeInfo, farmIcons, oneDirection, false, new ItemStack[]{});
+    private void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection, EntityPlayer player) {
+        addFarmElement(probeInfo, farmIcons, oneDirection, false, new ItemStack[]{}, player);
     }
 
-    private static void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection, boolean showInventory, ItemStack[] inventoryStacks) {
-        probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection, showInventory, inventoryStacks));
+    private void addFarmElement(IProbeInfo probeInfo, ItemStack[] farmIcons, String oneDirection, boolean showInventory, ItemStack[] inventoryStacks, EntityPlayer player) {
+        probeInfo.element(new ElementForestryFarm(getElementId(player, "farm"), farmIcons, oneDirection, showInventory, inventoryStacks));
     }
 
-    private static IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, ItemStack[] inventoryStacks) {
-        return probeInfo.element(new ElementBeeHousingInventory(isApiary, inventoryStacks));
+    private IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, ItemStack[] inventoryStacks, EntityPlayer player) {
+        return probeInfo.element(new ElementBeeHousingInventory(getElementId(player, "bee_inventory"), isApiary, inventoryStacks));
     }
 
     @Override
@@ -117,8 +113,8 @@ public class AddonForestry extends AddonBlank {
 
     @Override
     public void registerElements() {
-        ELEMENT_FARM = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementForestryFarm::new);
-        ELEMENT_BEE_INV = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementBeeHousingInventory::new);
+        registerElement("farm", ElementForestryFarm::new);
+        registerElement("bee_inventory", ElementBeeHousingInventory::new);
     }
 
     @Override
@@ -171,7 +167,7 @@ public class AddonForestry extends AddonBlank {
                         }
                     }
 
-                    addBeeHouseInventory(probeInfo, tile instanceof TileApiary, reorderBeeInvStacks(inventoryStacks));
+                    addBeeHouseInventory(probeInfo, tile instanceof TileApiary, reorderBeeInvStacks(inventoryStacks), player);
                 }
             }
 
@@ -228,7 +224,7 @@ public class AddonForestry extends AddonBlank {
                 }
 
                 if (mode == ProbeMode.NORMAL) {
-                    addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase());
+                    addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase(), player);
                 }
 
                 if (mode == ProbeMode.EXTENDED) {
@@ -240,7 +236,7 @@ public class AddonForestry extends AddonBlank {
                             inventoryStacks[i] = farm.getInternalInventory().getStackInSlot(i);
                         }
                     }
-                    addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase(), true, inventoryStacks);
+                    addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase(), true, inventoryStacks, player);
                     //Maybe add tank gauge to all farm blocks, might handle in ILiquidTankTile section
                 }
             }

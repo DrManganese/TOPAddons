@@ -16,10 +16,13 @@ import static mcjty.theoneprobe.rendering.RenderHelper.renderItemStack;
 
 public class ElementBeeHousingInventory implements IElement {
 
+    private int id;
+
     private final ItemStack[] inventoryStacks;
     private boolean isApiary = false;
 
-    public ElementBeeHousingInventory(boolean isApiary, ItemStack[] inventoryStacks) {
+    public ElementBeeHousingInventory(int id, boolean isApiary, ItemStack[] inventoryStacks) {
+        this.id = id;
         this.inventoryStacks = inventoryStacks;
         this.isApiary = isApiary;
     }
@@ -105,6 +108,6 @@ public class ElementBeeHousingInventory implements IElement {
 
     @Override
     public int getID() {
-        return AddonForestry.ELEMENT_BEE_INV;
+        return id;
     }
 }

@@ -3,7 +3,6 @@ package io.github.drmanganese.topaddons.elements.tconstruct;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fluids.FluidStack;
 
-import io.github.drmanganese.topaddons.addons.AddonTinkersConstruct;
 import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 import io.github.drmanganese.topaddons.styles.ProgressStyleSmelteryFluid;
 import io.github.drmanganese.topaddons.styles.ProgressStyleTank;
@@ -22,13 +21,16 @@ import static io.github.drmanganese.topaddons.elements.ElementRenderHelper.drawS
 
 public class ElementSmelteryTank implements IElement {
 
+    private int id;
+
     private final List<SmelteryFluid> fluids;
     private final int capacity;
     private final boolean sneaking;
 
     private final int gaugeHeight;
 
-    public ElementSmelteryTank(List<FluidStack> fluids, int capacity, boolean sneaking) {
+    public ElementSmelteryTank(int id, List<FluidStack> fluids, int capacity, boolean sneaking) {
+        this.id = id;
         this.fluids = new ArrayList<>();
         fluids.forEach(fluidStack -> this.fluids.add(new SmelteryFluid(fluidStack.getLocalizedName(), fluidStack.amount, fluidStack.getFluid().getColor(), capacity)));
         this.capacity = capacity;
@@ -124,7 +126,7 @@ public class ElementSmelteryTank implements IElement {
 
     @Override
     public int getID() {
-        return AddonTinkersConstruct.ELEMENT_SMELTERY_TANK;
+        return id;
     }
 
     private final class SmelteryFluid {

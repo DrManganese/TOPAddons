@@ -18,12 +18,15 @@ import static mcjty.theoneprobe.rendering.RenderHelper.renderItemStack;
 
 public class ElementForestryFarm implements IElement {
 
+    private int id;
+
     private final ItemStack[] farmIcons;
     private String oneDirection;
 
     private ItemStack[] inventoryStacks;
 
-    public ElementForestryFarm(ItemStack[] farmIcons, String oneDirection, boolean renderInventory, ItemStack[] inventoryStacks) {
+    public ElementForestryFarm(int id, ItemStack[] farmIcons, String oneDirection, boolean renderInventory, ItemStack[] inventoryStacks) {
+        this.id = id;
         this.farmIcons = farmIcons;
         this.oneDirection = oneDirection;
         this.inventoryStacks = inventoryStacks;
@@ -127,7 +130,7 @@ public class ElementForestryFarm implements IElement {
 
     @Override
     public int getID() {
-        return AddonForestry.ELEMENT_FARM;
+        return id;
     }
 
     private String nextDirection() {

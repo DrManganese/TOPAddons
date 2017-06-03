@@ -13,7 +13,6 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import io.github.drmanganese.topaddons.TOPAddons;
-import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.elements.ElementTankGauge;
@@ -30,22 +29,17 @@ import mcjty.theoneprobe.api.ProbeMode;
 @TOPAddon(dependency = "Forge", fancyName = "Base", order = 1)
 public class AddonForge extends AddonBlank {
 
-    public static int ELEMENT_TANK;
-
-    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, String suffix, int color, ProbeMode mode) {
-        return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
+    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, String suffix, int color, ProbeMode mode, int id) {
+        return probeInfo.element(new ElementTankGauge(id, name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
     }
 
-    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode) {
-        return addTankElement(probeInfo, name, tank, mode, 0);
-    }
 
-    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode, int i) {
+    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode, int id) {
         String suffix = "mB";
         if (name.equals("Blood Altar")) suffix = "LP";
 
         if (tank.fluid == null) {
-            return probeInfo.element(new ElementTankGauge(name, "", 0, 0, suffix, 0, mode == ProbeMode.EXTENDED));
+            return probeInfo.element(new ElementTankGauge(id, name, "", 0, 0, suffix, 0, mode == ProbeMode.EXTENDED));
         } else {
             int color = 0xff777777;
             if (tank.fluid.getFluid().getColor(tank.fluid) != 0xffffffff) {
@@ -59,7 +53,7 @@ public class AddonForge extends AddonBlank {
             if (Colors.fluidColorMap.containsKey(tank.fluid.getFluid())) {
                 color = Colors.fluidColorMap.get(tank.fluid.getFluid()).hashCode();
             }
-            return probeInfo.element(new ElementTankGauge(name, tank.fluid.getLocalizedName(), tank.fluid.amount, tank.capacity, suffix, color, mode == ProbeMode.EXTENDED));
+            return probeInfo.element(new ElementTankGauge(id, name, tank.fluid.getLocalizedName(), tank.fluid.amount, tank.capacity, suffix, color, mode == ProbeMode.EXTENDED));
         }
     }
 
@@ -106,9 +100,9 @@ public class AddonForge extends AddonBlank {
                     } else if (Colors.fluidNameColorMap.containsKey(tank.getContents().getFluid().getName())) {
                         color = Colors.fluidNameColorMap.get(tank.getContents().getFluid().getName());
                     }
-                    addTankElement(probeInfo, tankName, tank.getContents().getFluid().getLocalizedName(tank.getContents()), tank.getContents().amount, tank.getCapacity(), "mB", color, mode);
+                    addTankElement(probeInfo, tankName, tank.getContents().getFluid().getLocalizedName(tank.getContents()), tank.getContents().amount, tank.getCapacity(), "mB", color, mode, getElementId(player, "tank_gauge"));
                 } else {
-                    addTankElement(probeInfo, tankName, "", 0, 0, "", color, mode);
+                    addTankElement(probeInfo, tankName, "", 0, 0, "", color, mode, getElementId(player, "tank_gauge"));
                 }
             }
 
@@ -123,9 +117,9 @@ public class AddonForge extends AddonBlank {
                             tankName = Names.tankNamesMap.get(tile.getClass())[i];
                         }
                         if (tanks[i].fluid != null) {
-                            addTankElement(probeInfo, tankName, tanks[i], mode);
+                            addTankElement(probeInfo, tankName, tanks[i], mode, getElementId(player, "tank_guauge"));
                         } else {
-                            addTankElement(probeInfo, tankName, "", 0, 0, "", 0xff777777, mode);
+                            addTankElement(probeInfo, tankName, "", 0, 0, "", 0xff777777, mode, getElementId(player, "tank_gauge"));
                         }
                     }
                 }
@@ -150,6 +144,6 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void registerElements() {
-        ELEMENT_TANK = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementTankGauge::new);
+        registerElement("tank_gauge", ElementTankGauge::new);
     }
 }
