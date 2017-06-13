@@ -1,3 +1,19 @@
+topaddons.config:title=TOP Addons
+topaddons.config:category_client=TOP Addons Configuration Client
+topaddons.config:category_server=TOP Addons Configuration
+topaddons.config:category_server_helmets=Casques
+topaddons.config:category_server_helmets.tooltip=Personnaliser les casques qui peuvent être combinées avec une sonde
+topaddons.config:category_server_bloodmagic=Blood Magic
+topaddons.config:category_server_bloodmagic.tooltip=Personnaliser quand un emblème est nécessaire pour visualiser certaines infos
+
+topaddons.config:helmets_probable=Toute casque peut être "probifiée"
+topaddons.config:helmets_probable.tooltip=Si true, toute casque dans le jeu peut être combinée avec une sonde, permettant de visualiser le HUD sans avoir une sonde dans la main
+topaddons.config:helmets_blacklist=Les casques qui ne devraient pas être "probifiable"
+topaddons.config:bloodmagic_sigil=Eblème nécessaire pour info sur l'Autel
+topaddons.config:bloodmagic_sigil.tooltip=Est-ce qu'un eblème de Pythies ou du Voyant est nécessaire pour voir de l'information sur l'Autel
+topaddons.config:bloodmagic_mimick_sigil=Reveller mimick avec l'emblème du voyant
+topaddons.config:bloodmagic_mimick_sigil.tooltip=Montrer le type de block Mimick dans l'info-bulle du HUD si on a une sonde dans le main
+
 topaddons:generating=Génère
 topaddons:tank_empty=Vide
 

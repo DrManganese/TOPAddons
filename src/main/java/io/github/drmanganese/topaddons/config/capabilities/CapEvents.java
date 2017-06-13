@@ -1,6 +1,7 @@
 package io.github.drmanganese.topaddons.config.capabilities;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -11,6 +12,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.config.ConfigClient;
 import io.github.drmanganese.topaddons.network.MessageClientOptions;
 import io.github.drmanganese.topaddons.network.PacketHandler;
@@ -23,8 +25,8 @@ import static io.github.drmanganese.topaddons.TOPAddons.OPTS_CAP;
 public class CapEvents {
 
     @SubscribeEvent
-    public void onAttachCapabilityEntity(AttachCapabilitiesEvent.Entity event) {
-        if (event.getEntity() instanceof EntityPlayer) {
+    public void onAttachCapabilityEntity(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof EntityPlayer) {
             event.addCapability(new ResourceLocation(Reference.MOD_ID, "options"), new ICapabilityProvider() {
                 private IClientOptsCapability instance = OPTS_CAP.getDefaultInstance();
 
@@ -45,9 +47,8 @@ public class CapEvents {
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getWorld().isRemote && event.getEntity() == Minecraft.getMinecraft().player) {
             //noinspection VariableUseSideOnly
-            PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(ConfigClient.VALUES, (EntityPlayer) event.getEntity()));
+            PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(ConfigClient.getClientValues(TOPAddons.configClient), (EntityPlayer) event.getEntity()));
         }
-
     }
 
     @SubscribeEvent

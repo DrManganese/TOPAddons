@@ -6,7 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
@@ -15,7 +14,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.elements.ElementTankGauge;
 import io.github.drmanganese.topaddons.reference.Colors;
 import io.github.drmanganese.topaddons.reference.Names;
@@ -36,32 +34,9 @@ public class AddonForge extends AddonBlank {
         return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
     }
 
-    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tank, ProbeMode mode, int i) {
-        String suffix = "mB";
-        if (name.equals("Blood Altar")) suffix = "LP";
-
-        if (tank.fluid == null) {
-            return probeInfo.element(new ElementTankGauge(name, "", 0, 0, suffix, 0, mode == ProbeMode.EXTENDED));
-        } else {
-            int color = 0xff777777;
-            if (tank.fluid.getFluid().getColor(tank.fluid) != 0xffffffff) {
-                color = tank.fluid.getFluid().getColor(tank.fluid);
-            } else if (Colors.fluidColorMap.containsKey(tank.fluid.getFluid())) {
-                color = Colors.fluidColorMap.get(tank.fluid.getFluid());
-            } else if (Colors.fluidNameColorMap.containsKey(tank.fluid.getFluid().getName())) {
-                color = Colors.fluidNameColorMap.get(tank.fluid.getFluid().getName());
-            }
-
-            if (Colors.fluidColorMap.containsKey(tank.fluid.getFluid())) {
-                color = Colors.fluidColorMap.get(tank.fluid.getFluid()).hashCode();
-            }
-            return probeInfo.element(new ElementTankGauge(name, tank.fluid.getLocalizedName(), tank.fluid.amount, tank.capacity, suffix, color, mode == ProbeMode.EXTENDED));
-        }
-    }
-
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (!Config.Forge.showTankGauge || !player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("fluidGauge"))
+        if (player.getCapability(TOPAddons.OPTS_CAP, null).getInt("fluidGaugeDisplay") < 1)
             return;
 
         /* Disable for enderio, endertanks */
@@ -113,7 +88,7 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("hideTOPTank")) {
+        if (player.getCapability(TOPAddons.OPTS_CAP, null).getInt("fluidGaugeDisplay") == 1) {
             config.showTankSetting(IProbeConfig.ConfigMode.NOT);
         } else {
             config.showTankSetting(IProbeConfig.ConfigMode.EXTENDED);

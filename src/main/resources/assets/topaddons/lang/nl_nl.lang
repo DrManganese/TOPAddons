@@ -1,3 +1,21 @@
+topaddons.config:title=TOP Addons
+topaddons.config:category_client=TOP Addons Client Config
+topaddons.config:category_client.tooltip=Client-specifieke opties (visueel)
+topaddons.config:category_server=TOP Addons Config
+topaddons.config:category_server.tooltip=
+topaddons.config:category_server_helmets=Helmen
+topaddons.config:category_server_helmets.tooltip=Pas aan welke helmen samen met een sonde gecraft kunnen worden
+topaddons.config:category_server_bloodmagic=Blood Magic
+topaddons.config:category_server_bloodmagic.tooltip=Pas aan of een sigil nodig is om sommige informatie over het Blood Altar te zien
+
+topaddons.config:helmets_probable=Alle helmen kunnen "geprobifieerd" worden
+topaddons.config:helmets_probable.tooltip=Als true kan elke helm in het spel gecombineerd worden met een sonde zodat de HUD zichtbaar is zonder een item vast te houden
+topaddons.config:helmets_blacklist=Helmen die niet mogen worden gecombineerd
+topaddons.config:bloodmagic_sigil=Sigil is nodig voor altar info
+topaddons.config:bloodmagic_sigil.tooltip=Is een Divination of Seer sigil nodig om informatie over get Blood Altar te zien
+topaddons.config:bloodmagic_mimick_sigil=Onthul mimick met Seer sigil
+topaddons.config:bloodmagic_mimick_sigil.tooltip=Toon het type van Mimick block in de HUD als de speler een Seer sigil vasthoudt
+
 topaddons:generating=Genereert
 topaddons:tank_empty=Leeg
 

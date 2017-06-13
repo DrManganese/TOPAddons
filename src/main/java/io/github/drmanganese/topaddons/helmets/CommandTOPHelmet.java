@@ -13,7 +13,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 
 import io.github.drmanganese.topaddons.AddonManager;
-import io.github.drmanganese.topaddons.config.Config;
+import io.github.drmanganese.topaddons.TOPAddons;
+import io.github.drmanganese.topaddons.config.HelmetConfig;
 
 import com.google.common.collect.Lists;
 
@@ -45,7 +46,7 @@ public class CommandTOPHelmet implements ICommand {
 
     @Override
     public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
-        if (!Config.Helmets.allHelmetsProbable) {
+        if (!HelmetConfig.allHelmetsProbable) {
             sender.sendMessage(new TextComponentString(TextFormatting.RED + TextFormatting.ITALIC.toString() + "AllHelmetsProbable config is set to false"));
             return;
         }
@@ -55,7 +56,7 @@ public class CommandTOPHelmet implements ICommand {
         if ("blacklist".equals(args[0]) && ("add".equals(args[1]) || "remove".equals(args[1]))) {
             if (sender instanceof EntityPlayer) {
                 ItemStack stack = (((EntityPlayer) sender).getHeldItemMainhand());
-                if (stack == null || !(stack.getItem() instanceof ItemArmor)) {
+                if (!(stack.getItem() instanceof ItemArmor)) {
                     sender.sendMessage(new TextComponentString(TextFormatting.RED + "Hold a helmet in your main hand to add/remove it to the blacklist"));
                     return;
                 }
@@ -67,22 +68,22 @@ public class CommandTOPHelmet implements ICommand {
                         return;
                     }
 
-                    if (Config.Helmets.helmetBlacklistSet.contains(loc)) {
+                    if (HelmetConfig.helmetBlacklistSet.contains(loc)) {
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + "This helmet is already on the blacklist"));
                     } else {
-                        Config.Helmets.helmetBlacklistSet.add(loc);
+                        HelmetConfig.helmetBlacklistSet.add(loc);
                         sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Helmet was added to the blacklist"));
                     }
                 } else {
-                    if (Config.Helmets.helmetBlacklistSet.contains(loc)) {
-                        Config.Helmets.helmetBlacklistSet.remove(loc);
+                    if (HelmetConfig.helmetBlacklistSet.contains(loc)) {
+                        HelmetConfig.helmetBlacklistSet.remove(loc);
                         sender.sendMessage(new TextComponentString(TextFormatting.GREEN + "Helmet was removed from the blacklist"));
                     } else {
                         sender.sendMessage(new TextComponentString(TextFormatting.RED + "This helmet is not on the blacklist"));
                     }
                 }
 
-                Config.updateHelmetBlacklistConfig();
+                HelmetConfig.saveHelmetBlacklist(TOPAddons.config);
             }
         }
     }

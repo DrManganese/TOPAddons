@@ -1,6 +1,7 @@
 package io.github.drmanganese.topaddons.api;
 
 import net.minecraft.item.ItemArmor;
+import net.minecraftforge.common.config.Configuration;
 
 import io.github.drmanganese.topaddons.AddonManager;
 import io.github.drmanganese.topaddons.addons.AddonBlank;
@@ -52,4 +53,11 @@ public interface ITOPAddon extends IProbeInfoProvider, IProbeInfoEntityProvider,
 
     List<IBlockDisplayOverride> getBlockDisplayOverrides();
 
+    /**
+     * Read options from the given configuration file. Called for each addon after all addons are
+     * loaded and on {@link net.minecraftforge.fml.client.event.ConfigChangedEvent}.
+     *
+     * @param config The config file to load the options from
+     */
+    void updateConfigs(Configuration config);
 }

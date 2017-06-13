@@ -11,11 +11,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.elements.bloodmagic.ElementAltarCrafting;
 import io.github.drmanganese.topaddons.elements.bloodmagic.ElementNodeFilter;
 import io.github.drmanganese.topaddons.reference.EnumChip;
@@ -62,6 +62,14 @@ public class AddonBloodMagic extends AddonBlank {
     public static int ELEMENT_NODE_FILTER;
     public static int ELEMENT_ALTAR_CRAFTING;
 
+    private boolean requireSigil = true;
+    private boolean seeMimickWithSigil = true;
+
+    @Override
+    public void addTankNames() {
+        Names.tankNamesMap.put(TileAltar.class, new String[]{"Blood Altar"});
+    }
+
     @Override
     public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
         Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>();
@@ -74,11 +82,6 @@ public class AddonBloodMagic extends AddonBlank {
     public void registerElements() {
         ELEMENT_NODE_FILTER = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementNodeFilter::new);
         ELEMENT_ALTAR_CRAFTING = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementAltarCrafting::new);
-    }
-
-    @Override
-    public void addTankNames() {
-        Names.tankNamesMap.put(TileAltar.class, new String[]{"Blood Altar"});
     }
 
     @Override
@@ -112,9 +115,15 @@ public class AddonBloodMagic extends AddonBlank {
     }
 
     @Override
+    public void updateConfigs(Configuration config) {
+        requireSigil = config.get("bloodmagic", "requireSigil", true, "Is holding a divination sigil required to see certain information.").setLanguageKey("topaddons.config:bloodmagic_sigil").getBoolean();
+        seeMimickWithSigil = config.get("bloodmagic", "seeMimickWithSigil", true, "Shows the player that they're looking at a mimick block when holding a seer sigil.").setLanguageKey("topaddons.config:bloodmagic_mimick_sigil").getBoolean();
+    }
+
+    @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        boolean holdingSigil = !Config.BloodMagic.requireSigil || isAltarSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || isAltarSeer(player.getHeldItem(EnumHand.OFF_HAND));
-        boolean holdingSeer = !Config.BloodMagic.requireSigil || holdingSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || holdingSeer(player.getHeldItem(EnumHand.OFF_HAND));
+        boolean holdingSigil = !requireSigil || isAltarSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || isAltarSeer(player.getHeldItem(EnumHand.OFF_HAND));
+        boolean holdingSeer = !requireSigil || holdingSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || holdingSeer(player.getHeldItem(EnumHand.OFF_HAND));
 
         TileEntity tile = world.getTileEntity(data.getPos());
 
@@ -161,7 +170,7 @@ public class AddonBloodMagic extends AddonBlank {
         }
 
 
-        if (tile instanceof TileMimic && (!Config.BloodMagic.seeMimickWithSigil || holdingSeer)) {
+        if (tile instanceof TileMimic && seeMimickWithSigil && holdingSeer) {
             ItemStack mimicStack = ((TileMimic) world.getTileEntity(data.getPos())).getStackInSlot(0);
             if (!mimicStack.isEmpty()) {
                 probeInfo.text(TextFormatting.GRAY + data.getPickBlock().getDisplayName());

@@ -18,7 +18,7 @@ import java.util.Set;
 
 public class AddonManager {
 
-    static final List<ITOPAddon> ADDONS = new LinkedList<>();
+    public static final List<ITOPAddon> ADDONS = new LinkedList<>();
     public static final Map<Class<? extends ItemArmor>, EnumChip> SPECIAL_HELMETS = new HashMap<>();
 
     static void preInit(FMLPreInitializationEvent event) {

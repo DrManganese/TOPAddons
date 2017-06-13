@@ -7,6 +7,8 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
+import net.minecraftforge.common.config.Configuration;
+
 import io.github.drmanganese.topaddons.api.ITOPAddon;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.reference.EnumChip;
@@ -65,6 +67,7 @@ public abstract class AddonBlank implements ITOPAddon {
     public void registerElements() {
 
     }
+
     IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
         return probeInfo.text(formatting + prefix + ": " + TextStyleClass.INFO + text);
     }
@@ -94,5 +97,10 @@ public abstract class AddonBlank implements ITOPAddon {
     @Override
     public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
         return Collections.emptyList();
+    }
+
+    @Override
+    public void updateConfigs(Configuration config) {
+
     }
 }

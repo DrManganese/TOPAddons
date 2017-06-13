@@ -9,7 +9,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.AddonManager;
-import io.github.drmanganese.topaddons.config.Config;
+import io.github.drmanganese.topaddons.config.HelmetConfig;
 
 import javax.annotation.Nonnull;
 
@@ -26,7 +26,7 @@ public class UnprobedHelmetCrafting implements IRecipe {
             ItemStack stack = inv.getStackInSlot(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == EntityEquipmentSlot.HEAD && !helmet) {
-                    if (Config.Helmets.allHelmetsProbable && !Config.Helmets.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !Config.Helmets.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
+                    if (HelmetConfig.allHelmetsProbable && !HelmetConfig.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !HelmetConfig.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
                         helmet = stack.hasTagCompound() && stack.getTagCompound().hasKey(PROBETAG);
                     }
                 } else {
@@ -47,7 +47,7 @@ public class UnprobedHelmetCrafting implements IRecipe {
             ItemStack stack = inv.getStackInSlot(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == EntityEquipmentSlot.HEAD) {
-                    if (Config.Helmets.allHelmetsProbable && !Config.Helmets.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !Config.Helmets.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
+                    if (HelmetConfig.allHelmetsProbable && !HelmetConfig.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !HelmetConfig.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
                         helmet = stack.copy();
                     }
                 }
