@@ -96,13 +96,13 @@ public class AddonForge extends AddonBlank {
     }
 
     @Override
-    public void addFluidColors() {
-        Colors.fluidColorMap.put(FluidRegistry.WATER, new Color(52, 95, 218).hashCode());
-        Colors.fluidColorMap.put(FluidRegistry.LAVA, new Color(230, 145, 60).hashCode());
+    public void registerElements() {
+        ELEMENT_TANK = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementTankGauge::new);
     }
 
     @Override
-    public void registerElements() {
-        ELEMENT_TANK = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementTankGauge::new);
+    public void addFluidColors() {
+        Colors.fluidColorMap.put(FluidRegistry.WATER, new Color(52, 95, 218).hashCode());
+        Colors.fluidColorMap.put(FluidRegistry.LAVA, new Color(230, 145, 60).hashCode());
     }
 }

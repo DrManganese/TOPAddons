@@ -76,9 +76,6 @@ import mcjty.theoneprobe.api.TextStyleClass;
 @TOPAddon(dependency = "forestry")
 public class AddonForestry extends AddonBlank {
 
-    public static int ELEMENT_FARM;
-    public static int ELEMENT_BEE_INV;
-
     /**
      * Errors to display even when not sneaking
      */
@@ -90,31 +87,19 @@ public class AddonForestry extends AddonBlank {
             EnumErrorCode.NO_SPECIMEN,
             EnumErrorCode.NOT_DARK
     );
+    public static int ELEMENT_FARM;
+    public static int ELEMENT_BEE_INV;
 
-    private static void addFarmElement(IProbeInfo probeInfo, NonNullList<ItemStack> farmIcons, String oneDirection) {
-        addFarmElement(probeInfo, farmIcons, oneDirection, false, NonNullList.create());
-    }
-
-    private static void addFarmElement(IProbeInfo probeInfo, NonNullList<ItemStack> farmIcons, String oneDirection, boolean showInventory, NonNullList<ItemStack> inventoryStacks) {
+    private void addFarmElement(IProbeInfo probeInfo, NonNullList<ItemStack> farmIcons, String oneDirection, boolean showInventory, NonNullList<ItemStack> inventoryStacks) {
         probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection, showInventory, inventoryStacks));
     }
 
-    private static IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, NonNullList<ItemStack> inventoryStacks) {
+    private void addFarmElement(IProbeInfo probeInfo, NonNullList<ItemStack> farmIcons, String oneDirection) {
+        addFarmElement(probeInfo, farmIcons, oneDirection, false, NonNullList.create());
+    }
+
+    private IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, NonNullList<ItemStack> inventoryStacks) {
         return probeInfo.element(new ElementBeeHousingInventory(isApiary, inventoryStacks));
-    }
-
-    @Override
-    public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
-        Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>(2);
-        map.put(ItemArmorApiarist.class, EnumChip.STANDARD);
-        map.put(ItemArmorNaturalist.class, EnumChip.SPECTACLES);
-        return map;
-    }
-
-    @Override
-    public void registerElements() {
-        ELEMENT_FARM = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementForestryFarm::new);
-        ELEMENT_BEE_INV = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementBeeHousingInventory::new);
     }
 
     @Override
@@ -227,7 +212,7 @@ public class AddonForestry extends AddonBlank {
                 }
 
                 if (mode == ProbeMode.NORMAL) {
-                    addFarmElement(probeInfo, farmIcons,facing.getName());
+                    addFarmElement(probeInfo, farmIcons, facing.getName());
                 }
 
                 if (mode == ProbeMode.EXTENDED) {
@@ -341,22 +326,6 @@ public class AddonForestry extends AddonBlank {
     }
 
     @Override
-    public void addFluidColors() {
-        for (Fluids fluid : Fluids.values()) {
-            Colors.fluidColorMap.put(fluid.getFluid(), fluid.getParticleColor().hashCode());
-        }
-    }
-
-    //TODO localised tank names
-    @Override
-    public void addTankNames() {
-        Names.tankNamesMap.put(TileEngineBiogas.class, new String[]{"Fuel", "Heating", "Burner"});
-        Names.tankNamesMap.put(TileStill.class, new String[]{"In", "Out"});
-        Names.tankNamesMap.put(TileFermenter.class, new String[]{"Resource Tank", "Product Tank"});
-        Names.tankNamesMap.put(TileRaintank.class, new String[]{"Reservoir"});
-    }
-
-    @Override
     public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
         if (entity instanceof IEntityButterfly) {
             IButterfly butterfly = ((IEntityButterfly) entity).getButterfly();
@@ -388,6 +357,36 @@ public class AddonForestry extends AddonBlank {
             config.showChestContents(IProbeConfig.ConfigMode.EXTENDED);
             config.showChestContentsDetailed(IProbeConfig.ConfigMode.EXTENDED);
         }
+    }
+
+    @Override
+    public void registerElements() {
+        ELEMENT_FARM = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementForestryFarm::new);
+        ELEMENT_BEE_INV = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementBeeHousingInventory::new);
+    }
+
+    @Override
+    public void addFluidColors() {
+        for (Fluids fluid : Fluids.values()) {
+            Colors.fluidColorMap.put(fluid.getFluid(), fluid.getParticleColor().hashCode());
+        }
+    }
+
+    //TODO localised tank names
+    @Override
+    public void addTankNames() {
+        Names.tankNamesMap.put(TileEngineBiogas.class, new String[]{"Fuel", "Heating", "Burner"});
+        Names.tankNamesMap.put(TileStill.class, new String[]{"In", "Out"});
+        Names.tankNamesMap.put(TileFermenter.class, new String[]{"Resource Tank", "Product Tank"});
+        Names.tankNamesMap.put(TileRaintank.class, new String[]{"Reservoir"});
+    }
+
+    @Override
+    public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
+        Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>(2);
+        map.put(ItemArmorApiarist.class, EnumChip.STANDARD);
+        map.put(ItemArmorNaturalist.class, EnumChip.SPECTACLES);
+        return map;
     }
 
     private NonNullList<ItemStack> reorderBeeInvStacks(NonNullList<ItemStack> old) {

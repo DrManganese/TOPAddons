@@ -38,6 +38,8 @@ dependencies {
     compile "net.sengir.forestry:forestry_1.11.2:5.3.3.93"
     deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.11-2.1.8-77"
     deobfCompile "net.industrial-craft:industrialcraft-2:2.7.9-ex111"
+    deobfCompile "slimeknights.mantle:Mantle:1.11.2-1.2.0.25"
+    deobfCompile "slimeknights:TConstruct:1.11.2-2.7.0.9"
 }
 
 
@@ -84,9 +86,6 @@ sourceSets {
     main {
         java {
             exclude '**/addons/AddonBotania.java'
-            exclude '**/addons/AddonTinkersConstruct.java'
-
-            exclude '**/elements/tconstruct/**'
         }
     }
 }

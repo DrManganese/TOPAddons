@@ -16,16 +16,18 @@ import mcjty.theoneprobe.api.IProbeInfoEntityProvider;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
 
 /**
- * Interface each addon has to implement (through extending {@link AddonBlank}
- * or directly), the {@link AddonManager} will look for it
- * if it finds a {@link TOPAddon} annotation.
+ * Interface each addon has to implement (through extending {@link AddonBlank} or directly), the
+ * {@link AddonManager} will look for it if it finds a {@link TOPAddon} annotation.
  */
 public interface ITOPAddon extends IProbeInfoProvider, IProbeInfoEntityProvider, IProbeConfigProvider {
 
     /**
-     * @return A {@link Map} containing {@link ItemArmor}, {@link EnumChip} pairs.
+     * Read options from the given configuration file. Called for each addon after all addons are
+     * loaded and on {@link net.minecraftforge.fml.client.event.ConfigChangedEvent}.
+     *
+     * @param config The config file to load the options from
      */
-    Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets();
+    void updateConfigs(Configuration config);
 
     /**
      * Custom {@link mcjty.theoneprobe.api.IElement}s have to be registered here.<p>
@@ -41,23 +43,23 @@ public interface ITOPAddon extends IProbeInfoProvider, IProbeInfoEntityProvider,
 
     /**
      * Add a <{@link net.minecraftforge.fluids.Fluid}, {@link Integer}> pair to the Map in
-     * {@link io.github.drmanganese.topaddons.reference.Colors}
+     * {@link io.github.drmanganese.topaddons.reference.Colors}.
      */
     void addFluidColors();
 
     /**
      * Add a <{@link net.minecraft.tileentity.TileEntity}, {@link String[]}> pair to the Map in
-     * {@link io.github.drmanganese.topaddons.reference.Names}
+     * {@link io.github.drmanganese.topaddons.reference.Names}.
      */
     void addTankNames();
 
-    List<IBlockDisplayOverride> getBlockDisplayOverrides();
+    /**
+     * @return A {@link Map} containing {@link ItemArmor}, {@link EnumChip} pairs.
+     */
+    Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets();
 
     /**
-     * Read options from the given configuration file. Called for each addon after all addons are
-     * loaded and on {@link net.minecraftforge.fml.client.event.ConfigChangedEvent}.
-     *
-     * @param config The config file to load the options from
+     * @return A list of {@link IBlockDisplayOverride}.
      */
-    void updateConfigs(Configuration config);
+    List<IBlockDisplayOverride> getBlockDisplayOverrides();
 }

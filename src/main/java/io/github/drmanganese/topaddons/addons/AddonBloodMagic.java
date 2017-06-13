@@ -66,6 +66,18 @@ public class AddonBloodMagic extends AddonBlank {
     private boolean seeMimickWithSigil = true;
 
     @Override
+    public void updateConfigs(Configuration config) {
+        requireSigil = config.get("bloodmagic", "requireSigil", true, "Is holding a divination sigil required to see certain information.").setLanguageKey("topaddons.config:bloodmagic_sigil").getBoolean();
+        seeMimickWithSigil = config.get("bloodmagic", "seeMimickWithSigil", true, "Shows the player that they're looking at a mimick block when holding a seer sigil.").setLanguageKey("topaddons.config:bloodmagic_mimick_sigil").getBoolean();
+    }
+
+    @Override
+    public void registerElements() {
+        ELEMENT_NODE_FILTER = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementNodeFilter::new);
+        ELEMENT_ALTAR_CRAFTING = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementAltarCrafting::new);
+    }
+
+    @Override
     public void addTankNames() {
         Names.tankNamesMap.put(TileAltar.class, new String[]{"Blood Altar"});
     }
@@ -76,12 +88,6 @@ public class AddonBloodMagic extends AddonBlank {
         map.put(ItemLivingArmour.class, EnumChip.STANDARD);
         map.put(ItemSentientArmour.class, EnumChip.STANDARD);
         return map;
-    }
-
-    @Override
-    public void registerElements() {
-        ELEMENT_NODE_FILTER = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementNodeFilter::new);
-        ELEMENT_ALTAR_CRAFTING = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementAltarCrafting::new);
     }
 
     @Override
@@ -112,12 +118,6 @@ public class AddonBloodMagic extends AddonBlank {
             }
             return false;
         });
-    }
-
-    @Override
-    public void updateConfigs(Configuration config) {
-        requireSigil = config.get("bloodmagic", "requireSigil", true, "Is holding a divination sigil required to see certain information.").setLanguageKey("topaddons.config:bloodmagic_sigil").getBoolean();
-        seeMimickWithSigil = config.get("bloodmagic", "seeMimickWithSigil", true, "Shows the player that they're looking at a mimick block when holding a seer sigil.").setLanguageKey("topaddons.config:bloodmagic_mimick_sigil").getBoolean();
     }
 
     @Override

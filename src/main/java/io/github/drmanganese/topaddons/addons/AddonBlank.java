@@ -6,7 +6,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-
 import net.minecraftforge.common.config.Configuration;
 
 import io.github.drmanganese.topaddons.api.ITOPAddon;
@@ -45,17 +44,30 @@ public abstract class AddonBlank implements ITOPAddon {
 
     @Override
     public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
-
     }
 
     @Override
-    public void addTankNames() {
+    public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
+    }
 
+    @Override
+    public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+    }
+
+    @Override
+    public void updateConfigs(Configuration config) {
+    }
+
+    @Override
+    public void registerElements() {
     }
 
     @Override
     public void addFluidColors() {
+    }
 
+    @Override
+    public void addTankNames() {
     }
 
     @Override
@@ -64,9 +76,11 @@ public abstract class AddonBlank implements ITOPAddon {
     }
 
     @Override
-    public void registerElements() {
-
+    public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
+        return Collections.emptyList();
     }
+
+    /* Shortcut methods */
 
     IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
         return probeInfo.text(formatting + prefix + ": " + TextStyleClass.INFO + text);
@@ -82,25 +96,5 @@ public abstract class AddonBlank implements ITOPAddon {
 
     IProbeInfo progressBar(IProbeInfo probeInfo, int current, int color1, int color2) {
         return probeInfo.progress(current, 100, new ProgressStyleTOPAddonGrey().filledColor(color1).alternateFilledColor(color2).suffix("%").prefix("Progress: "));
-    }
-
-    @Override
-    public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
-
-    }
-
-    @Override
-    public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-
-    }
-
-    @Override
-    public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public void updateConfigs(Configuration config) {
-
     }
 }
