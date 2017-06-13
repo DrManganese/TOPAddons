@@ -100,8 +100,8 @@ public class TOPAddons {
 
         GameRegistry.addRecipe(new ProbedHelmetCrafting());
         GameRegistry.addRecipe(new UnprobedHelmetCrafting());
-        RecipeSorter.register("topaddons:helmet", ProbedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "");
-        RecipeSorter.register("topaddons:remhelmet", UnprobedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "");
+        RecipeSorter.register("topaddons:helmet", ProbedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
+        RecipeSorter.register("topaddons:remhelmet", UnprobedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
     }
 
     @Mod.EventHandler

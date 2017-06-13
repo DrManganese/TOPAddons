@@ -26,7 +26,7 @@ public class UnprobedHelmetCrafting implements IRecipe {
             ItemStack stack = inv.getStackInSlot(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == EntityEquipmentSlot.HEAD && !helmet) {
-                    if (HelmetConfig.allHelmetsProbable && !HelmetConfig.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !HelmetConfig.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
+                    if (HelmetConfig.allHelmetsProbable && !HelmetConfig.neverCraftList.contains(stack.getItem().getRegistryName().toString()) && !HelmetConfig.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !HelmetConfig.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor) stack.getItem()).getClass())) {
                         helmet = stack.hasTagCompound() && stack.getTagCompound().hasKey(PROBETAG);
                     }
                 } else {
@@ -47,14 +47,14 @@ public class UnprobedHelmetCrafting implements IRecipe {
             ItemStack stack = inv.getStackInSlot(i);
             if (!stack.isEmpty()) {
                 if (stack.getItem() instanceof ItemArmor && ((ItemArmor) stack.getItem()).armorType == EntityEquipmentSlot.HEAD) {
-                    if (HelmetConfig.allHelmetsProbable && !HelmetConfig.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !HelmetConfig.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor)stack.getItem()).getClass())) {
+                    if (HelmetConfig.allHelmetsProbable && !HelmetConfig.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !HelmetConfig.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor) stack.getItem()).getClass())) {
                         helmet = stack.copy();
                     }
                 }
             }
         }
 
-        if (helmet != null ) {
+        if (!helmet.isEmpty()) {
             helmet.getTagCompound().removeTag(PROBETAG);
             return helmet;
         }

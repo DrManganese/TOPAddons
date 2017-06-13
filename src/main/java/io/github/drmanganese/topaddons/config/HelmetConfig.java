@@ -10,10 +10,16 @@ import io.github.drmanganese.topaddons.TOPAddons;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class HelmetConfig {
+
+    public static List<String> neverCraftList = Arrays.asList("neotech:electricArmorHelmet",
+            "minecraft:diamond_helmet", "minecraft:golden_helmet", "minecraft:iron_helmet",
+            "theoneprobe:diamond_helmet_probe", "theoneprobe:gold_helmet_probe", "theoneprobe:iron_helmet_probe",
+            "enderio:darkSteel_helmet");
 
     public static boolean allHelmetsProbable = true;
     public static Set<ResourceLocation> helmetBlacklistSet = new LinkedHashSet<>();
