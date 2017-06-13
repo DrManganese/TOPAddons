@@ -7,6 +7,7 @@ topaddons.config:category_server_helmets=Helmen
 topaddons.config:category_server_helmets.tooltip=Pas aan welke helmen samen met een sonde gecraft kunnen worden
 topaddons.config:category_server_bloodmagic=Blood Magic
 topaddons.config:category_server_bloodmagic.tooltip=Pas aan of een sigil nodig is om sommige informatie over het Blood Altar te zien
+topaddons.config:category_server_vanilla=Vanille
 
 topaddons.config:helmets_probable=Alle helmen kunnen "geprobifieerd" worden
 topaddons.config:helmets_probable.tooltip=Als true kan elke helm in het spel gecombineerd worden met een sonde zodat de HUD zichtbaar is zonder een item vast te houden
@@ -15,6 +16,10 @@ topaddons.config:bloodmagic_sigil=Sigil is nodig voor altar info
 topaddons.config:bloodmagic_sigil.tooltip=Is een Divination of Seer sigil nodig om informatie over get Blood Altar te zien
 topaddons.config:bloodmagic_mimick_sigil=Onthul mimick met Seer sigil
 topaddons.config:bloodmagic_mimick_sigil.tooltip=Toon het type van Mimick block in de HUD als de speler een Seer sigil vasthoudt
+topaddons.config:vanilla_breeding_cooldown=Toon tijd tot dier weer kan fokken
+topaddons.config:vanilla_breeding_cooldown.tooltip=Toon hoeveel minuten en seconden tot een dier weer kan fokken als je het fokitem vasthoudt
+topaddons.config:vanilla_growup_timer=Toon tijd tot babydier opgroeit
+topaddons.config:vanilla_growup_timer.tooltip=Toon hoeveel minuten en seconden tot een baby dier opgroeit
 
 topaddons:generating=Genereert
 topaddons:tank_empty=Leeg

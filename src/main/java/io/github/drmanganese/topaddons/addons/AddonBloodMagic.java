@@ -29,7 +29,6 @@ import java.util.Map;
 
 import WayofTime.bloodmagic.altar.BloodAltar;
 import WayofTime.bloodmagic.api.altar.IBloodAltar;
-import WayofTime.bloodmagic.api.iface.IAltarReader;
 import WayofTime.bloodmagic.api.iface.IBindable;
 import WayofTime.bloodmagic.api.orb.BloodOrb;
 import WayofTime.bloodmagic.api.orb.IBloodOrb;
@@ -38,9 +37,10 @@ import WayofTime.bloodmagic.api.saving.SoulNetwork;
 import WayofTime.bloodmagic.api.util.helper.NetworkHelper;
 import WayofTime.bloodmagic.item.armour.ItemLivingArmour;
 import WayofTime.bloodmagic.item.armour.ItemSentientArmour;
+import WayofTime.bloodmagic.item.sigil.ItemSigilBase;
 import WayofTime.bloodmagic.item.sigil.ItemSigilHolding;
-import WayofTime.bloodmagic.item.sigil.ItemSigilSeer;
 import WayofTime.bloodmagic.registry.ModBlocks;
+import WayofTime.bloodmagic.registry.ModItems;
 import WayofTime.bloodmagic.routing.IMasterRoutingNode;
 import WayofTime.bloodmagic.tile.TileAltar;
 import WayofTime.bloodmagic.tile.TileIncenseAltar;
@@ -122,12 +122,12 @@ public class AddonBloodMagic extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        boolean holdingSigil = !requireSigil || isAltarSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || isAltarSeer(player.getHeldItem(EnumHand.OFF_HAND));
-        boolean holdingSeer = !requireSigil || holdingSeer(player.getHeldItem(EnumHand.MAIN_HAND)) || holdingSeer(player.getHeldItem(EnumHand.OFF_HAND));
+        boolean holdingSeer = !requireSigil || holdingSigil(player, (ItemSigilBase) ModItems.SIGIL_SEER);
+        boolean holdingDivine = holdingSeer || !requireSigil || holdingSigil(player, (ItemSigilBase) ModItems.SIGIL_DIVINATION);
 
         TileEntity tile = world.getTileEntity(data.getPos());
 
-        if (tile instanceof IBloodAltar && holdingSigil) {
+        if (tile instanceof IBloodAltar && holdingDivine) {
             IBloodAltar altar = (IBloodAltar) tile;
             textPrefixed(probeInfo, "{*topaddons.bloodmagic:tier*}", NumeralHelper.toRoman(altar.getTier().toInt()), TextFormatting.RED);
 
@@ -163,7 +163,7 @@ public class AddonBloodMagic extends AddonBlank {
             }
         }
 
-        if (tile instanceof TileIncenseAltar && holdingSigil) {
+        if (tile instanceof TileIncenseAltar && holdingDivine) {
             TileIncenseAltar altar = (TileIncenseAltar) tile;
             textPrefixed(probeInfo, "{*topaddons.bloodmagic:tranquility*}", Integer.toString((int) ((100D * (int) (100 * altar.tranquility)) / 100D)));
             textPrefixed(probeInfo, "{*topaddons.bloodmagic:bonus*}", (int) (altar.incenseAddition * 100) + "%");
@@ -178,30 +178,27 @@ public class AddonBloodMagic extends AddonBlank {
         }
     }
 
+    private boolean holdingSigil(EntityPlayer player, ItemSigilBase sigil) {
+        for (EnumHand hand : EnumHand.values()) {
+            ItemStack heldStack = player.getHeldItem(hand);
+            if (!heldStack.isEmpty()) {
+                if (heldStack.getItem() == sigil) {
+                    return true;
+                } else if (heldStack.getItem() == ModItems.SIGIL_HOLDING) {
+                    ItemStack currentHoldingStack = ItemSigilHolding.getItemStackInSlot(heldStack, ItemSigilHolding.getCurrentItemOrdinal(heldStack));
+                    return !currentHoldingStack.isEmpty() && currentHoldingStack.getItem() == sigil;
+                }
+            }
+        }
+
+        return false;
+    }
+
     private void addFilterElement(IProbeInfo probeInfo, String side, ItemStack inventoryOnSide, ItemStack filterStack) {
         probeInfo.element(new ElementNodeFilter(side, inventoryOnSide, filterStack));
     }
 
     private void addAltarCraftingElement(IProbeInfo probeInfo, ItemStack input, ItemStack result, int progress, int required, float consumption) {
         probeInfo.element(new ElementAltarCrafting(input, result, progress, required * input.getCount(), consumption));
-    }
-
-    private boolean isAltarSeer(ItemStack heldStack) {
-        if (heldStack.isEmpty())
-            return false;
-
-        if (heldStack.getItem() instanceof IAltarReader) {
-            if (heldStack.getItem() instanceof ItemSigilHolding) {
-                ItemStack currentHoldingStack = ItemSigilHolding.getItemStackInSlot(heldStack, (ItemSigilHolding.getCurrentItemOrdinal(heldStack)));
-                return !currentHoldingStack.isEmpty() && currentHoldingStack.getItem() instanceof IAltarReader;
-            }
-            return true;
-        }
-
-        return false;
-    }
-
-    private boolean holdingSeer(ItemStack heldStack) {
-        return !heldStack.isEmpty() && heldStack.getItem() instanceof ItemSigilSeer;
     }
 }

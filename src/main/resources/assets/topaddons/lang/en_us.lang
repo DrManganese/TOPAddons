@@ -7,6 +7,7 @@ topaddons.config:category_server_helmets=Helmets
 topaddons.config:category_server_helmets.tooltip=Customize which helmets can get crafted together with a probe
 topaddons.config:category_server_bloodmagic=Blood Magic
 topaddons.config:category_server_bloodmagic.tooltip=Customize sigil necessity for revealing certain info with the probe
+topaddons.config:category_server_vanilla=Vanilla
 
 topaddons.config:helmets_probable=All helmets can be probified
 topaddons.config:helmets_probable.tooltip=When true, any helmet in the game can be combined with a probe, allowing you to see the HUD without holding a probe.
@@ -15,6 +16,10 @@ topaddons.config:bloodmagic_sigil=Need sigil for altar info
 topaddons.config:bloodmagic_sigil.tooltip=Is a Divination or Seer sigil required to see info about the Blood Altar
 topaddons.config:bloodmagic_mimick_sigil=Reveal mimick with Seer sigil
 topaddons.config:bloodmagic_mimick_sigil.tooltip=Show the type of Mimick block in the HUD's tooltip when holding a Seer sigil
+topaddons.config:vanilla_breeding_cooldown=Show animal breeding cooldown
+topaddons.config:vanilla_breeding_cooldown.tooltip=Show how long until an animal can breed again when sneaking or holding the breeding item
+topaddons.config:vanilla_growup_timer=Show animal age timer
+topaddons.config:vanilla_growup_timer.tooltip=Show how long until an animal grows up when sneaking or holding the breeding item
 
 topaddons:generating=Generating
 topaddons:tank_empty=Empty
@@ -54,3 +59,5 @@ topaddons.vanilla:glass=Clicks and sticks
 topaddons.vanilla:wood=Bass guitar
 topaddons.vanilla:else=Piano/Harp
 topaddons.vanilla:instrument=Instrument
+topaddons.vanilla:nobreed=Can't breed
+topaddons.vanilla:adultin=Adult in
