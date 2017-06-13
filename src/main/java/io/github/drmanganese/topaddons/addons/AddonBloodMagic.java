@@ -14,7 +14,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
-import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.bloodmagic.ElementAltarCrafting;
 import io.github.drmanganese.topaddons.elements.bloodmagic.ElementNodeFilter;
@@ -59,9 +58,6 @@ import static mcjty.theoneprobe.api.TextStyleClass.MODNAME;
 @TOPAddon(dependency = "bloodmagic")
 public class AddonBloodMagic extends AddonBlank {
 
-    public static int ELEMENT_NODE_FILTER;
-    public static int ELEMENT_ALTAR_CRAFTING;
-
     private boolean requireSigil = true;
     private boolean seeMimickWithSigil = true;
 
@@ -73,8 +69,8 @@ public class AddonBloodMagic extends AddonBlank {
 
     @Override
     public void registerElements() {
-        ELEMENT_NODE_FILTER = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementNodeFilter::new);
-        ELEMENT_ALTAR_CRAFTING = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementAltarCrafting::new);
+        registerElement("filter_node", ElementNodeFilter::new);
+        registerElement("altar_crafting", ElementAltarCrafting::new);
     }
 
     @Override
@@ -139,11 +135,11 @@ public class AddonBloodMagic extends AddonBlank {
                 if (input.getItem() instanceof IBloodOrb) {
                     SoulNetwork network = NetworkHelper.getSoulNetwork(((IBindable) input.getItem()).getOwnerUUID(input));
                     BloodOrb orb = OrbRegistry.getOrb(network.getOrbTier() - 1);
-                    addAltarCraftingElement(probeInfo, input, new ItemStack(WayofTime.bloodmagic.registry.ModItems.BLOOD_ORB, 1, network.getOrbTier() - 1), network.getCurrentEssence(), orb.getCapacity(), 0);
+                    addAltarCraftingElement(probeInfo, input, new ItemStack(WayofTime.bloodmagic.registry.ModItems.BLOOD_ORB, 1, network.getOrbTier() - 1), network.getCurrentEssence(), orb.getCapacity(), 0, player);
                 } else if (altar.isActive()) {
                     ItemStack result = ReflectionHelper.getPrivateValue(BloodAltar.class, bloodAltar, "result");
                     if (!result.isEmpty()) {
-                        addAltarCraftingElement(probeInfo, input, result, bloodAltar.getProgress(), bloodAltar.getLiquidRequired(), bloodAltar.getConsumptionRate());
+                        addAltarCraftingElement(probeInfo, input, result, bloodAltar.getProgress(), bloodAltar.getLiquidRequired(), bloodAltar.getConsumptionRate(), player);
                     }
                 }
             }
@@ -158,7 +154,7 @@ public class AddonBloodMagic extends AddonBlank {
                 if (world.getTileEntity(sidePos) != null) {
                     IBlockState sideState = world.getBlockState(sidePos);
                     ItemStack inventoryOnSide = sideState.getBlock().getPickBlock(sideState, new RayTraceResult(data.getHitVec(), data.getSideHit().getOpposite(), sidePos), world, sidePos, player);
-                    addFilterElement(probeInfo, data.getSideHit().getName(), inventoryOnSide, filterStack);
+                    addFilterElement(probeInfo, data.getSideHit().getName(), inventoryOnSide, filterStack, player);
                 }
             }
         }
@@ -194,11 +190,11 @@ public class AddonBloodMagic extends AddonBlank {
         return false;
     }
 
-    private void addFilterElement(IProbeInfo probeInfo, String side, ItemStack inventoryOnSide, ItemStack filterStack) {
-        probeInfo.element(new ElementNodeFilter(side, inventoryOnSide, filterStack));
+    private void addFilterElement(IProbeInfo probeInfo, String side, ItemStack inventoryOnSide, ItemStack filterStack, EntityPlayer player) {
+        probeInfo.element(new ElementNodeFilter(getElementId(player, "filetr_node"), side, inventoryOnSide, filterStack));
     }
 
-    private void addAltarCraftingElement(IProbeInfo probeInfo, ItemStack input, ItemStack result, int progress, int required, float consumption) {
-        probeInfo.element(new ElementAltarCrafting(input, result, progress, required * input.getCount(), consumption));
+    private void addAltarCraftingElement(IProbeInfo probeInfo, ItemStack input, ItemStack result, int progress, int required, float consumption, EntityPlayer player) {
+        probeInfo.element(new ElementAltarCrafting(getElementId(player, "altar_crafting"), input, result, progress, required * input.getCount(), consumption));
     }
 }

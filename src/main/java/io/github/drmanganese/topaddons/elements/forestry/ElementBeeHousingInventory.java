@@ -6,7 +6,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-import io.github.drmanganese.topaddons.addons.AddonForestry;
 import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 
 import io.netty.buffer.ByteBuf;
@@ -17,10 +16,13 @@ import static mcjty.theoneprobe.rendering.RenderHelper.renderItemStack;
 
 public class ElementBeeHousingInventory implements IElement {
 
+    private int id;
+
     private final NonNullList<ItemStack> inventoryStacks;
     private boolean isApiary = false;
 
-    public ElementBeeHousingInventory(boolean isApiary, NonNullList<ItemStack> inventoryStacks) {
+    public ElementBeeHousingInventory(int id, boolean isApiary, NonNullList<ItemStack> inventoryStacks) {
+        this.id = id;
         this.inventoryStacks = inventoryStacks;
         this.isApiary = isApiary;
     }
@@ -103,6 +105,6 @@ public class ElementBeeHousingInventory implements IElement {
 
     @Override
     public int getID() {
-        return AddonForestry.ELEMENT_BEE_INV;
+        return id;
     }
 }

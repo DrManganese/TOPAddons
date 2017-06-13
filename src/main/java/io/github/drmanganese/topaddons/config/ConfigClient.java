@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import io.github.drmanganese.topaddons.network.MessageClientOptions;
 import io.github.drmanganese.topaddons.network.PacketHandler;
+import io.github.drmanganese.topaddons.reference.ElementSync;
 import io.github.drmanganese.topaddons.reference.Reference;
 
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class ConfigClient {
         if (event.getModID().equals(Reference.MOD_ID)) {
             config.save();
             if (event.isWorldRunning()) {
-                PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(getClientValues(config), Minecraft.getMinecraft().player));
+                PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(getClientValues(config), ElementSync.elementIds, Minecraft.getMinecraft().player));
             }
         }
     }

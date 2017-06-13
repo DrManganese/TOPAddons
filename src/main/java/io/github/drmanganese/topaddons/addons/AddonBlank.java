@@ -8,8 +8,11 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 
+import io.github.drmanganese.topaddons.TOPAddons;
+import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.ITOPAddon;
 import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.reference.ElementSync;
 import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Reference;
 import io.github.drmanganese.topaddons.styles.ProgressStyleTOPAddonGrey;
@@ -20,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import mcjty.theoneprobe.api.IBlockDisplayOverride;
+import mcjty.theoneprobe.api.IElementFactory;
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
@@ -78,6 +82,15 @@ public abstract class AddonBlank implements ITOPAddon {
     @Override
     public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
         return Collections.emptyList();
+    }
+
+    void registerElement(String name, IElementFactory factory) {
+        int id = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(factory);
+        ElementSync.elementIds.put(name, id);
+    }
+
+    static int getElementId(EntityPlayer player, String name) {
+        return player.getCapability(TOPAddons.OPTS_CAP, null).getElementId(name);
     }
 
     /* Shortcut methods */

@@ -3,7 +3,6 @@ package io.github.drmanganese.topaddons.elements;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 
-import io.github.drmanganese.topaddons.addons.AddonForge;
 import io.github.drmanganese.topaddons.styles.ProgressStyleTank;
 
 import java.awt.*;
@@ -19,11 +18,14 @@ import static io.github.drmanganese.topaddons.elements.ElementRenderHelper.drawS
 
 public class ElementTankGauge implements IElement {
 
+    private int id;
+
     private final String tankName, fluidName, suffix;
     private final int amount, capacity, color1, color2;
     private final boolean sneaking;
 
-    public ElementTankGauge(String tankName, String fluidName, int amount, int capacity, String suffix, int color1, boolean sneaking) {
+    public ElementTankGauge(int id, String tankName, String fluidName, int amount, int capacity, String suffix, int color1, boolean sneaking) {
+        this.id = id;
         this.tankName = tankName;
         this.fluidName = fluidName;
         this.amount = amount;
@@ -89,6 +91,6 @@ public class ElementTankGauge implements IElement {
 
     @Override
     public int getID() {
-        return AddonForge.ELEMENT_TANK;
+        return id;
     }
 }

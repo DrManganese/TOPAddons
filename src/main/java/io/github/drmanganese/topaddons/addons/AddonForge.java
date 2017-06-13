@@ -1,6 +1,7 @@
 package io.github.drmanganese.topaddons.addons;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -28,10 +29,8 @@ import mcjty.theoneprobe.api.ProbeMode;
 @TOPAddon(dependency = "forge", fancyName = "Base", order = 1)
 public class AddonForge extends AddonBlank {
 
-    public static int ELEMENT_TANK;
-
-    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, String suffix, int color, ProbeMode mode) {
-        return probeInfo.element(new ElementTankGauge(name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
+    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, String suffix, int color, ProbeMode mode, EntityPlayer player) {
+        return probeInfo.element(new ElementTankGauge(getElementId(player, "tank_gauge"), name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
     }
 
     @Override
@@ -77,9 +76,9 @@ public class AddonForge extends AddonBlank {
                     } else if (Colors.fluidNameColorMap.containsKey(tank.getContents().getFluid().getName())) {
                         color = Colors.fluidNameColorMap.get(tank.getContents().getFluid().getName());
                     }
-                    addTankElement(probeInfo, tankName, tank.getContents().getFluid().getLocalizedName(tank.getContents()), tank.getContents().amount, tank.getCapacity(), "mB", color, mode);
+                    addTankElement(probeInfo, tankName, tank.getContents().getFluid().getLocalizedName(tank.getContents()), tank.getContents().amount, tank.getCapacity(), "mB", color, mode, player);
                 } else {
-                    addTankElement(probeInfo, tankName, "", 0, 0, "", color, mode);
+                    addTankElement(probeInfo, tankName, "", 0, 0, "", color, mode, player);
                 }
             }
 
@@ -97,7 +96,7 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void registerElements() {
-        ELEMENT_TANK = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementTankGauge::new);
+        registerElement("tank_gauge", ElementTankGauge::new);
     }
 
     @Override

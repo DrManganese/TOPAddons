@@ -87,19 +87,17 @@ public class AddonForestry extends AddonBlank {
             EnumErrorCode.NO_SPECIMEN,
             EnumErrorCode.NOT_DARK
     );
-    public static int ELEMENT_FARM;
-    public static int ELEMENT_BEE_INV;
 
-    private void addFarmElement(IProbeInfo probeInfo, NonNullList<ItemStack> farmIcons, String oneDirection, boolean showInventory, NonNullList<ItemStack> inventoryStacks) {
-        probeInfo.element(new ElementForestryFarm(farmIcons, oneDirection, showInventory, inventoryStacks));
+    private void addFarmElement(IProbeInfo probeInfo, NonNullList<ItemStack> farmIcons, String oneDirection, boolean showInventory, NonNullList<ItemStack> inventoryStacks, EntityPlayer player) {
+        probeInfo.element(new ElementForestryFarm(getElementId(player, "farm"), farmIcons, oneDirection, showInventory, inventoryStacks));
     }
 
-    private void addFarmElement(IProbeInfo probeInfo, NonNullList<ItemStack> farmIcons, String oneDirection) {
-        addFarmElement(probeInfo, farmIcons, oneDirection, false, NonNullList.create());
+    private void addFarmElement(IProbeInfo probeInfo, NonNullList<ItemStack> farmIcons, String oneDirection, EntityPlayer player) {
+        addFarmElement(probeInfo, farmIcons, oneDirection, false, NonNullList.create(), player);
     }
 
-    private IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, NonNullList<ItemStack> inventoryStacks) {
-        return probeInfo.element(new ElementBeeHousingInventory(isApiary, inventoryStacks));
+    private IProbeInfo addBeeHouseInventory(IProbeInfo probeInfo, boolean isApiary, NonNullList<ItemStack> inventoryStacks, EntityPlayer player) {
+        return probeInfo.element(new ElementBeeHousingInventory(getElementId(player, "bee_inventory"), isApiary, inventoryStacks));
     }
 
     @Override
@@ -152,7 +150,7 @@ public class AddonForestry extends AddonBlank {
                         }
                     }
 
-                    addBeeHouseInventory(probeInfo, tile instanceof TileApiary, reorderBeeInvStacks(inventoryStacks));
+                    addBeeHouseInventory(probeInfo, tile instanceof TileApiary, reorderBeeInvStacks(inventoryStacks), player);
                 }
             }
 
@@ -212,7 +210,7 @@ public class AddonForestry extends AddonBlank {
                 }
 
                 if (mode == ProbeMode.NORMAL) {
-                    addFarmElement(probeInfo, farmIcons, facing.getName());
+                    addFarmElement(probeInfo, farmIcons, facing.getName(), player);
                 }
 
                 if (mode == ProbeMode.EXTENDED) {
@@ -220,7 +218,7 @@ public class AddonForestry extends AddonBlank {
                     for (int i = 0; i < 20; i++) {
                         inventoryStacks.set(i, farm.getInternalInventory().getStackInSlot(i));
                     }
-                    addFarmElement(probeInfo, farmIcons, facing.getName(), true, inventoryStacks);
+                    addFarmElement(probeInfo, farmIcons, facing.getName(), true, inventoryStacks, player);
                 }
             }
 
@@ -361,8 +359,8 @@ public class AddonForestry extends AddonBlank {
 
     @Override
     public void registerElements() {
-        ELEMENT_FARM = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementForestryFarm::new);
-        ELEMENT_BEE_INV = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(ElementBeeHousingInventory::new);
+        registerElement("farm", ElementForestryFarm::new);
+        registerElement("bee_inventory", ElementBeeHousingInventory::new);
     }
 
     @Override

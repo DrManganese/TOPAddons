@@ -16,6 +16,7 @@ import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.config.ConfigClient;
 import io.github.drmanganese.topaddons.network.MessageClientOptions;
 import io.github.drmanganese.topaddons.network.PacketHandler;
+import io.github.drmanganese.topaddons.reference.ElementSync;
 import io.github.drmanganese.topaddons.reference.Reference;
 
 import javax.annotation.Nullable;
@@ -47,13 +48,14 @@ public class CapEvents {
     public void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getWorld().isRemote && event.getEntity() == Minecraft.getMinecraft().player) {
             //noinspection VariableUseSideOnly
-            PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(ConfigClient.getClientValues(TOPAddons.configClient), (EntityPlayer) event.getEntity()));
+            PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(ConfigClient.getClientValues(TOPAddons.configClient), ElementSync.elementIds, (EntityPlayer) event.getEntity()));
         }
     }
 
     @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event) {
         IClientOptsCapability originalCap = event.getOriginal().getCapability(OPTS_CAP, null);
-        event.getEntityPlayer().getCapability(OPTS_CAP, null).setAll(originalCap.getAll());
+        event.getEntityPlayer().getCapability(OPTS_CAP, null).setAllOptions(originalCap.getAllOptions());
+        event.getEntityPlayer().getCapability(OPTS_CAP, null).setAllElementIds(originalCap.getAllElementIds());
     }
 }

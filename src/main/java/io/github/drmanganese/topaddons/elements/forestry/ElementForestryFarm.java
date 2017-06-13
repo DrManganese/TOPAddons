@@ -6,7 +6,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 
-import io.github.drmanganese.topaddons.addons.AddonForestry;
 import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
 
 import io.netty.buffer.ByteBuf;
@@ -18,12 +17,15 @@ import static mcjty.theoneprobe.rendering.RenderHelper.renderItemStack;
 
 public class ElementForestryFarm implements IElement {
 
+    private int id;
+
     private final NonNullList<ItemStack> farmIcons;
     private String oneDirection;
 
     private NonNullList<ItemStack> inventoryStacks;
 
-    public ElementForestryFarm(NonNullList<ItemStack> farmIcons, String oneDirection, boolean renderInventory, NonNullList<ItemStack> inventoryStacks) {
+    public ElementForestryFarm(int id, NonNullList<ItemStack> farmIcons, String oneDirection, boolean renderInventory, NonNullList<ItemStack> inventoryStacks) {
+        this.id = id;
         this.farmIcons = farmIcons;
         this.oneDirection = oneDirection;
         this.inventoryStacks = inventoryStacks;
@@ -124,7 +126,7 @@ public class ElementForestryFarm implements IElement {
 
     @Override
     public int getID() {
-        return AddonForestry.ELEMENT_FARM;
+        return id;
     }
 
     private String nextDirection() {

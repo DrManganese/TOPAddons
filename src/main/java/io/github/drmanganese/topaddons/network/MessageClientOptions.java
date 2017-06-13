@@ -17,34 +17,49 @@ import io.netty.buffer.ByteBuf;
 
 public class MessageClientOptions implements IMessage, IMessageHandler<MessageClientOptions, IMessage> {
 
-    private Map<String, Integer> optionsToSend;
+    private Map<String, Integer> optionsToSend, elementIdsToSend;
     private String playerUUID;
 
     public MessageClientOptions() {
     }
 
-    public MessageClientOptions(Map<String, Integer> options, EntityPlayer player) {
+    public MessageClientOptions(Map<String, Integer> options, Map<String, Integer> elementIds, EntityPlayer player) {
         this.optionsToSend = options;
+        this.elementIdsToSend = elementIds;
         this.playerUUID = player.getUniqueID().toString();
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
         this.playerUUID = ByteBufUtils.readUTF8String(buf);
+
         int size = buf.readInt();
         Map<String, Integer> options = new HashMap<>(size);
         for (int i = 0; i < size; i++) {
             options.put(ByteBufUtils.readUTF8String(buf), buf.readInt());
         }
-
         this.optionsToSend = options;
+
+        size = buf.readInt();
+        Map<String, Integer> ids = new HashMap<>(size);
+        for (int i = 0; i < size; i++) {
+            ids.put(ByteBufUtils.readUTF8String(buf), buf.readInt());
+        }
+        this.elementIdsToSend = ids;
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
         ByteBufUtils.writeUTF8String(buf, this.playerUUID);
+
         buf.writeInt(this.optionsToSend.size());
         this.optionsToSend.forEach((s, i) -> {
+            ByteBufUtils.writeUTF8String(buf, s);
+            buf.writeInt(i);
+        });
+
+        buf.writeInt(this.elementIdsToSend.size());
+        this.elementIdsToSend.forEach((s, i) -> {
             ByteBufUtils.writeUTF8String(buf, s);
             buf.writeInt(i);
         });
@@ -54,8 +69,8 @@ public class MessageClientOptions implements IMessage, IMessageHandler<MessageCl
     public IMessage onMessage(MessageClientOptions message, MessageContext ctx) {
         FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
                     IClientOptsCapability cap = ctx.getServerHandler().player.getCapability(TOPAddons.OPTS_CAP, null);
-                    cap.setAll(message.optionsToSend);
-//                    TOPAddons.LOGGER.info("Synced opts cap with server for player " + ctx.getServerHandler().playerEntity.getName() + " -> " + cap.getAll().toString());
+                    cap.setAllOptions(message.optionsToSend);
+                    cap.setAllElementIds(message.elementIdsToSend);
                 }
         );
         return null;
