@@ -25,7 +25,7 @@ public class AddonStorageDrawers extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (world.getTileEntity(data.getPos()) != null && world.getTileEntity(data.getPos()) instanceof TileEntityDrawers) {
+        if (world.getTileEntity(data.getPos()) instanceof TileEntityDrawers) {
             TileEntityDrawers tile = (TileEntityDrawers) world.getTileEntity(data.getPos());
 
             if (tile.isShrouded()) {

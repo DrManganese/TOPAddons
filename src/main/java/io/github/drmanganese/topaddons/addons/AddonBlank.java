@@ -14,6 +14,7 @@ import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.reference.ElementSync;
 import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Reference;
+import io.github.drmanganese.topaddons.styles.ProgressStyleTOPAddonGrey;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -63,11 +64,6 @@ public abstract class AddonBlank implements ITOPAddon {
         return new HashMap<>(0);
     }
 
-    @Override
-    public boolean hasSpecialHelmets() {
-        return false;
-    }
-
     void registerElement(String name, IElementFactory factory) {
         int id = TOPRegistrar.GetTheOneProbe.probe.registerElementFactory(factory);
         ElementSync.elementIds.put(name, id);
@@ -88,6 +84,10 @@ public abstract class AddonBlank implements ITOPAddon {
 
     static IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
         return probeInfo.text(formatting + prefix + ": " + TextFormatting.WHITE + text);
+    }
+
+    IProbeInfo progressBar(IProbeInfo probeInfo, int current, int color1, int color2) {
+        return probeInfo.progress(current, 100, new ProgressStyleTOPAddonGrey().filledColor(color1).alternateFilledColor(color2).suffix("%").prefix("Progress: "));
     }
 
     @Override

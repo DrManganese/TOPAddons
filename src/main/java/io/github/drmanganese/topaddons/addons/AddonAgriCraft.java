@@ -1,18 +1,20 @@
 package io.github.drmanganese.topaddons.addons;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-import com.infinityraider.agricraft.api.misc.IAgriDisplayable;
-import com.infinityraider.agricraft.tiles.TileEntityCrop;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.config.Config;
+
+import com.infinityraider.agricraft.api.misc.IAgriDisplayable;
+import com.infinityraider.agricraft.tiles.TileEntityCrop;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -22,9 +24,9 @@ import mcjty.theoneprobe.api.ProbeMode;
 public class AddonAgriCraft extends AddonBlank {
 
 	@Override
-	public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
 
-		TileEntity tileEntity = world.getTileEntity(data.getPos());
+        TileEntity tileEntity = world.getTileEntity(data.getPos());
 		if(tileEntity instanceof TileEntityCrop) {
 
 			List<String> info = new ArrayList<>();

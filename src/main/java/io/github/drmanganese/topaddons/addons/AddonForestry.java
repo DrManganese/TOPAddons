@@ -99,32 +99,13 @@ public class AddonForestry extends AddonBlank {
     }
 
     @Override
-    public boolean hasSpecialHelmets() {
-        return true;
-    }
-
-    @Override
-    public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
-        Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>(2);
-        map.put(ItemArmorApiarist.class, EnumChip.STANDARD);
-        map.put(ItemArmorNaturalist.class, EnumChip.SPECTACLES);
-        return map;
-    }
-
-    @Override
-    public void registerElements() {
-        registerElement("farm", ElementForestryFarm::new);
-        registerElement("bee_inventory", ElementBeeHousingInventory::new);
-    }
-
-    @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         if (blockState.getBlock() == PluginCore.blocks.bogEarth) {
             probeInfo.text(TextFormatting.GREEN + "Maturity: " + blockState.getValue(BlockBogEarth.MATURITY) * 100 / 3 + "%");
         }
 
         TileEntity tile = world.getTileEntity(data.getPos());
-        if (tile != null && (tile instanceof TileForestry || tile instanceof TileAlveary || tile instanceof TileTreeContainer || tile instanceof TileFarm)) {
+        if (tile instanceof TileForestry || tile instanceof TileAlveary || tile instanceof TileTreeContainer || tile instanceof TileFarm) {
             ImmutableSet<IErrorState> errorStates;
             if (tile instanceof IErrorLogicSource) {
                 errorStates = ((IErrorLogicSource) tile).getErrorLogic().getErrorStates();
@@ -198,7 +179,7 @@ public class AddonForestry extends AddonBlank {
             if (tile instanceof TileSapling) {
                 ITree tree = ((TileSapling) tile).getTree();
                 if (mode == ProbeMode.EXTENDED) {
-                    if (tree.isAnalyzed()) {
+                    if (tree != null && tree.isAnalyzed()) {
                         textPrefixed(probeInfo, "Saplings", tree.getGenome().getActiveAllele(EnumTreeChromosome.FERTILITY).getName());
                         textPrefixed(probeInfo, "Maturation", tree.getGenome().getActiveAllele(EnumTreeChromosome.MATURATION).getName());
                         textPrefixed(probeInfo, "Height", tree.getGenome().getActiveAllele(EnumTreeChromosome.HEIGHT).getName());
@@ -237,11 +218,9 @@ public class AddonForestry extends AddonBlank {
                         }
                     }
                     addFarmElement(probeInfo, farmIcons, facing.rotateY().getName().substring(0, 1).toUpperCase(), true, inventoryStacks, player);
-                    //Maybe add tank gauge to all farm blocks, might handle in ILiquidTankTile section
                 }
             }
 
-            //lol, moist
             if (tile instanceof TileMoistener) {
                 TileMoistener moistener = (TileMoistener) tile;
 
@@ -261,7 +240,7 @@ public class AddonForestry extends AddonBlank {
                 }
                 textPrefixed(probeInfo, "Speed", (speed == 0 ? TextFormatting.RED.toString() : "") + speed);
 
-                /**
+                /*
                  *  Wheat consumption process
                  *   1) Loop through inventory slots 0-9 to count the amount of each "wheat-type"
                  *   2) Get the type of wheat in slot 9 (working slot), the preceding '▶' will be white
@@ -314,7 +293,6 @@ public class AddonForestry extends AddonBlank {
                 }
             }
 
-            //All engines (sneaking only)
             if (tile instanceof TileEngine) {
                 TileEngine engine = ((TileEngine) tile);
                 if (mode == ProbeMode.EXTENDED) {
@@ -324,7 +302,7 @@ public class AddonForestry extends AddonBlank {
                 probeInfo.text(TextFormatting.GREEN + "Producing " + engine.getCurrentOutput() + " RF/t");
             }
 
-            /**
+            /*
              * Forestry error states (correspond to the "Ledgers" you see on the left of guis)
              * Show all errors if sneaking
              * Show important errors always (defined in {@link NORMAL_STATES}
@@ -345,9 +323,23 @@ public class AddonForestry extends AddonBlank {
     }
 
     @Override
-    public void addFluidColors() {
-        for (Fluids fluid : Fluids.values()) {
-            Colors.fluidColorMap.put(fluid.getFluid(), fluid.getParticleColor().hashCode());
+    public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
+        if (entity instanceof IEntityButterfly) {
+            IButterfly butterfly = ((IEntityButterfly) entity).getButterfly();
+            if (!butterfly.isPureBred(EnumButterflyChromosome.SPECIES)) {
+                probeInfo.text("Hybrid (" + butterfly.getGenome().getInactiveAllele(EnumButterflyChromosome.SPECIES).getName());
+            }
+
+            if (mode == ProbeMode.EXTENDED) {
+                if (butterfly.isAnalyzed()) {
+                    textPrefixed(probeInfo, "Size", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SIZE).getName());
+                    textPrefixed(probeInfo, "Production", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SPEED).getName());
+                    textPrefixed(probeInfo, "Lifespan", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.LIFESPAN).getName());
+                    textPrefixed(probeInfo, "Fertility", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.FERTILITY).getName());
+                } else {
+                    probeInfo.text("Unknown Genome");
+                }
+            }
         }
     }
 
@@ -360,26 +352,24 @@ public class AddonForestry extends AddonBlank {
     }
 
     @Override
-    public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
-        if (world != null && entity != null) {
-            if (entity instanceof IEntityButterfly) {
-                IButterfly butterfly = ((IEntityButterfly) entity).getButterfly();
-                if (!butterfly.isPureBred(EnumButterflyChromosome.SPECIES)) {
-                    probeInfo.text("Hybrid (" + butterfly.getGenome().getInactiveAllele(EnumButterflyChromosome.SPECIES).getName());
-                }
-
-                if (mode == ProbeMode.EXTENDED) {
-                    if (butterfly.isAnalyzed()) {
-                        textPrefixed(probeInfo, "Size", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SIZE).getName());
-                        textPrefixed(probeInfo, "Production", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SPEED).getName());
-                        textPrefixed(probeInfo, "Lifespan", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.LIFESPAN).getName());
-                        textPrefixed(probeInfo, "Fertility", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.FERTILITY).getName());
-                    } else {
-                        probeInfo.text("Unknown Genome");
-                    }
-                }
-            }
+    public void addFluidColors() {
+        for (Fluids fluid : Fluids.values()) {
+            Colors.fluidColorMap.put(fluid.getFluid(), fluid.getParticleColor().hashCode());
         }
+    }
+
+    @Override
+    public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
+        Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>(2);
+        map.put(ItemArmorApiarist.class, EnumChip.STANDARD);
+        map.put(ItemArmorNaturalist.class, EnumChip.SPECTACLES);
+        return map;
+    }
+
+    @Override
+    public void registerElements() {
+        registerElement("farm", ElementForestryFarm::new);
+        registerElement("bee_inventory", ElementBeeHousingInventory::new);
     }
 
     @Override
@@ -392,7 +382,6 @@ public class AddonForestry extends AddonBlank {
             config.showChestContents(IProbeConfig.ConfigMode.EXTENDED);
             config.showChestContentsDetailed(IProbeConfig.ConfigMode.EXTENDED);
         }
-
     }
 
     private ItemStack[] reorderBeeInvStacks(ItemStack[] old) {

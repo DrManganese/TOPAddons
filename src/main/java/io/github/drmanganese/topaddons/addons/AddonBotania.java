@@ -23,11 +23,6 @@ import vazkii.botania.common.item.equipment.armor.terrasteel.ItemTerrasteelHelm;
 public class AddonBotania extends AddonBlank {
 
     @Override
-    public boolean hasSpecialHelmets() {
-        return true;
-    }
-
-    @Override
     public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
         Map<Class<? extends ItemArmor>, EnumChip> map = new HashMap<>();
         map.put(ItemElementiumHelm.class, EnumChip.EYE_RIGHT);

@@ -34,30 +34,7 @@ public class AddonVanilla extends AddonBlank {
 
     private static final String[] NOTES = new String[]{
             "F\u266f/G\u266d", "G", "G\u266f/A\u266d", "A", "A\u266f/B\u266d", "B", "C", "C\u266f/D\u266d", "D", "D\u266f/E\u266d", "E", "F"
-
     };
-
-    @Override
-    public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
-        return Collections.singletonList(new IBlockDisplayOverride() {
-            @Override
-            public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-                if (blockState.getBlock() == Blocks.END_PORTAL) {
-                    if (Tools.show(mode, mcjty.theoneprobe.config.Config.getRealConfig().getShowModName())) {
-                        probeInfo.horizontal()
-                                .vertical()
-                                .text(Blocks.END_PORTAL_FRAME.getLocalizedName())
-                                .text(MODNAME + Tools.getModName(Blocks.END_PORTAL));
-                    } else {
-                        probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
-                                .text(Blocks.END_PORTAL_FRAME.getLocalizedName());
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
@@ -97,5 +74,27 @@ public class AddonVanilla extends AddonBlank {
                 }
             }
         }
+    }
+
+    @Override
+    public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
+        return Collections.singletonList(new IBlockDisplayOverride() {
+            @Override
+            public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+                if (blockState.getBlock() == Blocks.END_PORTAL) {
+                    if (Tools.show(mode, mcjty.theoneprobe.config.Config.getRealConfig().getShowModName())) {
+                        probeInfo.horizontal()
+                                .vertical()
+                                .text(Blocks.END_PORTAL_FRAME.getLocalizedName())
+                                .text(MODNAME + Tools.getModName(Blocks.END_PORTAL));
+                    } else {
+                        probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
+                                .text(Blocks.END_PORTAL_FRAME.getLocalizedName());
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }
