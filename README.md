@@ -12,6 +12,12 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 
 - Tank display
 
+### Vanilla &#129069;
+
+- Note block pitch and instrument
+- Animal breeding cooldown and time until baby grows up
+- Fix some block displays
+
 ### Forestry ([album](http://imgur.com/a/APS3S)) &#129069;
 
 - Error messages for all blocks with GUIs that display them
@@ -31,6 +37,7 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - Altar crafting progress (requires seer sigil)
 - Incense altar tranquility and sacrifice bonus (requires divination/seer sigil)
 - Filter configuration for routing nodes (side-sensitive)
+- Mimic block: Shows mimicking block.
 
 ### Storage Drawers ([album](http://imgur.com/lXSgOm5)) &#129069;
 

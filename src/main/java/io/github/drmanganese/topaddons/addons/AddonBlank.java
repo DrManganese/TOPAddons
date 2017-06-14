@@ -28,8 +28,21 @@ import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.TextStyleClass;
 
 public abstract class AddonBlank implements ITOPAddon {
+
+    static IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text) {
+        return textPrefixed(probeInfo, prefix, text, TextStyleClass.LABEL);
+    }
+
+    static IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextStyleClass style) {
+        return probeInfo.text(style + prefix + ": " + TextStyleClass.INFO + text);
+    }
+
+    static IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
+        return probeInfo.text(formatting + prefix + ": " + TextStyleClass.INFO + text);
+    }
 
     @Override
     public String getID() {
@@ -50,7 +63,12 @@ public abstract class AddonBlank implements ITOPAddon {
     }
 
     @Override
-    public void addTankNames() {
+    public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
+        return new HashMap<>(0);
+    }
+
+    @Override
+    public void registerElements() {
 
     }
 
@@ -60,8 +78,13 @@ public abstract class AddonBlank implements ITOPAddon {
     }
 
     @Override
-    public Map<Class<? extends ItemArmor>, EnumChip> getSpecialHelmets() {
-        return new HashMap<>(0);
+    public void addTankNames() {
+
+    }
+
+    @Override
+    public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
+        return Collections.emptyList();
     }
 
     void registerElement(String name, IElementFactory factory) {
@@ -71,19 +94,6 @@ public abstract class AddonBlank implements ITOPAddon {
 
     int getElementId(EntityPlayer player, String name) {
         return player.getCapability(TOPAddons.OPTS_CAP, null).getElementId(name);
-    }
-
-    @Override
-    public void registerElements() {
-
-    }
-
-    static IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text) {
-        return textPrefixed(probeInfo, prefix, text, TextFormatting.YELLOW);
-    }
-
-    static IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
-        return probeInfo.text(formatting + prefix + ": " + TextFormatting.WHITE + text);
     }
 
     IProbeInfo progressBar(IProbeInfo probeInfo, int current, int color1, int color2) {
@@ -98,10 +108,5 @@ public abstract class AddonBlank implements ITOPAddon {
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
 
-    }
-
-    @Override
-    public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
-        return Collections.emptyList();
     }
 }

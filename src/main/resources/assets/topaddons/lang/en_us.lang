@@ -1,0 +1,38 @@
+topaddons.forestry:generating=Generating
+topaddons:tank_empty=Empty
+
+topaddons.forestry:fruit=Fruit
+topaddons.forestry:ripe=Ripe
+topaddons.forestry:unripe=Unripe
+topaddons.forestry:maturity=Maturity
+topaddons.forestry:pollinated=Pollinated
+topaddons.forestry:moistener_speed=Speed
+topaddons.forestry:engine_stored=Stored
+topaddons.forestry:engine_heat=Heat
+topaddons.forestry:errors_nowork=Can't Work
+
+topaddons.bloodmagic:tranquility=Tranquility
+topaddons.bloodmagic:bonus=Bonus
+topaddons.bloodmagic:tier=Tier
+topaddons.bloodmagic:filling=Filling network
+
+topaddons.ic2:consumption=Consumption
+topaddons.ic2:no_sky=Sky Obstructed/Too Dark
+topaddons.ic2:destination=Destination
+topaddons.ic2:blueprint=Blueprint
+topaddons.ic2:no_blueprint=None
+topaddons.ic2:transmitting=Transmitting
+topaddons.ic2:buffer=Buffer
+topaddons.ic2:max_transfer=Max transfer
+
+topaddons.neotech:durability=Durability
+
+topaddons.storage_drawers:shrouded=Shrouded
+
+topaddons.vanilla:pitch=Pitch
+topaddons.vanilla:rock=Bass drum
+topaddons.vanilla:sand=Snare drum
+topaddons.vanilla:glass=Clicks and sticks
+topaddons.vanilla:wood=Bass guitar
+topaddons.vanilla:else=Piano/Harp
+topaddons.vanilla:instrument=Instrument

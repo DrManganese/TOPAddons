@@ -1,0 +1,38 @@
+topaddons:generating=Génère
+topaddons:tank_empty=Vide
+
+topaddons.forestry:fruit=Fruit
+topaddons.forestry:ripe=Mûr
+topaddons.forestry:unripe=Pas mûr
+topaddons.forestry:maturity=Maturité
+topaddons.forestry:pollinated=Pollinisé
+topaddons.forestry:moistener_speed=Vitesse
+topaddons.forestry:engine_stored=Stocké
+topaddons.forestry:engine_heat=Chaleur
+topaddons.forestry:errors_nowork=Ne peut pas fonctionner
+
+topaddons.bloodmagic:tranquility=Tranquillité
+topaddons.bloodmagic:bonus=Bonus
+topaddons.bloodmagic:tier=Niveau
+topaddons.bloodmagic:filling=Remplissage du réseau
+
+topaddons.ic2:consumption=Consommation
+topaddons.ic2:no_sky=Ciel Obstrué/Trop Sombre
+topaddons.ic2:destination=Destination
+topaddons.ic2:blueprint=Plan
+topaddons.ic2:no_blueprint=Aucun
+topaddons.ic2:transmitting=Transmission
+topaddons.ic2:buffer=Stockage
+topaddons.ic2:max_transfer=Transmission maxi
+
+topaddons.neotech:durability=Durabilité
+
+topaddons.storage_drawers:shrouded=Caché
+
+topaddons.vanilla:pitch=Ton
+topaddons.vanilla:rock=Basse
+topaddons.vanilla:sand=Caisse claire
+topaddons.vanilla:glass=Click et Baguettes
+topaddons.vanilla:wood=Grosse caisse
+topaddons.vanilla:else=Piano/Harpe
+topaddons.vanilla:instrument=Instrument

@@ -1,6 +1,7 @@
 package io.github.drmanganese.topaddons.elements;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 
 import io.github.drmanganese.topaddons.addons.AddonForge;
 import io.github.drmanganese.topaddons.styles.ProgressStyleTank;
@@ -60,7 +61,7 @@ public class ElementTankGauge implements IElement {
                 RenderHelper.drawVerticalLine(x + i * 10, y + 1, y + (i == 5 ? 11 : 6), 0xff767676);
             }
 
-            ElementTextRender.render((capacity > 0) ? amount + "/" + capacity + " " + suffix : "Empty", x + 3, y + 2);
+            ElementTextRender.render((capacity > 0) ? amount + "/" + capacity + " " + suffix : I18n.format("topaddons:tank_empty"), x + 3, y + 2);
             drawSmallText(x + 99 - Minecraft.getMinecraft().fontRendererObj.getStringWidth(fluidName) / 2, y + 13, fluidName, color1);
         }
 
