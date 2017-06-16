@@ -10,4 +10,5 @@ public class Reference {
     public static final String SERVER_PROXY = "io.github.drmanganese.topaddons.proxy.ServerProxy";
 
     public static final String GUI_FACTORY = "io.github.drmanganese.topaddons.config.TOPAddonsGuiFactory";
+    public static final String CONFIG_VERSION = "1";
 }

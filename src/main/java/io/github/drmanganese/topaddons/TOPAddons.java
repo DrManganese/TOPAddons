@@ -4,7 +4,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -57,22 +56,22 @@ import java.io.File;
 )
 public class TOPAddons {
 
-    @SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.SERVER_PROXY)
-    public static IProxy proxy;
-
     @CapabilityInject(IClientOptsCapability.class)
     public static final Capability<IClientOptsCapability> OPTS_CAP = null;
-
     public static final Logger LOGGER = LogManager.getLogger(Reference.MOD_NAME);
-
+    @SidedProxy(clientSide = Reference.CLIENT_PROXY, serverSide = Reference.SERVER_PROXY)
+    public static IProxy proxy;
     public static Configuration config;
     public static Configuration configClient = null;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        config = new Configuration(event.getSuggestedConfigurationFile(), "1");
+        config = new Configuration(event.getSuggestedConfigurationFile(), Reference.CONFIG_VERSION);
         config.load();
-        cleanConfig();
+        String cfg_version = config.getLoadedConfigVersion();
+        if (cfg_version == null || !config.getLoadedConfigVersion().equals(Reference.CONFIG_VERSION)) {
+            config.getCategoryNames().forEach(s -> config.removeCategory(config.getCategory(s)));
+        }
 
         if (event.getSide() == Side.CLIENT) {
             configClient = new Configuration(new File(event.getModConfigurationDirectory().getPath(), Reference.MOD_ID + "_client.cfg"), "1");
@@ -118,18 +117,6 @@ public class TOPAddons {
     @Mod.EventHandler
     public void onFMLServerStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandTOPHelmet());
-    }
-
-    private void cleanConfig() {
-        ConfigCategory old = config.getCategory("blood magic");
-        if (old != null) {
-            config.removeCategory(old);
-        }
-
-        ConfigCategory oldMoo = config.getCategory("moo fluids");
-        if (oldMoo != null) {
-            config.removeCategory(oldMoo);
-        }
     }
 
     @SubscribeEvent
