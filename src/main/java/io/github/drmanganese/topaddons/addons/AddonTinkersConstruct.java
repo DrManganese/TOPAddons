@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
+import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.tconstruct.ElementSmelteryTank;
 
@@ -32,7 +33,8 @@ public class AddonTinkersConstruct extends AddonBlank {
         TileEntity tile = world.getTileEntity(data.getPos());
         if (tile instanceof TileSmeltery) {
             SmelteryTank tank = ((TileSmeltery) world.getTileEntity(data.getPos())).getTank();
-            addSmelteryTankElement(probeInfo, tank.getFluids(), Math.max(tank.getFluidAmount(), tank.getCapacity()), mode, player);
+            final boolean inIngots = player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("smelteryInIngots");
+            addSmelteryTankElement(probeInfo, tank.getFluids(), Math.max(tank.getFluidAmount(), tank.getCapacity()), inIngots, mode, player);
         }
 
         if (tile instanceof TileDryingRack) {
@@ -41,7 +43,7 @@ public class AddonTinkersConstruct extends AddonBlank {
         }
     }
 
-    private void addSmelteryTankElement(IProbeInfo probeInfo, List<FluidStack> fluids, int capacity, ProbeMode mode, EntityPlayer player) {
-        probeInfo.element(new ElementSmelteryTank(getElementId(player, "smeltery"), fluids, capacity, mode == ProbeMode.EXTENDED));
+    private void addSmelteryTankElement(IProbeInfo probeInfo, List<FluidStack> fluids, int capacity, boolean inIngots, ProbeMode mode, EntityPlayer player) {
+        probeInfo.element(new ElementSmelteryTank(getElementId(player, "smeltery"), fluids, capacity, inIngots, mode == ProbeMode.EXTENDED));
     }
 }

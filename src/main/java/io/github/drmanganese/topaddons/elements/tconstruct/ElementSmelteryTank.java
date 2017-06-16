@@ -25,15 +25,17 @@ public class ElementSmelteryTank implements IElement {
 
     private final List<SmelteryFluid> fluids;
     private final int capacity;
+    private final boolean inIngots;
     private final boolean sneaking;
 
     private final int gaugeHeight;
 
-    public ElementSmelteryTank(int id, List<FluidStack> fluids, int capacity, boolean sneaking) {
+    public ElementSmelteryTank(int id, List<FluidStack> fluids, int capacity, boolean inIngots, boolean sneaking) {
         this.id = id;
         this.fluids = new ArrayList<>();
         fluids.forEach(fluidStack -> this.fluids.add(new SmelteryFluid(fluidStack.getLocalizedName(), fluidStack.amount, fluidStack.getFluid().getColor(), capacity)));
         this.capacity = capacity;
+        this.inIngots = inIngots;
         this.sneaking = sneaking;
 
         gaugeHeight = calcGaugeHeight();
@@ -46,6 +48,7 @@ public class ElementSmelteryTank implements IElement {
         for (int i = 0; i < count; i++) {
             this.fluids.add(new SmelteryFluid(NetworkTools.readString(buf), buf.readInt(), buf.readInt(), this.capacity));
         }
+        this.inIngots = buf.readBoolean();
         this.sneaking = buf.readBoolean();
         gaugeHeight = calcGaugeHeight();
     }
@@ -56,7 +59,7 @@ public class ElementSmelteryTank implements IElement {
             sum += fluid.height;
         }
 
-        return (sum > 100) ? sum : 100;
+        return Math.max(sum, 100);
     }
 
     @Override
@@ -77,22 +80,38 @@ public class ElementSmelteryTank implements IElement {
             RenderHelper.drawVerticalLine(x + 99, y, y + 12, 0xff969696);
         } else {
             ElementRenderHelper.drawGreyBox(x, y, x + 100, y + gaugeHeight + 2);
+
             int yOffset = 0;
             for (int i = 0; i < fluids.size(); i++) {
                 SmelteryFluid fluid = fluids.get(i);
                 if (i > 0) {
                     yOffset += fluids.get(i - 1).height;
                 }
-
                 drawVerticalProgress(x, y - yOffset, fluid.amount, capacity, fluid.color, fluid.darker, fluid.height);
-                String text = fluid.amount + "mB of " + fluid.name;
+
+                String unit;
+                int unitAmount = fluid.name.equals("Molten Emerald") ? 666 : 144;
+                if (inIngots && fluid.amount >= unitAmount) {
+                    String type = fluid.name.equals("Molten Emerald") ? "gem" : "ingot";
+                    final int r = fluid.amount % unitAmount;
+                    final int amount = (fluid.amount - r) / unitAmount;
+                    if (amount > 1) type += 's';
+                    unit = amount + " " + type + " of " + fluid.name;
+                    if (r > 0) {
+                        unit = '>' + unit;
+                    }
+                } else {
+                    unit = fluid.amount + "mB of " + fluid.name;
+                }
                 //noinspection MethodCallSideOnly
-                drawSmallText(x + 98 - Minecraft.getMinecraft().fontRenderer.getStringWidth(text) / 2, y + gaugeHeight - 4 - yOffset, text, fluid.brighter2);
+                drawSmallText(x + 98 - Minecraft.getMinecraft().fontRenderer.getStringWidth(unit) / 2, y + gaugeHeight - 4 - yOffset, unit, fluid.brighter2);
             }
+
             for (int i = 1; i < 10; i++) {
                 RenderHelper.drawHorizontalLine(x + 1, y + 10 * i, x + (i == 5 ? 99 : (i % 2 == 0) ? 25 : 15), 0xaa767676);
             }
         }
+
         drawSmallText(x + 1, y + (sneaking ? gaugeHeight + 4 : 13), "" + "Smeltery", 0xffffffff);
     }
 
@@ -115,6 +134,7 @@ public class ElementSmelteryTank implements IElement {
             buf.writeInt(fluid.amount);
             buf.writeInt(fluid.color);
         });
+        buf.writeBoolean(this.inIngots);
         buf.writeBoolean(this.sneaking);
     }
 
@@ -152,15 +172,6 @@ public class ElementSmelteryTank implements IElement {
                 height = 5;
                 wasTooShort = true;
             }
-        }
-
-        boolean decreaseHeight(int amount) {
-            if (wasTooShort) {
-                return false;
-            } else {
-                height += amount;
-            }
-            return true;
         }
     }
 }
