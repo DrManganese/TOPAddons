@@ -28,6 +28,7 @@ public class ConfigClient {
     private static boolean forestryReasonCrouch = false;
     private static boolean showPitch = true;
     private static boolean ic2Progress = false;
+    private static boolean smelteryInIngots = true;
 
     public static void init(Configuration configIn) {
         config = configIn;
@@ -43,6 +44,7 @@ public class ConfigClient {
         forestryReasonCrouch = config.getBoolean("forestryReasonCrouch", "Client Options", false, "Only show Forestry machines' important failure reasons when crouching.");
         showPitch = config.getBoolean("showPitch", "Client Options", true, "Display pitch and instrument on Note Blocks.");
         ic2Progress = config.getBoolean("ic2Progress", "Client Options", false, "Show IC² machine progress bar when not crouching.");
+        smelteryInIngots = config.getBoolean("smelteryInIngots", "Client Options", true, "Show smeltery fluid volume in ingots.");
 
         if (config.hasChanged()) {
             config.save();
