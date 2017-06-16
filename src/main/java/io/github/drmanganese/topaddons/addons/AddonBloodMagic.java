@@ -52,6 +52,7 @@ import mcjty.theoneprobe.api.IBlockDisplayOverride;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.TextStyleClass;
 
 import static mcjty.theoneprobe.api.TextStyleClass.MODNAME;
 
@@ -133,9 +134,14 @@ public class AddonBloodMagic extends AddonBlank {
                 BloodAltar bloodAltar = ReflectionHelper.getPrivateValue(TileAltar.class, (TileAltar) altar, "bloodAltar");
 
                 if (input.getItem() instanceof IBloodOrb) {
-                    SoulNetwork network = NetworkHelper.getSoulNetwork(((IBindable) input.getItem()).getOwnerUUID(input));
-                    BloodOrb orb = OrbRegistry.getOrb(network.getOrbTier() - 1);
-                    addAltarCraftingElement(probeInfo, input, new ItemStack(WayofTime.bloodmagic.registry.ModItems.BLOOD_ORB, 1, network.getOrbTier() - 1), network.getCurrentEssence(), orb.getCapacity(), 0, player);
+                    String owner = ((IBindable) input.getItem()).getOwnerUUID(input);
+                    if (!owner.isEmpty()) {
+                        SoulNetwork network = NetworkHelper.getSoulNetwork(owner);
+                        BloodOrb orb = OrbRegistry.getOrb(network.getOrbTier() - 1);
+                        addAltarCraftingElement(probeInfo, input, new ItemStack(WayofTime.bloodmagic.registry.ModItems.BLOOD_ORB, 1, network.getOrbTier() - 1), network.getCurrentEssence(), orb.getCapacity(), 0, player);
+                    } else {
+                        probeInfo.text(TextStyleClass.WARNING + "{*topaddons.bloodmagic:unbound_orb*}");
+                    }
                 } else if (altar.isActive()) {
                     ItemStack result = ReflectionHelper.getPrivateValue(BloodAltar.class, bloodAltar, "result");
                     if (!result.isEmpty()) {
