@@ -12,7 +12,6 @@ public class PacketHandler {
 
     public static void init() {
         INSTANCE.registerMessage(MessageClientOptions.class, MessageClientOptions.class, 0, Side.SERVER);
-        INSTANCE.registerMessage(MessageClientOption.class, MessageClientOption.class, 1, Side.CLIENT);
     }
 
 

@@ -37,7 +37,7 @@ public class AddonTinkersConstruct extends AddonBlank {
 
         if (tile instanceof TileDryingRack) {
             TileDryingRack tileDrying = (TileDryingRack) tile;
-            textPrefixed(probeInfo, "Progress", (Math.round(tileDrying.getProgress()  * 100)) + "%");
+            textPrefixed(probeInfo, "{*topaddons.tico:progress*}", (Math.round(tileDrying.getProgress()  * 100)) + "%");
         }
     }
 

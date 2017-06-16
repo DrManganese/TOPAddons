@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.config.Configuration;
 
 import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.TOPRegistrar;
@@ -79,6 +80,11 @@ public abstract class AddonBlank implements ITOPAddon {
 
     @Override
     public void addTankNames() {
+
+    }
+
+    @Override
+    public void updateConfigs(Configuration config) {
 
     }
 

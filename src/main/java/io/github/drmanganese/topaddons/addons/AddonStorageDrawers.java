@@ -67,7 +67,7 @@ public class AddonStorageDrawers extends AddonBlank {
                     }
             }
 
-            textPrefixed(probeInfo, "{*storagedrawers.waila.config.displayStackLimit*}", tile.isUnlimited() ? "\u221e" : tile.getDrawerCapacity() * tile.getEffectiveStorageMultiplier() + " (x" + tile.getEffectiveStorageMultiplier() + ")");
+            textPrefixed(probeInfo, "{*topaddons.storagedrawers:stack_limit*}", tile.isUnlimited() ? "\u221e" : tile.getDrawerCapacity() * tile.getEffectiveStorageMultiplier() + " (x" + tile.getEffectiveStorageMultiplier() + ")");
             if (tile.getOwner() != null && tile.getOwner().compareTo(player.getUniqueID()) != 0) {
                 probeInfo.text(TextStyleClass.ERROR + "{*storagedrawers.waila.protected*}");
             }

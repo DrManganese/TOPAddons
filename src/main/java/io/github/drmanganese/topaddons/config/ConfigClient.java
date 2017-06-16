@@ -1,19 +1,17 @@
 package io.github.drmanganese.topaddons.config;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.Tuple;
+import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.config.network.MessageClientOptions;
 import io.github.drmanganese.topaddons.config.network.PacketHandler;
 import io.github.drmanganese.topaddons.reference.ElementSync;
-import io.github.drmanganese.topaddons.reference.Names;
 import io.github.drmanganese.topaddons.reference.Reference;
 
 import java.util.HashMap;
@@ -25,20 +23,27 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class ConfigClient {
 
-    public static final Map<String, Integer> VALUES = new HashMap<>();
-    private static final Map<String, Tuple<Integer, String>> DEFAULTS = new HashMap<>();
+    private static Configuration config;
+    private static String fluidGaugeDisplay = "Both";
+    private static boolean forestryReasonCrouch = false;
+    private static boolean showPitch = true;
+    private static boolean ic2Progress = false;
 
-    static {
-        DEFAULTS.put("fluidGauge", new Tuple<>(1, "Display the TOP Addons fluid gauge for internal tanks on tiles (0 to disable)."));
-        DEFAULTS.put("hideTOPTank", new Tuple<>(0, "Hide the vanilla TOP fluid gauge (1 to hide)."));
-        DEFAULTS.put("forestryReasonCrouch", new Tuple<>(0, "Only show Forestry machines' important failure reasons when crouching (1 to enable)."));
-        DEFAULTS.put("showPitch", new Tuple<>(1, "Display pitch and instrument on Note Blocks (0 to disable)."));
-        DEFAULTS.put("ic2Progress", new Tuple<>(0, "Show IC² machine progress bar (0: Extended mode, 1: Normal mode)."));
-    }
-
-    public static void init(Configuration config) {
+    public static void init(Configuration configIn) {
+        config = configIn;
         config.load();
-        DEFAULTS.forEach((s, t) -> VALUES.put(s, config.getInt(s, "Options", t.getFirst(), 0, 1, t.getSecond())));
+
+        // Remove the old stuff
+        ConfigCategory oldOptions = config.getCategory("Options");
+        if (oldOptions != null) {
+            config.removeCategory(oldOptions);
+        }
+
+        fluidGaugeDisplay = config.getString("fluidGaugeDisplay", "Client Options", "Both", "Which tank gauge(s) to display (The One Probe, TOP Addons, Both).", new String[]{"The One Probe", "TOP Addons", "Both"});
+        forestryReasonCrouch = config.getBoolean("forestryReasonCrouch", "Client Options", false, "Only show Forestry machines' important failure reasons when crouching.");
+        showPitch = config.getBoolean("showPitch", "Client Options", true, "Display pitch and instrument on Note Blocks.");
+        ic2Progress = config.getBoolean("ic2Progress", "Client Options", false, "Show IC² machine progress bar when not crouching.");
+
         if (config.hasChanged()) {
             config.save();
         }
@@ -47,22 +52,38 @@ public class ConfigClient {
     @SubscribeEvent
     public static void onConfigChangedOnConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
         if (event.getModID().equals(Reference.MOD_ID)) {
-            DEFAULTS.forEach((s, t) -> VALUES.put(s, TOPAddons.configClient.getInt(s, "Options", t.getFirst(), 0, 1, t.getSecond())));
-            if (Minecraft.getMinecraft().theWorld != null)
-                PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(ConfigClient.VALUES, ElementSync.elementIds,(EntityPlayer) Minecraft.getMinecraft().thePlayer));
+            config.save();
+            if (event.isWorldRunning()) {
+                PacketHandler.INSTANCE.sendToServer(new MessageClientOptions(getClientValues(config), ElementSync.elementIds, Minecraft.getMinecraft().thePlayer));
+            }
         }
     }
 
-    public static void set(String key, int value) {
-        TOPAddons.configClient.get("Options",
-                key,
-                DEFAULTS.get(key).getFirst(),
-                DEFAULTS.get(key).getSecond(),
-                0,
-                Names.clientConfigOptions.get(key) == Boolean.TYPE ? 1 : Integer.MAX_VALUE)
-            .set(value);
-        VALUES.put(key, value);
-        TOPAddons.configClient.save();
+    public static Map<String, Integer> getClientValues(Configuration config) {
+        Map<String, Integer> values = new HashMap<>();
+        for (Map.Entry<String, Property> entry : config.getCategory("Client Options").entrySet()) {
+            Property prop = entry.getValue();
+            switch (entry.getValue().getType()) {
+                case BOOLEAN:
+                    values.put(entry.getKey(), prop.getBoolean() ? 1 : 0);
+                    break;
+                case INTEGER:
+                    values.put(entry.getKey(), prop.getInt());
+                    break;
+                case STRING:
+                    for (int i = 0; i < prop.getValidValues().length; i++) {
+                        if (prop.getValidValues()[i].equals(prop.getString())) {
+                            values.put(entry.getKey(), i);
+                        }
+                    }
+                    break;
+                default:
+                    values.put(entry.getKey(), entry.getValue().getInt());
+                    break;
+            }
+        }
+
+        return values;
     }
 
 }

@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.elements.ElementTankGauge;
 import io.github.drmanganese.topaddons.reference.Colors;
 import io.github.drmanganese.topaddons.reference.Names;
@@ -59,7 +58,7 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (!Config.Forge.showTankGauge || !player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("fluidGauge"))
+        if (player.getCapability(TOPAddons.OPTS_CAP, null).getInt("fluidGaugeDisplay") < 1)
             return;
 
         /* Disable for enderio, endertanks */
@@ -117,7 +116,7 @@ public class AddonForge extends AddonBlank {
                             tankName = Names.tankNamesMap.get(tile.getClass())[i];
                         }
                         if (tanks[i].fluid != null) {
-                            addTankElement(probeInfo, tankName, tanks[i], mode, getElementId(player, "tank_guauge"));
+                            addTankElement(probeInfo, tankName, tanks[i], mode, getElementId(player, "tank_gauge"));
                         } else {
                             addTankElement(probeInfo, tankName, "", 0, 0, "", 0xff777777, mode, getElementId(player, "tank_gauge"));
                         }
@@ -129,7 +128,7 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("hideTOPTank")) {
+        if (player.getCapability(TOPAddons.OPTS_CAP, null).getInt("fluidGaugeDisplay") == 1) {
             config.showTankSetting(IProbeConfig.ConfigMode.NOT);
         } else {
             config.showTankSetting(IProbeConfig.ConfigMode.EXTENDED);

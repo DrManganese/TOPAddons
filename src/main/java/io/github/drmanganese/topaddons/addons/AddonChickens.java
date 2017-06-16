@@ -3,7 +3,6 @@ package io.github.drmanganese.topaddons.addons;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.api.TOPAddon;
@@ -15,6 +14,7 @@ import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.TextStyleClass;
 
 @TOPAddon(dependency = "chickens")
 public class AddonChickens extends AddonBlank {
@@ -29,22 +29,22 @@ public class AddonChickens extends AddonBlank {
         if (entity instanceof EntityChickensChicken) {
             EntityChickensChicken chicken = (EntityChickensChicken) entity;
 
-            textPrefixed(probeInfo, "Tier", String.valueOf(chicken.getTier()), TextFormatting.GRAY);
+            textPrefixed(probeInfo, "{*topaddons.chickens:tier*}", String.valueOf(chicken.getTier()));
 
             if (!chicken.isChild()) {
                 int progress = chicken.getLayProgress();
-                textPrefixed(probeInfo, "Next egg", String.format("%s%d min%s", (progress <= 0) ? '<' : "\u2248", progress, (progress == 1) ? "" : 's'), TextFormatting.GRAY);
+                textPrefixed(probeInfo, "{*topaddons.chickens:next_egg*}", String.format("%s%d min%s", (progress <= 0) ? '<' : "\u2248", progress, (progress == 1) ? "" : 's'));
             }
 
 
             if (mode == ProbeMode.EXTENDED) {
                 if (chicken.getStatsAnalyzed() || ChickensMod.instance.getAlwaysShowStats()) {
                     IProbeInfo vert = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(0xff5555ff));
-                    textPrefixed(vert, "Growth", String.valueOf(chicken.getGrowth()), TextFormatting.GRAY);
-                    textPrefixed(vert, "Gain", String.valueOf(chicken.getGain()), TextFormatting.GRAY);
-                    textPrefixed(vert, "Strength", String.valueOf(chicken.getStrength()), TextFormatting.GRAY);
+                    textPrefixed(vert, "{*topaddons.chickens:growth*}", String.valueOf(chicken.getGrowth()));
+                    textPrefixed(vert, "{*topaddons.chickens:gain*}", String.valueOf(chicken.getGain()));
+                    textPrefixed(vert, "{*topaddons.chickens:strength*}", String.valueOf(chicken.getStrength()));
                 } else {
-                    probeInfo.text(TextFormatting.DARK_GRAY.toString() + TextFormatting.ITALIC.toString() + "Unanalyzed");
+                    probeInfo.text(TextStyleClass.OBSOLETE + "{*topaddons.chickens:unanalyzed*}");
                 }
             }
         }
@@ -55,9 +55,9 @@ public class AddonChickens extends AddonBlank {
             EntityChickensChicken chicken = (EntityChickensChicken) entity;
             if (chicken.getStatsAnalyzed() || ChickensMod.instance.getAlwaysShowStats()) {
                 IProbeInfo vert = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(0xff5555ff));
-                textPrefixed(vert, "Growth", String.valueOf(chicken.getGrowth()), TextFormatting.GRAY);
-                textPrefixed(vert, "Gain", String.valueOf(chicken.getGain()), TextFormatting.GRAY);
-                textPrefixed(vert, "Strength", String.valueOf(chicken.getStrength()), TextFormatting.GRAY);
+                textPrefixed(vert, "{*topaddons.chickens:growth*}", String.valueOf(chicken.getGrowth()));
+                textPrefixed(vert, "{*topaddons.chickens:gain*}", String.valueOf(chicken.getGain()));
+                textPrefixed(vert, "{*topaddons.chickens:strength*}", String.valueOf(chicken.getStrength()));
             }
         }
     }

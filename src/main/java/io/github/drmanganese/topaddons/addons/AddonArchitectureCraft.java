@@ -3,7 +3,6 @@ package io.github.drmanganese.topaddons.addons;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.api.TOPAddon;
@@ -20,6 +19,7 @@ import mcjty.theoneprobe.api.IBlockDisplayOverride;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.TextStyleClass;
 
 import static mcjty.theoneprobe.api.TextStyleClass.MODNAME;
 
@@ -57,7 +57,7 @@ public class AddonArchitectureCraft extends AddonBlank {
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         if ( world.getTileEntity(data.getPos()) instanceof ShapeTE) {
             ShapeTE tile = (ShapeTE) world.getTileEntity(data.getPos());
-            probeInfo.text(TextFormatting.GRAY + tile.baseBlockState.getBlock().getLocalizedName());
+            probeInfo.text(TextStyleClass.INFO + tile.baseBlockState.getBlock().getLocalizedName());
         }
     }
 }

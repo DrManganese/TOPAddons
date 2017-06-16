@@ -5,9 +5,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.config.Configuration;
 
 import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.config.Config;
 
 import com.infinityraider.agricraft.api.misc.IAgriDisplayable;
 import com.infinityraider.agricraft.tiles.TileEntityCrop;
@@ -22,6 +22,8 @@ import mcjty.theoneprobe.api.ProbeMode;
 
 @TOPAddon(dependency = "agricraft")
 public class AddonAgriCraft extends AddonBlank {
+
+	private boolean extendedMode = true;
 
 	@Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
@@ -42,6 +44,11 @@ public class AddonAgriCraft extends AddonBlank {
 		}
 	}
 
+	@Override
+	public void updateConfigs(Configuration config) {
+		extendedMode = config.get("agricraft", "extendedMode", true, "Only show breeding stages in extended mode.").setLanguageKey("topaddons.config:agricraft_extended_mode").getBoolean();
+	}
+
 	private List<String> getModeAppropriateData(List<String> info, ProbeMode mode) {
 		List<String> revisedList = new ArrayList<>();
 		//Two strings indicates an empty crop
@@ -53,13 +60,13 @@ public class AddonAgriCraft extends AddonBlank {
 		//Five strings indicates an unanalyzed crop
 		if(info.size() == 5)
 			for(int i = 0;i<info.size();i++) {
-				if (i == 3 && mode == ProbeMode.NORMAL && Config.AgriCraft.extendedMode) continue;
+				if (i == 3 && mode == ProbeMode.NORMAL && extendedMode) continue;
 				revisedList.add(formatText(info.get(i)));
 			}
 		//Seven strings indicates an analayzed crop
 		if(info.size() == 7) {
 			for(int i = 0; i<info.size();i++) {
-				if((i == 3 || i == 4 || i == 5) && mode == ProbeMode.NORMAL && Config.AgriCraft.extendedMode) continue;
+				if((i == 3 || i == 4 || i == 5) && mode == ProbeMode.NORMAL && extendedMode) continue;
 				revisedList.add(formatText(info.get(i)));
 			}
 		}
