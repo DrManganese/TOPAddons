@@ -24,6 +24,7 @@ import java.util.Map;
 
 import mcjty.theoneprobe.api.IBlockDisplayOverride;
 import mcjty.theoneprobe.api.IElementFactory;
+import mcjty.theoneprobe.api.IEntityDisplayOverride;
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
@@ -90,6 +91,11 @@ public abstract class AddonBlank implements ITOPAddon {
 
     @Override
     public List<IBlockDisplayOverride> getBlockDisplayOverrides() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<IEntityDisplayOverride> getEntityDisplayOverrides() {
         return Collections.emptyList();
     }
 
