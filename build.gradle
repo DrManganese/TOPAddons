@@ -41,8 +41,8 @@ dependencies {
     deobfCompile "slimeknights:TConstruct:1.10.2-2.6.2.490"
     deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.9.4-2.1.0-487-ss"
 
-    deobfCompile "mezz.jei:jei_${mc_version}:3.14.7.417:api"
-    runtime "mezz.jei:jei_${mc_version}:3.14.7.417"
+    deobfCompile "mezz.jei:jei_${mc_version}:3.14.7.420:api"
+    runtime "mezz.jei:jei_${mc_version}:3.14.7.420"
 }
 
 configurations {

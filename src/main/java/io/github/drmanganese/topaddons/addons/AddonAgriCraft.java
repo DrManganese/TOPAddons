@@ -9,7 +9,7 @@ import net.minecraftforge.common.config.Configuration;
 
 import io.github.drmanganese.topaddons.api.TOPAddon;
 
-import com.infinityraider.agricraft.api.misc.IAgriDisplayable;
+import com.infinityraider.agricraft.api.v1.misc.IAgriDisplayable;
 import com.infinityraider.agricraft.tiles.TileEntityCrop;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class AddonAgriCraft extends AddonBlank {
 
 			List<String> info = new ArrayList<>();
 			List<String> revisedInfo;
-			((IAgriDisplayable) tileEntity).addDisplayInfo(info);
+			((IAgriDisplayable) tileEntity).addDisplayInfo(info::add);
 
 			revisedInfo = getModeAppropriateData(info, mode);
 
