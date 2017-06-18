@@ -32,7 +32,8 @@ public class TOPRegistrar {
                 probe.registerProvider(addon);
                 probe.registerProbeConfigProvider(addon);
                 probe.registerEntityProvider(addon);
-                addon.getBlockDisplayOverrides().forEach(e -> probe.registerBlockDisplayOverride(e));
+                addon.getBlockDisplayOverrides().forEach(probe::registerBlockDisplayOverride);
+                addon.getEntityDisplayOverrides().forEach(probe::registerEntityDisplayOverride);
                 addon.registerElements();
                 addon.addFluidColors();
                 addon.addTankNames();

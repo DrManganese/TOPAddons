@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import mcjty.theoneprobe.api.IBlockDisplayOverride;
+import mcjty.theoneprobe.api.IEntityDisplayOverride;
 import mcjty.theoneprobe.api.IProbeConfigProvider;
 import mcjty.theoneprobe.api.IProbeInfoEntityProvider;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
@@ -62,4 +63,9 @@ public interface ITOPAddon extends IProbeInfoProvider, IProbeInfoEntityProvider,
      * @return A list of {@link IBlockDisplayOverride}.
      */
     List<IBlockDisplayOverride> getBlockDisplayOverrides();
+
+    /**
+     * @return A list of {@link IEntityDisplayOverride}.
+     */
+    List<IEntityDisplayOverride> getEntityDisplayOverrides();
 }
