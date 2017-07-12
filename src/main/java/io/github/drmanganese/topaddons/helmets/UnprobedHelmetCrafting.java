@@ -8,6 +8,8 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 
+import net.minecraftforge.registries.IForgeRegistryEntry;
+
 import io.github.drmanganese.topaddons.AddonManager;
 import io.github.drmanganese.topaddons.config.HelmetConfig;
 
@@ -17,7 +19,7 @@ import mcjty.theoneprobe.items.ModItems;
 
 import static mcjty.theoneprobe.items.ModItems.PROBETAG;
 
-public class UnprobedHelmetCrafting implements IRecipe {
+public class UnprobedHelmetCrafting extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 
     @Override
     public boolean matches(@Nonnull InventoryCrafting inv, @Nonnull World worldIn) {
@@ -63,8 +65,8 @@ public class UnprobedHelmetCrafting implements IRecipe {
     }
 
     @Override
-    public int getRecipeSize() {
-        return 10;
+    public boolean canFit(int width, int height) {
+        return width * height >= 1;
     }
 
     @Nonnull
@@ -79,5 +81,10 @@ public class UnprobedHelmetCrafting implements IRecipe {
         NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
         ret.set(0, new ItemStack(ModItems.probe));
         return ret;
+    }
+
+    @Override
+    public boolean isHidden() {
+        return true;
     }
 }

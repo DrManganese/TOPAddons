@@ -26,7 +26,7 @@ public class AddonStorageDrawers extends AddonBlank {
         if (world.getTileEntity(data.getPos()) instanceof TileEntityDrawers) {
             TileEntityDrawers tile = (TileEntityDrawers) world.getTileEntity(data.getPos());
 
-            if (tile.isShrouded()) {
+            if (tile.getDrawerAttributes().isConcealed()) {
                 probeInfo.text(TextStyleClass.LABEL + "{*topaddons.storage_drawers:shrouded*}");
                 return;
             }
@@ -45,7 +45,7 @@ public class AddonStorageDrawers extends AddonBlank {
                 if (stacks.size() > 0) {
                     IProbeInfo vertical = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(Config.chestContentsBorderColor).spacing(0));
                     for (ItemStack stack : stacks) {
-                        if (tile.isVending()) {
+                        if (tile.getDrawerAttributes().isUnlimitedVending()) {
                             ItemStack infiStack = stack.copy();
                             infiStack.setCount(1);
                             vertical.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
@@ -66,7 +66,7 @@ public class AddonStorageDrawers extends AddonBlank {
                     }
                 }
 
-                textPrefixed(probeInfo, "{*storagedrawers.waila.config.displayStackLimit*}", tile.isUnlimited() ? "\u221e" : tile.getDrawerCapacity() * tile.getEffectiveStorageMultiplier() + " (x" + tile.getEffectiveStorageMultiplier() + ")");
+                textPrefixed(probeInfo, "{*storagedrawers.waila.config.displayStackLimit*}", tile.getDrawerAttributes().isUnlimitedStorage() ? "\u221e" : tile.getDrawerCapacity() * tile.upgrades().getStorageMultiplier() + " (x" + tile.upgrades().getStorageMultiplier() + ")");
                 if (tile.getOwner() != null && tile.getOwner().compareTo(player.getUniqueID()) != 0) {
                     probeInfo.text(TextStyleClass.ERROR + "{*storagedrawers.waila.protected*}");
                 }

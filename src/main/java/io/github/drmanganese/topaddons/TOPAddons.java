@@ -1,11 +1,14 @@
 package io.github.drmanganese.topaddons;
 
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -14,7 +17,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.RecipeSorter;
 
@@ -97,11 +99,6 @@ public class TOPAddons {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         HelmetConfig.loadHelmetBlacklist(config);
-
-        GameRegistry.addRecipe(new ProbedHelmetCrafting());
-        GameRegistry.addRecipe(new UnprobedHelmetCrafting());
-        RecipeSorter.register("topaddons:helmet", ProbedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
-        RecipeSorter.register("topaddons:remhelmet", UnprobedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
     }
 
     @Mod.EventHandler
@@ -112,6 +109,26 @@ public class TOPAddons {
     @Mod.EventHandler
     public void onFMLServerStarting(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandTOPHelmet());
+    }
+
+    @SubscribeEvent
+    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equals(Reference.MOD_ID)) {
+            AddonManager.ADDONS.forEach(a -> a.updateConfigs(config));
+            HelmetConfig.loadHelmetBlacklist(config);
+            if (config.hasChanged()) {
+                config.save();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onRegistry(RegistryEvent.Register<IRecipe> event) {
+        event.getRegistry().register(new ProbedHelmetCrafting().setRegistryName(new ResourceLocation(Reference.MOD_ID, "probe_helmet")));
+        event.getRegistry().register(new UnprobedHelmetCrafting().setRegistryName(new ResourceLocation(Reference.MOD_ID, "unprobe_helmet")));
+        RecipeSorter.register("topaddons:helmet", ProbedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
+        RecipeSorter.register("topaddons:remhelmet", UnprobedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
+
     }
 
     private void cleanConfig() {
@@ -128,17 +145,6 @@ public class TOPAddons {
         ConfigCategory oldVanilla = config.getCategory("vanilla");
         if (oldVanilla != null) {
             config.removeCategory(oldVanilla);
-        }
-    }
-
-    @SubscribeEvent
-    public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equals(Reference.MOD_ID)) {
-            AddonManager.ADDONS.forEach(a -> a.updateConfigs(config));
-            HelmetConfig.loadHelmetBlacklist(config);
-            if (config.hasChanged()) {
-                config.save();
-            }
         }
     }
 }

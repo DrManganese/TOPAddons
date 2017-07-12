@@ -14,7 +14,6 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import io.github.drmanganese.topaddons.TOPAddons;
-import io.github.drmanganese.topaddons.TOPRegistrar;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInventory;
 import io.github.drmanganese.topaddons.elements.forestry.ElementForestryFarm;
@@ -304,7 +303,7 @@ public class AddonForestry extends AddonBlank {
                 probeInfo.text(TextStyleClass.LABEL + "{*topaddons:generating*} " + TextStyleClass.INFOIMP + engine.getCurrentOutput() + TextStyleClass.LABEL + " RF/t");
             }
 
-            /**
+            /*
              * Forestry error states (correspond to the "Ledgers" you see on the left of guis)
              * Show all errors if sneaking
              * Show important errors always (defined in {@link NORMAL_STATES}

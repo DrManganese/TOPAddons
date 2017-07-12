@@ -9,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import io.github.drmanganese.topaddons.AddonManager;
 import io.github.drmanganese.topaddons.config.HelmetConfig;
@@ -19,7 +20,7 @@ import mcjty.theoneprobe.items.ModItems;
 
 import static mcjty.theoneprobe.items.ModItems.PROBETAG;
 
-public class ProbedHelmetCrafting implements IRecipe {
+public class ProbedHelmetCrafting extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 
     @Override
     public boolean matches(@Nonnull InventoryCrafting inv, @Nonnull World worldIn) {
@@ -73,8 +74,8 @@ public class ProbedHelmetCrafting implements IRecipe {
     }
 
     @Override
-    public int getRecipeSize() {
-        return 10;
+    public boolean canFit(int width, int height) {
+        return width * height >= 2;
     }
 
     @Nonnull
@@ -87,5 +88,10 @@ public class ProbedHelmetCrafting implements IRecipe {
     @Override
     public NonNullList<ItemStack> getRemainingItems(@Nonnull InventoryCrafting inv) {
         return ForgeHooks.defaultRecipeGetRemainingItems(inv);
+    }
+
+    @Override
+    public boolean isHidden() {
+        return true;
     }
 }

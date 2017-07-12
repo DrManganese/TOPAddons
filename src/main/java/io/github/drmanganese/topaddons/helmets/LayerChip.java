@@ -1,9 +1,9 @@
 package io.github.drmanganese.topaddons.helmets;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -66,7 +66,7 @@ public class LayerChip implements LayerRenderer<EntityPlayer> {
     }
 
     private void renderSpriteIn3D(Tessellator tesselator, float minU, float minV, float maxU, float maxV, int width, int height, float thickness) {
-        VertexBuffer buffer = tesselator.getBuffer();
+        BufferBuilder buffer = tesselator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX_NORMAL);
         buffer.pos(0.0D, 0.0D, 0.0D).tex(maxU, maxV).normal(0, 0, 1).endVertex();
         buffer.pos(1.0D, 0.0D, 0.0D).tex(minU, maxV).normal(0, 0, 1).endVertex();
