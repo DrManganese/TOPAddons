@@ -29,6 +29,11 @@ repositories {
     }
     maven { url "http://dvs1.progwml6.com/files/maven" }
     maven { url "http://tehnut.info/maven/" }
+
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
 }
 
 dependencies {
@@ -40,6 +45,7 @@ dependencies {
     deobfCompile "net.industrial-craft:industrialcraft-2:2.7.9-ex111"
     deobfCompile "slimeknights.mantle:Mantle:1.11.2-1.2.0.25"
     deobfCompile "slimeknights:TConstruct:1.11.2-2.7.0.9"
+    compile "steves-carts-reborn:StevesCarts:1.11.2:2.3.0.22"
 }
 
 

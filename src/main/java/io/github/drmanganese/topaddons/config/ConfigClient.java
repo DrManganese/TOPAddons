@@ -30,6 +30,7 @@ public class ConfigClient {
     private static boolean ic2Progress = false;
     private static boolean smelteryInIngots = true;
     private static boolean colorDragonName = true;
+    private static boolean stevesOtherModules = false;
 
 
     public static void init(Configuration configIn) {
@@ -48,6 +49,7 @@ public class ConfigClient {
         ic2Progress = config.getBoolean("ic2Progress", "Client Options", false, "Show IC² machine progress bar when not crouching.");
         smelteryInIngots = config.getBoolean("smelteryInIngots", "Client Options", true, "Show smeltery fluid volume in ingots.");
         colorDragonName = config.getBoolean("colorDragonName", "Client Options", true, "Color the name of an Ice and Fire dragon depending on its type.");
+        stevesOtherModules = config.getBoolean("stevesOtherModules", "Client Options", false, "Display installed modules when sneaking.");
 
 
         if (config.hasChanged()) {

@@ -1,6 +1,8 @@
 package io.github.drmanganese.topaddons.reference;
 
 import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -27,5 +29,28 @@ public final class Colors {
         fluidNameColorMap.put("ic2hot_water", new Color(50, 179, 179).hashCode());
         fluidNameColorMap.put("ic2weed_ex", new Color(18, 49, 23).hashCode());
         fluidNameColorMap.put("ic2air", new Color(108, 100, 107).hashCode());
+    }
+
+    public static int getHashFromFluid(FluidStack fluidStack) {
+        /*
+         * Fluid color: - If the fluid doesn't return white in getColor, use this value;
+         *              - if the fluid is registered by an addon, use its color;
+         *              - if the fluid's name is stored in {@link Colors.fluidNameColorMap}, use that value;
+         *              - otherwise use 0xff777777 (gray-ish)
+         */
+        Fluid fluid = fluidStack.getFluid();
+        if (fluid.getColor(fluidStack) != 0xffffffff) {
+            return fluid.getColor(fluidStack);
+        } else if (Colors.fluidColorMap.containsKey(fluid)) {
+            return Colors.fluidColorMap.get(fluid);
+        } else if (Colors.fluidNameColorMap.containsKey(fluidStack.getFluid().getName())) {
+            return Colors.fluidNameColorMap.get(fluidStack.getFluid().getName());
+        } else {
+            return 0xff777777;
+        }
+    }
+
+    public static int getHashFromFluid(IFluidTankProperties tank) {
+        return getHashFromFluid(tank.getContents());
     }
 }
