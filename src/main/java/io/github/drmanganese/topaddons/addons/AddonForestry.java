@@ -184,12 +184,12 @@ public class AddonForestry extends AddonBlank {
                 ITree tree = ((TileSapling) tile).getTree();
                 if (mode == ProbeMode.EXTENDED) {
                     if (tree.isAnalyzed()) {
-                        textPrefixed(probeInfo, "{*for.gui.saplings*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.FERTILITY).getName());
-                        textPrefixed(probeInfo, "{*for.gui.maturity*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.MATURATION).getName());
-                        textPrefixed(probeInfo, "{*for.gui.height*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.HEIGHT).getName());
+                        textPrefixed(probeInfo, "{*for.gui.saplings*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.FERTILITY).getAlleleName());
+                        textPrefixed(probeInfo, "{*for.gui.maturity*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.MATURATION).getAlleleName());
+                        textPrefixed(probeInfo, "{*for.gui.height*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.HEIGHT).getAlleleName());
                         textPrefixed(probeInfo, "{*for.gui.girth*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.GIRTH).toString());
-                        textPrefixed(probeInfo, "{*for.gui.yield*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.YIELD).getName());
-                        textPrefixed(probeInfo, "{*for.gui.sappiness*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.SAPPINESS).getName());
+                        textPrefixed(probeInfo, "{*for.gui.yield*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.YIELD).getAlleleName());
+                        textPrefixed(probeInfo, "{*for.gui.sappiness*}", tree.getGenome().getActiveAllele(EnumTreeChromosome.SAPPINESS).getAlleleName());
                     } else {
                         probeInfo.text(TextStyleClass.OBSOLETE + "{*for.gui.unknown*}");
                     }

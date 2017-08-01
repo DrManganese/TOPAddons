@@ -34,10 +34,10 @@ public class AddonStorageDrawers extends AddonBlank {
 
             if (mode == ProbeMode.EXTENDED) {
                 NonNullList<ItemStack> stacks = NonNullList.create();
-                for (int i = 0; i < tile.getDrawerCount(); i++) {
-                    ItemStack stack = tile.getDrawer(i).getStoredItemPrototype();
+                for (int i = 0; i < tile.getGroup().getDrawerCount(); i++) {
+                    ItemStack stack = tile.getGroup().getDrawer(i).getStoredItemPrototype();
                     if (!stack.isEmpty()) {
-                        stack.setCount(tile.getDrawer(i).getStoredItemCount());
+                        stack.setCount(tile.getGroup().getDrawer(i).getStoredItemCount());
                         stacks.add(stack);
                     }
                 }
