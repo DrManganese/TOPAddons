@@ -66,6 +66,13 @@ topaddons.vanilla:instrument=Instrument
 topaddons.vanilla:nobreed=Can't breed
 topaddons.vanilla:adultin=Adult in
 
+topaddons.chickens:tier=Tier
+topaddons.chickens:next_egg=Next egg
+topaddons.chickens:unanalyzed=Unanalyzed
+topaddons.chickens:growth=Growth
+topaddons.chickens:gain=Gain
+topaddons.chickens:strength=Strength
+
 topaddons.stevescarts2:priority_high=High
 topaddons.stevescarts2:priority_medium=Medium
 topaddons.stevescarts2:priority_low=Low

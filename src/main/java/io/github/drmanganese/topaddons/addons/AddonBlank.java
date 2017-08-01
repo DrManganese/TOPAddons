@@ -101,15 +101,15 @@ public abstract class AddonBlank implements ITOPAddon {
 
     /* Shortcut methods */
 
-    IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
+    static IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
         return probeInfo.text(formatting + prefix + ": " + TextStyleClass.INFO + text);
     }
 
-    IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text) {
+    static IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text) {
         return textPrefixed(probeInfo, prefix, text, TextStyleClass.LABEL);
     }
 
-    IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextStyleClass styleClass) {
+    static IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextStyleClass styleClass) {
         return probeInfo.text(styleClass + prefix + ": " + TextStyleClass.INFO + text);
     }
 
