@@ -24,6 +24,5 @@ public class AddonChisel extends AddonBlank {
             String unloc = stack.getUnlocalizedName() + "." + block.getVariationData(stack.getItemDamage()).name + ".desc.1";
             probeInfo.text(TextFormatting.GRAY + IProbeInfo.STARTLOC + unloc + IProbeInfo.ENDLOC);
         }
-
     }
 }

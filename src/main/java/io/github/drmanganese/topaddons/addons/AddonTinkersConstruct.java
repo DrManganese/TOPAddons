@@ -22,7 +22,6 @@ import slimeknights.tconstruct.smeltery.tileentity.TileSmeltery;
 @TOPAddon(dependency = "tconstruct")
 public class AddonTinkersConstruct extends AddonBlank {
 
-
     @Override
     public void registerElements() {
         registerElement("smeltery", ElementSmelteryTank::new);
