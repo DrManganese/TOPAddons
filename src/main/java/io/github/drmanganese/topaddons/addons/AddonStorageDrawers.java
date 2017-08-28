@@ -54,7 +54,7 @@ public class AddonStorageDrawers extends AddonBlank {
                                     .text(stack.getDisplayName())
                                     .text(TextStyleClass.INFOIMP + "[\u221e]");
 
-                        } else {
+                        } else if (!stack.isEmpty()) {
                             int mss = stack.getMaxStackSize();
                             int r = stack.getCount() % mss;
                             int q = (stack.getCount() - r) / mss;
