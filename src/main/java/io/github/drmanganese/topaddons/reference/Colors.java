@@ -29,6 +29,11 @@ public final class Colors {
         fluidNameColorMap.put("ic2hot_water", new Color(50, 179, 179).hashCode());
         fluidNameColorMap.put("ic2weed_ex", new Color(18, 49, 23).hashCode());
         fluidNameColorMap.put("ic2air", new Color(108, 100, 107).hashCode());
+        /* Actually Additions */
+        fluidNameColorMap.put("canolaoil", new Color(185, 161, 45).hashCode());
+        fluidNameColorMap.put("refinedcanolaoil", new Color(81, 71, 26).hashCode());
+        fluidNameColorMap.put("crystaloil", new Color(120, 60, 34).hashCode());
+        fluidNameColorMap.put("empoweredoil", new Color(211, 60, 82).hashCode());
     }
 
     public static int getHashFromFluid(FluidStack fluidStack) {

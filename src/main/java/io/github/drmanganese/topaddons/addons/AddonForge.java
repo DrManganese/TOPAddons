@@ -5,6 +5,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidTank;
+import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
@@ -28,6 +30,30 @@ public class AddonForge extends AddonBlank {
 
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, String fluidName, int amount, int capacity, String suffix, int color, ProbeMode mode, EntityPlayer player) {
         return probeInfo.element(new ElementTankGauge(getElementId(player, "tank_gauge"), name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
+    }
+
+    public static IProbeInfo addTankElement(IProbeInfo probeInfo, Class<? extends TileEntity> clazz, FluidTank fluidTank, int i, ProbeMode mode, EntityPlayer player) {
+        String tankName = "Tank";
+        if (Names.tankNamesMap.containsKey(clazz)) {
+            tankName = Names.tankNamesMap.get(clazz)[i];
+        }
+
+        if (fluidTank.getFluid() != null) {
+            return addTankElement(probeInfo, tankName, fluidTank.getFluid().getLocalizedName(), fluidTank.getFluidAmount(), fluidTank.getCapacity(), "mB", Colors.getHashFromFluid(fluidTank.getFluid()), mode, player);
+        } else {
+            return addTankElement(probeInfo, tankName, "", 0, 0, "", 0xff777777, mode, player);
+        }
+    }
+
+    public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tankInfo, ProbeMode mode, EntityPlayer player) {
+        String suffix = "mB";
+        if (name.equals("Blood Altar")) suffix = "LP";
+
+        if (tankInfo.fluid == null) {
+            return probeInfo.element(new ElementTankGauge(getElementId(player, "tank_gauge"), name, "", 0, 0, suffix, 0, mode == ProbeMode.EXTENDED));
+        } else {
+            return probeInfo.element(new ElementTankGauge(getElementId(player, "tank_gauge"), name, tankInfo.fluid.getLocalizedName(), tankInfo.fluid.amount, tankInfo.capacity, suffix, Colors.getHashFromFluid(tankInfo.fluid), mode == ProbeMode.EXTENDED));
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
@@ -25,6 +26,7 @@ import java.util.Map;
 import mcjty.theoneprobe.api.IBlockDisplayOverride;
 import mcjty.theoneprobe.api.IElementFactory;
 import mcjty.theoneprobe.api.IEntityDisplayOverride;
+import mcjty.theoneprobe.api.ILayoutStyle;
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
@@ -115,5 +117,25 @@ public abstract class AddonBlank implements ITOPAddon {
 
     IProbeInfo progressBar(IProbeInfo probeInfo, int current, int color1, int color2) {
         return probeInfo.progress(current, 100, new ProgressStyleTOPAddonGrey().filledColor(color1).alternateFilledColor(color2).suffix("%").prefix("Progress: "));
+    }
+
+    IProbeInfo showItemStackRows(IProbeInfo probeInfo, List<ItemStack> stacks, int rowWidth, ILayoutStyle layoutStyle) {
+        IProbeInfo vert = probeInfo.vertical(layoutStyle);
+        IProbeInfo hori = vert.horizontal(probeInfo.defaultLayoutStyle());
+        int j = 0;
+        for (ItemStack stack : stacks) {
+            hori.item(stack);
+            j++;
+            if (j > rowWidth) {
+                j = 0;
+                hori = vert.horizontal(probeInfo.defaultLayoutStyle());
+            }
+        }
+
+        return probeInfo;
+    }
+
+    IProbeInfo showItemStackRows(IProbeInfo probeInfo, List<ItemStack> stacks, int rowWidth) {
+        return showItemStackRows(probeInfo, stacks, rowWidth, probeInfo.defaultLayoutStyle());
     }
 }

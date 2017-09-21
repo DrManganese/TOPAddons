@@ -27,7 +27,6 @@ public class ConfigClient {
     private static String fluidGaugeDisplay = "Both";
     private static boolean forestryReasonCrouch = false;
     private static boolean showPitch = true;
-    private static boolean ic2Progress = false;
     private static boolean smelteryInIngots = true;
     private static boolean colorDragonName = true;
     private static boolean stevesOtherModules = false;
@@ -46,7 +45,6 @@ public class ConfigClient {
         fluidGaugeDisplay = config.getString("fluidGaugeDisplay", "Client Options", "Both", "Which tank gauge(s) to display (The One Probe, TOP Addons, Both).", new String[]{"The One Probe", "TOP Addons", "Both"});
         forestryReasonCrouch = config.getBoolean("forestryReasonCrouch", "Client Options", false, "Only show Forestry machines' important failure reasons when crouching.");
         showPitch = config.getBoolean("showPitch", "Client Options", true, "Display pitch and instrument on Note Blocks.");
-        ic2Progress = config.getBoolean("ic2Progress", "Client Options", false, "Show IC² machine progress bar when not crouching.");
         smelteryInIngots = config.getBoolean("smelteryInIngots", "Client Options", true, "Show smeltery fluid volume in ingots.");
         colorDragonName = config.getBoolean("colorDragonName", "Client Options", true, "Color the name of an Ice and Fire dragon depending on its type.");
         stevesOtherModules = config.getBoolean("stevesOtherModules", "Client Options", false, "Display installed modules when sneaking.");

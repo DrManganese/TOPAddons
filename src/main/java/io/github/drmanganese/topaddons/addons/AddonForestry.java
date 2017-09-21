@@ -327,15 +327,15 @@ public class AddonForestry extends AddonBlank {
         if (entity instanceof IEntityButterfly) {
             IButterfly butterfly = ((IEntityButterfly) entity).getButterfly();
             if (!butterfly.isPureBred(EnumButterflyChromosome.SPECIES)) {
-                textPrefixed(probeInfo, "{*for.gui.hybrid*}", butterfly.getGenome().getInactiveAllele(EnumButterflyChromosome.SPECIES).getName());
+                textPrefixed(probeInfo, "{*for.gui.hybrid*}", butterfly.getGenome().getInactiveAllele(EnumButterflyChromosome.SPECIES).getAlleleName());
             }
 
             if (mode == ProbeMode.EXTENDED) {
                 if (butterfly.isAnalyzed()) {
-                    textPrefixed(probeInfo, "{*for.gui.size*}", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SIZE).getName());
-                    textPrefixed(probeInfo, "{*for.gui.speed*}", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SPEED).getName());
-                    textPrefixed(probeInfo, "{*for.gui.lifespan*}", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.LIFESPAN).getName());
-                    textPrefixed(probeInfo, "{*for.gui.fertility*}", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.FERTILITY).getName());
+                    textPrefixed(probeInfo, "{*for.gui.size*}", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SIZE).getAlleleName());
+                    textPrefixed(probeInfo, "{*for.gui.speed*}", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.SPEED).getAlleleName());
+                    textPrefixed(probeInfo, "{*for.gui.lifespan*}", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.LIFESPAN).getAlleleName());
+                    textPrefixed(probeInfo, "{*for.gui.fertility*}", butterfly.getGenome().getActiveAllele(EnumButterflyChromosome.FERTILITY).getAlleleName());
                 } else {
                     probeInfo.text(TextStyleClass.OBSOLETE + "{*for.gui.unknown*}");
                 }
@@ -369,7 +369,6 @@ public class AddonForestry extends AddonBlank {
         }
     }
 
-    //TODO localised tank names
     @Override
     public void addTankNames() {
         Names.tankNamesMap.put(TileEngineBiogas.class, new String[]{"Fuel", "Heating", "Burner"});

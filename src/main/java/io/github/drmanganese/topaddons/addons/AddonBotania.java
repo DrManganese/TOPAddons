@@ -19,7 +19,7 @@ import vazkii.botania.common.item.equipment.armor.manasteel.ItemManasteelHelm;
 import vazkii.botania.common.item.equipment.armor.manaweave.ItemManaweaveHelm;
 import vazkii.botania.common.item.equipment.armor.terrasteel.ItemTerrasteelHelm;
 
-@TOPAddon(dependency = "Botania")
+@TOPAddon(dependency = "botania")
 public class AddonBotania extends AddonBlank {
 
     @Override

@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 import mcjty.theoneprobe.Tools;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IEntityDisplayOverride;
-import mcjty.theoneprobe.api.ILayoutStyle;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -202,25 +201,5 @@ public class AddonStevesCarts2 extends AddonBlank {
                 return false;
             }
         });
-    }
-
-    private IProbeInfo showItemStackRows(IProbeInfo probeInfo, List<ItemStack> stacks, int rowWidth, ILayoutStyle layoutStyle) {
-        IProbeInfo vert = probeInfo.vertical(layoutStyle);
-        IProbeInfo hori = vert.horizontal(probeInfo.defaultLayoutStyle());
-        int j = 0;
-        for (ItemStack stack : stacks) {
-            hori.item(stack);
-            j++;
-            if (j > rowWidth) {
-                j = 0;
-                hori = vert.horizontal(probeInfo.defaultLayoutStyle());
-            }
-        }
-
-        return probeInfo;
-    }
-
-    private IProbeInfo showItemStackRows(IProbeInfo probeInfo, List<ItemStack> stacks, int rowWidth) {
-        return showItemStackRows(probeInfo, stacks, rowWidth, probeInfo.defaultLayoutStyle());
     }
 }

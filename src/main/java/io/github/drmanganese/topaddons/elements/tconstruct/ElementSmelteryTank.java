@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.fluids.FluidStack;
 
 import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
+import io.github.drmanganese.topaddons.reference.Colors;
 import io.github.drmanganese.topaddons.styles.ProgressStyleSmelteryFluid;
 import io.github.drmanganese.topaddons.styles.ProgressStyleTank;
 
@@ -33,7 +34,7 @@ public class ElementSmelteryTank implements IElement {
     public ElementSmelteryTank(int id, List<FluidStack> fluids, int capacity, boolean inIngots, boolean sneaking) {
         this.id = id;
         this.fluids = new ArrayList<>();
-        fluids.forEach(fluidStack -> this.fluids.add(new SmelteryFluid(fluidStack.getLocalizedName(), fluidStack.amount, fluidStack.getFluid().getColor(), capacity)));
+        fluids.forEach(fluidStack -> this.fluids.add(new SmelteryFluid(fluidStack.getLocalizedName(), fluidStack.amount, Colors.getHashFromFluid(fluidStack), capacity)));
         this.capacity = capacity;
         this.inIngots = inIngots;
         this.sneaking = sneaking;
@@ -91,7 +92,7 @@ public class ElementSmelteryTank implements IElement {
 
                 String unit;
                 int unitAmount = fluid.name.equals("Molten Emerald") ? 666 : 144;
-                if (inIngots && fluid.amount >= unitAmount) {
+                if (inIngots && fluid.amount >= unitAmount ) {
                     String type = fluid.name.equals("Molten Emerald") ? "gem" : "ingot";
                     final int r = fluid.amount % unitAmount;
                     final int amount = (fluid.amount - r) / unitAmount;
@@ -164,8 +165,8 @@ public class ElementSmelteryTank implements IElement {
             this.name = name;
             this.amount = amount;
             this.color = color;
-            this.darker = new Color(color).darker().hashCode();
-            this.brighter2 = new Color(color).brighter().brighter().hashCode();
+            this.darker = new Color(color, true).darker().hashCode();
+            this.brighter2 = new Color(color, true).brighter().brighter().hashCode();
 
             height = (int) Math.floor(amount * 100 / capacity);
             if (height < 5) {
