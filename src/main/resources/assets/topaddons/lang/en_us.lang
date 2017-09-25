@@ -9,6 +9,7 @@ topaddons.config:category_server_bloodmagic=Blood Magic
 topaddons.config:category_server_bloodmagic.tooltip=Customize sigil necessity for revealing certain info with the probe
 topaddons.config:category_server_vanilla=Vanilla
 topaddons.config:category_server_stevescarts=Steve's Carts 2
+topaddons.config:category_server_stevescarts=Lycanite's Mobs
 
 topaddons.config:helmets_probable=All helmets can be probified
 topaddons.config:helmets_probable.tooltip=When true, any helmet in the game can be combined with a probe, allowing you to see the HUD without holding a probe.
@@ -23,6 +24,8 @@ topaddons.config:vanilla_growup_timer=Show animal age timer
 topaddons.config:vanilla_growup_timer.tooltip=Show how long until an animal grows up when sneaking or holding the breeding item
 topaddons.config:stevescarts_chest_contents=Show cart inventory
 topaddons.config:stevescarts_chest_contents.tooltip=Show contents of all chest modules
+topaddons.config:lycanitesmobs_gazer=Info requires Soulgazer
+topaddons.config:lycanitesmobs_gazer.tooltip=Only show summon/pet information when holding a Soulgazer in either hand
 
 topaddons:generating=Generating
 topaddons:tank_empty=Empty
@@ -83,3 +86,9 @@ topaddons.stevescarts2:engine_outoflava=Out of Lava
 topaddons.stevescarts2:engine_outofpower=Out of Power
 topaddons.stevescarts2:engine_outoffuel=Out of Fuel
 topaddons.stevescarts2:engine_powered=Powered
+
+topaddons.lycanites:discovered=Discovered
+topaddons.lycanites:undiscovered=Undiscovered
+topaddons.lycanites:summonable=Summonable
+topaddons.lycanites:tameable=Tameable
+topaddons.lycanites:soulbound=Soulbound
