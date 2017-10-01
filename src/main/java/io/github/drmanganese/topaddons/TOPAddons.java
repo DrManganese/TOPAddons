@@ -42,15 +42,18 @@ import java.io.File;
         version = Reference.VERSION,
         guiFactory = Reference.GUI_FACTORY,
         acceptedMinecraftVersions = "[1.11,)",
-        dependencies = "required-after:theoneprobe@[1.4.6,);" +
+        dependencies = "required-after:theoneprobe@[1.4.8,);" +
                 "after:forestry;" +
                 "after:tconstruct;" +
                 "after:bloodmagic;" +
                 "after:storagedrawers;" +
                 "after:botania;" +
                 "after:ic2;" +
-                "after:neotech;",
-        updateJSON = "https://raw.githubusercontent.com/DrManganese/TOPAddons/master/FUC.json"
+                "after:neotech;" +
+                "after:lycanytesmobs;" +
+                "after:opencomputers;" +
+                "after:stevescarts;",
+        updateJSON = "https://raw.githubusercontent.com/DrManganese/TOPAddons/1.12/FUC.json"
 )
 public class TOPAddons {
 

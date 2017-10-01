@@ -2,17 +2,25 @@
 
 ![Logo](images/logo.jpg)
 
+![https://minecraft.curseforge.com/projects/top-addons](http://cf.way2muchnoise.eu/top-addons.svg)
+![https://minecraft.curseforge.com/projects/top-addons](http://cf.way2muchnoise.eu/versions/top-addons_latest.svg)
+
 A Minecraft mod which adds mod support to The One Probe by McJty
 
-## Currenty supports:
+## Currenty supports (1.12):
 
-##### &#129069;: Updated to 1.11
 
-### Forge &#129069;
+### Forge
 
 - Tank display
 
-### Forestry ([album](http://imgur.com/a/APS3S)) &#129069;
+### Vanilla
+
+- Note block pitch and instrument
+- Animal breeding cooldown and time until baby grows up
+- Fix some block displays
+
+### Forestry ([album](http://imgur.com/a/APS3S))
 
 - Error messages for all blocks with GUIs that display them
 - Internal tank display
@@ -22,7 +30,7 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 
 ### Tinkers' Construct ([album](http://imgur.com/a/F7LbA))
 
-- Extended view of fluids inside the controller when sneaking
+- Extended view of fluids inside the controller and tinker tank when sneaking
 - Drying rack progress
 
 ### Blood Magic: Alchemical Wizardry ([album](http://imgur.com/a/t9aNg))
@@ -31,27 +39,27 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 - Altar crafting progress (requires seer sigil)
 - Incense altar tranquility and sacrifice bonus (requires divination/seer sigil)
 - Filter configuration for routing nodes (side-sensitive)
+- Mimic block: Shows mimicking block.
 
-### Storage Drawers ([album](http://imgur.com/lXSgOm5)) &#129069;
+### Storage Drawers ([album](http://imgur.com/lXSgOm5))
 
 - More detailed information on stored item stacks
 - Stack capacity
 
 ### IndustrialCraft 2 ([album](http://imgur.com/a/8jY8H))
 
-- EU bar on most tiles (availability of stored energy varies because of protected/private fields)
+- EU bar
 - Progress bars on many machine tiles
 - Teleporter linked coordinates
 - Heat display
 - TFBP display
 - ...
 
-### NeoTech ([album](http://imgur.com/a/n1Zd4))
+### Chickens Mod ([album](http://imgur.com/a/lHOlX))
 
-- Progress on all processing machines (Electric Furnace, Solidifer, Alloyer, etc.)
-- Grinding progress for Grinder and any pressure plate right above it
-- RF/t on generating machines (Solar Panels, Furnace Generator, etc.)
-- Errors, axe durability and logging range on Electric Logger
+- Chicken stats
+- Chicken time until next lay
+
 
 *Also works in sigil of holding
 
@@ -69,15 +77,6 @@ Craft modded helmets with a probe to get their *probing* variants, works with al
 Uncraft by putting the helmet back in the crafting grid with nothing else.
 
 ## Commands
-
-```/topaddons [option] [value]```
-##### This command will modify client-only settings:
-
-- Show the TOP Addons fluid gauge on tiles with internal tanks. (0 to hide) [default: 1] 
-- Hide the *vanilla* TOP fluid gauge. (1 to hide) [default: 0]
-- Only show Forestry machines' *critical* failure reasons when crouched.(0 for always, 1 for crouching) [default: 0]
-- Show IC² machine progress bar in *normal mode*. (0 for crouching only) [default: 1]
-- Show note block pitch and instrument. (0 to hide) [default: 1]
 
 ```/tophelmet blacklist <add/remove>```
 ##### Add or remove the currently held helmet to or from the blacklist
