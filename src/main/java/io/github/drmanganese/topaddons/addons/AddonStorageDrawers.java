@@ -78,7 +78,7 @@ public class AddonStorageDrawers extends AddonBlank {
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         if (world.getTileEntity(data.getPos()) instanceof TileEntityDrawers) {
-            if (player.isSneaking()) {
+            if (player.isSneaking() && Config.needsProbe != Config.PROBE_NEEDEDFOREXTENDED) {
                 config.showChestContents(IProbeConfig.ConfigMode.NOT);
             } else {
                 config.showChestContents(IProbeConfig.ConfigMode.EXTENDED);
