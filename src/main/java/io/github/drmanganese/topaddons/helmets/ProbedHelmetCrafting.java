@@ -89,9 +89,4 @@ public class ProbedHelmetCrafting extends IForgeRegistryEntry.Impl<IRecipe> impl
     public NonNullList<ItemStack> getRemainingItems(@Nonnull InventoryCrafting inv) {
         return ForgeHooks.defaultRecipeGetRemainingItems(inv);
     }
-
-    @Override
-    public boolean isHidden() {
-        return true;
-    }
 }

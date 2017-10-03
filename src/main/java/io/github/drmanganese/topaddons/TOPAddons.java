@@ -19,7 +19,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.oredict.RecipeSorter;
 
 import io.github.drmanganese.topaddons.config.ConfigClient;
 import io.github.drmanganese.topaddons.config.HelmetConfig;
@@ -134,8 +133,8 @@ public class TOPAddons {
     public void onRegistry(RegistryEvent.Register<IRecipe> event) {
         event.getRegistry().register(new ProbedHelmetCrafting().setRegistryName(new ResourceLocation(Reference.MOD_ID, "probe_helmet")));
         event.getRegistry().register(new UnprobedHelmetCrafting().setRegistryName(new ResourceLocation(Reference.MOD_ID, "unprobe_helmet")));
-        RecipeSorter.register("topaddons:helmet", ProbedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
-        RecipeSorter.register("topaddons:remhelmet", UnprobedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
+//        RecipeSorter.register("topaddons:helmet", ProbedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
+//        RecipeSorter.register("topaddons:remhelmet", UnprobedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
 
     }
 
