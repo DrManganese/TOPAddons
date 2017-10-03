@@ -10,6 +10,7 @@ import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -68,6 +69,8 @@ public class TOPAddons {
     public static Configuration config;
     public static Configuration configClient = null;
 
+    public static boolean ic2Loaded = false;
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         config = new Configuration(event.getSuggestedConfigurationFile(), "1");
@@ -95,6 +98,8 @@ public class TOPAddons {
                 config.save();
             }
         }
+
+        ic2Loaded = Loader.isModLoaded("ic2");
 
         proxy.preInit(event);
     }

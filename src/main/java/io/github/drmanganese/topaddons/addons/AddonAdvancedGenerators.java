@@ -8,6 +8,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidTankInfo;
 
+import io.github.drmanganese.topaddons.TOPAddons;
+import io.github.drmanganese.topaddons.addons.crossmod.AdvGensXIC2;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.reference.Colors;
 
@@ -17,8 +19,6 @@ import net.bdew.generators.controllers.exchanger.TileExchangerController;
 import net.bdew.generators.controllers.steam.TileSteamTurbineController;
 import net.bdew.generators.controllers.syngas.TileSyngasController;
 import net.bdew.generators.controllers.turbine.TileTurbineController;
-import net.bdew.generators.modules.euOutput.BlockEuOutputBase;
-import net.bdew.generators.modules.euOutput.TileEuOutputBase;
 import net.bdew.generators.modules.forgeOutput.BlockForgeOutput$;
 import net.bdew.generators.modules.rfOutput.BlockRfOutput$;
 import net.bdew.generators.modules.turbine.BlockTurbine;
@@ -62,9 +62,7 @@ public class AddonAdvancedGenerators extends AddonBlank {
                     rfOutput = true;
                 }
 
-                if (blockOutput instanceof BlockEuOutputBase) {
-                    euOutput = true;
-                }
+                euOutput = TOPAddons.ic2Loaded && AdvGensXIC2.isEuOutput(blockOutput);
             }
 
             if (euOutput && !rfOutput) {
@@ -102,9 +100,7 @@ public class AddonAdvancedGenerators extends AddonBlank {
                     rfOutput = true;
                 }
 
-                if (blockOutput instanceof BlockEuOutputBase) {
-                    euOutput = true;
-                }
+                euOutput = TOPAddons.ic2Loaded && AdvGensXIC2.isEuOutput(blockOutput);
             }
 
             if (euOutput && !rfOutput) {
@@ -130,10 +126,6 @@ public class AddonAdvancedGenerators extends AddonBlank {
             AddonForge.addTankElement(probeInfo, "Fuel", fuel, mode, player);
             textPrefixed(probeInfo, "{*topaddons:consumption*}", new DecimalFormat("#.##").format(controller.steamAverage().average()) + " mB/t");
             textPrefixed(probeInfo, "{*topaddons.advgenerators:speed*}", new DecimalFormat("#").format(((DataSlotNumeric) controller.speed()).value()) + " RPM");
-        }
-
-        if (tile instanceof TileEuOutputBase) {
-            textPrefixed(probeInfo, "{*topaddons.advgenerators:max_output*}", new DecimalFormat("#.##").format(((TileEuOutputBase) tile).maxOutput()) + " EU/t");
         }
 
         if (tile instanceof TileSyngasController) {
@@ -200,5 +192,7 @@ public class AddonAdvancedGenerators extends AddonBlank {
             textPrefixed(probeInfo, "{*topaddons.advgenerators:fluid_consumption*}", new DecimalFormat("#.##").format(controller.inputRate().average()) + " mB/t");
             textPrefixed(probeInfo, "{*topaddons.advgenerators:fluid_production*}", new DecimalFormat("#.##").format(controller.outputRate().average()) + " mB/t");
         }
+
+        if (TOPAddons.ic2Loaded) AdvGensXIC2.euOutputInfo(probeInfo, tile);
     }
 }
