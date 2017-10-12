@@ -82,4 +82,9 @@ public class UnprobedHelmetCrafting extends IForgeRegistryEntry.Impl<IRecipe> im
         ret.set(0, new ItemStack(ModItems.probe));
         return ret;
     }
+
+    @Override
+    public boolean isHidden() {
+        return true;
+    }
 }
