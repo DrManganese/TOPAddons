@@ -33,11 +33,12 @@
   "1.12.2": {
     "1.12.1-1.0.0": "- [IC²] Updated support\n- Added Advanced Generators support\n- Added OpenComputers support\n- Added Steve's Carts support\n- [TiCon] Tinker Tank support",
     "1.12.2-1.1.0": "- Added Lycanite's Mobs support",
-    "1.12.2-1.1.1": "- Fix ic2 dependency in advgenerators."
+    "1.12.2-1.1.1": "- Fix ic2 dependency in advgenerators.",
+    "1.12.2-1.1.2": "- Fix recipe book crash"
   },
   "promos": {
-    "1.12.2-latest": "1.12.2-1.1.1",
-    "1.12.2-recommended": "1.12.2-1.1.1",
+    "1.12.2-latest": "1.12.2-1.1.2",
+    "1.12.2-recommended": "1.12.2-1.1.2",
     "1.11.2-latest": "1.11.2-0.15.0",
     "1.11.2-recommended": "1.11.2-0.15.0",
     "1.10.2-latest": "1.10.2-0.15.0",
