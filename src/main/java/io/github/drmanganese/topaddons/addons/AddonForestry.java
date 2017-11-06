@@ -49,7 +49,7 @@ import forestry.apiculture.tiles.TileBeeHousingBase;
 import forestry.arboriculture.tiles.TileLeaves;
 import forestry.arboriculture.tiles.TileSapling;
 import forestry.arboriculture.tiles.TileTreeContainer;
-import forestry.core.PluginCore;
+import forestry.core.ModuleCore;
 import forestry.core.blocks.BlockBogEarth;
 import forestry.core.errors.EnumErrorCode;
 import forestry.core.fluids.Fluids;
@@ -101,7 +101,7 @@ public class AddonForestry extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (blockState.getBlock() == PluginCore.getBlocks().bogEarth) {
+        if (blockState.getBlock() == ModuleCore.getBlocks().bogEarth) {
             textPrefixed(probeInfo, "{*topaddons.forestry:maturity*}", TextStyleClass.WARNING + String.valueOf(blockState.getValue(BlockBogEarth.MATURITY) * 100 / 3) + "%");
         }
 
@@ -251,9 +251,9 @@ public class AddonForestry extends AddonBlank {
                  */
                 NonNullList<ItemStack> wheats = NonNullList.withSize(4, ItemStack.EMPTY);
                 wheats.set(0, new ItemStack(Items.WHEAT, 1));
-                wheats.set(1, new ItemStack(PluginCore.getItems().mouldyWheat, 1));
-                wheats.set(2, new ItemStack(PluginCore.getItems().decayingWheat, 1));
-                wheats.set(3, new ItemStack(PluginCore.getItems().mulch, 1));
+                wheats.set(1, new ItemStack(ModuleCore.getItems().mouldyWheat, 1));
+                wheats.set(2, new ItemStack(ModuleCore.getItems().decayingWheat, 1));
+                wheats.set(3, new ItemStack(ModuleCore.getItems().mulch, 1));
 
 
                 TextFormatting[] arrowColors = new TextFormatting[]{

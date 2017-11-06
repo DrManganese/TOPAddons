@@ -43,7 +43,7 @@ import java.io.File;
         guiFactory = Reference.GUI_FACTORY,
         acceptedMinecraftVersions = "[1.11,)",
         dependencies = "required-after:theoneprobe@[1.4.8,);" +
-                "after:forestry;" +
+                "after:forestry@[1.12.2-5.7.0.204,);" +
                 "after:tconstruct;" +
                 "after:bloodmagic;" +
                 "after:storagedrawers;" +

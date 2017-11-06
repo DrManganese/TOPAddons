@@ -43,7 +43,7 @@ dependencies {
     //Storage drawers (+ Chameleon), Botania, ...
     compile fileTree(dir: 'libs', include: ['*.jar'])
     deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-+"
-    compile "net.sengir.forestry:forestry_1.12.2:+"
+    compile "net.sengir.forestry:forestry_1.12.2:5.7.0.204+"
     deobfCompile "net.industrial-craft:industrialcraft-2:2.8.9-ex112"
     deobfCompile "slimeknights.mantle:Mantle:1.12-+"
     deobfCompile "slimeknights:TConstruct:1.12-+"
