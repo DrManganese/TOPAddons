@@ -34,6 +34,27 @@ public final class Colors {
         fluidNameColorMap.put("refinedcanolaoil", new Color(81, 71, 26).hashCode());
         fluidNameColorMap.put("crystaloil", new Color(120, 60, 34).hashCode());
         fluidNameColorMap.put("empoweredoil", new Color(211, 60, 82).hashCode());
+        /* Thermal Foundation */
+        fluidNameColorMap.put("crude_oil", new Color(35, 35, 35).hashCode());
+        fluidNameColorMap.put("redstone", new Color(138, 10, 9).hashCode());
+        fluidNameColorMap.put("glowstone", new Color(198, 175, 7).hashCode());
+        fluidNameColorMap.put("ender", new Color(17, 96, 94).hashCode());
+        fluidNameColorMap.put("pyrotheum", new Color(221, 187, 30).hashCode());
+        fluidNameColorMap.put("cryotheum", new Color(14, 190, 202).hashCode());
+        fluidNameColorMap.put("aerotheum", new Color(120, 118, 84).hashCode());
+        fluidNameColorMap.put("petrotheum", new Color(25, 19, 16).hashCode());
+        fluidNameColorMap.put("mana", new Color(9, 82, 119).hashCode());
+        fluidNameColorMap.put("steam", new Color(131, 133, 130).hashCode());
+        fluidNameColorMap.put("creosote", new Color(81, 85, 2).hashCode());
+        fluidNameColorMap.put("coal", new Color(57, 57, 57).hashCode());
+        fluidNameColorMap.put("refined_oil", new Color(195, 106, 31).hashCode());
+        fluidNameColorMap.put("refined_fuel", new Color(195, 165, 21).hashCode());
+        fluidNameColorMap.put("sap", new Color(126, 82, 21).hashCode());
+        fluidNameColorMap.put("syrup", new Color(134, 57, 3).hashCode());
+        fluidNameColorMap.put("resin", new Color(181, 124, 4).hashCode());
+        fluidNameColorMap.put("tree_oil", new Color(180, 150, 69).hashCode());
+        fluidNameColorMap.put("mushroom_stew", new Color(200, 169, 143).hashCode());
+
     }
 
     public static int getHashFromFluid(FluidStack fluidStack) {
