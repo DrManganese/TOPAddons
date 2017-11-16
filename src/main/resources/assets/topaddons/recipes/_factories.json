@@ -1,0 +1,6 @@
+{
+  "recipes": {
+    "helmet_probing": "io.github.drmanganese.topaddons.helmets.recipes.RecipeHelmetProbing$Factory",
+    "helmet_unprobing": "io.github.drmanganese.topaddons.helmets.recipes.RecipeHelmetUnprobing$Factory"
+  }
+}

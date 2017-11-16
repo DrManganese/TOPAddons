@@ -1,14 +1,20 @@
 package io.github.drmanganese.topaddons;
 
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.ResourceLocation;
+import io.github.drmanganese.topaddons.config.ConfigClient;
+import io.github.drmanganese.topaddons.config.HelmetConfig;
+import io.github.drmanganese.topaddons.config.capabilities.CapEvents;
+import io.github.drmanganese.topaddons.config.capabilities.ClientOptsCapability;
+import io.github.drmanganese.topaddons.config.capabilities.IClientOptsCapability;
+import io.github.drmanganese.topaddons.helmets.CommandTOPHelmet;
+import io.github.drmanganese.topaddons.network.PacketHandler;
+import io.github.drmanganese.topaddons.proxy.IProxy;
+import io.github.drmanganese.topaddons.reference.Reference;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -19,19 +25,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-
-import io.github.drmanganese.topaddons.config.ConfigClient;
-import io.github.drmanganese.topaddons.config.HelmetConfig;
-import io.github.drmanganese.topaddons.config.capabilities.CapEvents;
-import io.github.drmanganese.topaddons.config.capabilities.ClientOptsCapability;
-import io.github.drmanganese.topaddons.config.capabilities.IClientOptsCapability;
-import io.github.drmanganese.topaddons.helmets.CommandTOPHelmet;
-import io.github.drmanganese.topaddons.helmets.ProbedHelmetCrafting;
-import io.github.drmanganese.topaddons.helmets.UnprobedHelmetCrafting;
-import io.github.drmanganese.topaddons.network.PacketHandler;
-import io.github.drmanganese.topaddons.proxy.IProxy;
-import io.github.drmanganese.topaddons.reference.Reference;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -127,15 +120,6 @@ public class TOPAddons {
                 config.save();
             }
         }
-    }
-
-    @SubscribeEvent
-    public void onRegistry(RegistryEvent.Register<IRecipe> event) {
-        event.getRegistry().register(new ProbedHelmetCrafting().setRegistryName(new ResourceLocation(Reference.MOD_ID, "probe_helmet")));
-        event.getRegistry().register(new UnprobedHelmetCrafting().setRegistryName(new ResourceLocation(Reference.MOD_ID, "unprobe_helmet")));
-//        RecipeSorter.register("topaddons:helmet", ProbedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
-//        RecipeSorter.register("topaddons:remhelmet", UnprobedHelmetCrafting.class, RecipeSorter.Category.SHAPELESS, "after:minecraft:shapeless before:ic2:QSuitDying");
-
     }
 
     private void cleanConfig() {

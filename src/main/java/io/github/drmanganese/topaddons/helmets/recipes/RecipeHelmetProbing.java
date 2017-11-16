@@ -1,26 +1,34 @@
-package io.github.drmanganese.topaddons.helmets;
+package io.github.drmanganese.topaddons.helmets.recipes;
 
+import com.google.gson.JsonObject;
+import io.github.drmanganese.topaddons.AddonManager;
+import io.github.drmanganese.topaddons.config.HelmetConfig;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.JsonUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.IRecipeFactory;
+import net.minecraftforge.common.crafting.JsonContext;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-
-import io.github.drmanganese.topaddons.AddonManager;
-import io.github.drmanganese.topaddons.config.HelmetConfig;
 
 import javax.annotation.Nonnull;
 
-import mcjty.theoneprobe.items.ModItems;
-
 import static mcjty.theoneprobe.items.ModItems.PROBETAG;
 
-public class ProbedHelmetCrafting extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
+public class RecipeHelmetProbing extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
+
+    private final ItemStack probeItem;
+
+    public RecipeHelmetProbing(ItemStack probeItem) {
+        this.probeItem = probeItem;
+    }
 
     @Override
     public boolean matches(@Nonnull InventoryCrafting inv, @Nonnull World worldIn) {
@@ -34,7 +42,7 @@ public class ProbedHelmetCrafting extends IForgeRegistryEntry.Impl<IRecipe> impl
                     if (HelmetConfig.allHelmetsProbable && !HelmetConfig.neverCraftList.contains(stack.getItem().getRegistryName().toString()) && !HelmetConfig.helmetBlacklistSet.contains(stack.getItem().getRegistryName()) || !HelmetConfig.allHelmetsProbable && AddonManager.SPECIAL_HELMETS.containsKey(((ItemArmor) stack.getItem()).getClass())) {
                         helmet = !stack.hasTagCompound() || !stack.getTagCompound().hasKey(PROBETAG);
                     }
-                } else if (stack.getItem() == ModItems.probe && !probe) {
+                } else if (stack.isItemEqual(this.probeItem) && !probe) {
                     probe = true;
                 } else {
                     return false;
@@ -93,5 +101,13 @@ public class ProbedHelmetCrafting extends IForgeRegistryEntry.Impl<IRecipe> impl
     @Override
     public boolean isHidden() {
         return true;
+    }
+
+    public static class Factory implements IRecipeFactory {
+        @Override
+        public IRecipe parse(JsonContext context, JsonObject json) {
+            final ItemStack probe = CraftingHelper.getItemStack(JsonUtils.getJsonObject(json, "probe"), context);
+            return new RecipeHelmetProbing(probe);
+        }
     }
 }

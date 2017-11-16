@@ -1,25 +1,32 @@
-package io.github.drmanganese.topaddons.helmets;
+package io.github.drmanganese.topaddons.helmets.recipes;
 
+import com.google.gson.JsonObject;
+import io.github.drmanganese.topaddons.AddonManager;
+import io.github.drmanganese.topaddons.config.HelmetConfig;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.JsonUtils;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.common.crafting.IRecipeFactory;
+import net.minecraftforge.common.crafting.JsonContext;
 import net.minecraftforge.registries.IForgeRegistryEntry;
-
-import io.github.drmanganese.topaddons.AddonManager;
-import io.github.drmanganese.topaddons.config.HelmetConfig;
 
 import javax.annotation.Nonnull;
 
-import mcjty.theoneprobe.items.ModItems;
-
 import static mcjty.theoneprobe.items.ModItems.PROBETAG;
 
-public class UnprobedHelmetCrafting extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
+public class RecipeHelmetUnprobing extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
+
+    private final ItemStack probeItem;
+
+    public RecipeHelmetUnprobing(ItemStack probeItem) {
+        this.probeItem = probeItem;
+    }
 
     @Override
     public boolean matches(@Nonnull InventoryCrafting inv, @Nonnull World worldIn) {
@@ -79,12 +86,21 @@ public class UnprobedHelmetCrafting extends IForgeRegistryEntry.Impl<IRecipe> im
     @Override
     public NonNullList<ItemStack> getRemainingItems(@Nonnull InventoryCrafting inv) {
         NonNullList<ItemStack> ret = NonNullList.withSize(inv.getSizeInventory(), ItemStack.EMPTY);
-        ret.set(0, new ItemStack(ModItems.probe));
+        ret.set(0, this.probeItem.copy());
         return ret;
     }
 
     @Override
     public boolean isHidden() {
         return true;
+    }
+
+    public static class Factory implements IRecipeFactory {
+        @Override
+        public IRecipe parse(JsonContext context, JsonObject json) {
+            final ItemStack probe = CraftingHelper.getItemStack(JsonUtils.getJsonObject(json, "probe"), context);
+            return new RecipeHelmetUnprobing(probe);
+        }
+
     }
 }

@@ -1,0 +1,6 @@
+{
+  "type": "topaddons:helmet_unprobing",
+  "probe": {
+    "item": "theoneprobe:probe"
+  }
+}
