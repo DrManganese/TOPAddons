@@ -18,7 +18,7 @@ import io.github.drmanganese.topaddons.elements.ElementTankGauge;
 import io.github.drmanganese.topaddons.reference.Colors;
 import io.github.drmanganese.topaddons.reference.Names;
 
-import java.awt.*;
+import java.awt.Color;
 
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
@@ -32,6 +32,7 @@ public class AddonForge extends AddonBlank {
         return probeInfo.element(new ElementTankGauge(getElementId(player, "tank_gauge"), name, fluidName, amount, capacity, suffix, color, mode == ProbeMode.EXTENDED));
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, Class<? extends TileEntity> clazz, FluidTank fluidTank, int i, ProbeMode mode, EntityPlayer player) {
         String tankName = "Tank";
         if (Names.tankNamesMap.containsKey(clazz)) {
@@ -45,14 +46,15 @@ public class AddonForge extends AddonBlank {
         }
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static IProbeInfo addTankElement(IProbeInfo probeInfo, String name, FluidTankInfo tankInfo, ProbeMode mode, EntityPlayer player) {
         String suffix = "mB";
         if (name.equals("Blood Altar")) suffix = "LP";
 
-        if (tankInfo.fluid == null) {
-            return probeInfo.element(new ElementTankGauge(getElementId(player, "tank_gauge"), name, "", 0, 0, suffix, 0, mode == ProbeMode.EXTENDED));
+        if (tankInfo.fluid != null) {
+            return addTankElement(probeInfo, name, tankInfo.fluid.getLocalizedName(), tankInfo.fluid.amount, tankInfo.capacity, suffix, Colors.getHashFromFluid(tankInfo.fluid), mode, player);
         } else {
-            return probeInfo.element(new ElementTankGauge(getElementId(player, "tank_gauge"), name, tankInfo.fluid.getLocalizedName(), tankInfo.fluid.amount, tankInfo.capacity, suffix, Colors.getHashFromFluid(tankInfo.fluid), mode == ProbeMode.EXTENDED));
+            return addTankElement(probeInfo, name, "", 0, 0, "", 0xff777777, mode, player);
         }
     }
 
@@ -110,7 +112,7 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void addFluidColors() {
-        Colors.fluidColorMap.put(FluidRegistry.WATER, new Color(52, 95, 218).hashCode());
-        Colors.fluidColorMap.put(FluidRegistry.LAVA, new Color(230, 145, 60).hashCode());
+        Colors.FLUID_NAME_COLOR_MAP.put(FluidRegistry.WATER.getName(), new Color(52, 95, 218).hashCode());
+        Colors.FLUID_NAME_COLOR_MAP.put(FluidRegistry.LAVA.getName(), new Color(230, 145, 60).hashCode());
     }
 }

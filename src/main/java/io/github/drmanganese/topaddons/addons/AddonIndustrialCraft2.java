@@ -14,6 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import io.github.drmanganese.topaddons.Util;
 import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.reference.Colors;
 import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Names;
 import io.github.drmanganese.topaddons.styles.ProgressStyleTOPAddonGrey;
@@ -37,39 +38,9 @@ import ic2.core.block.TileEntityBlock;
 import ic2.core.block.TileEntityHeatSourceInventory;
 import ic2.core.block.comp.Energy;
 import ic2.core.block.comp.Fluids;
-import ic2.core.block.generator.tileentity.TileEntityBaseGenerator;
-import ic2.core.block.generator.tileentity.TileEntityGenerator;
-import ic2.core.block.generator.tileentity.TileEntityGeoGenerator;
-import ic2.core.block.generator.tileentity.TileEntityKineticGenerator;
-import ic2.core.block.generator.tileentity.TileEntityRTGenerator;
-import ic2.core.block.generator.tileentity.TileEntitySemifluidGenerator;
-import ic2.core.block.generator.tileentity.TileEntitySolarGenerator;
-import ic2.core.block.generator.tileentity.TileEntityStirlingGenerator;
-import ic2.core.block.generator.tileentity.TileEntityWaterGenerator;
-import ic2.core.block.generator.tileentity.TileEntityWindGenerator;
+import ic2.core.block.generator.tileentity.*;
 import ic2.core.block.kineticgenerator.tileentity.TileEntityStirlingKineticGenerator;
-import ic2.core.block.machine.tileentity.TileEntityAdvMiner;
-import ic2.core.block.machine.tileentity.TileEntityBlastFurnace;
-import ic2.core.block.machine.tileentity.TileEntityCanner;
-import ic2.core.block.machine.tileentity.TileEntityCentrifuge;
-import ic2.core.block.machine.tileentity.TileEntityCondenser;
-import ic2.core.block.machine.tileentity.TileEntityFermenter;
-import ic2.core.block.machine.tileentity.TileEntityFluidBottler;
-import ic2.core.block.machine.tileentity.TileEntityFluidDistributor;
-import ic2.core.block.machine.tileentity.TileEntityFluidRegulator;
-import ic2.core.block.machine.tileentity.TileEntityInduction;
-import ic2.core.block.machine.tileentity.TileEntityLiquidHeatExchanger;
-import ic2.core.block.machine.tileentity.TileEntityMagnetizer;
-import ic2.core.block.machine.tileentity.TileEntityMatter;
-import ic2.core.block.machine.tileentity.TileEntityMiner;
-import ic2.core.block.machine.tileentity.TileEntityPatternStorage;
-import ic2.core.block.machine.tileentity.TileEntityReplicator;
-import ic2.core.block.machine.tileentity.TileEntityScanner;
-import ic2.core.block.machine.tileentity.TileEntitySolarDestiller;
-import ic2.core.block.machine.tileentity.TileEntityStandardMachine;
-import ic2.core.block.machine.tileentity.TileEntitySteamGenerator;
-import ic2.core.block.machine.tileentity.TileEntityTeleporter;
-import ic2.core.block.machine.tileentity.TileEntityTerra;
+import ic2.core.block.machine.tileentity.*;
 import ic2.core.block.personal.TileEntityPersonalChest;
 import ic2.core.block.personal.TileEntityTradeOMat;
 import ic2.core.block.reactor.tileentity.TileEntityNuclearReactorElectric;
@@ -149,6 +120,26 @@ public class AddonIndustrialCraft2 extends AddonBlank {
                 return 0.0D;
             }
         });
+    }
+
+    @Override
+    public void addFluidColors() {
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2uu_matter", 0xff3b0533);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2construction_foam", 0xff202020);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2coolant", 0xff145a6a);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2hot_coolant", 0xffb52834);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2pahoehoe_lava", 0xff7b746c);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2biomass", 0xff376f25);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2biogas", 0xffa7984c);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2distilled_water", 0xff4356f5);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2superheated_steam", 0xffcad1d1);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2steam", 0xffbcbcbc);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2hot_water", 0xff46deff);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2weed_ex", 0xff074f14);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2air", 0xffdcdcdc);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2hydrogen", 0xffdcdcdc);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2oxygen", 0xffdcdcdc);
+        Colors.FLUID_NAME_COLOR_MAP.put("ic2heavy_water", 0xff4356f5);
     }
 
     @Override

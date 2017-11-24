@@ -22,13 +22,12 @@ import io.github.drmanganese.topaddons.reference.EnumChip;
 import io.github.drmanganese.topaddons.reference.Names;
 import io.github.drmanganese.topaddons.styles.ProgressStyleForestryMultiColored;
 
-import com.google.common.collect.ImmutableSet;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableSet;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IHiveTile;
@@ -365,7 +364,7 @@ public class AddonForestry extends AddonBlank {
     @Override
     public void addFluidColors() {
         for (Fluids fluid : Fluids.values()) {
-            Colors.fluidColorMap.put(fluid.getFluid(), fluid.getParticleColor().hashCode());
+            Colors.FLUID_NAME_COLOR_MAP.put(fluid.getFluid().getName(), fluid.getParticleColor().hashCode());
         }
     }
 

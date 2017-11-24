@@ -13,6 +13,16 @@ import io.github.drmanganese.topaddons.addons.crossmod.AdvGensXIC2;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.reference.Colors;
 
+import java.awt.Color;
+import java.text.DecimalFormat;
+
+import mcjty.theoneprobe.api.ElementAlignment;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.TextStyleClass;
+import mcjty.theoneprobe.apiimpl.elements.ElementProgress;
+import mcjty.theoneprobe.config.Config;
 import net.bdew.generators.config.Tuning;
 import net.bdew.generators.controllers.PoweredController;
 import net.bdew.generators.controllers.exchanger.TileExchangerController;
@@ -24,20 +34,8 @@ import net.bdew.generators.modules.rfOutput.BlockRfOutput$;
 import net.bdew.generators.modules.turbine.BlockTurbine;
 import net.bdew.lib.data.mixins.DataSlotNumeric;
 import net.bdew.lib.multiblock.block.BlockOutput;
-
-import java.awt.*;
-import java.text.DecimalFormat;
-
-import mcjty.theoneprobe.api.ElementAlignment;
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.ProbeMode;
-import mcjty.theoneprobe.api.TextStyleClass;
-import mcjty.theoneprobe.apiimpl.elements.ElementProgress;
-import mcjty.theoneprobe.config.Config;
 import scala.collection.Iterator;
 import scala.reflect.ClassTag$;
-
 import static mcjty.theoneprobe.api.TextStyleClass.PROGRESS;
 
 @TOPAddon(dependency = "advgenerators")
@@ -45,7 +43,7 @@ public class AddonAdvancedGenerators extends AddonBlank {
 
     @Override
     public void addFluidColors() {
-        Colors.fluidNameColorMap.put("syngas", new Color(73, 94, 15).hashCode());
+        Colors.FLUID_NAME_COLOR_MAP.put("syngas", new Color(73, 94, 15).hashCode());
     }
 
     @Override
