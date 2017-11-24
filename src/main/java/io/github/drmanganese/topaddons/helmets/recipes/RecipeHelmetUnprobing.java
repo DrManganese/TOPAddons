@@ -1,8 +1,5 @@
 package io.github.drmanganese.topaddons.helmets.recipes;
 
-import com.google.gson.JsonObject;
-import io.github.drmanganese.topaddons.AddonManager;
-import io.github.drmanganese.topaddons.config.HelmetConfig;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemArmor;
@@ -16,8 +13,12 @@ import net.minecraftforge.common.crafting.IRecipeFactory;
 import net.minecraftforge.common.crafting.JsonContext;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
+import io.github.drmanganese.topaddons.AddonManager;
+import io.github.drmanganese.topaddons.config.HelmetConfig;
+
 import javax.annotation.Nonnull;
 
+import com.google.gson.JsonObject;
 import static mcjty.theoneprobe.items.ModItems.PROBETAG;
 
 public class RecipeHelmetUnprobing extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
@@ -29,7 +30,7 @@ public class RecipeHelmetUnprobing extends IForgeRegistryEntry.Impl<IRecipe> imp
     }
 
     @Override
-    public boolean matches(@Nonnull InventoryCrafting inv, @Nonnull World worldIn) {
+    public boolean matches(@Nonnull InventoryCrafting inv, World worldIn) {
         boolean helmet = false;
         for (int i = 0; i < inv.getSizeInventory(); i++) {
             ItemStack stack = inv.getStackInSlot(i);
