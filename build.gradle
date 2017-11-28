@@ -5,13 +5,21 @@ buildscript {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
+        maven {
+            name = "gradle plugins"
+            url = "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath "gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.47"
     }
 }
 
+
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: "se.bjurr.gitchangelog.git-changelog-gradle-plugin"
+
 
 repositories {
     mavenCentral()
@@ -22,7 +30,7 @@ repositories {
     maven { url "http://maven.covers1624.net/"}
     maven {
         name = "Player Repo"
-        url = "http://maven.ic2.player.to/"
+        url = "http://maven.ic2.player.to"
     }
     maven {
         name = "Tesla"
@@ -42,13 +50,19 @@ repositories {
 dependencies {
     //Storage drawers (+ Chameleon), Botania, ...
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-+"
-    compile "net.sengir.forestry:forestry_1.12.2:5.7.0.204+"
+    deobfCompile("mcjty.theoneprobe:TheOneProbe-1.12:1.12-+") {
+        transitive = false
+    }
+    compile "cofh:RedstoneFlux:1.12-2.0.1.2:universal"
+    compile "net.sengir.forestry:forestry_1.12.2:5.7.0.209+"
     deobfCompile "net.industrial-craft:industrialcraft-2:2.8.9-ex112"
     deobfCompile "slimeknights.mantle:Mantle:1.12-+"
     deobfCompile "slimeknights:TConstruct:1.12-+"
     compile "steves-carts-reborn:StevesCarts:1.12.2:2.4.10.49"
     deobfCompile "li.cil.oc:OpenComputers:MC1.12.1-1.7.+"
+    deobfCompile("binnie:binnie-mods-1.12.2:2.5.0.102") {
+        transitive = false
+    }
 }
 
 
@@ -91,11 +105,18 @@ jar {
     from "LICENSE"
 }
 
+task generateGitChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+    filePath = "CHANGELOG.md"
+    fromRef = "v1.11.2-0.15.0"
+    toRef =  "HEAD"
+    templateContent = file('changelog.mustache').getText('UTF-8')
+    ignoreCommitsIfMessageMatches = "v.*-.*"
+}
+
 sourceSets {
     main {
         java {
             exclude '**/addons/AddonBloodMagic.java'
-            exclude '**/addons/AddonBotania.java'
             exclude '**/addons/AddonIceAndFire.java'
             exclude '**/addons/AddonNeoTech.java'
             exclude '**/elements/bloodmagic'
