@@ -1,6 +1,9 @@
 package io.github.drmanganese.topaddons;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -105,5 +108,15 @@ public final class Util {
                 collection.add(stackToMerge.copy());
             }
         }
+    }
+
+    public static boolean isHoldingItem(EntityPlayer player, Item item) {
+        for (EnumHand hand : EnumHand.values()) {
+            if (player.getHeldItem(hand).getItem() == item) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

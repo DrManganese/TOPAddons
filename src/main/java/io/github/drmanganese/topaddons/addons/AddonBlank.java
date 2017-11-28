@@ -23,16 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mcjty.theoneprobe.api.IBlockDisplayOverride;
-import mcjty.theoneprobe.api.IElementFactory;
-import mcjty.theoneprobe.api.IEntityDisplayOverride;
-import mcjty.theoneprobe.api.ILayoutStyle;
-import mcjty.theoneprobe.api.IProbeConfig;
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeHitEntityData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.ProbeMode;
-import mcjty.theoneprobe.api.TextStyleClass;
+import mcjty.theoneprobe.api.*;
 
 public abstract class AddonBlank implements ITOPAddon {
 
@@ -97,13 +88,13 @@ public abstract class AddonBlank implements ITOPAddon {
         ElementSync.elementIds.put(name, id);
     }
 
-    static int getElementId(EntityPlayer player, String name) {
+    protected static int getElementId(EntityPlayer player, String name) {
         return player.getCapability(TOPAddons.OPTS_CAP, null).getElementId(name);
     }
 
     /* Shortcut methods */
 
-    IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
+    protected IProbeInfo textPrefixed(IProbeInfo probeInfo, String prefix, String text, TextFormatting formatting) {
         return probeInfo.text(formatting + prefix + ": " + TextStyleClass.INFO + text);
     }
 
