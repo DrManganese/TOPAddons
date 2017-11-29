@@ -35,11 +35,12 @@
     "1.12.2-1.1.0": "- Added Lycanite's Mobs support",
     "1.12.2-1.1.1": "- Fix ic2 dependency in advgenerators.",
     "1.12.2-1.1.2": "- Fix recipe book crash",
-    "1.12.2-1.2.0": "- Added Binnie's Mods support\n- Added Thermal Expansion and Thermal Dynamics support\n- Implemented json recipes"
+    "1.12.2-1.2.0": "- Added Binnie's Mods support\n- Added Thermal Expansion and Thermal Dynamics support\n- Implemented json recipes",
+    "1.12.2-1.2.1": "- Added Binnie's Mods support\n- Added Thermal Expansion and Thermal Dynamics support\n- Implemented json recipes"
   },
   "promos": {
-    "1.12.2-latest": "1.12.2-1.2.0",
-    "1.12.2-recommended": "1.12.2-1.2.0",
+    "1.12.2-latest": "1.12.2-1.2.1",
+    "1.12.2-recommended": "1.12.2-1.2.1",
     "1.11.2-latest": "1.11.2-0.15.0",
     "1.11.2-recommended": "1.11.2-0.15.0",
     "1.10.2-latest": "1.10.2-0.15.0",
