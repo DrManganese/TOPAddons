@@ -1,8 +1,10 @@
 package io.github.drmanganese.topaddons.addons.subaddons.binniesmods;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
@@ -17,9 +19,6 @@ import java.util.List;
 import binnie.botany.api.gardening.IBlockSoil;
 import binnie.botany.api.genetics.IFlower;
 import binnie.botany.api.genetics.IFlowerColor;
-import binnie.botany.blocks.BlockFlower;
-import binnie.botany.blocks.BlockSoil;
-import binnie.botany.items.ItemSoilMeter;
 import binnie.botany.tile.TileEntityFlower;
 import binnie.core.genetics.AlleleHelper;
 import mcjty.theoneprobe.Tools;
@@ -35,13 +34,13 @@ import static mcjty.theoneprobe.api.TextStyleClass.MODNAME;
 public class SubAddonBotany extends AddonBlank {
 
     @ObjectHolder("botany:soil_meter")
-    private static final ItemSoilMeter SOIL_METER = null;
+    private static final Item SOIL_METER = null;
 
     @ObjectHolder("botany:flower")
-    private static final BlockFlower FLOWER_BLOCK = null;
+    private static final Block FLOWER_BLOCK = null;
 
     @ObjectHolder("botany:soil")
-    private static final BlockSoil SOIL = null;
+    private static final Block SOIL = null;
 
     @SuppressWarnings("UnusedReturnValue")
     private IProbeInfo addColorBox(IProbeInfo probeInfo, IFlowerColor color, EntityPlayer player) {
@@ -54,6 +53,7 @@ public class SubAddonBotany extends AddonBlank {
         if (tile instanceof TileEntityFlower) {
             IFlower flower = ((TileEntityFlower) tile).getFlower();
 
+            //noinspection ConstantConditions
             if (flower.isAnalyzed()) {
                 textPrefixed(probeInfo, "Age", Integer.toString(flower.getAge()));
 
