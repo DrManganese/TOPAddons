@@ -1,4 +1,3 @@
-
 topaddons.config:title=TOP Addons
 topaddons.config:category_client=TOP Addons的客户端配置
 topaddons.config:category_client.tooltip=客户的特殊选项（视觉效果）
@@ -96,3 +95,17 @@ topaddons.lycanites:undiscovered=未发现
 topaddons.lycanites:summonable=可召唤的
 topaddons.lycanites:tameable=可驯服的
 topaddons.lycanites:soulbound=灵魂绑定
+topaddons.bloodmagic:filling=正在填充网络
+topaddons.ic2:uu_amplifier=增益
+topaddons.neotech:durability=耐久
+topaddons.vanilla:rock=低音鼓
+topaddons.vanilla:sand=小鼓
+topaddons.vanilla:glass=点击和棍击
+topaddons.vanilla:wood=低音吉他
+topaddons.vanilla:else=钢琴/竖琴
+topaddons.vanilla:instrument=乐器
+topaddons.vanilla:adultin=成年
+topaddons.stevescarts2:priority_high=高
+topaddons.stevescarts2:priority_medium=中
+topaddons.stevescarts2:priority_low=低
+topaddons.stevescarts2:engine_powered=有能量
