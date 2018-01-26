@@ -92,7 +92,7 @@ public class RecipeHelmetUnprobing extends IForgeRegistryEntry.Impl<IRecipe> imp
     }
 
     @Override
-    public boolean isHidden() {
+    public boolean isDynamic() {
         return true;
     }
 
