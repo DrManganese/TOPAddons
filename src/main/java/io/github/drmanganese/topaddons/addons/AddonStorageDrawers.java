@@ -2,14 +2,15 @@ package io.github.drmanganese.topaddons.addons;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import io.github.drmanganese.topaddons.api.TOPAddon;
 
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
-
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
@@ -20,6 +21,9 @@ import mcjty.theoneprobe.config.Config;
 
 @TOPAddon(dependency = "storagedrawers")
 public class AddonStorageDrawers extends AddonBlank {
+
+    @GameRegistry.ObjectHolder("theoneprobe:probe")
+    private static final Item PROBE = null;
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
@@ -75,10 +79,12 @@ public class AddonStorageDrawers extends AddonBlank {
 
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         if (world.getTileEntity(data.getPos()) instanceof TileEntityDrawers) {
-            if (player.isSneaking() && Config.needsProbe != Config.PROBE_NEEDEDFOREXTENDED) {
+            final boolean probeInMain = player.getHeldItemMainhand().getItem() == PROBE;
+            if (player.isSneaking() && !(Config.needsProbe == Config.PROBE_NEEDEDFOREXTENDED && !probeInMain) || Config.extendedInMain && probeInMain) {
                 config.showChestContents(IProbeConfig.ConfigMode.NOT);
             } else {
                 config.showChestContents(IProbeConfig.ConfigMode.EXTENDED);
