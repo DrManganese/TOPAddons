@@ -66,10 +66,12 @@ dependencies {
     deobfCompile("binnie:binnie-mods-1.12.2:2.5.0.102") {
         transitive = false
     }
+    deobfCompile("slimeknights:TConstruct:1.12-+") {
+        transitive = false
+    }
     deobfCompile "net.sengir.forestry:forestry_1.12.2:5.7.0.209+"
     deobfCompile "net.industrial-craft:industrialcraft-2:2.8.9-ex112"
     deobfCompile "slimeknights.mantle:Mantle:1.12-+"
-    deobfCompile "slimeknights:TConstruct:1.12-+"
     deobfCompile "steves-carts-reborn:StevesCarts:1.12.2:2.4.10.49"
     deobfCompile "li.cil.oc:OpenComputers:MC1.12.1-1.7.+"
     compile "cofh:RedstoneFlux:1.12-2.0.1.2:universal"
@@ -122,7 +124,7 @@ task generateGitChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelog
     fromRef = "v1.11.2-0.15.0"
     toRef = "HEAD"
     templateContent = file('changelog.mustache').getText('UTF-8')
-    ignoreCommitsIfMessageMatches = "v.*-.*"
+    ignoreCommitsIfMessageMatches = "v.*-.*|Merge"
 }
 
 curseforge {
