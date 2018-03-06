@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import io.github.drmanganese.topaddons.api.TOPAddon;
@@ -25,6 +26,13 @@ public class AddonStorageDrawers extends AddonBlank {
     @GameRegistry.ObjectHolder("theoneprobe:probe")
     private static final Item PROBE = null;
 
+    private boolean replaceDrawers = true;
+
+    @Override
+    public void updateConfigs(Configuration config) {
+        replaceDrawers = config.get("storagedrawers", "replaceDrawers", true, "Replace Storage Drawers default extended info.").setLanguageKey("topaddons.config:storagedrawers_extended").getBoolean();
+    }
+
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         if (world.getTileEntity(data.getPos()) instanceof TileEntityDrawers) {
@@ -36,7 +44,7 @@ public class AddonStorageDrawers extends AddonBlank {
             }
 
 
-            if (mode == ProbeMode.EXTENDED) {
+            if (mode == ProbeMode.EXTENDED && replaceDrawers) {
                 NonNullList<ItemStack> stacks = NonNullList.create();
                 for (int i = 0; i < tile.getGroup().getDrawerCount(); i++) {
                     ItemStack stack = tile.getGroup().getDrawer(i).getStoredItemPrototype().copy();
@@ -84,7 +92,7 @@ public class AddonStorageDrawers extends AddonBlank {
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         if (world.getTileEntity(data.getPos()) instanceof TileEntityDrawers) {
             final boolean probeInMain = player.getHeldItemMainhand().getItem() == PROBE;
-            if (player.isSneaking() && !(Config.needsProbe == Config.PROBE_NEEDEDFOREXTENDED && !probeInMain) || Config.extendedInMain && probeInMain) {
+            if (replaceDrawers && player.isSneaking() && !(Config.needsProbe == Config.PROBE_NEEDEDFOREXTENDED && !probeInMain) || Config.extendedInMain && probeInMain) {
                 config.showChestContents(IProbeConfig.ConfigMode.NOT);
             } else {
                 config.showChestContents(IProbeConfig.ConfigMode.EXTENDED);
