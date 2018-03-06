@@ -146,7 +146,6 @@ sourceSets {
     main {
         java {
             exclude '**/addons/AddonBloodMagic.java'
-            exclude '**/addons/AddonIceAndFire.java'
             exclude '**/addons/AddonNeoTech.java'
             exclude '**/elements/bloodmagic'
         }

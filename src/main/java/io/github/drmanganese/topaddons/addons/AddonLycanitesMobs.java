@@ -13,9 +13,8 @@ import io.github.drmanganese.topaddons.api.TOPAddon;
 import com.lycanitesmobs.ExtendedPlayer;
 import com.lycanitesmobs.ObjectManager;
 import com.lycanitesmobs.core.entity.EntityCreatureBase;
-import com.lycanitesmobs.core.info.MobInfo;
+import com.lycanitesmobs.core.info.CreatureInfo;
 import com.lycanitesmobs.core.item.ItemSoulgazer;
-
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
@@ -45,9 +44,9 @@ public class AddonLycanitesMobs extends AddonBlank {
             final ItemSoulgazer soulgazer = (ItemSoulgazer) ObjectManager.getItem("soulgazer");
             final EntityCreatureBase creature = (EntityCreatureBase) entity;
             final ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(player);
-            final MobInfo info = creature.mobInfo;
+            final CreatureInfo info = creature.creatureInfo;
 
-            if (extendedPlayer.getBeastiary().creatureKnowledgeList.containsKey(info.name)) {
+            if (extendedPlayer.getBeastiary().creatureKnowledgeList.containsKey(info.getName())) {
                 probeInfo.horizontal(new LayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                         .icon(new ResourceLocation("theoneprobe", "textures/gui/icons.png"), 0, 16, 16, 16, probeInfo.defaultIconStyle().width(18).height(14).textureWidth(32).textureHeight(32))
                         .text(TextStyleClass.OK + "{*topaddons.lycanites:discovered*}");
@@ -59,9 +58,9 @@ public class AddonLycanitesMobs extends AddonBlank {
             }
 
             if (!requireGazer || player.getHeldItemMainhand().getItem() == ObjectManager.getItem("soulgazer") || player.getHeldItemOffhand().getItem() == ObjectManager.getItem("soulgazer")) {
-                if (creature.getOwner() == null){
+                if (creature.getOwner() == null) {
                     if (info.isTameable()) {
-                        ItemStack stack = new ItemStack(ObjectManager.getItem(info.name + "treat"));
+                        ItemStack stack = new ItemStack(ObjectManager.getItem(info.getName() + "treat"));
                         probeInfo.horizontal(new LayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).text(TextStyleClass.LABEL + "{*topaddons.lycanites:tameable*}: ").item(stack).text(stack.getDisplayName());
                     } else if (info.isSummonable()) {
                         probeInfo.text(TextStyleClass.LABEL + "{*topaddons.lycanites:summonable*}");

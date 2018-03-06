@@ -1,7 +1,5 @@
 # TOPAddons
 
-![Logo](images/logo.jpg)
-
 ![https://minecraft.curseforge.com/projects/top-addons](http://cf.way2muchnoise.eu/top-addons.svg)
 ![https://minecraft.curseforge.com/projects/top-addons](http://cf.way2muchnoise.eu/versions/top-addons_latest.svg)
 
@@ -10,9 +8,14 @@ A Minecraft mod which adds mod support to The One Probe by McJty
 ## Currenty supports (1.12):
 
 
-### Forge
+#### Forge
+- Alternative tank gauge
+![](images/gauge.png)
 
-- Tank display
+```
+# Which tank gauge(s) to display (The One Probe, TOP Addons, Both). [default: Both]
+S:fluidGaugeDisplay=Both
+```
 
 ### Vanilla
 
