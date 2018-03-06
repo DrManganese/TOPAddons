@@ -9,11 +9,10 @@ import net.minecraft.world.World;
 import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 
-import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
-
 import java.util.Collections;
 import java.util.List;
 
+import com.github.alexthe666.iceandfire.entity.EntityDragonBase;
 import mcjty.theoneprobe.Tools;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IEntityDisplayOverride;
