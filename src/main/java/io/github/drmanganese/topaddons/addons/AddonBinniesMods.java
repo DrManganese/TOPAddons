@@ -19,6 +19,7 @@ import java.util.Set;
 
 import binnie.genetics.item.GeneticLiquid;
 import mcjty.theoneprobe.api.IBlockDisplayOverride;
+import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -62,6 +63,14 @@ public class AddonBinniesMods extends AddonBlank {
         List<IBlockDisplayOverride> list = new ArrayList<>();
         SUB_ADDONS.stream().map(AddonBlank::getBlockDisplayOverrides).forEach(list::addAll);
         return list;
+    }
+
+
+    @Override
+    public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        for (AddonBlank subAddon : SUB_ADDONS) {
+            subAddon.getProbeConfig(config, player, world, blockState, data);
+        }
     }
 
     @Override

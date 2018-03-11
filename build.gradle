@@ -63,13 +63,13 @@ dependencies {
     deobfCompile("mcjty.theoneprobe:TheOneProbe-1.12:1.12-+") {
         transitive = false
     }
-    deobfCompile("binnie:binnie-mods-1.12.2:2.5.0.102") {
+    deobfCompile("binnie:binnie-mods-1.12.2:2.5.0.115") {
         transitive = false
     }
     deobfCompile("slimeknights:TConstruct:1.12-+") {
         transitive = false
     }
-    deobfCompile "net.sengir.forestry:forestry_1.12.2:5.7.0.209+"
+    deobfCompile "net.sengir.forestry:forestry_1.12.2:5.7.0.214+"
     deobfCompile "net.industrial-craft:industrialcraft-2:2.8.9-ex112"
     deobfCompile "slimeknights.mantle:Mantle:1.12-+"
     deobfCompile "steves-carts-reborn:StevesCarts:1.12.2:2.4.10.49"
@@ -93,6 +93,7 @@ minecraft {
     mappings = mcp_mappings
 
     replace '@VERSION@', project.version
+    useDepAts = true
 }
 
 
