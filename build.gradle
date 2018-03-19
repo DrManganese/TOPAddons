@@ -60,9 +60,9 @@ repositories {
 }
 
 dependencies {
-    deobfCompile("mcjty.theoneprobe:TheOneProbe-1.12:1.12-+") {
-        transitive = false
-    }
+//    deobfCompile("mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.21") {
+//        transitive = false
+//    }
     deobfCompile("binnie:binnie-mods-1.12.2:2.5.0.115") {
         transitive = false
     }
