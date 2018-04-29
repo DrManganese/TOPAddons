@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.reference.Colors;
 
-import cofh.thermalexpansion.block.TileRSControl;
+import cofh.core.block.TileRSControl;
 import cofh.thermalexpansion.block.dynamo.TileDynamoBase;
 import cofh.thermalexpansion.block.machine.TileMachineBase;
 import cofh.thermalexpansion.block.storage.TileCell;
