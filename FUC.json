@@ -38,11 +38,13 @@
     "1.12.2-1.2.0": "- Added Binnie's Mods support\n- Added Thermal Expansion and Thermal Dynamics support\n- Implemented json recipes",
     "1.12.2-1.2.1": "- Added Binnie's Mods support\n- Added Thermal Expansion and Thermal Dynamics support\n- Implemented json recipes",
     "1.12.2-1.3.0": "- [StorageDrawers] Fix double extended info when extendedInMain is true\n- [Moofluids] Override entity render (jittery cows)\n- Added chinese translation (TartaricAcid)",
-    "1.12.2-1.4.0": "- [StorageDrawers] Added config option to disable\n- [LycanitesMobs] Updated support\n- Ported Ice & Fire support"
+    "1.12.2-1.4.0": "- [StorageDrawers] Added config option to disable\n- [LycanitesMobs] Updated support\n- Ported Ice & Fire support",
+    "1.12.2-1.5.0": "- [Binnie] Hops growth percentage",
+    "1.12.2-1.6.0": "- Mod updates\n- Added Rustic support (crops)"
   },
   "promos": {
-    "1.12.2-latest": "1.12.2-1.4.0",
-    "1.12.2-recommended": "1.12.2-1.4.0",
+    "1.12.2-latest": "1.12.2-1.6.0",
+    "1.12.2-recommended": "1.12.2-1.6.0",
     "1.11.2-latest": "1.11.2-0.15.0",
     "1.11.2-recommended": "1.11.2-0.15.0",
     "1.10.2-latest": "1.10.2-0.15.0",
