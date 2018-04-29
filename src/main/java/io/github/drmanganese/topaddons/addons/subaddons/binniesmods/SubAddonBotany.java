@@ -86,15 +86,15 @@ public class SubAddonBotany extends AddonBlank {
                         MapColor.DIRT.colorValue + 0xff000000))
                         .item(SOIL.getPickBlock(blockStateBelow, null, world, data.getPos().down(), player))
                         .vertical();
-                textPrefixed(soilInfo, "{*botany.moisture*}", soil.getMoisture(world, data.getPos().down()).getLocalisedName(true));
-                textPrefixed(soilInfo, "{*botany.ph*}", soil.getPH(world, data.getPos().down()).getLocalisedName(true));
+                textPrefixed(soilInfo, "{*botany.moisture*}", "{*botany.moisture." + soil.getMoisture(world, data.getPos().down()).getName() + "*}");
+                textPrefixed(soilInfo, "{*botany.ph*}", "{*botany.ph." + soil.getPH(world, data.getPos().down()).getName() + "*}");
             }
         }
 
         if (blockState.getBlock() instanceof IBlockSoil && Util.isHoldingItem(player, SOIL_METER)) {
             IBlockSoil soil = (IBlockSoil) blockState.getBlock();
-            textPrefixed(probeInfo, "{*botany.moisture*}", soil.getMoisture(world, data.getPos()).getLocalisedName(true));
-            textPrefixed(probeInfo, "{*botany.ph*}", soil.getPH(world, data.getPos()).getLocalisedName(true));
+            textPrefixed(probeInfo, "{*botany.moisture*}", "{*botany.moisture." + soil.getMoisture(world, data.getPos()).getName() + "*}");
+            textPrefixed(probeInfo, "{*botany.ph*}", "{*botany.ph." + soil.getPH(world, data.getPos()).getName() + "*}");
             if (soil.resistsWeeds(world, data.getPos())) {
                 probeInfo.text(TextStyleClass.OK + "{*botany.soil.weedkiller*}");
             }

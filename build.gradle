@@ -25,7 +25,7 @@ repositories {
     mavenCentral()
     maven {
         name = "The One Probe"
-        url = "http://maven.tterrag.com"
+        url = "https://maven.tterrag.com"
     }
     maven {
         name = "COFH, Codechicken"
@@ -60,17 +60,17 @@ repositories {
 }
 
 dependencies {
-//    deobfCompile("mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.21") {
-//        transitive = false
-//    }
-    deobfCompile("binnie:binnie-mods-1.12.2:2.5.0.115") {
+    deobfCompile("mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.22-13") {
+        transitive = false
+    }
+    deobfCompile("binnie:binnie-mods-1.12.2:2.5.0.164") {
         transitive = false
     }
     deobfCompile("slimeknights:TConstruct:1.12-+") {
         transitive = false
     }
-    deobfCompile "net.sengir.forestry:forestry_1.12.2:5.7.0.214+"
-    deobfCompile "net.industrial-craft:industrialcraft-2:2.8.9-ex112"
+    deobfCompile "net.sengir.forestry:forestry_1.12.2:5.8.0.277+"
+    deobfCompile "net.industrial-craft:industrialcraft-2:2.8.75-ex112"
     deobfCompile "slimeknights.mantle:Mantle:1.12-+"
     deobfCompile "steves-carts-reborn:StevesCarts:1.12.2:2.4.10.49"
     deobfCompile "li.cil.oc:OpenComputers:MC1.12.1-1.7.+"

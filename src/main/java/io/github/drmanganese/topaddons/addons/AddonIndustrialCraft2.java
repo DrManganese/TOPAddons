@@ -287,7 +287,7 @@ public class AddonIndustrialCraft2 extends AddonBlank {
         }
 
         if (tile instanceof IKineticSource) {
-            textPrefixed(probeInfo, "{*topaddons.ic2:buffer*}", new DecimalFormat("##.#").format(((IKineticSource) tile).maxrequestkineticenergyTick(((TileEntityBlock) tile).getFacing())) + " kU");
+            textPrefixed(probeInfo, "{*topaddons.ic2:buffer*}", new DecimalFormat("##.#").format(((IKineticSource) tile).getConnectionBandwidth(((TileEntityBlock) tile).getFacing())) + " kU");
         }
 
         if (tile instanceof TileEntitySolarGenerator) {
@@ -335,12 +335,12 @@ public class AddonIndustrialCraft2 extends AddonBlank {
 
         if (tile instanceof TileEntityStirlingGenerator) {
             //EU Production
-            textPrefixed(probeInfo, "{*topaddons:generating*}", new DecimalFormat("##.##").format(((TileEntityStirlingGenerator) tile).production) + " EU/t");
+            textPrefixed(probeInfo, "{*topaddons:generating*}", ((TileEntityConversionGenerator) tile).getProduction() + " EU/t");
         }
 
         if (tile instanceof TileEntityKineticGenerator) {
             //EU Production
-            textPrefixed(probeInfo, "{*topaddons:generating*}", new DecimalFormat("##.##").format(((TileEntityKineticGenerator) tile).getproduction()) + " EU/t");
+            textPrefixed(probeInfo, "{*topaddons:generating*}", ((TileEntityKineticGenerator) tile).getProduction() + " EU/t");
         }
 
         if (tile instanceof IReactor || (tile instanceof IReactorChamber && ((IReactorChamber) tile).getReactorInstance() != null)) {
