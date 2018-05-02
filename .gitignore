@@ -1,0 +1,14 @@
+### Java
+*.class
+*.log
+*.jar
+
+### IDEA
+/.idea
+*.iml
+
+### GRADLE
+/build/
+/classes/
+/.gradle/
+/run/

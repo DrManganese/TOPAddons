@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "topaddons",
+    "name": "TOPAddons",
+    "description": "Adds The One Probe integration to various mods",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "DrManganese"
+    ],
+    "credits": "McJty, for making The One Probe",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
