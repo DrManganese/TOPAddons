@@ -7,12 +7,20 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION)
+import org.apache.logging.log4j.Logger;
+
+@Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, dependencies = "required-after:theoneprobe;")
 public class TOPAddons {
+
+    public static Logger logger;
+
+    @Mod.Instance
+    public static TOPAddons INSTANCE = null;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-
+        logger = event.getModLog();
+        AddonLoader.loadAddons(event.getAsmData());
     }
 
     @EventHandler
