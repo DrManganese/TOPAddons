@@ -1,7 +1,7 @@
 [
   {
     "modid": "topaddons",
-    "name": "TOPAddons",
+    "name": "TOP Addons",
     "description": "Adds The One Probe integration to various mods",
     "version": "${version}",
     "mcversion": "${mcversion}",

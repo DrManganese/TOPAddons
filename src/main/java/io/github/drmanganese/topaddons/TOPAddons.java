@@ -17,6 +17,6 @@ public class TOPAddons {
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
-
+        TOPRegistrar.register();
     }
 }
