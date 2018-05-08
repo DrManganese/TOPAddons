@@ -9,8 +9,10 @@ import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.IProbeInfoEntityProvider;
 import mcjty.theoneprobe.api.ProbeMode;
+import org.apache.commons.lang3.ClassUtils;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public interface IAddonEntities extends IProbeInfoEntityProvider {
 
@@ -19,12 +21,18 @@ public interface IAddonEntities extends IProbeInfoEntityProvider {
      */
     @Override
     default void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
-        if (entity != null && getEntities().containsKey(entity.getClass())) {
-            //noinspection unchecked
-            getEntities().get(entity.getClass()).getInfo(mode, probeInfo, player, world, entity.getClass().cast(entity), data);
-        }
+        if (entity != null) {
+            //Get the entity's class and superclasses. All of these are Entity or children of Entity.
+            List<Class<?>> classes = ClassUtils.getAllSuperclasses(entity.getClass());
+            classes.add(entity.getClass());
 
-        //TODO Info based on predicates
+            for (Class class_ : classes) {
+                if (getEntities().containsKey(class_)) {
+                    //noinspection unchecked
+                    getEntities().get(class_).getInfo(mode, probeInfo, player, world, (Entity) class_.cast(entity), data);
+                }
+            }
+        }
     }
 
     @Nonnull

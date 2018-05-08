@@ -10,13 +10,11 @@ import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
 import mcjty.theoneprobe.api.ProbeMode;
 
-import javax.annotation.Nullable;
-
 public interface ITileInfo<T extends TileEntity> {
 
     /**
      * See {@link IProbeInfoProvider#addProbeInfo}.
      * @param tile TileEntity the player is looking at, cast to entry given in map.
      */
-    void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData, @Nullable T tile);
+    void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData, T tile);
 }
