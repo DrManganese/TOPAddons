@@ -1,5 +1,6 @@
 package io.github.drmanganese.topaddons.addons.vanilla;
 
+import io.github.drmanganese.topaddons.addons.forge.tiles.FluidCapInfo;
 import io.github.drmanganese.topaddons.addons.vanilla.entities.EntityAnimalInfo;
 import io.github.drmanganese.topaddons.addons.vanilla.tiles.NoteBlockInfo;
 import io.github.drmanganese.topaddons.api.*;
@@ -19,6 +20,11 @@ public class AddonVanilla implements IAddonBlocks, IAddonEntities {
 
     private static final ImmutableMap<Class<? extends TileEntity>, ITileInfo> TILES = ImmutableMap.of(TileEntityNote.class, new NoteBlockInfo());
     private static final ImmutableMap<Class<? extends Entity>, IEntityInfo> ENTITIES = ImmutableMap.of(EntityAnimal.class, new EntityAnimalInfo());
+
+    public AddonVanilla() {
+        FluidCapInfo.COLORS.put("water", 0xff345cda);
+        FluidCapInfo.COLORS.put("lava", 0xffe6913c);
+    }
 
     @Override
     public String getID() {
