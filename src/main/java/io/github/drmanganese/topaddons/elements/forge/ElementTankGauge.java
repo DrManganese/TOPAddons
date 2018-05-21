@@ -1,6 +1,5 @@
 package io.github.drmanganese.topaddons.elements.forge;
 
-import io.github.drmanganese.topaddons.addons.forge.AddonForge;
 import io.github.drmanganese.topaddons.util.ElementHelper;
 
 import net.minecraft.client.Minecraft;
@@ -19,11 +18,14 @@ public class ElementTankGauge implements IElement {
     private static final int STROKE_COLOR = 0xffaa0000;
     private static final int BG_COLOR = 0xaa550000;
 
+    private int id;
+
     private final boolean extended;
     private final int amount, capacity, color;
     private final String tankName, fluidName;
 
-    public ElementTankGauge(boolean extended, int amount, int capacity, String tankName, String fluidName, int color) {
+    public ElementTankGauge(int id, boolean extended, int amount, int capacity, String tankName, String fluidName, int color) {
+        this.id = id;
         this.extended = extended;
         this.amount = amount;
         this.capacity = capacity;
@@ -99,6 +101,6 @@ public class ElementTankGauge implements IElement {
 
     @Override
     public int getID() {
-        return AddonForge.TANK_ELEMENT;
+        return id;
     }
 }

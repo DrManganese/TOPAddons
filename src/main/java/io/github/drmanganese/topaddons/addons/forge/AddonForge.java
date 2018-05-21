@@ -5,6 +5,7 @@ import io.github.drmanganese.topaddons.api.IAddonBlocks;
 import io.github.drmanganese.topaddons.api.IAddonElements;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.forge.ElementTankGauge;
 import io.github.drmanganese.topaddons.reference.Reference;
 
@@ -15,14 +16,13 @@ import mcjty.theoneprobe.api.ITheOneProbe;
 
 import javax.annotation.Nonnull;
 
+@SuppressWarnings("unused")
 @TOPAddon(dependency = "forge")
 public class AddonForge implements IAddonBlocks, IAddonElements {
 
-    public static int TANK_ELEMENT;
-
     @Override
     public void registerElements(ITheOneProbe probe) {
-        TANK_ELEMENT = probe.registerElementFactory(ElementTankGauge::new);
+        ElementSync.registerElement(probe, "tank_gauge", ElementTankGauge::new);
     }
 
     @Override

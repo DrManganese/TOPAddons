@@ -1,6 +1,7 @@
 package io.github.drmanganese.topaddons.addons.forge.tiles;
 
 import io.github.drmanganese.topaddons.api.ITileInfo;
+import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.forge.ElementTankGauge;
 
 import net.minecraft.block.state.IBlockState;
@@ -41,14 +42,15 @@ public class FluidCapInfo implements ITileInfo<TileEntity> {
                 IFluidTankProperties tank = tanks[i];
                 final String tankName = TANK_NAMES.containsKey(tile.getClass()) ? TANK_NAMES.get(tile.getClass())[i] : "Tank";
                 if (tank.getContents() == null) {
-                    probeInfo.element(new ElementTankGauge(probeMode == ProbeMode.EXTENDED, 0, tank.getCapacity(), tankName, "", -1));
+                    probeInfo.element(new ElementTankGauge(ElementSync.getId("tank_gauge", player), probeMode == ProbeMode.EXTENDED, 0, tank.getCapacity(), tankName, "", -1));
                 } else {
                     final int color = getFluidColor(tank.getContents());
                     final String fluidName = tank.getContents().getFluid().getLocalizedName(tank.getContents());
-                    probeInfo.element(new ElementTankGauge(probeMode == ProbeMode.EXTENDED, tank.getContents().amount, tank.getCapacity(), tankName, fluidName, color));
+                    probeInfo.element(new ElementTankGauge(ElementSync.getId("tank_gauge", player), probeMode == ProbeMode.EXTENDED, tank.getContents().amount, tank.getCapacity(), tankName, fluidName, color));
                 }
             }
         }
+
     }
 
     private int getFluidColor(FluidStack fluidStack) {

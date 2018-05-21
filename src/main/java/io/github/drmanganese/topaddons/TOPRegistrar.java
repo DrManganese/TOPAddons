@@ -1,6 +1,7 @@
 package io.github.drmanganese.topaddons;
 
 import io.github.drmanganese.topaddons.api.IAddonBlocks;
+import io.github.drmanganese.topaddons.api.IAddonElements;
 import io.github.drmanganese.topaddons.api.IAddonEntities;
 
 import net.minecraftforge.fml.common.event.FMLInterModComms;
@@ -39,6 +40,10 @@ public class TOPRegistrar {
 
                 if (addon instanceof IAddonEntities) {
                     probe.registerEntityProvider((IProbeInfoEntityProvider) addon);
+                }
+
+                if (addon instanceof IAddonElements) {
+                    ((IAddonElements) addon).registerElements(probe);
                 }
             }
             return null;
