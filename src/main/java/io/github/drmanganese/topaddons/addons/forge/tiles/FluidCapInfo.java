@@ -11,12 +11,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class FluidCapInfo implements ITileInfo<TileEntity> {
@@ -24,6 +27,8 @@ public class FluidCapInfo implements ITileInfo<TileEntity> {
     public static final FluidCapInfo INSTANCE = new FluidCapInfo();
     public static final Map<String, Integer> COLORS = new HashMap<>();
     public static final Map<Class<? extends TileEntity>, String[]> TANK_NAMES = new HashMap<>();
+
+    private static final List<String> MOD_BLACKLIST = Arrays.asList("endertanks", "enderio");
 
     static {
         //Actually Additions
@@ -33,14 +38,14 @@ public class FluidCapInfo implements ITileInfo<TileEntity> {
         COLORS.put("empoweredoil", 0xffd33c52);
     }
 
-    //TODO blacklist EnderIO, endertanks, etc.
     @Override
     public void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData, TileEntity tile) {
-        if (tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+        if (!MOD_BLACKLIST.contains(ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain()) && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
             IFluidTankProperties[] tanks = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties();
             for (int i = 0; i < tanks.length; i++) {
                 IFluidTankProperties tank = tanks[i];
                 final String tankName = TANK_NAMES.containsKey(tile.getClass()) ? TANK_NAMES.get(tile.getClass())[i] : "Tank";
+
                 if (tank.getContents() == null) {
                     probeInfo.element(new ElementTankGauge(ElementSync.getId("tank_gauge", player), probeMode == ProbeMode.EXTENDED, 0, tank.getCapacity(), tankName, "", -1));
                 } else {
@@ -50,7 +55,6 @@ public class FluidCapInfo implements ITileInfo<TileEntity> {
                 }
             }
         }
-
     }
 
     private int getFluidColor(FluidStack fluidStack) {
