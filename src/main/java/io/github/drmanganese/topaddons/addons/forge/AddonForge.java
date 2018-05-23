@@ -16,8 +16,7 @@ import mcjty.theoneprobe.api.ITheOneProbe;
 
 import javax.annotation.Nonnull;
 
-@SuppressWarnings("unused")
-@TOPAddon(dependency = "forge")
+@TOPAddon(dependency = "forge", fancyName = "Forge", order = 0)
 public class AddonForge implements IAddonBlocks, IAddonElements {
 
     @Override
