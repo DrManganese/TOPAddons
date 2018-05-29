@@ -44,7 +44,7 @@ public class ElementCage implements IElement {
     public void render(int x, int y) {
         Entity entity = EntityList.createEntityFromNBT(entityNbt, Minecraft.getMinecraft().world);
         RenderHelper.renderEntity(entity, x, y-10, 5);
-        RenderHelper.renderItemStack(Minecraft.getMinecraft(), Minecraft.getMinecraft().getRenderItem(), new ItemStack(ModItems.modules, 1, 57), x, y, "");
+        RenderHelper.renderItemStack(Minecraft.getMinecraft(), Minecraft.getMinecraft().getRenderItem(), new ItemStack(ModItems.MODULES, 1, 57), x, y, ""); //TODO replace with ObjectHolder
     }
 
     @Override

@@ -72,7 +72,7 @@ dependencies {
     deobfCompile "net.sengir.forestry:forestry_1.12.2:5.8.0.277+"
     deobfCompile "net.industrial-craft:industrialcraft-2:2.8.75-ex112"
     deobfCompile "slimeknights.mantle:Mantle:1.12-+"
-    deobfCompile "steves-carts-reborn:StevesCarts:1.12.2:2.4.10.49"
+    deobfCompile "steves-carts-reborn:StevesCarts:1.12.2:2.4.18.92"
     deobfCompile "li.cil.oc:OpenComputers:MC1.12.1-1.7.+"
     compile "cofh:RedstoneFlux:1.12-2.0.1.2:universal"
     //Storage drawers, Botania, Chisel, CoFH+, Advanced Generators, Lycanite's Mobs
