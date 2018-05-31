@@ -13,6 +13,10 @@ import io.netty.buffer.ByteBuf;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Network message that is sent to the server when the client joins. It stores the client's element discriminators in a
+ * player capability.
+ */
 public class MessageElementSync implements IMessage, IMessageHandler<MessageElementSync, IMessage> {
 
     private Map<String, Integer> elementIdMap;

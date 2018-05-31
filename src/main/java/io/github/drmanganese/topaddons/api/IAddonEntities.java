@@ -35,6 +35,9 @@ public interface IAddonEntities extends IProbeInfoEntityProvider {
         }
     }
 
+    /**
+     * @return Map of {@link Entity} classes this addon provides info for.
+     */
     @Nonnull
     ImmutableMap<Class<? extends Entity>, IEntityInfo> getEntities();
 }

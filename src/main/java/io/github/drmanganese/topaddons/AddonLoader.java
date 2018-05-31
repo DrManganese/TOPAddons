@@ -61,6 +61,7 @@ public class AddonLoader {
             }
         }
 
+        //Sort loaded addons by their annotations order parameter. Ensures order for info sorting.
         ADDONS.sort(Comparator.comparingInt(a -> a.getClass().getDeclaredAnnotation(TOPAddon.class).order()));
     }
 
@@ -68,6 +69,14 @@ public class AddonLoader {
         return Loader.instance().getIndexedModList().get(dependency).getName();
     }
 
+    /**
+     * Compare main dependency and additional dependencies with loaded mods. See {@link TOPAddon#dependency()} and
+     * {@link TOPAddon#extraDeps()} for rules.
+     *
+     * @param dependency Main addon dependency mod id.
+     * @param extraDeps  Other dependency mod ids
+     * @return <i>true</i> if dependencies are verified.
+     */
     private static boolean verifyDependencies(String dependency, String[] extraDeps) {
         for (String dep : extraDeps) {
             if (dep.startsWith("!") && Loader.isModLoaded(dep.substring(1))) {

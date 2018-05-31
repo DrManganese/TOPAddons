@@ -4,9 +4,10 @@ public final class Formatting {
 
     /**
      * Formats the given value and unit to time in seconds.
-     * @param value time value to format/convert
-     * @param valueUnit unit of the value (ticks, seconds, minutes, ...)
-     * @return Formatted time string of the form: <i>#s</i>
+     *
+     * @param value     time value to format/convert.
+     * @param valueUnit unit of the value (ticks, seconds, minutes, ...).
+     * @return Formatted time string of the form: <i>#s</i>.
      */
     public static String timeInSeconds(int value, TimeUnit valueUnit) {
         return String.format("%ds", valueUnit.toSeconds(value));

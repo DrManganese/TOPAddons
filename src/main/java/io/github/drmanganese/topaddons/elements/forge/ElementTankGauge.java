@@ -17,12 +17,10 @@ public class ElementTankGauge implements IElement {
 
     private static final int STROKE_COLOR = 0xffaa0000;
     private static final int BG_COLOR = 0xaa550000;
-
-    private int id;
-
     private final boolean extended;
     private final int amount, capacity, color;
     private final String tankName, fluidName;
+    private int id;
 
     public ElementTankGauge(int id, boolean extended, int amount, int capacity, String tankName, String fluidName, int color) {
         this.id = id;

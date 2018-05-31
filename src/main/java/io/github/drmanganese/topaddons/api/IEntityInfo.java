@@ -13,6 +13,7 @@ public interface IEntityInfo<T extends Entity> {
 
     /**
      * See {@link IProbeInfoEntityProvider#addProbeEntityInfo}.
+     *
      * @param entity Entity the player is looking at, cast to associated class in map.
      */
     void getInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, T entity, IProbeHitEntityData data);

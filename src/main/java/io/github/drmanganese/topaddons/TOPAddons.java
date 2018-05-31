@@ -18,13 +18,11 @@ import org.apache.logging.log4j.Logger;
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.MOD_VERSION, dependencies = "required-after:theoneprobe;")
 public class TOPAddons {
 
-    public static Logger logger;
-
-    @Mod.Instance
-    public static TOPAddons INSTANCE = null;
-
     @CapabilityInject(IElementSyncCapability.class)
     public static final Capability<IElementSyncCapability> SYNC_CAP = null;
+    public static Logger logger;
+    @Mod.Instance
+    public static TOPAddons INSTANCE = null;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {

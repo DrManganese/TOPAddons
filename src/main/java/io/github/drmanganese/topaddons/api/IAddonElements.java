@@ -11,7 +11,7 @@ public interface IAddonElements {
      * Register elements with The One Probe in this method using {@link ITheOneProbe#registerElementFactory}.
      * <pre>CUSTOM_ELEMENT = probe.registerElementFactory(ElementCustom::new);</pre>
      *
-     * @param probe Instance of main TOP interface
+     * @param probe Instance of main TOP interface.
      */
     void registerElements(ITheOneProbe probe);
 }

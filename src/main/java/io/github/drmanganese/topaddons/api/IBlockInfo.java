@@ -12,7 +12,7 @@ import mcjty.theoneprobe.api.ProbeMode;
 public interface IBlockInfo {
 
     /**
-     * See {@link IProbeInfoProvider#addProbeInfo}
+     * See {@link IProbeInfoProvider#addProbeInfo}.
      */
     void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData);
 }
