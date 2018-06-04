@@ -24,23 +24,44 @@ repositories {
     }
     maven {
         name = "covers1624 (RedstoneFlux)"
-        url "http://maven.covers1624.net/"
+        url = "http://maven.covers1624.net/"
     }
     maven {
         name = "player (Forestry)"
         url = "http://maven.ic2.player.to"
     }
     maven {
-	    name = "progwml6 (JEI)"
-	    url = "http://dvs1.progwml6.com/files/maven"
+        name = "progwml6 (JEI)"
+        url = "http://dvs1.progwml6.com/files/maven"
     }
+    maven {
+        name = "dyonovan (Industrial Foregoing)"
+        url = "http://dyonovan.com/maven2"
+    }
+    maven {
+        name = "mcmoddev (Tesla-Core-Lib)"
+        url = "https://maven.mcmoddev.com"
+    }
+    maven {
+        name = "shadowfacts (Forgelin)"
+        url = "http://maven.shadowfacts.net/"
+    }
+
 }
 
 dependencies {
-    deobfCompile("mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.+") {
+    deobfCompile("mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.22-13") {
         transitive = false
     }
-    //deobfCompile "net.sengir.forestry:forestry_1.12.2:5.8.0.277+"
+    deobfCompile "net.sengir.forestry:forestry_1.12.2:5.8.0.277+"
+
+    deobfCompile("com.buuz135.industrial.IndustrialForegoing:industrialforegoing:1.12.2-1.9.1-256:deobf") {
+        transitive = false
+    }
+    deobfCompile("net.ndrei:tesla-core-lib:1.12-1.0.13.8") {
+        transitive = false
+    }
+    runtime "net.shadowfacts:Forgelin:1.6.0+"
 
     //Jar mods in ./libs
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -81,6 +102,14 @@ processResources {
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude "mcmod.info"
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            exclude "**/addons/debug"
+        }
     }
 }
 
