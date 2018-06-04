@@ -1,7 +1,6 @@
 package io.github.drmanganese.topaddons.addons.debug;
 
-import io.github.drmanganese.topaddons.api.IAddonBlocks;
-import io.github.drmanganese.topaddons.api.IAddonEntities;
+import io.github.drmanganese.topaddons.api.IAddonBlocksAndEntities;
 import io.github.drmanganese.topaddons.api.IEntityInfo;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.api.TOPAddon;
@@ -27,7 +26,7 @@ import org.apache.commons.lang3.ClassUtils;
 import javax.annotation.Nonnull;
 
 @TOPAddon(dependency = "forge", fancyName = "Debug", order = 0)
-public class AddonDebug implements IAddonBlocks, IAddonEntities {
+public class AddonDebug implements IAddonBlocksAndEntities {
 
     @GameRegistry.ObjectHolder("minecraft:stick")
     private static Item STICK;
@@ -35,6 +34,12 @@ public class AddonDebug implements IAddonBlocks, IAddonEntities {
 
     public AddonDebug() {
         debugInfo = new DebugInfo();
+    }
+
+    @Nonnull
+    @Override
+    public String getID() {
+        return Reference.MOD_ID + ":debug";
     }
 
     @Nonnull
@@ -47,12 +52,6 @@ public class AddonDebug implements IAddonBlocks, IAddonEntities {
     @Override
     public ImmutableMap<Class<? extends TileEntity>, ITileInfo> getTiles() {
         return ImmutableMap.of(TileEntity.class, debugInfo);
-    }
-
-    @Nonnull
-    @Override
-    public String getID() {
-        return Reference.MOD_ID + ":debug";
     }
 
     public final class DebugInfo implements IEntityInfo<Entity>, ITileInfo<TileEntity> {

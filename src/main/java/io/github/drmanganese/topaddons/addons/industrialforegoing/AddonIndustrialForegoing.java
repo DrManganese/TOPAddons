@@ -7,7 +7,6 @@ import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.industrialforegoing.ElementCropSower;
-import io.github.drmanganese.topaddons.reference.Reference;
 
 import mcjty.theoneprobe.api.ITheOneProbe;
 import net.minecraft.tileentity.TileEntity;
@@ -44,12 +43,6 @@ public class AddonIndustrialForegoing implements IAddonBlocks, IAddonElements {
         mapBuilder.put(PetrifiedFuelGeneratorTile.class, new PetrifiedGeneratorInfo());
         mapBuilder.put(TreeFluidExtractorTile.class, new TreeFluidExtractorInfo());
         TILES = mapBuilder.build();
-    }
-
-    @Nonnull
-    @Override
-    public String getID() {
-        return Reference.MOD_ID + ":industrialforegoing";
     }
 
     @Nonnull

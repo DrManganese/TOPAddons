@@ -1,5 +1,11 @@
 package io.github.drmanganese.topaddons.api;
 
+import io.github.drmanganese.topaddons.reference.Reference;
+
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.IProbeInfoProvider;
+import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,17 +13,18 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import com.google.common.collect.ImmutableMap;
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.IProbeInfoProvider;
-import mcjty.theoneprobe.api.ProbeMode;
 import org.apache.commons.lang3.ClassUtils;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-
 public interface IAddonBlocks extends IProbeInfoProvider {
+
+    @Nonnull
+    @Override
+    default String getID() {
+        return Reference.MOD_ID + ":" + this.getClass().getDeclaredAnnotation(TOPAddon.class).dependency();
+    }
 
     /**
      * See {@link IProbeInfoProvider#addProbeInfo}.

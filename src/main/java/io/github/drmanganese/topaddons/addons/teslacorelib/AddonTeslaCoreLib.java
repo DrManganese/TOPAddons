@@ -6,7 +6,6 @@ import io.github.drmanganese.topaddons.addons.teslacorelib.tiles.SidedTileEntity
 import io.github.drmanganese.topaddons.api.IAddonBlocks;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.reference.Reference;
 
 import net.minecraft.tileentity.TileEntity;
 
@@ -28,12 +27,6 @@ public class AddonTeslaCoreLib implements IAddonBlocks {
         mapBuilder.put(ElectricGenerator.class, new ElectricGeneratorInfo());
         mapBuilder.put(ElectricMachine.class, new ElectricMachineInfo());
         TILES = mapBuilder.build();
-    }
-
-    @Nonnull
-    @Override
-    public String getID() {
-        return Reference.MOD_ID + ":teslacorelib";
     }
 
     @Nonnull
