@@ -3,13 +3,16 @@ package io.github.drmanganese.topaddons;
 import io.github.drmanganese.topaddons.api.IAddonBlocks;
 import io.github.drmanganese.topaddons.api.IAddonElements;
 import io.github.drmanganese.topaddons.api.IAddonEntities;
+import io.github.drmanganese.topaddons.elements.ElementSync;
+import io.github.drmanganese.topaddons.elements.top.ElementItemStackBackground;
+import io.github.drmanganese.topaddons.elements.top.ElementSimpleProgressCentered;
 
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-
-import com.google.common.base.Function;
 import mcjty.theoneprobe.api.IProbeInfoEntityProvider;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
 import mcjty.theoneprobe.api.ITheOneProbe;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+
+import com.google.common.base.Function;
 
 import javax.annotation.Nullable;
 
@@ -46,6 +49,9 @@ public class TOPRegistrar {
                     ((IAddonElements) addon).registerElements(probe);
                 }
             }
+
+            ElementSync.registerElement(probe, "centered_progress", ElementSimpleProgressCentered::new);
+            ElementSync.registerElement(probe, "itemstack_background", ElementItemStackBackground::new);
             return null;
         }
     }
