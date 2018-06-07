@@ -1,0 +1,31 @@
+# [[dependency]]
+# notation = "package:name:version"
+# transitive = boolean (default: true)
+# deobf = boolean (default: false)
+# compile = boolean (deafult: true)
+# run = boolean (default: true)
+#
+# deobf -> deobfCompile, run -> compile, !compile -> runtime, !run -> compileOnly
+
+[[dependency]]
+notation = "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.22-13"
+transitive = false
+deobf = true
+
+[[dependency]]
+notation = "net.sengir.forestry:forestry_1.12.2:5.8.0.277+"
+run = true
+
+[[dependency]]
+notation = "com.buuz135.industrial.IndustrialForegoing:industrialforegoing:1.12.2-1.9.1-256"
+transitive = false
+run = false
+
+[[dependency]]
+notation = "net.ndrei:tesla-core-lib:1.12-1.0.13.8"
+transitive = false
+run = false
+
+[[dependency]]
+notation = "net.shadowfacts:Forgelin:1.6.0+"
+compile = false

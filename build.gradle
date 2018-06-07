@@ -1,3 +1,5 @@
+import com.moandjiezana.toml.Toml
+
 buildscript {
     repositories {
         jcenter()
@@ -9,15 +11,14 @@ buildscript {
 
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+        classpath "com.moandjiezana.toml:toml4j:0.7.2"
     }
 }
-
 
 apply plugin: "net.minecraftforge.gradle.forge"
 
 
 repositories {
-    mavenCentral()
     maven {
         name = "tterag (The One Probe)"
         url = "https://maven.tterrag.com"
@@ -46,26 +47,41 @@ repositories {
         name = "shadowfacts (Forgelin)"
         url = "http://maven.shadowfacts.net/"
     }
-
 }
 
 dependencies {
-    deobfCompile("mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.22-13") {
-        transitive = false
+    // Read dependencies from dependencies.toml and parse each [[dependency]], format in file.
+    for (Toml toml : new Toml().read(new File("dependencies.toml")).getTables("dependency")) {
+        boolean trans = toml.getBoolean("transitive", true)
+        String notation = toml.getString("notation")
+        boolean deobf = toml.getBoolean("deobf", false)
+        boolean comp = toml.getBoolean("compile", true)
+        boolean run = toml.getBoolean("run", true)
+        if (deobf) {
+            deobfCompile(notation) {
+                transitive = trans
+            }
+        } else if (comp) {
+            if (run) {
+                compile(notation) {
+                    transitive = trans
+                }
+            } else {
+                compileOnly(notation) {
+                    transitive = trans
+                }
+            }
+        } else if (run) {
+            runtime(notation) {
+                transitive = trans
+            }
+        } else {
+            println("Dependency " + notation + " ignored.")
+        }
     }
-    deobfCompile "net.sengir.forestry:forestry_1.12.2:5.8.0.277+"
 
-    deobfCompile("com.buuz135.industrial.IndustrialForegoing:industrialforegoing:1.12.2-1.9.1-256:deobf") {
-        transitive = false
-    }
-    deobfCompile("net.ndrei:tesla-core-lib:1.12-1.0.13.8") {
-        transitive = false
-    }
-    runtime "net.shadowfacts:Forgelin:1.6.0+"
-
-    //Jar mods in ./libs
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile "cofh:RedstoneFlux:1.12-2.+:universal"
+    // Jar mods in ./libs
+//    compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 
@@ -108,6 +124,7 @@ processResources {
 sourceSets {
     main {
         java {
+            // don't ship debug addon
             exclude "**/addons/debug"
         }
     }
