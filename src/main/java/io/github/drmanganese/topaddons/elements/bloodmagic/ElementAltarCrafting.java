@@ -1,31 +1,29 @@
 package io.github.drmanganese.topaddons.elements.bloodmagic;
 
+import io.github.drmanganese.topaddons.addons.AddonBloodMagic;
+import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
-
-import org.lwjgl.opengl.GL11;
-
-import WayofTime.bloodmagic.api.orb.IBloodOrb;
 import io.netty.buffer.ByteBuf;
 import mcjty.theoneprobe.api.IElement;
 import mcjty.theoneprobe.network.NetworkTools;
 import mcjty.theoneprobe.rendering.RenderHelper;
+import org.lwjgl.opengl.GL11;
 
 public class ElementAltarCrafting implements IElement {
-
-    private int id;
 
     private final ItemStack input, result;
     private final int progress, required;
     private final float consumption;
+    private int id;
 
     public ElementAltarCrafting(int id, ItemStack input, ItemStack result, int progress, int required, float consumption) {
         this.id = id;
@@ -56,22 +54,22 @@ public class ElementAltarCrafting implements IElement {
         GlStateManager.enableBlend();
         mc.getTextureManager().bindTexture(new ResourceLocation("topaddons:textures/elements/bm_altar.png"));
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buf = tessellator.getBuffer();
+        BufferBuilder buf = tessellator.getBuffer();
         buf.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        buf.pos(x + 19, y + 4, 0).tex(1 - (float) progress/required, 0).endVertex();
-        buf.pos(x + 19, y + 12, 0).tex(1 - (float) progress/required, 1).endVertex();
-        buf.pos(x + 19 + 62 * progress/required, y + 12, 0).tex(1, 1).endVertex();
-        buf.pos(x + 19 + 62 * progress/required, y + 4, 0).tex(1, 0).endVertex();
+        buf.pos(x + 19, y + 4, 0).tex(1 - (float) progress / required, 0).endVertex();
+        buf.pos(x + 19, y + 12, 0).tex(1 - (float) progress / required, 1).endVertex();
+        buf.pos(x + 19 + 62 * progress / required, y + 12, 0).tex(1, 1).endVertex();
+        buf.pos(x + 19 + 62 * progress / required, y + 4, 0).tex(1, 0).endVertex();
         tessellator.draw();
         GlStateManager.disableBlend();
 
-        String text = progress + "/" + required  + " LP";
-        ElementRenderHelper.drawSmallText(x + 50 - mc.fontRenderer.getStringWidth(text)/4, y + 6, text, 0xffffffff);
-        if (input.getItem() instanceof IBloodOrb)
+        String text = progress + "/" + required + " LP";
+        ElementRenderHelper.drawSmallText(x + 50 - mc.fontRenderer.getStringWidth(text) / 4, y + 6, text, 0xffffffff);
+        if (input.getItem() == AddonBloodMagic.BLOOD_ORB)
             text = I18n.format("topaddons.bloodmagic:filling");
         else
-            text = I18n.format("topaddons.ic2:consumption") + ": " + consumption + " LP";
-        ElementRenderHelper.drawSmallText(x + 50 - mc.fontRenderer.getStringWidth(text)/4, y + 14, text, 0xffffffff);
+            text = I18n.format("topaddons.bloodmagic:consumption") + ": " + consumption + " LP";
+        ElementRenderHelper.drawSmallText(x + 50 - mc.fontRenderer.getStringWidth(text) / 4, y + 14, text, 0xffffffff);
     }
 
     @Override

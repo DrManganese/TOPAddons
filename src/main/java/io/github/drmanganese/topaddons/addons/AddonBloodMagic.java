@@ -1,7 +1,15 @@
 package io.github.drmanganese.topaddons.addons;
 
+import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.elements.bloodmagic.ElementAltarCrafting;
+import io.github.drmanganese.topaddons.elements.bloodmagic.ElementNodeFilter;
+import io.github.drmanganese.topaddons.reference.EnumChip;
+import io.github.drmanganese.topaddons.reference.Names;
+
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -12,40 +20,29 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
-import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.elements.bloodmagic.ElementAltarCrafting;
-import io.github.drmanganese.topaddons.elements.bloodmagic.ElementNodeFilter;
-import io.github.drmanganese.topaddons.reference.EnumChip;
-import io.github.drmanganese.topaddons.reference.Names;
-
-import com.google.common.collect.Lists;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import WayofTime.bloodmagic.altar.BloodAltar;
-import WayofTime.bloodmagic.api.altar.IBloodAltar;
-import WayofTime.bloodmagic.api.iface.IBindable;
-import WayofTime.bloodmagic.api.orb.BloodOrb;
-import WayofTime.bloodmagic.api.orb.IBloodOrb;
-import WayofTime.bloodmagic.api.registry.OrbRegistry;
-import WayofTime.bloodmagic.api.saving.SoulNetwork;
-import WayofTime.bloodmagic.api.util.helper.NetworkHelper;
+import WayofTime.bloodmagic.altar.IBloodAltar;
+import WayofTime.bloodmagic.api.impl.recipe.RecipeBloodAltar;
+import WayofTime.bloodmagic.core.data.Binding;
+import WayofTime.bloodmagic.core.data.SoulNetwork;
+import WayofTime.bloodmagic.iface.IBindable;
+import WayofTime.bloodmagic.item.ItemBloodOrb;
 import WayofTime.bloodmagic.item.armour.ItemLivingArmour;
 import WayofTime.bloodmagic.item.armour.ItemSentientArmour;
 import WayofTime.bloodmagic.item.sigil.ItemSigilBase;
 import WayofTime.bloodmagic.item.sigil.ItemSigilHolding;
-import WayofTime.bloodmagic.registry.ModBlocks;
-import WayofTime.bloodmagic.registry.ModItems;
+import WayofTime.bloodmagic.orb.IBloodOrb;
 import WayofTime.bloodmagic.routing.IMasterRoutingNode;
 import WayofTime.bloodmagic.tile.TileAltar;
 import WayofTime.bloodmagic.tile.TileIncenseAltar;
 import WayofTime.bloodmagic.tile.TileMimic;
 import WayofTime.bloodmagic.tile.routing.TileFilteredRoutingNode;
+import WayofTime.bloodmagic.util.helper.NetworkHelper;
 import WayofTime.bloodmagic.util.helper.NumeralHelper;
+import com.google.common.collect.Lists;
 import mcjty.theoneprobe.Tools;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IBlockDisplayOverride;
@@ -54,11 +51,25 @@ import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 import mcjty.theoneprobe.api.TextStyleClass;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static mcjty.theoneprobe.api.TextStyleClass.MODNAME;
 
 @TOPAddon(dependency = "bloodmagic")
 public class AddonBloodMagic extends AddonBlank {
 
+    @ObjectHolder("bloodmagic:mimic")
+    public static Block MIMIC;
+    @ObjectHolder("bloodmagic:sigil_holding")
+    public static Item SIGIL_HOLDING;
+    @ObjectHolder("bloodmagic:sigil_seer")
+    public static Item SIGIL_SEER;
+    @ObjectHolder("bloodmagic:sigil_divination")
+    public static Item SIGIL_DIVINATION;
+    @ObjectHolder("bloodmagic:blood_orb")
+    public static Item BLOOD_ORB;
     private boolean requireSigil = true;
     private boolean seeMimickWithSigil = true;
 
@@ -94,7 +105,7 @@ public class AddonBloodMagic extends AddonBlank {
              * Show the mimic block's "mimicked" block when it has an ItemBlock in its
              * internal inventory.
              */
-            if (blockState.getBlock() == ModBlocks.MIMIC) {
+            if (blockState.getBlock() == MIMIC) {
                 ItemStack mimicStack = ((TileMimic) world.getTileEntity(data.getPos())).getStackInSlot(0);
 
                 if (!mimicStack.isEmpty() && mimicStack.getItem() instanceof ItemBlock) {
@@ -119,8 +130,8 @@ public class AddonBloodMagic extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        boolean holdingSeer = !requireSigil || holdingSigil(player, (ItemSigilBase) ModItems.SIGIL_SEER);
-        boolean holdingDivine = holdingSeer || !requireSigil || holdingSigil(player, (ItemSigilBase) ModItems.SIGIL_DIVINATION);
+        boolean holdingSeer = !requireSigil || holdingSigil(player, (ItemSigilBase) SIGIL_SEER);
+        boolean holdingDivine = holdingSeer || !requireSigil || holdingSigil(player, (ItemSigilBase) SIGIL_DIVINATION);
 
         TileEntity tile = world.getTileEntity(data.getPos());
 
@@ -134,16 +145,15 @@ public class AddonBloodMagic extends AddonBlank {
                 BloodAltar bloodAltar = ReflectionHelper.getPrivateValue(TileAltar.class, (TileAltar) altar, "bloodAltar");
 
                 if (input.getItem() instanceof IBloodOrb) {
-                    String owner = ((IBindable) input.getItem()).getOwnerUUID(input);
-                    if (!owner.isEmpty()) {
-                        SoulNetwork network = NetworkHelper.getSoulNetwork(owner);
-                        BloodOrb orb = OrbRegistry.getOrb(network.getOrbTier() - 1);
-                        addAltarCraftingElement(probeInfo, input, new ItemStack(WayofTime.bloodmagic.registry.ModItems.BLOOD_ORB, 1, network.getOrbTier() - 1), network.getCurrentEssence(), orb.getCapacity(), 0, player);
+                    Binding binding = ((IBindable) input.getItem()).getBinding(input);
+                    if (binding != null) {
+                        SoulNetwork network = NetworkHelper.getSoulNetwork(binding);
+                        addAltarCraftingElement(probeInfo, input, ItemStack.EMPTY, network.getCurrentEssence(), ((ItemBloodOrb) BLOOD_ORB).getOrb(input).getCapacity(), 0, player);
                     } else {
                         probeInfo.text(TextStyleClass.WARNING + "{*topaddons.bloodmagic:unbound_orb*}");
                     }
                 } else if (altar.isActive()) {
-                    ItemStack result = ReflectionHelper.getPrivateValue(BloodAltar.class, bloodAltar, "result");
+                    ItemStack result = ((RecipeBloodAltar) ReflectionHelper.getPrivateValue(BloodAltar.class, bloodAltar, "recipe")).getOutput();
                     if (!result.isEmpty()) {
                         addAltarCraftingElement(probeInfo, input, result, bloodAltar.getProgress(), bloodAltar.getLiquidRequired(), bloodAltar.getConsumptionRate(), player);
                     }
@@ -186,7 +196,7 @@ public class AddonBloodMagic extends AddonBlank {
             if (!heldStack.isEmpty()) {
                 if (heldStack.getItem() == sigil) {
                     return true;
-                } else if (heldStack.getItem() == ModItems.SIGIL_HOLDING) {
+                } else if (heldStack.getItem() == SIGIL_HOLDING) {
                     ItemStack currentHoldingStack = ItemSigilHolding.getItemStackInSlot(heldStack, ItemSigilHolding.getCurrentItemOrdinal(heldStack));
                     return !currentHoldingStack.isEmpty() && currentHoldingStack.getItem() == sigil;
                 }
@@ -197,7 +207,7 @@ public class AddonBloodMagic extends AddonBlank {
     }
 
     private void addFilterElement(IProbeInfo probeInfo, String side, ItemStack inventoryOnSide, ItemStack filterStack, EntityPlayer player) {
-        probeInfo.element(new ElementNodeFilter(getElementId(player, "filetr_node"), side, inventoryOnSide, filterStack));
+        probeInfo.element(new ElementNodeFilter(getElementId(player, "filter_node"), side, inventoryOnSide, filterStack));
     }
 
     private void addAltarCraftingElement(IProbeInfo probeInfo, ItemStack input, ItemStack result, int progress, int required, float consumption, EntityPlayer player) {
