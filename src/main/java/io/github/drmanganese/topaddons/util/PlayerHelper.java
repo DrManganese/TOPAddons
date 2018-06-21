@@ -1,5 +1,8 @@
 package io.github.drmanganese.topaddons.util;
 
+import io.github.drmanganese.topaddons.TOPAddons;
+import io.github.drmanganese.topaddons.capabilities.IClientCfgCapability;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumHand;
@@ -14,5 +17,9 @@ public final class PlayerHelper {
         }
 
         return false;
+    }
+
+    public static IClientCfgCapability getSync(EntityPlayer player) {
+        return player.getCapability(TOPAddons.CLIENT_CFG_CAP, null);
     }
 }

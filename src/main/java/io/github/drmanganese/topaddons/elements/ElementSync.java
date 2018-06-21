@@ -2,10 +2,9 @@ package io.github.drmanganese.topaddons.elements;
 
 import io.github.drmanganese.topaddons.TOPAddons;
 
-import net.minecraft.entity.player.EntityPlayer;
-
 import mcjty.theoneprobe.api.IElementFactory;
 import mcjty.theoneprobe.api.ITheOneProbe;
+import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +28,6 @@ public final class ElementSync {
     }
 
     public static int getId(String elementName, EntityPlayer player) {
-        return player.getCapability(TOPAddons.SYNC_CAP, null).getElementId(elementName);
+        return player.getCapability(TOPAddons.ELT_SYNC_CAP, null).getElementId(elementName);
     }
 }

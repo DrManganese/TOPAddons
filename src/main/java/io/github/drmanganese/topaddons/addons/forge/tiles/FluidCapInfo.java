@@ -1,9 +1,14 @@
 package io.github.drmanganese.topaddons.addons.forge.tiles;
 
+import io.github.drmanganese.topaddons.addons.forge.AddonForge;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.forge.ElementTankGauge;
+import io.github.drmanganese.topaddons.util.PlayerHelper;
 
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -13,13 +18,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.ProbeMode;
-
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class FluidCapInfo implements ITileInfo<TileEntity> {
@@ -27,8 +26,6 @@ public class FluidCapInfo implements ITileInfo<TileEntity> {
     public static final FluidCapInfo INSTANCE = new FluidCapInfo();
     public static final Map<String, Integer> COLORS = new HashMap<>();
     public static final Map<Class<? extends TileEntity>, String[]> TANK_NAMES = new HashMap<>();
-
-    private static final List<String> MOD_BLACKLIST = Arrays.asList("endertanks", "enderio");
 
     static {
         //Actually Additions
@@ -40,7 +37,9 @@ public class FluidCapInfo implements ITileInfo<TileEntity> {
 
     @Override
     public void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData, TileEntity tile) {
-        if (!MOD_BLACKLIST.contains(ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain()) && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+        if (PlayerHelper.getSync(player).getBool("showGauge")
+                && !AddonForge.tankModBlacklist.contains(ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain())
+                && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
             IFluidTankProperties[] tanks = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties();
             for (int i = 0; i < tanks.length; i++) {
                 IFluidTankProperties tank = tanks[i];

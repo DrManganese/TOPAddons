@@ -1,15 +1,15 @@
 package io.github.drmanganese.topaddons.addons.vanilla.tiles;
 
+import io.github.drmanganese.topaddons.addons.vanilla.AddonVanilla;
 import io.github.drmanganese.topaddons.api.ITileInfo;
-
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntityNote;
-import net.minecraft.world.World;
 
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntityNote;
+import net.minecraft.world.World;
 
 public class NoteBlockInfo implements ITileInfo<TileEntityNote> {
 
@@ -19,6 +19,8 @@ public class NoteBlockInfo implements ITileInfo<TileEntityNote> {
 
     @Override
     public void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData, TileEntityNote tile) {
-        probeInfo.text("{*topaddons.vanilla:pitch*}: " + NOTES[tile.note % 12]);
+        if (AddonVanilla.showPitch) {
+            probeInfo.text("{*topaddons.vanilla:pitch*}: " + NOTES[tile.note % 12]);
+        }
     }
 }

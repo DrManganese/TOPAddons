@@ -1,5 +1,6 @@
 package io.github.drmanganese.topaddons;
 
+import io.github.drmanganese.topaddons.api.IAddonConfig;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 
 import net.minecraftforge.fml.common.Loader;
@@ -8,6 +9,7 @@ import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import com.google.common.base.Strings;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,15 +19,17 @@ import java.util.Set;
 public class AddonLoader {
 
     public static final List<Object> ADDONS = new LinkedList<>();
+    public static final List<IAddonConfig> CFG_ADDONS = new ArrayList<>();
 
     /**
      * Uses the FML ASMData Table to find classes with the {@link TOPAddon} annotation. If the addon's dependency is
-     * found and loaded an instance of the addon is stored in {@link AddonLoader::ADDONS} and stored for registration.
+     * found and loaded an instance of the addon is stored in {@link AddonLoader::ADDONS} for registration. The instance
+     * is also stored in {@link AddonLoader::CFG_ADDONS} if the addon provides configuration options.
      *
      * @param asmData FML ASM table
      */
     static void loadAddons(ASMDataTable asmData) {
-        final Logger logger = TOPAddons.logger;
+        final Logger logger = TOPAddons.LOGGER;
 
         //Retrieve all classes with the @TOPAddon annotation
         final Set<ASMDataTable.ASMData> candidates = asmData.getAll(TOPAddon.class.getName());
@@ -48,7 +52,11 @@ public class AddonLoader {
                     final String fancyName = annotation.fancyName().equals("") ? getModName(dependency) : annotation.fancyName();
 
                     try {
-                        ADDONS.add(addonClass.newInstance());
+                        final Object addon = addonClass.newInstance();
+                        ADDONS.add(addon);
+                        if (addon instanceof IAddonConfig) {
+                            CFG_ADDONS.add((IAddonConfig) addon);
+                        }
                         logger.info("Created addon {}.", fancyName);
                     } catch (InstantiationException e) {
                         logger.error("Addon {}'s class could not be instantiated: {}", fancyName, e.getCause());

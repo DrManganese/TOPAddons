@@ -1,7 +1,8 @@
 package io.github.drmanganese.topaddons.capabilities;
 
+import io.github.drmanganese.topaddons.TOPAddons;
+import io.github.drmanganese.topaddons.config.ModConfig;
 import io.github.drmanganese.topaddons.elements.ElementSync;
-import io.github.drmanganese.topaddons.network.MessageElementSync;
 import io.github.drmanganese.topaddons.network.PacketHandler;
 import io.github.drmanganese.topaddons.reference.Reference;
 
@@ -21,7 +22,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import static io.github.drmanganese.topaddons.TOPAddons.SYNC_CAP;
+import static io.github.drmanganese.topaddons.TOPAddons.CLIENT_CFG_CAP;
+import static io.github.drmanganese.topaddons.TOPAddons.ELT_SYNC_CAP;
 
 @Mod.EventBusSubscriber
 public class CapEventHandlers {
@@ -31,34 +33,53 @@ public class CapEventHandlers {
     public static void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof EntityPlayer) {
             event.addCapability(new ResourceLocation(Reference.MOD_ID, "elementSync"), new ICapabilityProvider() {
-                private IElementSyncCapability instance = SYNC_CAP.getDefaultInstance();
+                private final IElementSyncCapability instance = ELT_SYNC_CAP.getDefaultInstance();
 
                 @Override
                 public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-                    return capability == SYNC_CAP;
+                    return capability == ELT_SYNC_CAP;
                 }
 
                 @Nullable
                 @Override
                 public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-                    return capability == SYNC_CAP ? SYNC_CAP.<T>cast(this.instance) : null;
+                    return capability == ELT_SYNC_CAP ? ELT_SYNC_CAP.<T>cast(this.instance) : null;
+                }
+            });
+
+            event.addCapability(new ResourceLocation(Reference.MOD_ID, "clientCfgSync"), new ICapabilityProvider() {
+                private final IClientCfgCapability instance = CLIENT_CFG_CAP.getDefaultInstance();
+
+                @Override
+                public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+                    return capability == CLIENT_CFG_CAP;
+                }
+
+                @Nullable
+                @Override
+                public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+                    return capability == CLIENT_CFG_CAP ? CLIENT_CFG_CAP.<T>cast(this.instance) : null;
                 }
             });
         }
     }
 
-    //Send client's id map to the server
+    //Send client's id map and config options to the server
     @SubscribeEvent
     public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getWorld().isRemote && event.getEntity() == Minecraft.getMinecraft().player) {
-            PacketHandler.INSTANCE.sendToServer(new MessageElementSync(ElementSync.elementIdMap));
+            PacketHandler.sendElementSync(ElementSync.elementIdMap);
+            PacketHandler.sendClientCfg(ModConfig.updateSync(TOPAddons.CONFIG));
         }
     }
 
     //Copy over capability data when player respawns
+    @SuppressWarnings("ConstantConditions")
     @SubscribeEvent
     public static void onPlayerClone(PlayerEvent.Clone event) {
-        IElementSyncCapability originalCap = event.getOriginal().getCapability(SYNC_CAP, null);
-        event.getEntityPlayer().getCapability(SYNC_CAP, null).setElementIds(originalCap.getAllElementIds());
+        IElementSyncCapability originalSyncCap = event.getOriginal().getCapability(ELT_SYNC_CAP, null);
+        IClientCfgCapability originalCfgCap = event.getOriginal().getCapability(CLIENT_CFG_CAP, null);
+        event.getEntityPlayer().getCapability(ELT_SYNC_CAP, null).setElementIds(originalSyncCap.getAllElementIds());
+        event.getEntityPlayer().getCapability(CLIENT_CFG_CAP, null).setAll(originalCfgCap.getAll());
     }
 }

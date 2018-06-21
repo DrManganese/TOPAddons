@@ -1,22 +1,21 @@
 package io.github.drmanganese.topaddons.elements.forge;
 
+import io.github.drmanganese.topaddons.addons.forge.AddonForge;
 import io.github.drmanganese.topaddons.util.ElementHelper;
 
+import mcjty.theoneprobe.api.IElement;
+import mcjty.theoneprobe.network.NetworkTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 
 import io.netty.buffer.ByteBuf;
-import mcjty.theoneprobe.api.IElement;
-import mcjty.theoneprobe.network.NetworkTools;
 import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class ElementTankGauge implements IElement {
 
-    private static final int STROKE_COLOR = 0xffaa0000;
-    private static final int BG_COLOR = 0xaa550000;
     private final boolean extended;
     private final int amount, capacity, color;
     private final String tankName, fluidName;
@@ -44,7 +43,7 @@ public class ElementTankGauge implements IElement {
     @Override
     public void render(int x, int y) {
         //Background
-        ElementHelper.drawBox(x, y, 100, extended ? 12 : 8, BG_COLOR, 1, STROKE_COLOR);
+        ElementHelper.drawBox(x, y, 100, extended ? 12 : 8, AddonForge.tankBackgroundColor, 1, AddonForge.tankBorderColor);
 
         //Fluid
         for (int i = 0; i < 98 * amount / capacity; i++) {
@@ -56,7 +55,7 @@ public class ElementTankGauge implements IElement {
             final int[] gaugeCoords = {13, 25, 37, 49, 61, 73, 85};
             final int[] gaugeLengths = {5, 6, 5, 10, 5, 6, 5};
             for (int i = 0; i < gaugeCoords.length; i++) {
-                Gui.drawRect(x + gaugeCoords[i], y + 1, x + gaugeCoords[i] + 1, y + 1 + gaugeLengths[i], STROKE_COLOR);
+                Gui.drawRect(x + gaugeCoords[i], y + 1, x + gaugeCoords[i] + 1, y + 1 + gaugeLengths[i], AddonForge.tankBorderColor);
             }
         }
 

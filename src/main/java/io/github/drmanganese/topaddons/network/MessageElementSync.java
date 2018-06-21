@@ -21,6 +21,7 @@ public class MessageElementSync implements IMessage, IMessageHandler<MessageElem
 
     private Map<String, Integer> elementIdMap;
 
+    @SuppressWarnings("unused")
     public MessageElementSync() {
     }
 
@@ -50,8 +51,8 @@ public class MessageElementSync implements IMessage, IMessageHandler<MessageElem
     @Override
     public IMessage onMessage(MessageElementSync message, MessageContext ctx) {
         FMLCommonHandler.instance().getMinecraftServerInstance().addScheduledTask(() -> {
-            ctx.getServerHandler().player.getCapability(TOPAddons.SYNC_CAP, null).setElementIds(message.elementIdMap);
-            TOPAddons.logger.info("Synced elements ids to server for player -> " + ctx.getServerHandler().player.getCapability(TOPAddons.SYNC_CAP, null).getAllElementIds());
+            //noinspection ConstantConditions
+            ctx.getServerHandler().player.getCapability(TOPAddons.ELT_SYNC_CAP, null).setElementIds(message.elementIdMap);
         });
         return null;
     }

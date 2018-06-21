@@ -24,8 +24,6 @@ public interface IAddonEntities extends IProbeInfoEntityProvider {
         return Reference.MOD_ID + ":" + this.getClass().getDeclaredAnnotation(TOPAddon.class).dependency();
     }
 
-    ;
-
     /**
      * See {@link IProbeInfoEntityProvider#addProbeEntityInfo}.
      */
