@@ -1,5 +1,6 @@
 package io.github.drmanganese.topaddons.proxy;
 
+import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.api.IAddonConfig;
 import io.github.drmanganese.topaddons.config.ModConfig;
 import io.github.drmanganese.topaddons.network.PacketHandler;
@@ -20,6 +21,10 @@ public class ClientProxy extends CommonProxy {
         Map<String, Object> syncMap = ModConfig.updateSync(config);
         if (Minecraft.getMinecraft().world != null) {
             PacketHandler.sendClientCfg(syncMap);
+        }
+
+        if (TOPAddons.CONFIG.hasChanged()) {
+            TOPAddons.CONFIG.save();
         }
     }
 }

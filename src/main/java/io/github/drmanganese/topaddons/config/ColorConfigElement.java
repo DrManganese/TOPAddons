@@ -8,9 +8,9 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
-class ColorConfigElement extends ConfigElement {
+public class ColorConfigElement extends ConfigElement {
 
-    ColorConfigElement(Property property) {
+    public ColorConfigElement(Property property) {
         super(property);
     }
 
@@ -24,9 +24,9 @@ class ColorConfigElement extends ConfigElement {
         return false;
     }
 
-    static class ColorConfigEntry extends GuiConfigEntries.StringEntry {
+    public static class ColorConfigEntry extends GuiConfigEntries.StringEntry {
 
-        ColorConfigEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+        public ColorConfigEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
             super(owningScreen, owningEntryList, configElement);
         }
 

@@ -20,10 +20,6 @@ public class ModConfig {
     public static void onConfigurationChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
         if (event.getModID().equals(Reference.MOD_ID)) {
             TOPAddons.PROXY.updateConfigs(TOPAddons.CONFIG, AddonLoader.CFG_ADDONS);
-
-            if (TOPAddons.CONFIG.hasChanged()) {
-                TOPAddons.CONFIG.save();
-            }
         }
     }
 

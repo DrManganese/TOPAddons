@@ -6,9 +6,9 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
-class SeparatorConfigElement extends ConfigElement {
+public class SeparatorConfigElement extends ConfigElement {
 
-    SeparatorConfigElement(String category) {
+    public SeparatorConfigElement(String category) {
         super(new Property(category, "", Property.Type.STRING));
     }
 
@@ -17,9 +17,9 @@ class SeparatorConfigElement extends ConfigElement {
         return SeparatorConfigEntry.class;
     }
 
-    static class SeparatorConfigEntry extends GuiConfigEntries.ListEntryBase {
+    public static class SeparatorConfigEntry extends GuiConfigEntries.ListEntryBase {
 
-        SeparatorConfigEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
+        public SeparatorConfigEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement) {
             super(owningScreen, owningEntryList, configElement);
         }
 
