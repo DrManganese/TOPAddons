@@ -43,21 +43,37 @@ public class ElementTankGauge implements IElement {
     @Override
     public void render(int x, int y) {
         //Background
-        ElementHelper.drawBox(x, y, 100, extended ? 12 : 8, AddonForge.tankBackgroundColor, 1, AddonForge.tankBorderColor);
+        if (AddonForge.tankRounded) {
+            Gui.drawRect(x + 1, y + 1, x + 99, y + (extended ? 11 : 7), AddonForge.tankBackgroundColor);
+            ElementHelper.drawHorizontalLine(x + (extended ? 2 : 1), y, extended ? 96 : 98, AddonForge.tankBorderColor);
+            ElementHelper.drawHorizontalLine(x + (extended ? 2 : 1), y + (extended ? 11 : 7), extended ? 96 : 98, AddonForge.tankBorderColor);
+            ElementHelper.drawVerticalLine(x, y + (extended ? 2 : 1), extended ? 8 : 6, AddonForge.tankBorderColor);
+            ElementHelper.drawVerticalLine(x + 99, y + (extended ? 2 : 1), extended ? 8 : 6, AddonForge.tankBorderColor);
+        } else {
+            ElementHelper.drawBox(x, y, 100, extended ? 12 : 8, AddonForge.tankBackgroundColor, 1, AddonForge.tankBorderColor);
+        }
 
         //Fluid
-        for (int i = 0; i < 98 * amount / capacity; i++) {
+        for (int i = 0; i < Math.min(98 * amount / capacity, 98); i++) {
             Gui.drawRect(x + 1 + i, y + 1, x + 2 + i, y + (extended ? 11 : 7), i % 2 == 0 ? color : new Color(color).darker().hashCode());
         }
 
         //Gauges
         if (extended) {
+            if (AddonForge.tankRounded) {
+                Gui.drawRect(x + 1, y + 1, x + 2, y + 2, AddonForge.tankBorderColor);
+                Gui.drawRect(x + 1, y + 10, x + 2, y + 11, AddonForge.tankBorderColor);
+                Gui.drawRect(x + 98, y + 1, x + 99, y + 2, AddonForge.tankBorderColor);
+                Gui.drawRect(x + 98, y + 10, x + 99, y + 11, AddonForge.tankBorderColor);
+            }
+
             final int[] gaugeCoords = {13, 25, 37, 49, 61, 73, 85};
             final int[] gaugeLengths = {5, 6, 5, 10, 5, 6, 5};
             for (int i = 0; i < gaugeCoords.length; i++) {
                 Gui.drawRect(x + gaugeCoords[i], y + 1, x + gaugeCoords[i] + 1, y + 1 + gaugeLengths[i], AddonForge.tankBorderColor);
             }
         }
+
 
         //Text
         final FontRenderer font = Minecraft.getMinecraft().fontRenderer;

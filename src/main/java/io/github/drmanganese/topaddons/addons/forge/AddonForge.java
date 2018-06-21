@@ -27,6 +27,7 @@ import java.util.Map;
 @TOPAddon(dependency = "forge", fancyName = "Forge", order = 0)
 public class AddonForge implements IAddonBlocks, IAddonElements, IAddonConfig {
 
+    public static boolean tankRounded;
     public static int tankBackgroundColor;
     public static int tankBorderColor;
     public static List<String> tankModBlacklist;
@@ -47,6 +48,7 @@ public class AddonForge implements IAddonBlocks, IAddonElements, IAddonConfig {
         tankModBlacklist = Arrays.asList(config.get("forge", "tankModBlacklist", new String[]{"endertanks", "enderio"}, "Tank gauge modid blacklist", Property.Type.MOD_ID).getStringList());
 
         if (side == Side.CLIENT) {
+            tankRounded = config.get("forge.client", "tankRounded", false, "").getBoolean();
             tankBackgroundColor = ModConfig.getColor(config, "forge.client", "tankBackgroundColor", "#55555555", "", ModConfig.ARGB_PATTERN);
             tankBorderColor = ModConfig.getColor(config, "forge.client", "tankBorderColor", "#FF555555", "", ModConfig.ARGB_PATTERN);
         }
