@@ -1,4 +1,10 @@
 {
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "baubles"
+    }
+  ],
   "type": "topaddons:helmet_probify",
   "probe": {
     "item": "theoneprobe:probe_goggles"
