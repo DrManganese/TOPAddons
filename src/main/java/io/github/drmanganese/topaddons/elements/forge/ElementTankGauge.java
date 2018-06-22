@@ -13,6 +13,7 @@ import io.netty.buffer.ByteBuf;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 
 public class ElementTankGauge implements IElement {
 
@@ -78,7 +79,7 @@ public class ElementTankGauge implements IElement {
         //Text
         final FontRenderer font = Minecraft.getMinecraft().fontRenderer;
         if (extended) {
-            font.drawStringWithShadow(amount + "/" + capacity + " mB", x + 2, y + 2, 0xffffffff);
+            font.drawStringWithShadow(amountText(), x + 2, y + 2, 0xffffffff);
             GL11.glPushMatrix();
             GL11.glScalef(0.5F, 0.5F, 0.5F);
             font.drawStringWithShadow(tankName, x * 2, (y + 13) * 2, 0xffffffff);
@@ -89,6 +90,14 @@ public class ElementTankGauge implements IElement {
             GL11.glScalef(0.5F, 0.5F, 0.5F);
             font.drawStringWithShadow(tankName, (x + 2) * 2, (y + 2) * 2, 0xffffffff);
             GL11.glPopMatrix();
+        }
+    }
+
+    private String amountText() {
+        if (this.capacity <= 100000) {
+            return amount + "/" + capacity + " mB";
+        } else {
+            return new DecimalFormat("#.#").format(amount / 1000) + "/" + new DecimalFormat("#.#").format(capacity / 1000) + " B";
         }
     }
 
