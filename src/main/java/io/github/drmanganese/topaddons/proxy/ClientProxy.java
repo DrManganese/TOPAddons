@@ -17,6 +17,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void updateConfigs(Configuration config, List<IAddonConfig> addons) {
         addons.forEach(a -> a.updateConfigs(config, Side.CLIENT));
+        ModConfig.updateHelmetConfig(config);
 
         Map<String, Object> syncMap = ModConfig.updateSync(config);
         if (Minecraft.getMinecraft().world != null) {

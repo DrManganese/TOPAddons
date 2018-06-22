@@ -1,0 +1,5 @@
+{
+  "recipes": {
+    "helmet_probify": "io.github.drmanganese.topaddons.helmets.RecipeHelmetProbify$Factory"
+  }
+}
