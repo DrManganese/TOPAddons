@@ -17,15 +17,23 @@ notation = "net.sengir.forestry:forestry_1.12.2:5.8.0.277+"
 run = true
 
 [[dependency]]
-notation = "com.buuz135.industrial.IndustrialForegoing:industrialforegoing:1.12.2-1.9.1-256"
+# notation = "com.buuz135.industrial.IndustrialForegoing:industrialforegoing:1.12.2-1.9.1-256"
+notation = "industrial-foregoing:industrialforegoing-1.12.2:1.10.1:176"
 transitive = false
-run = false
+run = true
 
 [[dependency]]
 notation = "net.ndrei:tesla-core-lib:1.12-1.0.13.8"
 transitive = false
-run = false
+run = true
 
 [[dependency]]
 notation = "net.shadowfacts:Forgelin:1.6.0+"
 compile = false
+
+[[dependency]]
+notation = "com.jaquadro.minecraft.chameleon:Chameleon:1.12-4.1.3:deobf"
+
+[[dependency]]
+notation = "com.jaquadro.minecraft.storagedrawers:StorageDrawers:1.12.2-5.3.6"
+deobf = true

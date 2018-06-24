@@ -1,12 +1,14 @@
 package io.github.drmanganese.topaddons;
 
 import io.github.drmanganese.topaddons.api.IAddonBlocks;
+import io.github.drmanganese.topaddons.api.IAddonConfigProviders;
 import io.github.drmanganese.topaddons.api.IAddonElements;
 import io.github.drmanganese.topaddons.api.IAddonEntities;
 import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.top.ElementItemStackBackground;
 import io.github.drmanganese.topaddons.elements.top.ElementSimpleProgressCentered;
 
+import mcjty.theoneprobe.api.IProbeConfigProvider;
 import mcjty.theoneprobe.api.IProbeInfoEntityProvider;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
 import mcjty.theoneprobe.api.ITheOneProbe;
@@ -47,6 +49,10 @@ public class TOPRegistrar {
 
                 if (addon instanceof IAddonElements) {
                     ((IAddonElements) addon).registerElements(probe);
+                }
+
+                if (addon instanceof IAddonConfigProviders) {
+                    probe.registerProbeConfigProvider((IProbeConfigProvider) addon);
                 }
             }
 

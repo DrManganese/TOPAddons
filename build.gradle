@@ -47,6 +47,14 @@ repositories {
         name = "shadowfacts (Forgelin)"
         url = "http://maven.shadowfacts.net/"
     }
+    maven {
+        name = "bindray (storagedrawers)"
+        url = "https://dl.bintray.com/jaquadro/dev/"
+    }
+    maven {
+        name = "curseforge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
 }
 
 dependencies {
