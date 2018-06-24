@@ -29,7 +29,7 @@ public class SeparatorConfigElement extends ConfigElement {
             this.mc.fontRenderer.drawString(
                     getName(),
                     labelX,
-                    y + slotHeight / 2 - this.mc.fontRenderer.FONT_HEIGHT / 2,
+                    y + slotHeight / 2 - this.mc.fontRenderer.FONT_HEIGHT / 2 + 2,
                     0xffffffff);
         }
 
