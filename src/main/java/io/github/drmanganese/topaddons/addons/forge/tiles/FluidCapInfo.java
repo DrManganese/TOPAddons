@@ -1,11 +1,13 @@
 package io.github.drmanganese.topaddons.addons.forge.tiles;
 
 import io.github.drmanganese.topaddons.addons.forge.AddonForge;
+import io.github.drmanganese.topaddons.api.ITileConfigProvider;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.forge.ElementTankGauge;
 import io.github.drmanganese.topaddons.util.PlayerHelper;
 
+import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -21,7 +23,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FluidCapInfo implements ITileInfo<TileEntity> {
+public class FluidCapInfo implements ITileInfo<TileEntity>, ITileConfigProvider {
 
     public static final FluidCapInfo INSTANCE = new FluidCapInfo();
     public static final Map<String, Integer> COLORS = new HashMap<>();
@@ -37,7 +39,7 @@ public class FluidCapInfo implements ITileInfo<TileEntity> {
 
     @Override
     public void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData, TileEntity tile) {
-        if (PlayerHelper.getSync(player).getBool("showGauge")
+        if (!PlayerHelper.getSync(player).getString("showGauge").equals("The One Probe")
                 && !AddonForge.tankModBlacklist.contains(ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain())
                 && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
             IFluidTankProperties[] tanks = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties();
@@ -52,6 +54,16 @@ public class FluidCapInfo implements ITileInfo<TileEntity> {
                     final String fluidName = tank.getContents().getFluid().getLocalizedName(tank.getContents());
                     probeInfo.element(new ElementTankGauge(ElementSync.getId("tank_gauge", player), probeMode == ProbeMode.EXTENDED, tank.getContents().amount, tank.getCapacity(), tankName, fluidName, color));
                 }
+            }
+        }
+    }
+
+    @Override
+    public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        if (!AddonForge.tankModBlacklist.contains(ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain())
+                && world.getTileEntity(data.getPos()).hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+            if (PlayerHelper.getSync(player).getString("showGauge").equals("TOP Addons")) {
+                config.showTankSetting(IProbeConfig.ConfigMode.NOT);
             }
         }
     }

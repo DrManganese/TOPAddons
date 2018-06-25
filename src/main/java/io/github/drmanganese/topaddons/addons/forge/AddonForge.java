@@ -3,7 +3,9 @@ package io.github.drmanganese.topaddons.addons.forge;
 import io.github.drmanganese.topaddons.addons.forge.tiles.FluidCapInfo;
 import io.github.drmanganese.topaddons.api.IAddonBlocks;
 import io.github.drmanganese.topaddons.api.IAddonConfig;
+import io.github.drmanganese.topaddons.api.IAddonConfigProviders;
 import io.github.drmanganese.topaddons.api.IAddonElements;
+import io.github.drmanganese.topaddons.api.ITileConfigProvider;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.config.ModConfig;
@@ -25,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @TOPAddon(dependency = "forge", fancyName = "Forge", order = 0)
-public class AddonForge implements IAddonBlocks, IAddonElements, IAddonConfig {
+public class AddonForge implements IAddonBlocks, IAddonElements, IAddonConfig, IAddonConfigProviders {
 
     public static boolean tankRounded;
     public static int tankBackgroundColor;
@@ -43,6 +45,12 @@ public class AddonForge implements IAddonBlocks, IAddonElements, IAddonConfig {
         return ImmutableMap.of(TileEntity.class, FluidCapInfo.INSTANCE);
     }
 
+    @Nonnull
+    @Override
+    public ImmutableMap<Object, ITileConfigProvider> getBlockConfigProviders() {
+        return ImmutableMap.of(TileEntity.class, FluidCapInfo.INSTANCE);
+    }
+
     @Override
     public void updateConfigs(Configuration config, Side side) {
         tankModBlacklist = Arrays.asList(config.get("forge", "tankModBlacklist", new String[]{"endertanks", "enderio"}, "Tank gauge modid blacklist", Property.Type.MOD_ID).getStringList());
@@ -56,6 +64,6 @@ public class AddonForge implements IAddonBlocks, IAddonElements, IAddonConfig {
 
     @Override
     public Map<String, Object> updateSyncedConfigs(Configuration config) {
-        return Collections.singletonMap("showGauge", config.get("forge.client", "showGauge", true, "").getBoolean());
+        return Collections.singletonMap("showGauge", config.get("forge.client", "showGauge", "Both", "", new String[]{"Both", "TOP Addons", "The One Probe"}).getString());
     }
 }
