@@ -12,7 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-
+import net.minecraftforge.fluids.Fluid;
 import io.github.drmanganese.topaddons.TOPAddons;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInventory;
@@ -364,7 +364,9 @@ public class AddonForestry extends AddonBlank {
     @Override
     public void addFluidColors() {
         for (Fluids fluid : Fluids.values()) {
-            Colors.FLUID_NAME_COLOR_MAP.put(fluid.getFluid().getName(), fluid.getParticleColor().hashCode());
+            Fluid fl = fluid.getFluid();
+            if (fl == null) { continue; }
+            Colors.FLUID_NAME_COLOR_MAP.put(fl.getName(), fluid.getParticleColor().hashCode());
         }
     }
 
