@@ -1,25 +1,24 @@
 package io.github.drmanganese.topaddons.addons;
 
+import io.github.drmanganese.topaddons.TOPAddons;
+import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.elements.tconstruct.ElementSmelteryTank;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 
-import io.github.drmanganese.topaddons.TOPAddons;
-import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.elements.tconstruct.ElementSmelteryTank;
-
-import java.util.List;
-
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
-import slimeknights.tconstruct.gadgets.tileentity.TileDryingRack;
 import slimeknights.tconstruct.library.smeltery.ISmelteryTankHandler;
 import slimeknights.tconstruct.library.smeltery.SmelteryTank;
 import slimeknights.tconstruct.smeltery.tileentity.TileSmeltery;
 import slimeknights.tconstruct.smeltery.tileentity.TileTinkerTank;
+
+import java.util.List;
 
 @TOPAddon(dependency = "tconstruct")
 public class AddonTinkersConstruct extends AddonBlank {
@@ -43,11 +42,6 @@ public class AddonTinkersConstruct extends AddonBlank {
             if (tile instanceof TileTinkerTank) {
                 textPrefixed(probeInfo, "Capacity", tank.getCapacity() / 1000 + " B");
                 addSmelteryTankElement(probeInfo, tank.getFluids(), Math.max(tank.getFluidAmount(), tank.getCapacity()), false, mode, player);
-            }
-
-            if (tile instanceof TileDryingRack) {
-                TileDryingRack tileDrying = (TileDryingRack) tile;
-                textPrefixed(probeInfo, "Progress", (Math.round(tileDrying.getProgress() * 100)) + "%");
             }
         }
     }
