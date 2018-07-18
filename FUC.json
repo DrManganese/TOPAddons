@@ -41,11 +41,12 @@
     "1.12.2-1.4.0": "- [StorageDrawers] Added config option to disable\n- [LycanitesMobs] Updated support\n- Ported Ice & Fire support",
     "1.12.2-1.5.0": "- [Binnie] Hops growth percentage",
     "1.12.2-1.6.0": "- Mod updates\n- Added Rustic support (crops)",
-    "1.12.2-1.7.0": "- [Lycanites] Update to 1.20 (elementals)\n- [SC] Fix NPE after refactor"
+    "1.12.2-1.7.0": "- [Lycanites] Update to 1.20 (elementals)\n- [SC] Fix NPE after refactor",
+    "1.12.2-1.8.0": "- [BM] Port to 1.12.2\n-[Forestry] Fix NPE for disabled fluid(s)\n- [TiCon] Remove drying rack progress"
   },
   "promos": {
-    "1.12.2-latest": "1.12.2-1.7.0",
-    "1.12.2-recommended": "1.12.2-1.7.0",
+    "1.12.2-latest": "1.12.2-1.8.0",
+    "1.12.2-recommended": "1.12.2-1.8.0",
     "1.11.2-latest": "1.11.2-0.15.0",
     "1.11.2-recommended": "1.11.2-0.15.0",
     "1.10.2-latest": "1.10.2-0.15.0",
