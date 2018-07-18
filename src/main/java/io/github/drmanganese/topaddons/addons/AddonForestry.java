@@ -1,5 +1,14 @@
 package io.github.drmanganese.topaddons.addons;
 
+import io.github.drmanganese.topaddons.TOPAddons;
+import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInventory;
+import io.github.drmanganese.topaddons.elements.forestry.ElementForestryFarm;
+import io.github.drmanganese.topaddons.reference.Colors;
+import io.github.drmanganese.topaddons.reference.EnumChip;
+import io.github.drmanganese.topaddons.reference.Names;
+import io.github.drmanganese.topaddons.styles.ProgressStyleForestryMultiColored;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,20 +21,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-
-import io.github.drmanganese.topaddons.TOPAddons;
-import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.elements.forestry.ElementBeeHousingInventory;
-import io.github.drmanganese.topaddons.elements.forestry.ElementForestryFarm;
-import io.github.drmanganese.topaddons.reference.Colors;
-import io.github.drmanganese.topaddons.reference.EnumChip;
-import io.github.drmanganese.topaddons.reference.Names;
-import io.github.drmanganese.topaddons.styles.ProgressStyleForestryMultiColored;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import net.minecraftforge.fluids.Fluid;
 
 import com.google.common.collect.ImmutableSet;
 import forestry.api.apiculture.BeeManager;
@@ -70,6 +66,11 @@ import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 import mcjty.theoneprobe.api.TextStyleClass;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @TOPAddon(dependency = "forestry")
 public class AddonForestry extends AddonBlank {
@@ -363,8 +364,11 @@ public class AddonForestry extends AddonBlank {
 
     @Override
     public void addFluidColors() {
-        for (Fluids fluid : Fluids.values()) {
-            Colors.FLUID_NAME_COLOR_MAP.put(fluid.getFluid().getName(), fluid.getParticleColor().hashCode());
+        for (Fluids fluidDef : Fluids.values()) {
+            Fluid fluid = fluidDef.getFluid();
+            if (fluid != null) {
+                Colors.FLUID_NAME_COLOR_MAP.put(fluid.getName(), fluidDef.getParticleColor().hashCode());
+            }
         }
     }
 
