@@ -42,7 +42,8 @@
     "1.12.2-1.5.0": "- [Binnie] Hops growth percentage",
     "1.12.2-1.6.0": "- Mod updates\n- Added Rustic support (crops)",
     "1.12.2-1.7.0": "- [Lycanites] Update to 1.20 (elementals)\n- [SC] Fix NPE after refactor",
-    "1.12.2-1.8.0": "- [BM] Port to 1.12.2\n-[Forestry] Fix NPE for disabled fluid(s)\n- [TiCon] Remove drying rack progress"
+    "1.12.2-1.8.0": "- [BM] Port to 1.12.2\n-[Forestry] Fix NPE for disabled fluid(s)\n- [TiCon] Remove drying rack progress",
+    "1.12.2-1.9.0": "- Added Unlimited Chiselworks support\n- [IC2] Don't load addon when ic2-classic is loaded"
   },
   "promos": {
     "1.12.2-latest": "1.12.2-1.8.0",
