@@ -1,14 +1,14 @@
 package io.github.drmanganese.topaddons;
 
+import io.github.drmanganese.topaddons.api.ITOPAddon;
+import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.reference.EnumChip;
+
 import net.minecraft.item.ItemArmor;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
-import io.github.drmanganese.topaddons.api.ITOPAddon;
-import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.reference.EnumChip;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -33,6 +33,10 @@ public class AddonManager {
             String dependency = (String) annotationInfo.get("dependency");
             int numHelmets = 0;
             boolean success = true;
+
+            if (dependency.equals("ic2") && Loader.isModLoaded("ic2-classic-spmod")) {
+                continue;
+            }
 
             /** Throw exception if {@link TOPAddon#dependency()} was somehow not given */
             if (dependency == null || dependency.isEmpty()) {
