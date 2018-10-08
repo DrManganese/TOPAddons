@@ -13,7 +13,7 @@ buildscript {
 }
 
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.0.9"
+    id "com.matthewprenger.cursegradle" version "1.1.0"
     id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.47"
 }
 
@@ -34,10 +34,6 @@ repositories {
     maven {
         name = "Forestry, IC², Binnie's"
         url = "http://maven.ic2.player.to"
-    }
-    maven {
-        name = "Tesla"
-        url "http://maven.epoxide.xyz"
     }
     maven {
         name = "Tinkers', JEI"
@@ -63,20 +59,23 @@ dependencies {
     deobfCompile("mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.22-13") {
         transitive = false
     }
-    deobfCompile("binnie:binnie-mods-1.12.2:2.5.0.164") {
+    compileOnly("binnie:binnie-mods-1.12.2:2.5.0.164") {
         transitive = false
     }
-    deobfCompile("slimeknights:TConstruct:1.12-+") {
+    deobfCompile("slimeknights:TConstruct:1.12.2-2.10.1.95") {
         transitive = false
     }
     deobfCompile "net.sengir.forestry:forestry_1.12.2:5.8.0.277+"
     deobfCompile "net.industrial-craft:industrialcraft-2:2.8.75-ex112"
-    deobfCompile "slimeknights.mantle:Mantle:1.12-+"
+    deobfCompile "slimeknights.mantle:Mantle:1.12-1.3.2.26"
     deobfCompile "steves-carts-reborn:StevesCarts:1.12.2:2.4.18.92"
     deobfCompile "li.cil.oc:OpenComputers:MC1.12.1-1.7.+"
+    deobfCompile "moo-fluids:MooFluids:1.12.2:1.7.11.02a"
+    deobfCompile "com.wayoftime.bloodmagic:BloodMagic:1.12.2-2.2.+"
+    runtime "info.amerifrance.guideapi:Guide-API:1.12-2.1.+"
     compile "cofh:RedstoneFlux:1.12-2.0.1.2:universal"
     //Storage drawers, Botania, Chisel, CoFH+, Advanced Generators, Lycanite's Mobs
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 
@@ -146,9 +145,7 @@ curseforge {
 sourceSets {
     main {
         java {
-            exclude '**/addons/AddonBloodMagic.java'
             exclude '**/addons/AddonNeoTech.java'
-            exclude '**/elements/bloodmagic'
         }
     }
 }
