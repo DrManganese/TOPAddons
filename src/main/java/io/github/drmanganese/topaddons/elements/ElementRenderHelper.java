@@ -2,6 +2,8 @@ package io.github.drmanganese.topaddons.elements;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.Entity;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 
 import mcjty.theoneprobe.rendering.RenderHelper;
 
@@ -17,5 +19,10 @@ public final class ElementRenderHelper {
 
     public static void drawGreyBox(int x, int y, int x2, int y2) {
         RenderHelper.drawBeveledBox(x, y, x2, y2, 0xff969696, 0xff969696, 0x44969696);
+    }
+
+
+    public static Entity getClientEntityInstance(EntityEntry entry) {
+        return entry.newInstance(Minecraft.getMinecraft().world);
     }
 }

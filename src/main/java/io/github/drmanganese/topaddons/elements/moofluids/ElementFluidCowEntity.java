@@ -1,6 +1,7 @@
 package io.github.drmanganese.topaddons.elements.moofluids;
 
-import net.minecraft.client.Minecraft;
+import io.github.drmanganese.topaddons.elements.ElementRenderHelper;
+
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -33,10 +34,9 @@ public class ElementFluidCowEntity implements IElement {
         EntityEntry entry = ForgeRegistries.ENTITIES.getValue(new ResourceLocation("moofluids", "entityfluidcow"));
         if (entry != null) {
             final EntityFluidCow entity;
-            entity = (EntityFluidCow) entry.newInstance(Minecraft.getMinecraft().world);
+            entity = (EntityFluidCow) ElementRenderHelper.getClientEntityInstance(entry);
             entity.setEntityFluid(fluid);
             entity.setEntityTypeData(EntityHelper.getEntityData(fluid.getName()));
-
             RenderHelper.renderEntity(entity, x, y, 14.0f / (0.7F * entity.height + 0.3F));
         }
     }
