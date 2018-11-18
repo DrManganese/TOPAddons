@@ -1,15 +1,12 @@
 package io.github.drmanganese.topaddons.addons;
 
+import io.github.drmanganese.topaddons.api.TOPAddon;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
-
-import io.github.drmanganese.topaddons.api.TOPAddon;
-
-import java.util.Collections;
-import java.util.List;
 
 import mcjty.theoneprobe.Tools;
 import mcjty.theoneprobe.api.ElementAlignment;
@@ -22,6 +19,10 @@ import rustic.common.blocks.crops.BlockAppleSeeds;
 import rustic.common.blocks.crops.BlockGrapeLeaves;
 import rustic.common.blocks.crops.BlockGrapeStem;
 import rustic.common.blocks.crops.BlockStakeCrop;
+
+import java.util.Collections;
+import java.util.List;
+
 import static mcjty.theoneprobe.api.TextStyleClass.*;
 
 @TOPAddon(dependency = "rustic")
@@ -51,12 +52,12 @@ public class Rustic extends AddonBlank {
                     probeInfo.horizontal()
                             .item(data.getPickBlock())
                             .vertical()
-                            .text(data.getPickBlock().getDisplayName())
+                            .itemLabel(data.getPickBlock())
                             .text(MODNAME + Tools.getModName(blockState.getBlock()));
                 } else {
                     probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                             .item(data.getPickBlock())
-                            .text(data.getPickBlock().getDisplayName());
+                            .itemLabel(data.getPickBlock());
                 }
 
                 int age = 0;

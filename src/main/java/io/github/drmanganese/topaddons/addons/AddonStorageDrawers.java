@@ -1,5 +1,7 @@
 package io.github.drmanganese.topaddons.addons;
 
+import io.github.drmanganese.topaddons.api.TOPAddon;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -8,8 +10,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import io.github.drmanganese.topaddons.api.TOPAddon;
 
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import mcjty.theoneprobe.api.ElementAlignment;
@@ -63,7 +63,7 @@ public class AddonStorageDrawers extends AddonBlank {
                             vertical.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                                     .item(infiStack)
                                     .vertical(probeInfo.defaultLayoutStyle().spacing(0))
-                                    .text(stack.getDisplayName())
+                                    .itemLabel(stack)
                                     .text(TextStyleClass.INFOIMP + "[\u221e]");
 
                         } else if (!stack.isEmpty()) {
@@ -72,7 +72,7 @@ public class AddonStorageDrawers extends AddonBlank {
                             int q = (stack.getCount() - r) / mss;
                             vertical.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER)).item(stack)
                                     .vertical(probeInfo.defaultLayoutStyle().spacing(0))
-                                    .text(stack.getDisplayName())
+                                    .itemLabel(stack)
                                     .text(TextStyleClass.LABEL + "[" + (stack.getCount() >= mss ? q + "x" + mss + " + " : "") + r + "]");
                         }
                     }
