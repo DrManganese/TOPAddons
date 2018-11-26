@@ -1,5 +1,10 @@
 package io.github.drmanganese.topaddons.config;
 
+import io.github.drmanganese.topaddons.network.MessageClientOptions;
+import io.github.drmanganese.topaddons.network.PacketHandler;
+import io.github.drmanganese.topaddons.reference.ElementSync;
+import io.github.drmanganese.topaddons.reference.Reference;
+
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
@@ -8,11 +13,6 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import io.github.drmanganese.topaddons.network.MessageClientOptions;
-import io.github.drmanganese.topaddons.network.PacketHandler;
-import io.github.drmanganese.topaddons.reference.ElementSync;
-import io.github.drmanganese.topaddons.reference.Reference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +30,7 @@ public class ConfigClient {
     private static boolean smelteryInIngots = true;
     private static boolean colorDragonName = true;
     private static boolean stevesOtherModules = false;
+    private static boolean swapArchitectureShapeAndMaterial = false;
 
 
     public static void init(Configuration configIn) {
@@ -48,6 +49,7 @@ public class ConfigClient {
         smelteryInIngots = config.getBoolean("smelteryInIngots", "Client Options", true, "Show smeltery fluid volume in ingots.");
         colorDragonName = config.getBoolean("colorDragonName", "Client Options", true, "Color the name of an Ice and Fire dragon depending on its type.");
         stevesOtherModules = config.getBoolean("stevesOtherModules", "Client Options", false, "Display installed modules when sneaking.");
+        swapArchitectureShapeAndMaterial = config.getBoolean("swapArchitectureShapeAndMaterial", "Client Options", false, "Swap ArchitectureCraft tile name and material.");
 
 
         if (config.hasChanged()) {
