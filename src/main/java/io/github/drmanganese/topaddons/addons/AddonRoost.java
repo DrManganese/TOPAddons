@@ -4,6 +4,8 @@ import io.github.drmanganese.topaddons.api.TOPAddon;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -25,18 +27,26 @@ public class AddonRoost extends AddonBlank {
 
     /**
      * Show the roost chicken icon with its name and, if applicable, its stats
+     *
      * @param probeInfo
      * @param chicken
      */
     private static void chickenProbe(IProbeInfo probeInfo, @Nonnull DataChicken chicken) {
+        final ItemStack stack = chicken.buildChickenStack();
         final IProbeInfo vert = probeInfo
                 .horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
-                .item(chicken.buildChickenStack())
+                .item(stack)
                 .vertical()
-                .text(chicken.getDisplayName());
+                .itemLabel(stack);
 
         if (chicken instanceof DataChickenModded) {
-            vert.text(chicken.getDisplaySummary().replaceAll(".*\\s", ""));
+            NBTTagCompound tag = stack.getTagCompound();
+            if (tag != null) {
+                final int gain = Math.max(1, Math.min(10, tag.getInteger("Gain")));
+                final int growth = Math.max(1, Math.min(10, tag.getInteger("Growth")));
+                final int strength = Math.max(1, Math.min(10, tag.getInteger("Strength")));
+                vert.text(gain + "/" + growth + "/" + strength);
+            }
 
         }
     }
