@@ -1,5 +1,11 @@
 package io.github.drmanganese.topaddons.addons;
 
+import io.github.drmanganese.topaddons.TOPAddons;
+import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.elements.ElementTankGauge;
+import io.github.drmanganese.topaddons.reference.Colors;
+import io.github.drmanganese.topaddons.reference.Names;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -12,18 +18,13 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import io.github.drmanganese.topaddons.TOPAddons;
-import io.github.drmanganese.topaddons.api.TOPAddon;
-import io.github.drmanganese.topaddons.elements.ElementTankGauge;
-import io.github.drmanganese.topaddons.reference.Colors;
-import io.github.drmanganese.topaddons.reference.Names;
-
-import java.awt.Color;
-
 import mcjty.theoneprobe.api.IProbeConfig;
+import mcjty.theoneprobe.api.IProbeConfig.ConfigMode;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+
+import java.awt.Color;
 
 @TOPAddon(dependency = "forge", fancyName = "Base", order = 1)
 public class AddonForge extends AddonBlank {
@@ -60,7 +61,7 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (player.getCapability(TOPAddons.OPTS_CAP, null).getInt("fluidGaugeDisplay") < 1)
+        if (!showTOPAddonsTank(player))
             return;
 
         /* Disable for enderio, endertanks */
@@ -98,10 +99,8 @@ public class AddonForge extends AddonBlank {
 
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (player.getCapability(TOPAddons.OPTS_CAP, null).getInt("fluidGaugeDisplay") == 1) {
-            config.showTankSetting(IProbeConfig.ConfigMode.NOT);
-        } else {
-            config.showTankSetting(IProbeConfig.ConfigMode.EXTENDED);
+        if (!showTOPTank(config, player)) {
+            config.showTankSetting(ConfigMode.NOT);
         }
     }
 
@@ -114,5 +113,14 @@ public class AddonForge extends AddonBlank {
     public void addFluidColors() {
         Colors.FLUID_NAME_COLOR_MAP.put(FluidRegistry.WATER.getName(), new Color(52, 95, 218).hashCode());
         Colors.FLUID_NAME_COLOR_MAP.put(FluidRegistry.LAVA.getName(), new Color(230, 145, 60).hashCode());
+    }
+
+    private boolean showTOPTank(IProbeConfig config, EntityPlayer player) {
+        return player.getCapability(TOPAddons.OPTS_CAP, null).getInt("fluidGaugeDisplay") != 1
+                && config.getShowTankSetting() != ConfigMode.NOT;
+    }
+
+    private boolean showTOPAddonsTank(EntityPlayer player) {
+        return player.getCapability(TOPAddons.OPTS_CAP, null).getInt("fluidGaugeDisplay") != 0;
     }
 }
