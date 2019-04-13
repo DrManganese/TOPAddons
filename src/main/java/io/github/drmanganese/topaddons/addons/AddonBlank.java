@@ -107,7 +107,21 @@ public abstract class AddonBlank implements ITOPAddon {
     }
 
     IProbeInfo progressBar(IProbeInfo probeInfo, int current, int color1, int color2) {
-        return probeInfo.progress(current, 100, new ProgressStyleTOPAddonGrey().filledColor(color1).alternateFilledColor(color2).suffix("%").prefix("Progress: "));
+        return progressBar(probeInfo, current, color1, color2, "Progress: ");
+    }
+
+    IProbeInfo progressBar(IProbeInfo probeInfo, int current, int color1, int color2, String prefix) {
+        return progressBar(probeInfo, current, 100, color1, color2, prefix, "%");
+    }
+
+    IProbeInfo progressBar(IProbeInfo probeInfo, int current, int max, int color1, int color2, String prefix, String suffix) {
+        return probeInfo.progress(current, max,
+                new ProgressStyleTOPAddonGrey()
+                        .filledColor(color1)
+                        .alternateFilledColor(color2)
+                        .prefix(prefix)
+                        .suffix(suffix)
+        );
     }
 
     IProbeInfo showItemStackRows(IProbeInfo probeInfo, List<ItemStack> stacks, int rowWidth, ILayoutStyle layoutStyle) {

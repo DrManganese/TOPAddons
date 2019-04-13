@@ -45,7 +45,8 @@ import java.io.File;
                 "after:neotech;" +
                 "after:lycanytesmobs;" +
                 "after:opencomputers;" +
-                "after:stevescarts;",
+                "after:stevescarts;" +
+                "after:mysticalagriculture",
         updateJSON = "https://raw.githubusercontent.com/DrManganese/TOPAddons/1.12/FUC.json"
 )
 public class TOPAddons {
