@@ -47,11 +47,12 @@
     "1.12.2-1.9.1": "- [MooFluids] Fix server startup crash",
     "1.12.2-1.9.2": "- [StorageDrawers] Display itemstack names using client locale",
     "1.12.2-1.10.0": "- [Roost] Added support\n- [ArchitectureCraft] Ported to 1.12, config option to swap between shape and block name",
-    "1.12.2-1.10.1": "- [Roost] Fix error on dedicated servers"
+    "1.12.2-1.10.1": "- [Roost] Fix error on dedicated servers",
+    "1.12.2-1.11.0": "- [Forge] Made addon respect showTankSetting\n- [Mystical Agriculture] Added support"
   },
   "promos": {
-    "1.12.2-latest": "1.12.2-1.10.1",
-    "1.12.2-recommended": "1.12.2-1.10.1",
+    "1.12.2-latest": "1.12.2-1.11.0",
+    "1.12.2-recommended": "1.12.2-1.11.0",
     "1.11.2-latest": "1.11.2-0.15.0",
     "1.11.2-recommended": "1.11.2-0.15.0",
     "1.10.2-latest": "1.10.2-0.15.0",
