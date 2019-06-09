@@ -1,7 +1,6 @@
 ### Java
 *.class
 *.log
-*.jar
 
 ### IDEA
 /.idea
