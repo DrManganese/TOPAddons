@@ -8,7 +8,7 @@
 # deobf -> deobfCompile, run -> compile, !compile -> runtime, !run -> compileOnly
 
 [[dependency]]
-notation = "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.22-13"
+notation = "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
 transitive = false
 deobf = true
 
