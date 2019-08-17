@@ -56,7 +56,7 @@ public class InfoDrawer implements ITileInfo<TileEntityDrawers>, ITileConfigProv
 
             hori.item(stack);
             final IProbeInfo vertText = hori.vertical(probeInfo.defaultLayoutStyle().spacing(0));
-            vertText.text(drawer.getStoredItemPrototype().getDisplayName());
+            vertText.itemLabel(drawer.getStoredItemPrototype());
 
             if (!vendor) {
                 final int count = drawer.getStoredItemCount();
