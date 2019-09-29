@@ -34,10 +34,10 @@ public interface IAddonBlocks extends IProbeInfoProvider {
         //Get the tileentity's class and superclasses. All of these are TileEntity or children of TileEntity.
         final TileEntity tile = world.getTileEntity(data.getPos());
         if (tile != null) {
-            List<Class<?>> classes = ClassUtils.getAllSuperclasses(tile.getClass());
-            classes.add(tile.getClass());
+            final List<Class<?>> tileClasses = ClassUtils.getAllSuperclasses(tile.getClass());
+            tileClasses.add(tile.getClass());
 
-            for (Class class_ : classes) {
+            for (Class class_ : tileClasses) {
                 if (getTiles().containsKey(class_)) {
                     //noinspection unchecked
                     getTiles().get(class_).getInfo(mode, probeInfo, player, world, blockState, data, (TileEntity) class_.cast(tile));
@@ -48,6 +48,15 @@ public interface IAddonBlocks extends IProbeInfoProvider {
         final Block block = blockState.getBlock();
         if (getBlocks().containsKey(block)) {
             getBlocks().get(block).getInfo(mode, probeInfo, player, world, blockState, data);
+        }
+
+        final List<Class<?>> blockClasses = ClassUtils.getAllSuperclasses(block.getClass());
+        blockClasses.add(block.getClass());
+
+        for (Class blockClass : blockClasses) {
+            if (getBlockClasses().containsKey(blockClass)) {
+                getBlockClasses().get(blockClass).getInfo(mode, probeInfo, player, world, blockState, data);
+            }
         }
     }
 
@@ -64,6 +73,14 @@ public interface IAddonBlocks extends IProbeInfoProvider {
      */
     @Nonnull
     default ImmutableMap<Block, IBlockInfo> getBlocks() {
+        return ImmutableMap.of();
+    }
+
+    /**
+     * @return Map of {@link Block} classes this addon provides info for.
+     */
+    @Nonnull
+    default ImmutableMap<Class<? extends Block>, IBlockInfo> getBlockClasses() {
         return ImmutableMap.of();
     }
 }
