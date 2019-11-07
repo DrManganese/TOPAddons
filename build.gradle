@@ -14,7 +14,7 @@ buildscript {
 
 plugins {
     id "com.matthewprenger.cursegradle" version "1.1.0"
-    id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.47"
+    id "se.bjurr.gitchangelog.git-changelog-gradle-plugin" version "1.64"
 }
 
 
@@ -149,7 +149,7 @@ jar {
 }
 
 task generateGitChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
-    filePath = "CHANGELOG.md"
+    file = new File("CHANGELOG.md")
     fromRef = "v1.11.2-0.15.0"
     toRef = "HEAD"
     templateContent = file('changelog.mustache').getText('UTF-8')
