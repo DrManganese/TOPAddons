@@ -14,9 +14,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-import com.lycanitesmobs.ExtendedPlayer;
+import com.lycanitesmobs.core.entity.ExtendedPlayer;
 import com.lycanitesmobs.ObjectManager;
-import com.lycanitesmobs.core.entity.EntityCreatureBase;
+import com.lycanitesmobs.core.entity.BaseCreatureEntity;
 import com.lycanitesmobs.core.info.CreatureInfo;
 import com.lycanitesmobs.core.info.ElementInfo;
 import mcjty.theoneprobe.Tools;
@@ -53,8 +53,8 @@ public class AddonLycanitesMobs extends AddonBlank {
 
     @Override
     public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, Entity entity, IProbeHitEntityData data) {
-        if (entity instanceof EntityCreatureBase) {
-            final EntityCreatureBase creature = (EntityCreatureBase) entity;
+        if (entity instanceof BaseCreatureEntity) {
+            final BaseCreatureEntity creature = (BaseCreatureEntity) entity;
             final ExtendedPlayer extendedPlayer = ExtendedPlayer.getForPlayer(player);
             final CreatureInfo info = creature.creatureInfo;
 
@@ -97,8 +97,8 @@ public class AddonLycanitesMobs extends AddonBlank {
     public List<IEntityDisplayOverride> getEntityDisplayOverrides() {
         //Add Elemental type to display for Elemental creatures
         return Collections.singletonList(((mode, probeInfo, player, world, entity, data) -> {
-            if (entity instanceof EntityCreatureBase && entity.getClass().getPackage().getName().equals("com.lycanitesmobs.elementalmobs.entity")) {
-                CreatureInfo info = ((EntityCreatureBase) entity).creatureInfo;
+            if (entity instanceof BaseCreatureEntity && entity.getClass().getPackage().getName().equals("com.lycanitesmobs.elementalmobs.entity")) {
+                CreatureInfo info = ((BaseCreatureEntity) entity).creatureInfo;
 
                 if (Tools.show(mode, mcjty.theoneprobe.config.Config.getRealConfig().getShowModName())) {
                     probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
