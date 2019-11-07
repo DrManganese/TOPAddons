@@ -1,24 +1,19 @@
 package io.github.drmanganese.topaddons.addons.industrialforegoing.tiles;
 
+import com.buuz135.industrial.tile.misc.BlackHoleUnitTile;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.top.ElementSimpleProgressCentered;
-import io.github.drmanganese.topaddons.styles.SimpleProgressStyle;
 import io.github.drmanganese.topaddons.util.Formatting;
-
-import mcjty.theoneprobe.api.ElementAlignment;
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.ProbeMode;
-import mcjty.theoneprobe.api.TextStyleClass;
+import mcjty.theoneprobe.api.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-import com.buuz135.industrial.tile.misc.BlackHoleUnitTile;
-
 import java.text.DecimalFormat;
+
+import static io.github.drmanganese.topaddons.styles.ProgressStyles.SIMPLE_PROGRESS;
 
 /**
  * Total count, stack count and fill percentage.
@@ -47,7 +42,7 @@ public class BlackHoleUnitInfo implements ITileInfo<BlackHoleUnitTile> {
 
             vert.element(new ElementSimpleProgressCentered(ElementSync.getId("centered_progress", player),
                     amount, Integer.MAX_VALUE,
-                    new SimpleProgressStyle().borderColor(0xff555555).fillColor(0xff454545).alternateFillColor(0xff353535),
+                    SIMPLE_PROGRESS.borderColor(0xff555555).filledColor(0xff454545).alternateFilledColor(0xff353535),
                     text));
         }
     }

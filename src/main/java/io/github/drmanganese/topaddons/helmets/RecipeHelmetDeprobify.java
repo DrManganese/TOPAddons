@@ -56,7 +56,7 @@ public class RecipeHelmetDeprobify extends IForgeRegistryEntry.Impl<IRecipe> imp
         }
 
         helmet.getTagCompound().removeTag(PROBETAG);
-        if (helmet.getTagCompound().hasNoTags()) helmet.setTagCompound(null);
+        if (helmet.getTagCompound().isEmpty()) helmet.setTagCompound(null);
         return helmet;
     }
 

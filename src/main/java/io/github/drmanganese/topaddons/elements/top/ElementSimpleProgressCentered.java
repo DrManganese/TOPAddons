@@ -1,9 +1,10 @@
 package io.github.drmanganese.topaddons.elements.top;
 
-import io.github.drmanganese.topaddons.styles.SimpleProgressStyle;
 import io.github.drmanganese.topaddons.util.ElementHelper;
 
 import mcjty.theoneprobe.api.IElement;
+import mcjty.theoneprobe.api.IProgressStyle;
+import mcjty.theoneprobe.apiimpl.styles.ProgressStyle;
 import mcjty.theoneprobe.rendering.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -18,11 +19,11 @@ import javax.annotation.Nullable;
 public class ElementSimpleProgressCentered implements IElement {
 
     private final long current, max;
-    private final SimpleProgressStyle style;
+    private final IProgressStyle style;
     private final String text;
     private int id;
 
-    public ElementSimpleProgressCentered(int id, long current, long max, SimpleProgressStyle style, @Nullable String text) {
+    public ElementSimpleProgressCentered(int id, long current, long max, IProgressStyle style, @Nullable String text) {
         this.id = id;
         this.current = current;
         this.max = max;
@@ -33,13 +34,13 @@ public class ElementSimpleProgressCentered implements IElement {
     public ElementSimpleProgressCentered(ByteBuf buf) {
         this.current = buf.readLong();
         this.max = buf.readLong();
-        this.style = new SimpleProgressStyle()
+        this.style = new ProgressStyle()
                 .width(buf.readInt())
                 .height(buf.readInt())
                 .backgroundColor(buf.readInt())
                 .borderColor(buf.readInt())
-                .fillColor(buf.readInt())
-                .alternateFillColor(buf.readInt());
+                .filledColor(buf.readInt())
+                .alternateFilledColor(buf.readInt());
         this.text = ByteBufUtils.readUTF8String(buf);
     }
 
@@ -50,7 +51,7 @@ public class ElementSimpleProgressCentered implements IElement {
             int dx = (int) Math.min((current * (style.getWidth() - 2) / max), style.getWidth() - 2);
 
             for (int i = 0; i < dx; i++) {
-                RenderHelper.drawVerticalLine(x + i + 1, y + 1, y + style.getHeight() - 1, i % 2 == 0 ? style.getFillColor() : style.getAlternateFillColor());
+                RenderHelper.drawVerticalLine(x + i + 1, y + 1, y + style.getHeight() - 1, i % 2 == 0 ? style.getFilledColor() : style.getAlternatefilledColor());
             }
 
         }
@@ -77,8 +78,8 @@ public class ElementSimpleProgressCentered implements IElement {
         buf.writeInt(this.style.getHeight());
         buf.writeInt(this.style.getBackgroundColor());
         buf.writeInt(this.style.getBorderColor());
-        buf.writeInt(this.style.getFillColor());
-        buf.writeInt(this.style.getAlternateFillColor());
+        buf.writeInt(this.style.getFilledColor());
+        buf.writeInt(this.style.getAlternatefilledColor());
         ByteBufUtils.writeUTF8String(buf, this.text);
     }
 

@@ -3,7 +3,7 @@ package io.github.drmanganese.topaddons.addons.industrialforegoing.tiles;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.top.ElementSimpleProgressCentered;
-import io.github.drmanganese.topaddons.styles.SimpleProgressStyle;
+import io.github.drmanganese.topaddons.styles.ProgressStyles;
 import io.github.drmanganese.topaddons.util.Formatting;
 
 import mcjty.theoneprobe.api.ElementAlignment;
@@ -50,7 +50,7 @@ public class BlackHoleUnitControllerInfo implements ITileInfo<BlackHoleControlle
                             .item(innerStack, probeInfo.defaultItemStyle().height(18))
                             .element(new ElementSimpleProgressCentered(ElementSync.getId("centered_progress", player),
                                     amount, Integer.MAX_VALUE,
-                                    new SimpleProgressStyle().borderColor(0xff555555).fillColor(0xff454545).alternateFillColor(0xff353535),
+                                    ProgressStyles.SIMPLE_PROGRESS,
                                     text));
                 }
             }

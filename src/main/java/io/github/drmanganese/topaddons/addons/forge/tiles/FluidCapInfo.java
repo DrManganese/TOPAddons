@@ -40,7 +40,7 @@ public class FluidCapInfo implements ITileInfo<TileEntity>, ITileConfigProvider 
     @Override
     public void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData, TileEntity tile) {
         if (!PlayerHelper.getSync(player).getString("showGauge").equals("The One Probe")
-                && !AddonForge.tankModBlacklist.contains(ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain())
+                && !AddonForge.tankModBlacklist.contains(ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getNamespace())
                 && tile.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
             IFluidTankProperties[] tanks = tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null).getTankProperties();
             for (int i = 0; i < tanks.length; i++) {
@@ -60,7 +60,7 @@ public class FluidCapInfo implements ITileInfo<TileEntity>, ITileConfigProvider 
 
     @Override
     public void getProbeConfig(IProbeConfig config, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        if (!AddonForge.tankModBlacklist.contains(ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getResourceDomain())
+        if (!AddonForge.tankModBlacklist.contains(ForgeRegistries.BLOCKS.getKey(blockState.getBlock()).getNamespace())
                 && world.getTileEntity(data.getPos()).hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
             if (PlayerHelper.getSync(player).getString("showGauge").equals("TOP Addons")) {
                 config.showTankSetting(IProbeConfig.ConfigMode.NOT);
