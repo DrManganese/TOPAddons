@@ -28,6 +28,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.apache.logging.log4j.Logger;
 
@@ -69,6 +71,7 @@ public class TOPAddons {
     }
 
 
+    @SideOnly(Side.CLIENT)
     @SubscribeEvent
     public void onItemTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
@@ -79,7 +82,6 @@ public class TOPAddons {
 
             event.getToolTip().add(TextFormatting.AQUA + "Probing");
         }
-
     }
 
     @SubscribeEvent
