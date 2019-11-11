@@ -1,5 +1,6 @@
 package io.github.drmanganese.topaddons.addons.forge;
 
+import com.google.common.collect.Maps;
 import io.github.drmanganese.topaddons.addons.forge.tiles.FluidCapInfo;
 import io.github.drmanganese.topaddons.api.IAddonBlocks;
 import io.github.drmanganese.topaddons.api.IAddonConfig;
@@ -33,6 +34,8 @@ public class AddonForge implements IAddonBlocks, IAddonElements, IAddonConfig, I
     public static int tankBackgroundColor;
     public static int tankBorderColor;
     public static List<String> tankModBlacklist;
+    public static int machineProgressBackgroundColor;
+    public static int machineProgressBorderColor;
 
     @Override
     public void registerElements(ITheOneProbe probe) {
@@ -57,13 +60,19 @@ public class AddonForge implements IAddonBlocks, IAddonElements, IAddonConfig, I
 
         if (side == Side.CLIENT) {
             tankRounded = config.get("forge.client", "tankRounded", false, "").getBoolean();
-            tankBackgroundColor = ModConfig.getColor(config, "forge.client", "tankBackgroundColor", "#55555555", "", ModConfig.ARGB_PATTERN);
-            tankBorderColor = ModConfig.getColor(config, "forge.client", "tankBorderColor", "#FF555555", "", ModConfig.ARGB_PATTERN);
+            tankBackgroundColor = ModConfig.getColor(config, "forge.client", "tankBackgroundColor", "#55555555", "Background color for the TOPAddons fluid gauge");
+            tankBorderColor = ModConfig.getColor(config, "forge.client", "tankBorderColor", "#FF555555", "Border color for the TOPAddons fluid gauge");
+            machineProgressBackgroundColor = ModConfig.getColor(config, "general", "machineProgressBackgroundColor", "#55555555", "Background color for TOPAddons progress bars");
+            machineProgressBorderColor = ModConfig.getColor(config, "general", "machineProgressBorderColor", "#FF555555", "Border color for TOPAddons progress bars");
         }
     }
 
     @Override
     public Map<String, Object> updateSyncedConfigs(Configuration config) {
-        return Collections.singletonMap("showGauge", config.get("forge.client", "showGauge", "Both", "", new String[]{"Both", "TOP Addons", "The One Probe"}).getString());
+        final Map<String, Object> syncedConfigs = Maps.newHashMap();
+        syncedConfigs.put("showGauge", config.get("forge.client", "showGauge", "Both", "", new String[]{"Both", "TOP Addons", "The One Probe"}).getString());
+        syncedConfigs.put("machineProgressBackgroundColor", ModConfig.getColor(config, "forge.client", "machineProgressBackgroundColor", "#99000011", "Background color for TOPAddons progress bars"));
+        syncedConfigs.put("machineProgressBorderColor", ModConfig.getColor(config, "forge.client", "machineProgressBorderColor", "#FF555555", "Border color for TOPAddons progress bars"));
+        return syncedConfigs;
     }
 }

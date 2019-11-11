@@ -64,7 +64,7 @@ public class AddonChisel implements IAddonBlocks {
                 probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
                         .item(tile.getTarget())
                         .progress(100 * tile.getProgress() / tile.getMaxProgress(), 100,
-                                Styles.machineProgress("Chiseling")
+                                Styles.machineProgress(player, "Chiseling")
                                         .filledColor(0xffb8b9ba)
                                         .alternateFilledColor(0xffa2a2aa)
                                         .width(81)

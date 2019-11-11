@@ -38,8 +38,8 @@ public class ModConfig {
         helmetBlacklist = Arrays.asList(config.get("helmets", "helmetBlacklist", new String[]{}, "", Property.Type.STRING).getStringList());
     }
 
-    public static int getColor(Configuration config, String category, String key, String defaultValue, String comment, Pattern regex) {
-        return Long.decode(config.get(category, key, defaultValue, comment, regex).getString()).intValue();
+    public static int getColor(Configuration config, String category, String key, String defaultValue, String comment) {
+        return Long.decode(config.get(category, key, defaultValue, comment, ARGB_PATTERN).getString()).intValue();
     }
 
     public static Map<String, Object> updateSync(Configuration config) {
