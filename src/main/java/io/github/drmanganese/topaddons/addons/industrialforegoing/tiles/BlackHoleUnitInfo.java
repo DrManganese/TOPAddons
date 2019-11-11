@@ -4,6 +4,7 @@ import com.buuz135.industrial.tile.misc.BlackHoleUnitTile;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.top.ElementSimpleProgressCentered;
+import io.github.drmanganese.topaddons.styles.Styles;
 import io.github.drmanganese.topaddons.util.Formatting;
 import mcjty.theoneprobe.api.*;
 import net.minecraft.block.state.IBlockState;
@@ -32,7 +33,7 @@ public class BlackHoleUnitInfo implements ITileInfo<BlackHoleUnitTile> {
             stack.setCount(1);
             IProbeInfo vert = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(0xff555555).spacing(0));
 
-            vert.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
+            vert.horizontal(Styles.horiCentered())
                     .item(stack)
                     .vertical(probeInfo.defaultLayoutStyle().spacing(0))
                     .text(stack.getDisplayName())

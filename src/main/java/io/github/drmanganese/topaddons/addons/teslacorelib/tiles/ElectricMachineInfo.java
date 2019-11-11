@@ -2,6 +2,7 @@ package io.github.drmanganese.topaddons.addons.teslacorelib.tiles;
 
 import io.github.drmanganese.topaddons.api.ITileInfo;
 
+import io.github.drmanganese.topaddons.styles.Styles;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -36,7 +37,7 @@ public class ElectricMachineInfo implements ITileInfo<ElectricMachine> {
                                         .width(50)
                                         .height(8));
             } else {
-                probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
+                probeInfo.horizontal(Styles.horiCentered())
                         .text(TextStyleClass.LABEL + "Buffer: ")
                         .progress(tile.getWorkEnergyStored(), tile.getWorkEnergyCapacity(),
                                 probeInfo.defaultProgressStyle()

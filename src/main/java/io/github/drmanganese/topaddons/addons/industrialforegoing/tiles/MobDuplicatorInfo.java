@@ -2,6 +2,7 @@ package io.github.drmanganese.topaddons.addons.industrialforegoing.tiles;
 
 import io.github.drmanganese.topaddons.api.ITileInfo;
 
+import io.github.drmanganese.topaddons.styles.Styles;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -32,7 +33,7 @@ public class MobDuplicatorInfo implements ITileInfo<MobDuplicatorTile> {
         if (!tile.isPaused()) {
             ItemStack mobStack = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null).getStackInSlot(6);
             if (!mobStack.isEmpty() && mobStack.getItem() == MOB_TOOL) {
-                probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
+                probeInfo.horizontal(Styles.horiCentered())
                         .item(mobStack)
                         .text(EntityList.getTranslationName(new ResourceLocation(((MobImprisonmentToolItem) mobStack.getItem()).getID(mobStack))));
             }

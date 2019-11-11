@@ -4,6 +4,7 @@ import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.top.ElementSimpleProgressCentered;
 import io.github.drmanganese.topaddons.styles.ProgressStyles;
+import io.github.drmanganese.topaddons.styles.Styles;
 import io.github.drmanganese.topaddons.util.Formatting;
 
 import mcjty.theoneprobe.api.ElementAlignment;
@@ -46,7 +47,7 @@ public class BlackHoleUnitControllerInfo implements ITileInfo<BlackHoleControlle
                     innerStack.setCount(1);
                     final String text = Formatting.SISuffix(amount) + " - " + new DecimalFormat("#.##").format(100.0F * amount / Integer.MAX_VALUE) + "%";
                     IProbeInfo innerVert = vert.vertical(probeInfo.defaultLayoutStyle().spacing(0));
-                    innerVert.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
+                    innerVert.horizontal(Styles.horiCentered())
                             .item(innerStack, probeInfo.defaultItemStyle().height(18))
                             .element(new ElementSimpleProgressCentered(ElementSync.getId("centered_progress", player),
                                     amount, Integer.MAX_VALUE,

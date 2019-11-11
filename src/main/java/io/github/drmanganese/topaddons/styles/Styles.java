@@ -1,6 +1,11 @@
 package io.github.drmanganese.topaddons.styles;
 
+import io.github.drmanganese.topaddons.capabilities.IClientCfgCapability;
+import io.github.drmanganese.topaddons.util.PlayerHelper;
+import mcjty.theoneprobe.api.ElementAlignment;
+import mcjty.theoneprobe.api.ILayoutStyle;
 import mcjty.theoneprobe.api.IProgressStyle;
+import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 import mcjty.theoneprobe.apiimpl.styles.ProgressStyle;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -21,7 +26,7 @@ public final class Styles {
                 .suffix("%");
     }
 
-    public static IProgressStyle machineProgress() {
-        return machineProgress("Progress");
+    public static ILayoutStyle horiCentered() {
+        return new LayoutStyle().alignment(ElementAlignment.ALIGN_CENTER);
     }
 }

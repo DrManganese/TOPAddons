@@ -25,7 +25,7 @@ import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 public class InfoDrawer implements ITileInfo<TileEntityDrawers>, ITileConfigProvider {
 
     @GameRegistry.ObjectHolder("theoneprobe:probe")
-    private static Item PROBE;
+    public static Item PROBE;
 
     @Override
     public void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData, TileEntityDrawers tile) {

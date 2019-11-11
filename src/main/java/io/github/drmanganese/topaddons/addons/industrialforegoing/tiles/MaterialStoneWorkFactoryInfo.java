@@ -4,6 +4,7 @@ import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.top.ElementItemStackBackground;
 
+import io.github.drmanganese.topaddons.styles.Styles;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -30,7 +31,7 @@ public class MaterialStoneWorkFactoryInfo implements ITileInfo<MaterialStoneWork
     @Override
     public void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData, MaterialStoneWorkFactoryTile tile) {
         LinkedHashMap<ItemStackHandler, Mode> modeList = tile.getModeList();
-        IProbeInfo hori = probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER).borderColor(0xff777777).spacing(-2));
+        IProbeInfo hori = probeInfo.horizontal(Styles.horiCentered().borderColor(0xff777777).spacing(-2));
 
         int i = 0;
         for (Map.Entry<ItemStackHandler, Mode> entry : modeList.entrySet()) {

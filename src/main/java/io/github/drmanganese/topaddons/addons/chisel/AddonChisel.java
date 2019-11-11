@@ -49,7 +49,7 @@ public class AddonChisel implements IAddonBlocks {
             ICarvable block = (ICarvable) blockState.getBlock();
             ItemStack stack = hitData.getPickBlock();
             String unloc = stack.getTranslationKey() + "." + block.getVariationData(stack.getItemDamage()).name + ".desc.1";
-            probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER).spacing(1))
+            probeInfo.horizontal(Styles.horiCentered().spacing(1))
                     .icon(IRON_CHISEL_RL, 0, 0, 8, 8, IRON_CHISEL_ICON_STYLE)
                     .text(TextFormatting.GRAY + IProbeInfo.STARTLOC + unloc + IProbeInfo.ENDLOC);
         }
@@ -61,7 +61,7 @@ public class AddonChisel implements IAddonBlocks {
         public void getInfo(ProbeMode probeMode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData hitData, TileAutoChisel tile) {
             final ItemStack target = tile.getTarget();
             if (!target.isEmpty() && tile.getProgress() > 0)
-                probeInfo.horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
+                probeInfo.horizontal(Styles.horiCentered())
                         .item(tile.getTarget())
                         .progress(100 * tile.getProgress() / tile.getMaxProgress(), 100,
                                 Styles.machineProgress(player, "Chiseling")
