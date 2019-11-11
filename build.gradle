@@ -52,6 +52,10 @@ repositories {
         url = "https://dl.bintray.com/jaquadro/dev/"
     }
     maven {
+        name = "buildcraft (Forestry)"
+        url = "https://mod-buildcraft.com/maven"
+    }
+    maven {
         name = "curseforge"
         url = "https://minecraft.curseforge.com/api/maven/"
     }
@@ -65,9 +69,16 @@ dependencies {
         boolean deobf = toml.getBoolean("deobf", false)
         boolean comp = toml.getBoolean("compile", true)
         boolean run = toml.getBoolean("run", true)
+        boolean provided = toml.getBoolean("provided", false)
         if (deobf) {
-            deobfCompile(notation) {
-                transitive = trans
+            if (provided) {
+                deobfProvided(notation) {
+                    transitive = trans
+                }
+            } else {
+                deobfCompile(notation) {
+                    transitive = trans
+                }
             }
         } else if (comp) {
             if (run) {

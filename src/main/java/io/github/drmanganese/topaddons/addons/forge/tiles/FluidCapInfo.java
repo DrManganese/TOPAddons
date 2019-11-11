@@ -20,6 +20,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,6 +66,16 @@ public class FluidCapInfo implements ITileInfo<TileEntity>, ITileConfigProvider 
             if (PlayerHelper.getSync(player).getString("showGauge").equals("TOP Addons")) {
                 config.showTankSetting(IProbeConfig.ConfigMode.NOT);
             }
+        }
+    }
+
+    public void gauge(IProbeInfo probeInfo, ProbeMode probeMode, EntityPlayer player, @Nullable FluidStack fluid, int capacity, String tankName) {
+        if (fluid == null) {
+            probeInfo.element(new ElementTankGauge(ElementSync.getId("tank_gauge", player), probeMode == ProbeMode.EXTENDED, 0, capacity, tankName, "", -1));
+        } else {
+            final int color = getFluidColor(fluid);
+            final String fluidName = fluid.getFluid().getLocalizedName(fluid);
+            probeInfo.element(new ElementTankGauge(ElementSync.getId("tank_gauge", player), probeMode == ProbeMode.EXTENDED, fluid.amount, capacity, tankName, fluidName, color));
         }
     }
 
