@@ -10,7 +10,7 @@ import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
 import mcjty.theoneprobe.api.ProbeMode;
 
-public interface ITileInfo<T extends TileEntity> {
+public interface ITileInfo<T> {
 
     /**
      * See {@link IProbeInfoProvider#addProbeInfo}.
