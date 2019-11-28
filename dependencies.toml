@@ -13,11 +13,14 @@ transitive = false
 deobf = true
 
 [[dependency]]
-notation = "net.sengir.forestry:forestry_1.12.2:5.8.0.+"
-deobf = true
+notation = "mezz.jei:jei_1.12.2:4.11+"
 
 [[dependency]]
-# notation = "com.buuz135.industrial.IndustrialForegoing:industrialforegoing:1.12.2-1.9.1-256"
+notation = "net.sengir.forestry:forestry_1.12.2:5.8.0.+"
+deobf = true
+transitive = false
+
+[[dependency]]
 notation = "industrial-foregoing:industrialforegoing-1.12.2:1.10.1:176"
 transitive = false
 run = false
@@ -51,3 +54,7 @@ run = false
 [[dependency]]
 notation = "team.chisel.ctm:CTM:MC1.12.2-0.3.3.22"
 provided = true
+
+[[dependency]]
+notation = "com.shinoow.abyssalcraft:AbyssalCraft:1.12.2-1.9.13.1"
+deobf = true

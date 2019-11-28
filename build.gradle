@@ -48,8 +48,12 @@ repositories {
         url = "http://maven.shadowfacts.net/"
     }
     maven {
-        name = "bindray (storagedrawers)"
+        name = "jaquadro (storagedrawers)"
         url = "https://dl.bintray.com/jaquadro/dev/"
+    }
+    maven {
+        name = "shinoow (AbyssalCraft)"
+        url = "https://dl.bintray.com/shinoow/maven/"
     }
     maven {
         name = "buildcraft (Forestry)"
