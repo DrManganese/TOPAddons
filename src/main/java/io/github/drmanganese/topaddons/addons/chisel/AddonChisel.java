@@ -1,11 +1,13 @@
 package io.github.drmanganese.topaddons.addons.chisel;
 
-import com.google.common.collect.ImmutableMap;
 import io.github.drmanganese.topaddons.api.IAddonBlocks;
 import io.github.drmanganese.topaddons.api.IBlockInfo;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.styles.Styles;
+
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
 import mcjty.theoneprobe.api.*;
 import mcjty.theoneprobe.apiimpl.styles.IconStyle;
 import net.minecraft.block.Block;
@@ -22,8 +24,6 @@ import team.chisel.common.block.TileAutoChisel;
 
 import javax.annotation.Nonnull;
 
-import static io.github.drmanganese.topaddons.styles.ProgressStyles.SIMPLE_PROGRESS;
-
 @TOPAddon(dependency = "chisel")
 public class AddonChisel implements IAddonBlocks {
 
@@ -35,8 +35,8 @@ public class AddonChisel implements IAddonBlocks {
 
     @Nonnull
     @Override
-    public ImmutableMap<Class<? extends TileEntity>, ITileInfo> getTiles() {
-        return ImmutableMap.of(TileAutoChisel.class, new AutoChiselInfo());
+    public ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> getTiles() {
+        return ImmutableMultimap.of(TileAutoChisel.class, new AutoChiselInfo());
     }
 
     private static class CarvableInfo implements IBlockInfo {

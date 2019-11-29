@@ -2,6 +2,7 @@ package io.github.drmanganese.topaddons.api;
 
 import io.github.drmanganese.topaddons.reference.Reference;
 
+import com.google.common.collect.ImmutableMultimap;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
@@ -38,10 +39,8 @@ public interface IAddonBlocks extends IProbeInfoProvider {
             tileClasses.add(tile.getClass());
 
             for (Class class_ : tileClasses) {
-                if (getTiles().containsKey(class_)) {
-                    //noinspection unchecked
-                    getTiles().get(class_).getInfo(mode, probeInfo, player, world, blockState, data, (TileEntity) class_.cast(tile));
-                }
+                //noinspection unchecked
+                getTiles().get(class_).forEach(o -> ((ITileInfo) o).getInfo(mode, probeInfo, player, world, blockState, data, class_.cast(tile)));
             }
         }
 
@@ -64,8 +63,8 @@ public interface IAddonBlocks extends IProbeInfoProvider {
      * @return Map of {@link TileEntity} classes this addon provides info for.
      */
     @Nonnull
-    default ImmutableMap<Class<? extends TileEntity>, ITileInfo> getTiles() {
-        return ImmutableMap.of();
+    default ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> getTiles() {
+        return ImmutableMultimap.of();
     }
 
     /**

@@ -5,7 +5,7 @@ import io.github.drmanganese.topaddons.api.IAddonBlocks;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
 import com.shinoow.abyssalcraft.common.blocks.tile.TileEntityEnergyCollector;
 import com.shinoow.abyssalcraft.common.blocks.tile.TileEntityEnergyContainer;
 import com.shinoow.abyssalcraft.common.blocks.tile.TileEntityEnergyPedestal;
@@ -17,10 +17,10 @@ import javax.annotation.Nonnull;
 @TOPAddon(dependency = "abyssalcraft")
 public class AddonAbyssalCraft implements IAddonBlocks {
 
-    private static final ImmutableMap<Class<? extends TileEntity>, ITileInfo> TILES;
+    private static final ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> TILES;
 
     static {
-        final ImmutableMap.Builder<Class<? extends TileEntity>, ITileInfo> builder = ImmutableMap.builder();
+        final ImmutableMultimap.Builder<Class<? extends TileEntity>, ITileInfo> builder = ImmutableMultimap.builder();
         final EnergyContainerTileInfo energyContainerTileInfo = new EnergyContainerTileInfo();
 
         TILES = builder
@@ -33,7 +33,7 @@ public class AddonAbyssalCraft implements IAddonBlocks {
 
     @Nonnull
     @Override
-    public ImmutableMap<Class<? extends TileEntity>, ITileInfo> getTiles() {
+    public ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> getTiles() {
         return TILES;
     }
 }

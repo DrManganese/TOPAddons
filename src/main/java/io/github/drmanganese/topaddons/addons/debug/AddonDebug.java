@@ -7,11 +7,9 @@ import io.github.drmanganese.topaddons.api.TOPAddon;
 import io.github.drmanganese.topaddons.reference.Reference;
 import io.github.drmanganese.topaddons.util.PlayerHelper;
 
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeHitEntityData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.ProbeMode;
-import mcjty.theoneprobe.api.TextStyleClass;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
+import mcjty.theoneprobe.api.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,8 +17,6 @@ import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang3.ClassUtils;
 
 import javax.annotation.Nonnull;
@@ -50,8 +46,8 @@ public class AddonDebug implements IAddonBlocksAndEntities {
 
     @Nonnull
     @Override
-    public ImmutableMap<Class<? extends TileEntity>, ITileInfo> getTiles() {
-        return ImmutableMap.of(TileEntity.class, debugInfo);
+    public ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> getTiles() {
+        return ImmutableMultimap.of(TileEntity.class, debugInfo);
     }
 
     public final class DebugInfo implements IEntityInfo<Entity>, ITileInfo<TileEntity> {

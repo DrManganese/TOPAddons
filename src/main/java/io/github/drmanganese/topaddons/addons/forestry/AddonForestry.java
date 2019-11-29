@@ -1,47 +1,33 @@
 package io.github.drmanganese.topaddons.addons.forestry;
 
-import forestry.core.blocks.BlockBogEarth;
-import forestry.core.blocks.BlockRegistryCore;
-import forestry.cultivation.tiles.TilePlanter;
 import io.github.drmanganese.topaddons.addons.forestry.blocks.BogEarthInfo;
 import io.github.drmanganese.topaddons.addons.forestry.entities.EntityButterflyInfo;
 import io.github.drmanganese.topaddons.addons.forestry.tiles.*;
 import io.github.drmanganese.topaddons.addons.forge.tiles.FluidCapInfo;
-import io.github.drmanganese.topaddons.api.IAddonBlocksAndEntities;
-import io.github.drmanganese.topaddons.api.IAddonElements;
-import io.github.drmanganese.topaddons.api.IBlockInfo;
-import io.github.drmanganese.topaddons.api.IEntityInfo;
-import io.github.drmanganese.topaddons.api.ITileInfo;
-import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.api.*;
 import io.github.drmanganese.topaddons.elements.ElementSync;
 import io.github.drmanganese.topaddons.elements.forestry.ElementFarm;
 
-import forestry.core.tiles.TileNaturalistChest;
-import forestry.database.tiles.TileDatabase;
-import forestry.factory.tiles.TileMoistener;
-import mcjty.theoneprobe.api.ITheOneProbe;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
-
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
 import forestry.apiculture.multiblock.TileAlveary;
 import forestry.apiculture.tiles.TileBeeHousingBase;
 import forestry.arboriculture.tiles.TileLeaves;
 import forestry.arboriculture.tiles.TileSapling;
 import forestry.core.fluids.Fluids;
 import forestry.core.tiles.TileAnalyzer;
+import forestry.core.tiles.TileNaturalistChest;
+import forestry.cultivation.tiles.TilePlanter;
+import forestry.database.tiles.TileDatabase;
 import forestry.energy.tiles.TileEngineBiogas;
 import forestry.energy.tiles.TileEnginePeat;
-import forestry.factory.tiles.TileBottler;
-import forestry.factory.tiles.TileCarpenter;
-import forestry.factory.tiles.TileCentrifuge;
-import forestry.factory.tiles.TileFabricator;
-import forestry.factory.tiles.TileFermenter;
-import forestry.factory.tiles.TileSqueezer;
-import forestry.factory.tiles.TileStill;
+import forestry.factory.tiles.*;
 import forestry.farming.tiles.TileFarm;
 import forestry.lepidopterology.entities.EntityButterfly;
+import mcjty.theoneprobe.api.ITheOneProbe;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import javax.annotation.Nonnull;
@@ -50,13 +36,13 @@ import javax.annotation.Nonnull;
 public class AddonForestry implements IAddonBlocksAndEntities, IAddonElements {
 
     private static final ImmutableMap<Class<? extends Entity>, IEntityInfo> ENTITIES;
-    private static final ImmutableMap<Class<? extends TileEntity>, ITileInfo> TILES;
+    private static final ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> TILES;
 
     @GameRegistry.ObjectHolder("forestry:bog_earth")
     public static Block BOG_EARTH;
 
     static {
-        ImmutableMap.Builder<Class<? extends TileEntity>, ITileInfo> builder = ImmutableMap.builder();
+        ImmutableMultimap.Builder<Class<? extends TileEntity>, ITileInfo> builder = ImmutableMultimap.builder();
         builder.put(TileEnginePeat.class, new TileEngineInfo());
         builder.put(TileEngineBiogas.class, new TileEngineInfo());
         builder.put(TileBeeHousingBase.class, new TileBeeHousingInfo());
@@ -103,7 +89,7 @@ public class AddonForestry implements IAddonBlocksAndEntities, IAddonElements {
 
     @Nonnull
     @Override
-    public ImmutableMap<Class<? extends TileEntity>, ITileInfo> getTiles() {
+    public ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> getTiles() {
         return TILES;
     }
 

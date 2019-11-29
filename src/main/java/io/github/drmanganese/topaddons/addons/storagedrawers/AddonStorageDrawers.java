@@ -1,19 +1,14 @@
 package io.github.drmanganese.topaddons.addons.storagedrawers;
 
 import io.github.drmanganese.topaddons.addons.storagedrawers.tiles.InfoDrawer;
-import io.github.drmanganese.topaddons.api.IAddonBlocks;
-import io.github.drmanganese.topaddons.api.IAddonConfig;
-import io.github.drmanganese.topaddons.api.IAddonConfigProviders;
-import io.github.drmanganese.topaddons.api.ITileConfigProvider;
-import io.github.drmanganese.topaddons.api.ITileInfo;
-import io.github.drmanganese.topaddons.api.TOPAddon;
+import io.github.drmanganese.topaddons.api.*;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
+import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.relauncher.Side;
-
-import com.google.common.collect.ImmutableMap;
-import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 
 import javax.annotation.Nonnull;
 
@@ -26,8 +21,8 @@ public class AddonStorageDrawers implements IAddonBlocks, IAddonConfig, IAddonCo
 
     @Nonnull
     @Override
-    public ImmutableMap<Class<? extends TileEntity>, ITileInfo> getTiles() {
-        return ImmutableMap.of(TileEntityDrawers.class, DRAWER_INFO);
+    public ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> getTiles() {
+        return ImmutableMultimap.of(TileEntityDrawers.class, DRAWER_INFO);
     }
 
     @Override

@@ -7,9 +7,8 @@ import io.github.drmanganese.topaddons.api.IAddonBlocks;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.api.TOPAddon;
 
+import com.google.common.collect.ImmutableMultimap;
 import net.minecraft.tileentity.TileEntity;
-
-import com.google.common.collect.ImmutableMap;
 import net.ndrei.teslacorelib.tileentities.ElectricGenerator;
 import net.ndrei.teslacorelib.tileentities.ElectricMachine;
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity;
@@ -19,10 +18,10 @@ import javax.annotation.Nonnull;
 @TOPAddon(dependency = "teslacorelib", order = 9)
 public class AddonTeslaCoreLib implements IAddonBlocks {
 
-    private final ImmutableMap<Class<? extends TileEntity>, ITileInfo> TILES;
+    private final ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> TILES;
 
     public AddonTeslaCoreLib() {
-        ImmutableMap.Builder<Class<? extends TileEntity>, ITileInfo> mapBuilder = ImmutableMap.builder();
+        ImmutableMultimap.Builder<Class<? extends TileEntity>, ITileInfo> mapBuilder = ImmutableMultimap.builder();
         mapBuilder.put(SidedTileEntity.class, new SidedTileEntityInfo());
         mapBuilder.put(ElectricGenerator.class, new ElectricGeneratorInfo());
         mapBuilder.put(ElectricMachine.class, new ElectricMachineInfo());
@@ -31,7 +30,7 @@ public class AddonTeslaCoreLib implements IAddonBlocks {
 
     @Nonnull
     @Override
-    public ImmutableMap<Class<? extends TileEntity>, ITileInfo> getTiles() {
+    public ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> getTiles() {
         return TILES;
     }
 }
