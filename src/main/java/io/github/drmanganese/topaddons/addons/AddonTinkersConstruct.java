@@ -34,6 +34,8 @@ public class AddonTinkersConstruct extends AddonBlank {
 
         if (tile instanceof ISmelteryTankHandler) {
             SmelteryTank tank = ((ISmelteryTankHandler) tile).getTank();
+            if (tank == null) return;
+
             if (tile instanceof TileSmeltery) {
                 final boolean inIngots = player.getCapability(TOPAddons.OPTS_CAP, null).getBoolean("smelteryInIngots");
                 addSmelteryTankElement(probeInfo, tank.getFluids(), Math.max(tank.getFluidAmount(), tank.getCapacity()), inIngots, mode, player);
