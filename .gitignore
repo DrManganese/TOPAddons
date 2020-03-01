@@ -3,7 +3,14 @@
 *.log
 
 ### IDEA
-/.idea
+/.idea/vcs.xml
+/.idea/gradle.xml
+/.idea/workspace.xml
+/.idea/sbt.xml
+/.idea/misc.xml
+/.idea/modules/
+/.idea/jarRepositories.xml
+/.idea/artifacts/
 *.iml
 
 ### GRADLE
