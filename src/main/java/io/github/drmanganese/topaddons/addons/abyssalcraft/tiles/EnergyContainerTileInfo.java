@@ -2,14 +2,15 @@ package io.github.drmanganese.topaddons.addons.abyssalcraft.tiles;
 
 import io.github.drmanganese.topaddons.api.ITileInfo;
 
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+
 import com.shinoow.abyssalcraft.api.energy.IEnergyContainer;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 import mcjty.theoneprobe.apiimpl.styles.ProgressStyle;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 
 public class EnergyContainerTileInfo implements ITileInfo<IEnergyContainer> {
 
