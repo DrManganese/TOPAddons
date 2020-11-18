@@ -1,0 +1,16 @@
+{
+  "topaddons:n_ticks": "%d ticks",
+  "topaddons.vanilla:fuel": "Brandstof",
+  "topaddons.vanilla:instrument": "Instrument",
+  "topaddons.vanilla:pitch": "Toonhoogte",
+  "topaddons.vanilla:nobreed": "Fok Cooldown",
+  "topaddons.vanilla:composter_ready": "Klaar",
+  "topaddons.vanilla:beehive_ready": "Klaar",
+  "topaddons.vanilla:bees": "Bijen",
+  "topaddons.storagedrawers:stack_limit": "Stacklimiet",
+  "topaddons.forge:default_tank_name": "Tank",
+  "topaddons.forge:empty": "Leeg",
+  "topaddons.thermal:fractioning_still_0": "Invoer",
+  "topaddons.thermal:fractioning_still_1": "Uitvoer A",
+  "topaddons.thermal:fractioning_still_2": "Uitvoer B"
+}

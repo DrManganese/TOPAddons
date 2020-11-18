@@ -1,0 +1,8 @@
+.gradle/
+build/
+run/
+run-server/
+.idea/
+!/.idea/codeStyles/
+src/test/
+logs/

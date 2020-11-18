@@ -1,0 +1,52 @@
+package io.github.drmanganese.topaddons.client;
+
+import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
+
+import net.minecraft.fluid.Fluid;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+
+public class FluidColors {
+
+    private static final Map<Fluid, Integer> AVERAGE_COLORS = hashMapWithDefault(FluidColorExtraction::extractAvgFluidColorFromTexture);
+    private static final Map<Fluid, Integer> TOP_LEFT_COLORS = hashMapWithDefault(FluidColorExtraction::extractTopLeftFluidColorFromTexture);
+    private static final Map<String, Integer> OVERRIDE_COLORS = new HashMap<>();
+
+    public static void resetMaps() {
+        AVERAGE_COLORS.clear();
+        TOP_LEFT_COLORS.clear();
+    }
+
+    public static int getForFluid(Fluid fluid, ForgeAddon.FluidColorAlgorithm algorithm) {
+        switch (algorithm) {
+            case AVERAGE_COLOR:
+                return AVERAGE_COLORS.get(fluid);
+            case TOP_LEFT_COLOR:
+                return TOP_LEFT_COLORS.get(fluid);
+            default:
+                throw new IllegalArgumentException("Illegal Fluid Color Algorithm");
+        }
+    }
+
+    public static Optional<Integer> getForgeColor(Fluid fluid) {
+        return Optional.of(fluid.getAttributes().getColor()).filter(i -> i != -1);
+    }
+
+    public static Optional<Integer> getOverrideColor(Fluid fluid) {
+        return Optional.ofNullable(OVERRIDE_COLORS.get(fluid.getRegistryName().toString()));
+    }
+
+    private static Map<Fluid, Integer> hashMapWithDefault(Function<Fluid, Integer> defaultFunction) {
+        return new HashMap<Fluid, Integer>() {
+            @Override
+            public Integer get(Object key) {
+                if (!containsKey(key))
+                    put((Fluid) key, defaultFunction.apply((Fluid) key));
+                return super.get(key);
+            }
+        };
+    }
+}

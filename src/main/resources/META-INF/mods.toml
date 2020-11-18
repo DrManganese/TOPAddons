@@ -1,0 +1,37 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+issueTrackerURL="https://github.com/DrManganese/TOPAddons/issues"
+
+[[mods]]
+modId="topaddons"
+version="${file.jarVersion}"
+displayName="TOP Addons"
+updateJSONURL="https://raw.githubusercontent.com/DrManganese/TOPAddons/1.15/FUC.json"
+displayURL="https://minecraft.curseforge.com/projects/top-addons"
+logoFile="topaddonslogo.png"
+credits="McJty, for making The One Probe"
+authors="DrManganese,discolight99"
+description="The One Probe integration for various mods"
+
+[[dependencies.topaddons]]
+    modId="forge"
+    mandatory=true
+    versionRange="[31.2.45,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.topaddons]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.15,)"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.topaddons]]
+    modId="theoneprobe"
+    mandatory=true
+    versionRange="[1.15-2.0.6-6,)"
+    ordering="AFTER"
+    side="BOTH"
+[[dependencies.topaddons]]
+    modId="storagedrawers"
+    mandatory=false
+    ordering="AFTER"
