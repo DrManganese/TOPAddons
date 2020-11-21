@@ -103,7 +103,7 @@ public class FluidGaugeElement implements IElementNew {
 
     private void renderFluid(int x, int y, int color) {
         for (int i = 0; i < Math.min(98 * amount / capacity, 98); i++) {
-            AbstractGui.fill(x + 1 + i, y + 1, x + 2 + i, y + (extended ? 11 : 7), i % 2 == 0 ? color : new Color(color).darker().hashCode());
+            AbstractGui.fill(x + 1 + i, y + 1, x + 2 + i, y + (extended ? 11 : 7), i % 2 == 0 ? color : new Color(color, true).darker().hashCode());
         }
     }
 
