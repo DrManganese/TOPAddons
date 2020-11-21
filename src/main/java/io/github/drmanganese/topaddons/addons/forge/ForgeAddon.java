@@ -28,16 +28,17 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
 
     // Client
     public static ForgeConfigSpec.EnumValue<FluidColorAlgorithm> gaugeFluidColorAlgorithm;
-    public static ForgeConfigSpec.BooleanValue gaugeRounded;
+    public static ForgeConfigSpec.IntValue gaugeFluidColorTransparency;
     public static ForgeConfigSpec.BooleanValue gaugeShowCapacity;
+    public static ForgeConfigSpec.BooleanValue gaugeRounded;
     public static ColorValue gaugeBackgroundColor;
     public static ColorValue gaugeBorderColor;
 
     // Synced
+    public static ForgeConfigSpec.EnumValue<FluidGaugeChoice> fluidGaugeChoice;
     public static ForgeConfigSpec.BooleanValue gaugeUseCustomTankNames;
     public static ColorValue machineProgressBackgroundColor;
     public static ColorValue machineProgressBorderColor;
-    public static ForgeConfigSpec.EnumValue<FluidGaugeChoice> fluidGaugeChoice;
 
     // Common
     public static ForgeConfigSpec.ConfigValue<List<String>> gaugeModBlacklist;
@@ -69,6 +70,7 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
             gaugeFluidColorAlgorithm = builder.comment("Which \"algorithm\" should be used to pick fluid colors (TOP_LEFT is sometimes lighter)").defineEnum("gaugeFluidColorAlgorithm", FluidColorAlgorithm.AVERAGE_COLOR);
             fluidGaugeChoice = builder.comment("Which fluid gauges to show, BOTH and THE_ONE_PROBE_ONLY options also depend on the The One Probe \"showTankSetting\" configuration").defineEnum("fluidGaugeChoice", FluidGaugeChoice.TOP_ADDONS_ONLY);
             gaugeShowCapacity = builder.comment("Show the tank's total capacity in the fluid gauge").define("gaugeShowCapacity", true);
+            gaugeFluidColorTransparency = builder.comment("Fluid color transparency.").defineInRange("gaugeFluidColorTransparency", 255, 0, 255);
             builder.pop();
             machineProgressBackgroundColor = new ColorValue(builder.comment("Machine progress bar background color").define("machineProgressBackgroundColor", "#55363636", ColorValue::test));
             machineProgressBorderColor = new ColorValue(builder.comment("Machine progress bar border color").define("machineProgressBorderColor", "#ff969696", ColorValue::test));
