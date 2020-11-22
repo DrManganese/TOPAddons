@@ -19,7 +19,7 @@ import com.google.common.collect.Lists;
 import mcjty.theoneprobe.api.ITheOneProbe;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements, IAddonConfig, IAddonConfigProviders {
@@ -77,7 +77,7 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
         }
 
         if (type == ModConfig.Type.COMMON)
-            gaugeModBlacklist = builder.comment("List of mod IDs for which no TOP Addons fluid gauge should be shown").define("gaugeModBlacklist", new ArrayList<>());
+            gaugeModBlacklist = builder.comment("List of mod IDs for which no TOP Addons fluid gauge should be shown").define("gaugeModBlacklist", Collections.singletonList("mekanism"));
         builder.pop();
     }
 
