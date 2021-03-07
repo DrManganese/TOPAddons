@@ -4,9 +4,9 @@ import io.github.drmanganese.topaddons.addons.TopAddon;
 import io.github.drmanganese.topaddons.addons.forge.tiles.FluidHandlerTileInfo;
 import io.github.drmanganese.topaddons.api.*;
 import io.github.drmanganese.topaddons.capabilities.ElementSync;
-import io.github.drmanganese.topaddons.elements.forge.FluidGaugeElement;
 import io.github.drmanganese.topaddons.config.ColorValue;
 import io.github.drmanganese.topaddons.config.Config;
+import io.github.drmanganese.topaddons.elements.forge.FluidGaugeElement;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -27,8 +27,10 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
     public static final String GAUGE_ELEMENT_ID = "fluid_gauge";
 
     // Client
+    public static ForgeConfigSpec.EnumValue<FluidTextureAlignment> gaugeFluidTextureAlignment;
     public static ForgeConfigSpec.EnumValue<FluidColorAlgorithm> gaugeFluidColorAlgorithm;
     public static ForgeConfigSpec.IntValue gaugeFluidColorTransparency;
+    public static ForgeConfigSpec.BooleanValue gaugeRenderFluidTexture;
     public static ForgeConfigSpec.BooleanValue gaugeShowCapacity;
     public static ForgeConfigSpec.BooleanValue gaugeRounded;
     public static ColorValue gaugeBackgroundColor;
@@ -71,6 +73,8 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
             fluidGaugeChoice = builder.comment("Which fluid gauges to show, BOTH and THE_ONE_PROBE_ONLY options also depend on the The One Probe \"showTankSetting\" configuration").defineEnum("fluidGaugeChoice", FluidGaugeChoice.TOP_ADDONS_ONLY);
             gaugeShowCapacity = builder.comment("Show the tank's total capacity in the fluid gauge").define("gaugeShowCapacity", true);
             gaugeFluidColorTransparency = builder.comment("Fluid color transparency.").defineInRange("gaugeFluidColorTransparency", 255, 0, 255);
+            gaugeRenderFluidTexture = builder.comment("Use the fluid's texture in the fluid gauge instead of the TOP lines.").define("gaugeRenderFluidTexture", true);
+            gaugeFluidTextureAlignment = builder.comment("Alignment of the fluid's texture when gaugeRenderFluidTexture is enabled.").defineEnum("fluidTextureAlignment", FluidTextureAlignment.MIDDLE);
             builder.pop();
             machineProgressBackgroundColor = new ColorValue(builder.comment("Machine progress bar background color").define("machineProgressBackgroundColor", "#55363636", ColorValue::test));
             machineProgressBorderColor = new ColorValue(builder.comment("Machine progress bar border color").define("machineProgressBorderColor", "#ff969696", ColorValue::test));
@@ -114,9 +118,38 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
             return (FluidGaugeChoice) Config.getSyncedEnum(player, ForgeAddon.fluidGaugeChoice);
         }
     }
-    
+
     public enum FluidColorAlgorithm {
         TOP_LEFT_COLOR,
         AVERAGE_COLOR;
+    }
+
+    /**
+     * TOP: Align the texture at the top and cut off the overflow
+     * MIDDLE: Align the texture in the middle of the gauge and cut off the overflow
+     * SQUEEZE: Vertically squeeze in the full texture in the gauge
+     */
+    public enum FluidTextureAlignment {
+        TOP((minV, maxV, vSpace) -> minV, (minV, maxV, vSpace) -> minV + vSpace),
+        MIDDLE(
+            (minV, maxV, vSpace) -> minV + (maxV - minV - vSpace) / 2,
+            (minV, maxV, vSpace) -> maxV - (maxV - minV - vSpace) / 2
+        ),
+        SQUEEZE((minV, maxV, vSpace) -> minV, (minV, maxV, vSpace) -> maxV);
+
+        /**
+         * Functions for calculating the UV ordinate to use when rendering the fluid gauge with a texture.
+         */
+        public TriFunction<Float, Float, Float, Float> fv1, fv2;
+
+        FluidTextureAlignment(TriFunction<Float, Float, Float, Float> fv1, TriFunction<Float, Float, Float, Float> fv2) {
+            this.fv1 = fv1;
+            this.fv2 = fv2;
+        }
+
+        @FunctionalInterface
+        public interface TriFunction<A, B, C, R> {
+            R apply(A a, B b, C c);
+        }
     }
 }

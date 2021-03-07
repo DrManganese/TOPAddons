@@ -1,12 +1,17 @@
 package io.github.drmanganese.topaddons.elements.forge;
 
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
+import io.github.drmanganese.topaddons.client.FluidColorExtraction;
 import io.github.drmanganese.topaddons.client.FluidColors;
 import io.github.drmanganese.topaddons.util.ElementHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.network.PacketBuffer;
@@ -15,6 +20,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.systems.RenderSystem;
 import mcjty.theoneprobe.api.IElementNew;
 import org.lwjgl.opengl.GL11;
 
@@ -24,6 +30,10 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class FluidGaugeElement implements IElementNew {
+
+    private static final int INNER_WIDTH = 98;
+    private static final int INNER_HEIGHT = 6;
+    private static final int INNER_HEIGHT_EXTENDED = 10;
 
     private final boolean extended;
     private final int amount, capacity;
@@ -60,14 +70,17 @@ public class FluidGaugeElement implements IElementNew {
             .orElse(FluidColors.getForFluid(fluid, ForgeAddon.gaugeFluidColorAlgorithm.get()));
 
         renderBackground(x, y, borderColor, backgroundColor);
-        renderFluid(x, y, fluidColor);
+        if (ForgeAddon.gaugeRenderFluidTexture.get())
+            renderFluid(x + 1, y + 1, fluid);
+        else
+            renderFluid(x + 1, y + 1, fluidColor);
         renderForeGround(x, y, borderColor);
         renderText(x, y, fluidColor);
     }
 
     @Override
     public int getWidth() {
-        return 100;
+        return INNER_WIDTH + 2;
     }
 
     @Override
@@ -89,23 +102,107 @@ public class FluidGaugeElement implements IElementNew {
         buf.writeString(fluid.getRegistryName().toString());
     }
 
+    private static float red(int color) {
+        return (color >> 16 & 0xFF) / 255.0F;
+    }
+
+    private static float green(int color) {
+        return (color >> 8 & 0xFF) / 255.0F;
+    }
+
+    private static float blue(int color) {
+        return (color & 0xFF) / 255.0F;
+    }
+
+    private static float alpha(int color) {
+        return (color >> 24 & 0xFF) / 255.0F;
+    }
+
     private void renderBackground(int x, int y, int borderColor, int backgroundColor) {
         if (ForgeAddon.gaugeRounded.get()) {
-            AbstractGui.fill(x + 1, y + 1, x + 99, y + (extended ? 11 : 7), backgroundColor);
+            AbstractGui.fill(x + 1, y + 1, x + INNER_WIDTH + 1, y + (extended ? 11 : 7), backgroundColor);
             ElementHelper.drawHorizontalLine(x + (extended ? 2 : 1), y, extended ? 96 : 98, borderColor);
             ElementHelper.drawHorizontalLine(x + (extended ? 2 : 1), y + (extended ? 11 : 7), extended ? 96 : 98, borderColor);
             ElementHelper.drawVerticalLine(x, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
             ElementHelper.drawVerticalLine(x + 99, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
         } else {
-            ElementHelper.drawBox(x, y, 100, extended ? 12 : 8, backgroundColor, 1, borderColor);
+            ElementHelper.drawBox(x, y, getWidth(), extended ? 12 : 8, backgroundColor, 1, borderColor);
         }
     }
 
+    /**
+     * Render the fluid by drawing vertical lines of alternating colors. The color of the alternating color is
+     * calculated with awt.Color.darker (0.7 * r/g/b).
+     */
     private void renderFluid(int x, int y, int color) {
         color = (color & 0x00ffffff) | (ForgeAddon.gaugeFluidColorTransparency.get()) << 24;
-        for (int i = 0; i < Math.min(98 * amount / capacity, 98); i++) {
-            AbstractGui.fill(x + 1 + i, y + 1, x + 2 + i, y + (extended ? 11 : 7), i % 2 == 0 ? color : new Color(color, true).darker().hashCode());
+        final int darkerColor = new Color(color, true).darker().hashCode();
+        for (int i = 0; i < Math.min(INNER_WIDTH * amount / capacity, INNER_WIDTH); i++) {
+            AbstractGui.fill(
+                x + i,
+                y,
+                x + i + 1,
+                y + (extended ? INNER_HEIGHT_EXTENDED : INNER_HEIGHT),
+                i % 2 == 0 ? color : darkerColor
+            );
         }
+    }
+
+    /**
+     * Render the fluid by tiling its texture. Eac
+     */
+    private void renderFluid(int x, int y, Fluid fluid) {
+        final Tessellator tessellator = Tessellator.getInstance();
+        final BufferBuilder buffer = tessellator.getBuffer();
+        final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTexture(fluid);
+        Minecraft.getInstance().getTextureManager().bindTexture(texture.getAtlasTexture().getTextureLocation());
+
+        final int textureWidth = texture.getWidth();
+        final float minU = texture.getMinU();
+        final float maxU = texture.getMaxU();
+        final float minV = texture.getMinV();
+        final float maxV = texture.getMaxV();
+
+        final int tileHeight = extended ? INNER_HEIGHT_EXTENDED : INNER_HEIGHT;
+        // Height to render relative to UV coordinate system
+        final float vHeight = (maxV - minV) * 1.0F * tileHeight / texture.getHeight();
+        // UV ordinates to  use is based on the gaugeFluidTextureAligment configuration setting
+        final float v1 = ForgeAddon.gaugeFluidTextureAlignment.get().fv1.apply(minV, maxV, vHeight);
+        final float v2 = ForgeAddon.gaugeFluidTextureAlignment.get().fv2.apply(minV, maxV, vHeight);
+
+
+        RenderSystem.enableBlend();
+        final int fluidColor = fluid.getAttributes().getColor();
+        RenderSystem.color4f(red(fluidColor), green(fluidColor), blue(fluidColor), alpha(fluidColor));
+
+        final int fullWidth = Math.min(INNER_WIDTH, INNER_WIDTH * amount / capacity);
+        final int nTiles = (fullWidth + textureWidth - 1) / textureWidth; // Ceil
+        for (int tile = 0; tile < nTiles; tile++) {
+            final int w = tile == nTiles - 1 ? fullWidth % textureWidth : textureWidth;
+            drawFluidTiles(
+                x + tile * textureWidth,
+                y,
+                w,
+                tileHeight,
+                minU,
+                minU + (maxU - minU) * (1.0F * w / textureWidth),
+                v1,
+                v2,
+                tessellator,
+                buffer
+            );
+        }
+        RenderSystem.disableBlend();
+    }
+
+    // Draw counterclockwise starting at bottom left
+    private void drawFluidTiles(int x, int y, int w, int h, float u1, float u2, float v1, float v2, Tessellator tessellator, BufferBuilder buffer) {
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        buffer.pos(x, y + h, 0).tex(u1, v2).endVertex();
+        buffer.pos(x + w, y + h, 0).tex(u2, v2).endVertex();
+        buffer.pos(x + w, y, 0).tex(u2, v1).endVertex();
+        buffer.pos(x, y, 0).tex(u1, v1).endVertex();
+        tessellator.draw();
     }
 
     private void renderForeGround(int x, int y, int borderColor) {
@@ -131,21 +228,22 @@ public class FluidGaugeElement implements IElementNew {
         final FontRenderer font = Minecraft.getInstance().fontRenderer;
         if (extended) {
             final String fluidDisplayName = new TranslationTextComponent(fluid.getAttributes().getTranslationKey()).getString();
-            font.drawStringWithShadow(amountText(), x + 2, y + 2, 0xffffffff);
-            GL11.glPushMatrix();
-            GL11.glScalef(0.5F, 0.5F, 0.5F);
+            font.drawStringWithShadow(amountText(), x + 3, y + 2, 0xffffffff);
+            RenderSystem.pushMatrix();
+            RenderSystem.scalef(0.5F, 0.5F, 0.5F);
             font.drawStringWithShadow(tankDisplayName, x * 2, (y + 13) * 2, 0xffffffff);
             if (fluid != Fluids.EMPTY)
-                font.drawStringWithShadow(fluidDisplayName, (x + 100) * 2 - font.getStringWidth(fluidDisplayName), (y + 13) * 2, color);
-            GL11.glPopMatrix();
+                font.drawStringWithShadow(fluidDisplayName, (x + getWidth()) * 2 - font.getStringWidth(fluidDisplayName), (y + 13) * 2, color);
+            RenderSystem.popMatrix();
         } else {
-            GL11.glPushMatrix();
-            GL11.glScalef(0.5F, 0.5F, 0.5F);
+            RenderSystem.pushMatrix();
+            RenderSystem.scalef(0.5F, 0.5F, 0.5F);
             font.drawStringWithShadow(tankDisplayName, (x + 2) * 2, (y + 2) * 2, 0xffffffff);
-            GL11.glPopMatrix();
+            RenderSystem.popMatrix();
         }
     }
 
+    // TODO: Auto-fit option? (recurse until amountText's width <= INNER_WIDTH + padding)
     private String amountText() {
         if (this.amount == 0 && !ForgeAddon.gaugeShowCapacity.get())
             return new TranslationTextComponent("topaddons.forge:empty").getString();

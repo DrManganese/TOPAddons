@@ -34,7 +34,7 @@ public class FluidColorExtraction {
         return (0xff << 24) | (sqrt(r / n) << 16) | (sqrt(g / n) << 8) | sqrt(b / n);
     }
     
-    private static TextureAtlasSprite getStillFluidTexture(Fluid fluid) {
+    public static TextureAtlasSprite getStillFluidTexture(Fluid fluid) {
         return TEXTURE.getSprite(fluid.getAttributes().getStillTexture());
     }
 
