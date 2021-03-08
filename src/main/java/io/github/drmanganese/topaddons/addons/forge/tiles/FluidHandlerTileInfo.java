@@ -48,6 +48,7 @@ public class FluidHandlerTileInfo implements ITileInfo<TileEntity>, ITileConfigP
                 final IntFunction<FluidTank> tankMaker = i -> new FluidTank(fluidHandler, block, i, player);
                 IntStream.range(0, fluidHandler.getTanks())
                     .mapToObj(tankMaker)
+                    .filter(FluidTank::isValidTank)
                     .map(FluidTank::elementMaker)
                     .forEachOrdered(maker -> probeInfo.element(maker.apply(player, probeMode)));
             });
@@ -91,6 +92,10 @@ public class FluidHandlerTileInfo implements ITileInfo<TileEntity>, ITileConfigP
             } else {
                 return "topaddons.forge:default_tank_name";
             }
+        }
+
+        private Boolean isValidTank() {
+            return capacity > 0;
         }
     }
 }
