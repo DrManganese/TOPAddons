@@ -10,7 +10,7 @@ and entities of various Forge mods.
 ### Forge
 
 - Customizable fluid tank info display on all `FluidHandler` tile entities:  
-  ![fluid_gauge.gif]()
+  ![fluid_gauge.gif](fluid_gauge.gif)
 
 ### Vanilla
 
@@ -23,5 +23,5 @@ and entities of various Forge mods.
 ### Storage Drawers
 
 - Detailed drawer contents display  
-  ![storage_drawers.gif]()
+  ![storage_drawers.gif](storage_drawers.gif)
 
