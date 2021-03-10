@@ -313,5 +313,9 @@
         </rules>
       </arrangement>
     </codeStyleSettings>
+    <codeStyleSettings language="Markdown">
+      <option name="RIGHT_MARGIN" value="120" />
+      <option name="SOFT_MARGINS" value="120" />
+    </codeStyleSettings>
   </code_scheme>
 </component>
