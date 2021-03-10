@@ -23,7 +23,7 @@ public class NoteBlockInfo implements IBlockInfo {
     @Override
     public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData hitData) {
         if (VanillaAddon.showPitch.get()) {
-            final String instrumentName = StringUtils.capitalize(blockState.get(NoteBlock.INSTRUMENT).getName());
+            final String instrumentName = StringUtils.capitalize(blockState.get(NoteBlock.INSTRUMENT).name());
             InfoHelper.textPrefixed(probeInfo, "{*topaddons.vanilla:instrument*}", instrumentName);
             InfoHelper.textPrefixed(probeInfo, "{*topaddons.vanilla:pitch*}", NOTES[blockState.get(NoteBlock.NOTE) % 12]);
         }

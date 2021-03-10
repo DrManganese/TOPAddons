@@ -27,8 +27,8 @@ public class BeaconInfo implements ITileInfo<BeaconTileEntity> {
         if (level == 0) return;
         probeInfo.text(CompoundText.createLabelInfo("Level: ", level));
 
-        final Effect primaryEffect = Effect.get(tile.field_213937_n.get(1));
-        final Effect secondaryEffect = Effect.get(tile.field_213937_n.get(2));
+        final Effect primaryEffect = Effect.get(tile.beaconData.get(1));
+        final Effect secondaryEffect = Effect.get(tile.beaconData.get(2));
 
         if (primaryEffect != null) {
             final IProbeInfo layout = probeMode == ProbeMode.EXTENDED ? probeInfo : probeInfo.horizontal();

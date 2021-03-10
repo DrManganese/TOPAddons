@@ -31,17 +31,17 @@ public class PacketHandler {
     }
 
     public static void sendElementSync(Map<String, Integer> elementIdMap) {
-        TopAddons.LOGGER.debug("Player {} syncing element ids to server", Minecraft.getInstance().player.getDisplayNameAndUUID().getString());
+        TopAddons.LOGGER.debug("Player {}({}) syncing element ids to server", Minecraft.getInstance().player.getDisplayName(), Minecraft.getInstance().player.getUniqueID().toString());
         INSTANCE.sendToServer(new ElementSyncMessage(elementIdMap));
     }
 
     public static void sendClientCfg(Map<String, String> syncMap) {
-        TopAddons.LOGGER.debug("Player {} syncing config to server", Minecraft.getInstance().player.getDisplayNameAndUUID().getString());
+        TopAddons.LOGGER.debug("Player {}({}) syncing config to server", Minecraft.getInstance().player.getDisplayName(), Minecraft.getInstance().player.getUniqueID().toString());
         INSTANCE.sendToServer(new ClientConfigSyncMessage(syncMap));
     }
 
     public static void sendResetColorsMapsMessage(ServerPlayerEntity targetPlayer) {
-        TopAddons.LOGGER.debug("Asking {} to reset fluid color maps", targetPlayer.getDisplayNameAndUUID().getString());
+        TopAddons.LOGGER.debug("Asking {}({}) to reset fluid color maps", Minecraft.getInstance().player.getDisplayName(), Minecraft.getInstance().player.getUniqueID().toString());
         INSTANCE.send(PacketDistributor.PLAYER.with(() -> targetPlayer), new ResetColorMapsMessage());
     }
 

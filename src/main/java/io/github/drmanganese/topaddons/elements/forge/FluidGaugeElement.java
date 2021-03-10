@@ -20,8 +20,9 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import mcjty.theoneprobe.api.IElementNew;
+import mcjty.theoneprobe.api.IElement;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -29,7 +30,7 @@ import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class FluidGaugeElement implements IElementNew {
+public class FluidGaugeElement implements IElement {
 
     private static final int INNER_WIDTH = 98;
     private static final int INNER_HEIGHT = 6;
@@ -59,7 +60,7 @@ public class FluidGaugeElement implements IElementNew {
     }
 
     @Override
-    public void render(int x, int y) {
+    public void render(MatrixStack stack, int x, int y) {
         final int borderColor = ForgeAddon.gaugeBorderColor.getInt();
         final int backgroundColor = ForgeAddon.gaugeBackgroundColor.getInt();
         final int fluidColor = ImmutableList.of(FluidColors.getOverrideColor(fluid), FluidColors.getForgeColor(fluid))
@@ -69,13 +70,13 @@ public class FluidGaugeElement implements IElementNew {
             .flatMap(Function.identity())
             .orElse(FluidColors.getForFluid(fluid, ForgeAddon.gaugeFluidColorAlgorithm.get()));
 
-        renderBackground(x, y, borderColor, backgroundColor);
+        renderBackground(stack, x, y, borderColor, backgroundColor);
         if (ForgeAddon.gaugeRenderFluidTexture.get())
-            renderFluid(x + 1, y + 1, fluid);
+            renderFluid(stack, x + 1, y + 1, fluid);
         else
-            renderFluid(x + 1, y + 1, fluidColor);
-        renderForeGround(x, y, borderColor);
-        renderText(x, y, fluidColor);
+            renderFluid(stack, x + 1, y + 1, fluidColor);
+        renderForeGround(stack, x, y, borderColor);
+        renderText(stack, x, y, fluidColor);
     }
 
     @Override
@@ -118,15 +119,15 @@ public class FluidGaugeElement implements IElementNew {
         return (color >> 24 & 0xFF) / 255.0F;
     }
 
-    private void renderBackground(int x, int y, int borderColor, int backgroundColor) {
+    private void renderBackground(MatrixStack matrixStack, int x, int y, int borderColor, int backgroundColor) {
         if (ForgeAddon.gaugeRounded.get()) {
-            AbstractGui.fill(x + 1, y + 1, x + INNER_WIDTH + 1, y + (extended ? 11 : 7), backgroundColor);
-            ElementHelper.drawHorizontalLine(x + (extended ? 2 : 1), y, extended ? 96 : 98, borderColor);
-            ElementHelper.drawHorizontalLine(x + (extended ? 2 : 1), y + (extended ? 11 : 7), extended ? 96 : 98, borderColor);
-            ElementHelper.drawVerticalLine(x, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
-            ElementHelper.drawVerticalLine(x + 99, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
+            AbstractGui.fill(matrixStack,x + 1, y + 1, x + INNER_WIDTH + 1, y + (extended ? 11 : 7), backgroundColor);
+            ElementHelper.drawHorizontalLine(matrixStack, x + (extended ? 2 : 1), y, extended ? 96 : 98, borderColor);
+            ElementHelper.drawHorizontalLine(matrixStack, x + (extended ? 2 : 1), y + (extended ? 11 : 7), extended ? 96 : 98, borderColor);
+            ElementHelper.drawVerticalLine(matrixStack, x, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
+            ElementHelper.drawVerticalLine(matrixStack, x + 99, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
         } else {
-            ElementHelper.drawBox(x, y, getWidth(), extended ? 12 : 8, backgroundColor, 1, borderColor);
+            ElementHelper.drawBox(matrixStack, x, y, getWidth(), extended ? 12 : 8, backgroundColor, 1, borderColor);
         }
     }
 
@@ -134,11 +135,12 @@ public class FluidGaugeElement implements IElementNew {
      * Render the fluid by drawing vertical lines of alternating colors. The color of the alternating color is
      * calculated with awt.Color.darker (0.7 * r/g/b).
      */
-    private void renderFluid(int x, int y, int color) {
+    private void renderFluid(MatrixStack matrixStack, int x, int y, int color) {
         color = (color & 0x00ffffff) | (ForgeAddon.gaugeFluidColorTransparency.get()) << 24;
         final int darkerColor = new Color(color, true).darker().hashCode();
         for (int i = 0; i < Math.min(INNER_WIDTH * amount / capacity, INNER_WIDTH); i++) {
             AbstractGui.fill(
+                matrixStack,
                 x + i,
                 y,
                 x + i + 1,
@@ -151,7 +153,7 @@ public class FluidGaugeElement implements IElementNew {
     /**
      * Render the fluid by tiling its texture. Eac
      */
-    private void renderFluid(int x, int y, Fluid fluid) {
+    private void renderFluid(MatrixStack matrixStack, int x, int y, Fluid fluid) {
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder buffer = tessellator.getBuffer();
         final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTexture(fluid);
@@ -166,7 +168,7 @@ public class FluidGaugeElement implements IElementNew {
         final int tileHeight = extended ? INNER_HEIGHT_EXTENDED : INNER_HEIGHT;
         // Height to render relative to UV coordinate system
         final float vHeight = (maxV - minV) * 1.0F * tileHeight / texture.getHeight();
-        // UV ordinates to  use is based on the gaugeFluidTextureAligment configuration setting
+        // UV ordinates to  use is based on the gaugeFluidTextureAlignment configuration setting
         final float v1 = ForgeAddon.gaugeFluidTextureAlignment.get().fv1.apply(minV, maxV, vHeight);
         final float v2 = ForgeAddon.gaugeFluidTextureAlignment.get().fv2.apply(minV, maxV, vHeight);
 
@@ -205,41 +207,41 @@ public class FluidGaugeElement implements IElementNew {
         tessellator.draw();
     }
 
-    private void renderForeGround(int x, int y, int borderColor) {
+    private void renderForeGround(MatrixStack matrixStack, int x, int y, int borderColor) {
         if (extended) {
             if (ForgeAddon.gaugeRounded.get()) {
                 // Rounded corners overlap fluid
-                AbstractGui.fill(x + 1, y + 1, x + 2, y + 2, borderColor);
-                AbstractGui.fill(x + 1, y + 10, x + 2, y + 11, borderColor);
-                AbstractGui.fill(x + 98, y + 1, x + 99, y + 2, borderColor);
-                AbstractGui.fill(x + 98, y + 10, x + 99, y + 11, borderColor);
+                AbstractGui.fill(matrixStack, x + 1, y + 1, x + 2, y + 2, borderColor);
+                AbstractGui.fill(matrixStack, x + 1, y + 10, x + 2, y + 11, borderColor);
+                AbstractGui.fill(matrixStack, x + 98, y + 1, x + 99, y + 2, borderColor);
+                AbstractGui.fill(matrixStack, x + 98, y + 10, x + 99, y + 11, borderColor);
             }
 
             final int[] gaugeLineXs = {13, 25, 37, 49, 61, 73, 85};
             final int[] gaugeLineLengths = {5, 6, 5, 10, 5, 6, 5};
             for (int i = 0; i < gaugeLineXs.length; i++) {
-                AbstractGui.fill(x + gaugeLineXs[i], y + 1, x + gaugeLineXs[i] + 1, y + 1 + gaugeLineLengths[i], borderColor);
+                AbstractGui.fill(matrixStack, x + gaugeLineXs[i], y + 1, x + gaugeLineXs[i] + 1, y + 1 + gaugeLineLengths[i], borderColor);
             }
         }
     }
 
-    private void renderText(int x, int y, int color) {
+    private void renderText(MatrixStack matrixStack, int x, int y, int color) {
         final String tankDisplayName = new TranslationTextComponent(tankNameKey).getString();
         final FontRenderer font = Minecraft.getInstance().fontRenderer;
         if (extended) {
             final String fluidDisplayName = new TranslationTextComponent(fluid.getAttributes().getTranslationKey()).getString();
-            font.drawStringWithShadow(amountText(), x + 3, y + 2, 0xffffffff);
-            RenderSystem.pushMatrix();
-            RenderSystem.scalef(0.5F, 0.5F, 0.5F);
-            font.drawStringWithShadow(tankDisplayName, x * 2, (y + 13) * 2, 0xffffffff);
+            font.drawStringWithShadow(matrixStack, amountText(), x + 3, y + 2, 0xffffffff);
+            matrixStack.push();
+            matrixStack.scale(0.5F, 0.5F, 0.5F);
+            font.drawStringWithShadow(matrixStack, tankDisplayName, x * 2, (y + 13) * 2, 0xffffffff);
             if (fluid != Fluids.EMPTY)
-                font.drawStringWithShadow(fluidDisplayName, (x + getWidth()) * 2 - font.getStringWidth(fluidDisplayName), (y + 13) * 2, color);
-            RenderSystem.popMatrix();
+                font.drawStringWithShadow(matrixStack, fluidDisplayName, (x + getWidth()) * 2 - font.getStringWidth(fluidDisplayName), (y + 13) * 2, color);
+            matrixStack.pop();
         } else {
-            RenderSystem.pushMatrix();
-            RenderSystem.scalef(0.5F, 0.5F, 0.5F);
-            font.drawStringWithShadow(tankDisplayName, (x + 2) * 2, (y + 2) * 2, 0xffffffff);
-            RenderSystem.popMatrix();
+            matrixStack.push();
+            matrixStack.scale(0.5F, 0.5F, 0.5F);
+            font.drawStringWithShadow(matrixStack, tankDisplayName, (x + 2) * 2, (y + 2) * 2, 0xffffffff);
+            matrixStack.pop();
         }
     }
 

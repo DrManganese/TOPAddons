@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "3.+", changing: true
+        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "4.1.+", changing: true
         classpath group: "gradle.plugin.com.matthewprenger", name : "CurseGradle", version: "1.4.0"
     }
 }
@@ -76,16 +76,16 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
-    compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.15:1.15-2.0.6-6") {transitive = false}
+    compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:1.16-3.0.7-13") {transitive = false}
 
     // Addon dependencies. Set to compileOnly for quicker test client launching
-    compile fg.deobf("com.jaquadro.minecraft.storagedrawers:StorageDrawers:1.15.2-7.0.2")
-    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:3100750") //1.15.2-1.0.1
-    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:3101627") //1.15.2-1.0.1
-    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:3101628") //1.15.2-1.0.1
-    runtimeOnly fg.deobf("mezz.jei:jei-1.15.2:+")
-    runtimeOnly fg.deobf("curse.maven:industrial-foregoing-266515:2980323")
-    runtimeOnly fg.deobf("curse.maven:titanium-287342:2980252")
+    compile fg.deobf("com.jaquadro.minecraft.storagedrawers:StorageDrawers:1.16.3-8.2.2")
+//    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:3100750") //1.15.2-1.0.1
+//    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:3101627") //1.15.2-1.0.1
+//    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:3101628") //1.15.2-1.0.1
+    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:+")
+//    runtimeOnly fg.deobf("curse.maven:industrial-foregoing-266515:2980323")
+//    runtimeOnly fg.deobf("curse.maven:titanium-287342:2980252")
 }
 
 jar {
@@ -96,7 +96,7 @@ jar {
             "Specification-Vendor": "DrManganese",
             "Specification-Version": "1",
             "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
+            "Implementation-Version": getArchiveVersion(),
             "Implementation-Vendor" :"DrManganese",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])

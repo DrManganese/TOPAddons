@@ -5,7 +5,8 @@ import io.github.drmanganese.topaddons.util.ElementHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 
-import mcjty.theoneprobe.api.IElementNew;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import mcjty.theoneprobe.api.IElement;
 import mcjty.theoneprobe.api.IItemStyle;
 import mcjty.theoneprobe.apiimpl.client.ElementItemStackRender;
 import mcjty.theoneprobe.apiimpl.styles.ItemStyle;
@@ -13,7 +14,7 @@ import mcjty.theoneprobe.apiimpl.styles.ItemStyle;
 /**
  * Draws an itemstack with a colored square behind it.
  */
-public class ElementItemStackBackground implements IElementNew {
+public class ElementItemStackBackground implements IElement {
 
     private final ItemStack itemStack;
     private final int color;
@@ -37,9 +38,9 @@ public class ElementItemStackBackground implements IElementNew {
     }
 
     @Override
-    public void render(int x, int y) {
-        ElementHelper.drawBox(x, y, style.getWidth(), style.getHeight(), this.color, 0, -1);
-        ElementItemStackRender.render(this.itemStack, this.style, x + 1, y + 1);
+    public void render(MatrixStack matrixStack, int x, int y) {
+        ElementHelper.drawBox(matrixStack, x, y, style.getWidth(), style.getHeight(), this.color, 0, -1);
+        ElementItemStackRender.render(this.itemStack, this.style, matrixStack, x + 1, y + 1);
     }
 
     @Override

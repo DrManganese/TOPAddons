@@ -1,6 +1,7 @@
 modLoader="javafml"
 loaderVersion="[31,)"
 issueTrackerURL="https://github.com/DrManganese/TOPAddons/issues"
+license="LGPL https://raw.githubusercontent.com/DrManganese/TOPAddons/master/LICENSE"
 
 [[mods]]
 modId="topaddons"
@@ -16,19 +17,19 @@ description="The One Probe integration for various mods"
 [[dependencies.topaddons]]
     modId="forge"
     mandatory=true
-    versionRange="[31.2.45,)"
+    versionRange="[36.0.42,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.topaddons]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.15,)"
+    versionRange="[1.16,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.topaddons]]
     modId="theoneprobe"
     mandatory=true
-    versionRange="[1.15-2.0.6-6,)"
+    versionRange="[1.16-3.0.7,)"
     ordering="AFTER"
     side="BOTH"
 [[dependencies.topaddons]]

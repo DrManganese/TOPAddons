@@ -4,7 +4,7 @@ import io.github.drmanganese.topaddons.TopAddons;
 
 import net.minecraft.entity.player.PlayerEntity;
 
-import mcjty.theoneprobe.api.IElementFactoryNew;
+import mcjty.theoneprobe.api.IElementFactory;
 import mcjty.theoneprobe.api.ITheOneProbe;
 
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import java.util.Map;
 public final class ElementSync {
     public static final Map<String, Integer> elementIdMap = new HashMap<>();
 
-    public static void registerElement(ITheOneProbe probe, String elementName, IElementFactoryNew elementFactory) {
+    public static void registerElement(ITheOneProbe probe, String elementName, IElementFactory elementFactory) {
         elementIdMap.put(elementName, probe.registerElementFactory(elementFactory));
     }
 

@@ -70,6 +70,6 @@ public final class TopAddons {
 
     @SubscribeEvent
     public static void onServerStarting(FMLServerStartingEvent event) {
-        TopAddonsCommands.register(event.getCommandDispatcher());
+        TopAddonsCommands.register(event.getServer().getCommandManager().getDispatcher());
     }
 }

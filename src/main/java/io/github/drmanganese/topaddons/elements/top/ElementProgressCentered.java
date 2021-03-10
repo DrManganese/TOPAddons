@@ -6,7 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.TranslationTextComponent;
 
-import mcjty.theoneprobe.api.IElementNew;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import mcjty.theoneprobe.api.IElement;
 import mcjty.theoneprobe.api.IProgressStyle;
 
 import javax.annotation.Nullable;
@@ -15,7 +16,7 @@ import java.util.Optional;
 /**
  * A progress bar with its text centered.
  */
-public class ElementProgressCentered implements IElementNew {
+public class ElementProgressCentered implements IElement {
 
     private final long current, max;
     private final IProgressStyle style;
@@ -39,23 +40,23 @@ public class ElementProgressCentered implements IElementNew {
     }
 
     @Override
-    public void render(int x, int y) {
-        ElementHelper.drawBox(x, y, style.getWidth(), style.getHeight(), style.getBackgroundColor(), 1, style.getBorderColor());
+    public void render(MatrixStack matrixStack, int x, int y) {
+        ElementHelper.drawBox(matrixStack, x, y, style.getWidth(), style.getHeight(), style.getBackgroundColor(), 1, style.getBorderColor());
         if (current > 0 && max > 0) {
             final int dx = (int) Math.min((current * (style.getWidth() - 2) / max), style.getWidth() - 2);
 
             if (style.getAlternatefilledColor() == style.getFilledColor()) {
-                ElementHelper.drawBox(x + 1, y + 1, dx, style.getHeight() - 2, style.getFilledColor(), 0, style.getFilledColor());
+                ElementHelper.drawBox(matrixStack, x + 1, y + 1, dx, style.getHeight() - 2, style.getFilledColor(), 0, style.getFilledColor());
             } else {
                 for (int i = 0; i < dx; i++) {
-                    ElementHelper.drawVerticalLine(x + i + 1, y + 1, style.getHeight() - 2, i % 2 == 0 ? style.getFilledColor() : style.getAlternatefilledColor());
+                    ElementHelper.drawVerticalLine(matrixStack, x + i + 1, y + 1, style.getHeight() - 2, i % 2 == 0 ? style.getFilledColor() : style.getAlternatefilledColor());
                 }
             }
         }
 
         final String text = override.map(TranslationTextComponent::getString).orElse(style.getPrefix() + current + style.getSuffix());
         final int textWidth = Minecraft.getInstance().fontRenderer.getStringWidth(text);
-        Minecraft.getInstance().fontRenderer.drawStringWithShadow(text, x + (style.getWidth() - textWidth) / 2.0F, y + 2, 0xffffffff);
+        Minecraft.getInstance().fontRenderer.drawStringWithShadow(matrixStack, text, x + (style.getWidth() - textWidth) / 2.0F, y + 2, 0xffffffff);
     }
 
     @Override
