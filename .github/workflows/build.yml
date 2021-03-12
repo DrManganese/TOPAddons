@@ -1,0 +1,27 @@
+name: Gradle Build
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    environment: gradle
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: Build with Gradle
+      env:
+        CURSEFORGE_TOKEN: ${{secrets.CURSEFORGETOKEN}}
+      run: ./gradlew clean build -PcurseforgeToken=${CURSEFORGE_TOKEN}
