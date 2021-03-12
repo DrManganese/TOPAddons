@@ -250,8 +250,8 @@ public class FluidGaugeElement implements IElement {
         if (this.amount == 0 && !ForgeAddon.gaugeShowCapacity.get())
             return new TranslationTextComponent("topaddons.forge:empty").getString();
         else {
-            final String amount = new DecimalFormat("#.#").format(this.capacity < 100000 ? this.amount : this.amount / 10000);
-            final int capacity = this.capacity < 100000 ? this.capacity : this.capacity / 10000;
+            final String amount = new DecimalFormat("#.#").format(this.capacity < 100000 ? this.amount : this.amount / 1000);
+            final int capacity = this.capacity < 100000 ? this.capacity : this.capacity / 1000;
             final String unit = this.capacity < 100000 ? "mB" : "B";
             final Boolean showCapacity = ForgeAddon.gaugeShowCapacity.get();
             return String.format("%s%s%s %s", amount, showCapacity ? "/" : "", showCapacity ? capacity : "", unit);
