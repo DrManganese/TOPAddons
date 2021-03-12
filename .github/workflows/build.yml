@@ -4,9 +4,8 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-
+    environment: gradle
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
@@ -15,5 +14,9 @@ jobs:
         java-version: 1.8
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    - name: Store secrets in gradle.properties
+      env:
+        CURSEFORGE_TOKEN: ${{secrets.CURSEFORGETOKEN}}
+      run: echo "curseforgeToken=${CURSEFORGE_TOKEN}" >> gradle.properties
     - name: Build with Gradle
       run: ./gradlew build
