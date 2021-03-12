@@ -37,12 +37,12 @@ public class FluidGaugeElement implements IElement {
     private static final int INNER_HEIGHT_EXTENDED = 10;
 
     private final boolean extended;
-    private final int amount, capacity;
+    private final long amount, capacity;
     private final String tankNameKey;
     private final Fluid fluid;
     private int id;
 
-    public FluidGaugeElement(int id, boolean extended, int amount, int capacity, String tankNameKey, Fluid fluid) {
+    public FluidGaugeElement(int id, boolean extended, long amount, long capacity, String tankNameKey, Fluid fluid) {
         this.id = id;
         this.extended = extended;
         this.amount = amount;
@@ -53,8 +53,8 @@ public class FluidGaugeElement implements IElement {
 
     public FluidGaugeElement(PacketBuffer buf) {
         this.extended = buf.readBoolean();
-        this.amount = buf.readInt();
-        this.capacity = buf.readInt();
+        this.amount = buf.readLong();
+        this.capacity = buf.readLong();
         this.tankNameKey = buf.readString();
         this.fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(buf.readString()));
     }
@@ -97,8 +97,8 @@ public class FluidGaugeElement implements IElement {
     @Override
     public void toBytes(PacketBuffer buf) {
         buf.writeBoolean(this.extended);
-        buf.writeInt(this.amount);
-        buf.writeInt(this.capacity);
+        buf.writeLong(this.amount);
+        buf.writeLong(this.capacity);
         buf.writeString(this.tankNameKey);
         buf.writeString(fluid.getRegistryName().toString());
     }
@@ -177,7 +177,7 @@ public class FluidGaugeElement implements IElement {
         final int fluidColor = fluid.getAttributes().getColor();
         RenderSystem.color4f(red(fluidColor), green(fluidColor), blue(fluidColor), alpha(fluidColor));
 
-        final int fullWidth = Math.min(INNER_WIDTH, INNER_WIDTH * amount / capacity);
+        final int fullWidth = (int) Math.min(INNER_WIDTH, INNER_WIDTH * amount / capacity);
         final int nTiles = (fullWidth + textureWidth - 1) / textureWidth; // Ceil
         for (int tile = 0; tile < nTiles; tile++) {
             final int w = tile == nTiles - 1 ? fullWidth % textureWidth : textureWidth;
@@ -251,7 +251,7 @@ public class FluidGaugeElement implements IElement {
             return new TranslationTextComponent("topaddons.forge:empty").getString();
         else {
             final String amount = new DecimalFormat("#.#").format(this.capacity < 100000 ? this.amount : this.amount / 1000);
-            final int capacity = this.capacity < 100000 ? this.capacity : this.capacity / 1000;
+            final long capacity = this.capacity < 100000 ? this.capacity : this.capacity / 1000;
             final String unit = this.capacity < 100000 ? "mB" : "B";
             final Boolean showCapacity = ForgeAddon.gaugeShowCapacity.get();
             return String.format("%s%s%s %s", amount, showCapacity ? "/" : "", showCapacity ? capacity : "", unit);

@@ -64,7 +64,7 @@ public class FluidHandlerTileInfo implements ITileInfo<TileEntity>, ITileConfigP
     private static class FluidTank {
 
         private final FluidStack stack;
-        private final int capacity;
+        private final long capacity;
         private final String translationKey;
         private final int elementId;
 
