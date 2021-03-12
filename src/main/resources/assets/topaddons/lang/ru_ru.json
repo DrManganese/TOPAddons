@@ -1,0 +1,16 @@
+{
+  "topaddons:n_ticks": "%d тиков",
+  "topaddons.vanilla:fuel": "Топливо",
+  "topaddons.vanilla:instrument": "Инструмент",
+  "topaddons.vanilla:pitch": "Подача ",
+  "topaddons.vanilla:nobreed": "Повторное размножение",
+  "topaddons.vanilla:composter_ready": "Готов",
+  "topaddons.vanilla:beehive_ready": "Готов",
+  "topaddons.vanilla:bees": "Пчёлы",
+  "topaddons.storagedrawers:stack_limit": "Предел стека",
+  "topaddons.forge:default_tank_name": "Ёмкость",
+  "topaddons.forge:empty": "Пусто",
+  "topaddons.thermal:fractioning_still_0": "Вход",
+  "topaddons.thermal:fractioning_still_1": "Выход А",
+  "topaddons.thermal:fractioning_still_2": "Выход Б"
+}
