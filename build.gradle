@@ -26,12 +26,7 @@ minecraft {
     runs {
         client {
             workingDirectory project.file("run")
-            // args "--username=DrManganese"
-
-            // property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
-            // property "fml.logging.markers", "MODLAUNCHER"
             property "forge.logging.console.level", "debug"
-
             mods {
                 topaddons {
                     source sourceSets.main
@@ -41,11 +36,7 @@ minecraft {
 
         server {
             workingDirectory project.file("run-server")
-
-            // property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
-            // property "fml.logging.markers", "MODLAUNCHER"
             property "forge.logging.console.level", "debug"
-
             mods {
                 topaddons {
                     source sourceSets.main
