@@ -17,4 +17,4 @@ jobs:
     - name: Build with Gradle
       env:
         CURSEFORGE_TOKEN: ${{secrets.CURSEFORGETOKEN}}
-      run: ./gradlew build -PcurseforgeToken=${CURSEFORGE_TOKEN}
+      run: ./gradlew clean build -PcurseforgeToken=${CURSEFORGE_TOKEN}
