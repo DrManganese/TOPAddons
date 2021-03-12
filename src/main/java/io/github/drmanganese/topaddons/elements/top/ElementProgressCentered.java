@@ -54,9 +54,11 @@ public class ElementProgressCentered implements IElement {
             }
         }
 
-        final String text = override.map(TranslationTextComponent::getString).orElse(style.getPrefix() + current + style.getSuffix());
-        final int textWidth = Minecraft.getInstance().fontRenderer.getStringWidth(text);
-        Minecraft.getInstance().fontRenderer.drawStringWithShadow(matrixStack, text, x + (style.getWidth() - textWidth) / 2.0F, y + 2, 0xffffffff);
+        if (style.isShowText()) {
+            final String text = override.map(TranslationTextComponent::getString).orElse(style.getPrefix() + current + style.getSuffix());
+            final int textWidth = Minecraft.getInstance().fontRenderer.getStringWidth(text);
+            Minecraft.getInstance().fontRenderer.drawStringWithShadow(matrixStack, text, x + (style.getWidth() - textWidth) / 2.0F, y + 2, 0xffffffff);
+        }
     }
 
     @Override
