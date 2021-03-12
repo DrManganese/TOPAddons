@@ -21,7 +21,12 @@ jobs:
         java-version: 1.8
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build with Gradle
-      env:
-        CURSEFORGE_TOKEN: ${{secrets.CURSEFORGETOKEN}}
-      run: ./gradlew clean build -PcurseforgeToken=${CURSEFORGE_TOKEN}
+    - name: Build
+      uses: eskatos/gradle-command-action@v1.3.3
+      with:
+        wrapper-cache-enabled: true
+        dependencies-cache-enabled: true
+        configuration-cache-enabled: false
+        wrapper-directory: ./gradle/wrapper
+        gradle-executable: ./gradlew
+        arguments: build --no-daemon --max-workers 1 -PcurseforgeToken=
