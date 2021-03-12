@@ -80,12 +80,10 @@ dependencies {
 
     // Addon dependencies. Set to compileOnly for quicker test client launching
     compile fg.deobf("com.jaquadro.minecraft.storagedrawers:StorageDrawers:1.16.3-8.2.2")
-//    runtimeOnly fg.deobf("curse.maven:cofh-core-69162:3100750") //1.15.2-1.0.1
-//    runtimeOnly fg.deobf("curse.maven:thermal-foundation-222880:3101627") //1.15.2-1.0.1
-//    runtimeOnly fg.deobf("curse.maven:thermal-expansion-69163:3101628") //1.15.2-1.0.1
+    compile fg.deobf("curse.maven:industrial-foregoing-266515:3223241")
+    compile fg.deobf("curse.maven:titanium-287342:3223141")
+
     runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:+")
-//    runtimeOnly fg.deobf("curse.maven:industrial-foregoing-266515:2980323")
-//    runtimeOnly fg.deobf("curse.maven:titanium-287342:2980252")
 }
 
 jar {

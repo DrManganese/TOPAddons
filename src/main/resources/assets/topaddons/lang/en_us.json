@@ -12,5 +12,6 @@
   "topaddons.forge:empty": "Empty",
   "topaddons.thermal:fractioning_still_0": "Input",
   "topaddons.thermal:fractioning_still_1": "Output A",
-  "topaddons.thermal:fractioning_still_2": "Output B"
+  "topaddons.thermal:fractioning_still_2": "Output B",
+  "topaddons.industrialforegoing:entity": "Entity"
 }

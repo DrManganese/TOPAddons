@@ -1,6 +1,7 @@
 package io.github.drmanganese.topaddons;
 
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
+import io.github.drmanganese.topaddons.addons.industrialforegoing.IndustrialForegoingAddon;
 import io.github.drmanganese.topaddons.addons.storagedrawers.StorageDrawersAddon;
 import io.github.drmanganese.topaddons.addons.vanilla.VanillaAddon;
 import io.github.drmanganese.topaddons.capabilities.ClientCfgCapability;
@@ -54,6 +55,7 @@ public final class TopAddons {
         AddonRegistry.registerAddon(ForgeAddon::new);
         AddonRegistry.registerAddon(VanillaAddon::new);
         AddonRegistry.registerAddon(StorageDrawersAddon::new, "storagedrawers");
+        AddonRegistry.registerAddon(IndustrialForegoingAddon::new, "industrialforegoing");
         stopwatch.stop();
         LOGGER.debug("Registered {} addons in {}", AddonRegistry.getAddonStream().count(), stopwatch);
     }
