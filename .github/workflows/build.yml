@@ -17,6 +17,6 @@ jobs:
     - name: Store secrets in gradle.properties
       env:
         CURSEFORGE_TOKEN: ${{secrets.CURSEFORGETOKEN}}
-      run: echo "curseforgeToken=${CURSEFORGE_TOKEN}" >> gradle.properties
+      run: echo "curseforgeToken=${CURSEFORGE_TOKEN}" >> ./gradle.properties
     - name: Build with Gradle
       run: ./gradlew build
