@@ -32,4 +32,8 @@ public final class InfoHelper {
     public static IProbeInfo progressCentered(IProbeInfo probeInfo, PlayerEntity player, int current, int max, IProgressStyle progressStyle, @Nullable String override) {
         return probeInfo.element(new ElementProgressCentered(ElementSync.getId("centered_progress", player), current, max, progressStyle, override));
     }
+
+    public static IProbeInfo progressCenteredScaled(IProbeInfo probeInfo, PlayerEntity player, int current, int max, int scale, IProgressStyle progressStyle, @Nullable String override) {
+        return progressCentered(probeInfo, player, scale * current / max, scale, progressStyle, override);
+    }
 }
