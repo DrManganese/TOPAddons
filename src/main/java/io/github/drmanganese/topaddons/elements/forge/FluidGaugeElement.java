@@ -71,10 +71,15 @@ public class FluidGaugeElement implements IElement {
             .orElse(FluidColors.getForFluid(fluid, ForgeAddon.gaugeFluidColorAlgorithm.get()));
 
         renderBackground(stack, x, y, borderColor, backgroundColor);
-        if (ForgeAddon.gaugeRenderFluidTexture.get())
-            renderFluid(stack, x + 1, y + 1, fluid);
-        else
+        if (ForgeAddon.gaugeRenderFluidTexture.get()) {
+            try {
+                renderFluid(stack, x + 1, y + 1, fluid);
+            } catch (NullPointerException e) {
+                renderFluid(stack, x + 1, y + 1, fluidColor);
+            }
+        } else {
             renderFluid(stack, x + 1, y + 1, fluidColor);
+        }
         renderForeGround(stack, x, y, borderColor);
         renderText(stack, x, y, fluidColor);
     }
@@ -90,17 +95,17 @@ public class FluidGaugeElement implements IElement {
     }
 
     @Override
-    public int getID() {
-        return id;
-    }
-
-    @Override
     public void toBytes(PacketBuffer buf) {
         buf.writeBoolean(this.extended);
         buf.writeLong(this.amount);
         buf.writeLong(this.capacity);
         buf.writeString(this.tankNameKey);
         buf.writeString(fluid.getRegistryName().toString());
+    }
+
+    @Override
+    public int getID() {
+        return id;
     }
 
     private static float red(int color) {
@@ -121,7 +126,7 @@ public class FluidGaugeElement implements IElement {
 
     private void renderBackground(MatrixStack matrixStack, int x, int y, int borderColor, int backgroundColor) {
         if (ForgeAddon.gaugeRounded.get()) {
-            AbstractGui.fill(matrixStack,x + 1, y + 1, x + INNER_WIDTH + 1, y + (extended ? 11 : 7), backgroundColor);
+            AbstractGui.fill(matrixStack, x + 1, y + 1, x + INNER_WIDTH + 1, y + (extended ? 11 : 7), backgroundColor);
             ElementHelper.drawHorizontalLine(matrixStack, x + (extended ? 2 : 1), y, extended ? 96 : 98, borderColor);
             ElementHelper.drawHorizontalLine(matrixStack, x + (extended ? 2 : 1), y + (extended ? 11 : 7), extended ? 96 : 98, borderColor);
             ElementHelper.drawVerticalLine(matrixStack, x, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
