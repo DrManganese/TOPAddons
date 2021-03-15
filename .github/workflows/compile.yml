@@ -1,12 +1,9 @@
-name: Build
+name: Compile
 
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
+      - '!main'
   workflow_dispatch:
 
 jobs:
@@ -30,9 +27,4 @@ jobs:
           configuration-cache-enabled: false
           wrapper-directory: ./gradle/wrapper
           gradle-executable: ./gradlew
-          arguments: build --no-daemon --max-workers 1
-      - name: Upload jar
-        uses: actions/upload-artifact@v2
-        with:
-          name: jar
-          path: build/libs/topaddons*.jar
+          arguments: compileJava --no-daemon --max-workers 1
