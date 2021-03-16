@@ -1,0 +1,16 @@
+name: Create Issue Branch
+
+on:
+  issues:
+    types: [assigned, labeled]
+  workflow_dispatch:
+
+jobs:
+  create_issue_branch_job:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.action == 'assigned' || contains(github.event.issue.labels.*.name, 'in development') }}
+    steps:
+      - name: Create Issue Branch
+        uses: robvanderleek/create-issue-branch@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
