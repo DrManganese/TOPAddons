@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.16.5-2.1.1-beta
+
+- \[Thermal] Updated support to CoFH 1.2 (!! Previous versions are not compatible)
+- Fixed some hard mod dependencies
+
 ## 1.16.5-2.1.0-beta
 
 - \[Industrial Foregoing] Ported addon to 1.16: Generator, machines and Mob Duplicator info
