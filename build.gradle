@@ -111,6 +111,9 @@ curseforge {
         changelogType = "markdown"
         changelog = file("CHANGELOG.md")
         releaseType = "beta"
+        options {
+            debug = true
+        }
         mainArtifact(jar) {
             relations {
                 requiredDependency "the-one-probe"

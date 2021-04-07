@@ -1,16 +1,14 @@
-name: Build
+name: Release
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
+    tags:
+      - 'v*'
 
 jobs:
-  build:
+  curseforge:
+    environment: gradle
+    name: Create CurseForge Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,7 +19,7 @@ jobs:
           java-version: 1.8
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Build
+      - name: Build & Release
         uses: eskatos/gradle-command-action@v1.3.3
         with:
           wrapper-cache-enabled: true
@@ -29,9 +27,24 @@ jobs:
           configuration-cache-enabled: false
           wrapper-directory: ./gradle/wrapper
           gradle-executable: ./gradlew
-          arguments: build --no-daemon --max-workers 1
+          arguments: curseforge --no-daemon --max-workers 1 -PcurseforgeToken=${{secrets.CURSEFORGETOKEN}}
       - name: Upload jar
         uses: actions/upload-artifact@v2
         with:
-          name: jar
+          name: topaddons.jar
           path: build/libs/topaddons*.jar
+  github:
+    name: Create GitHub Release
+    needs: curseforge
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: topaddons.jar
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: topaddons.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
