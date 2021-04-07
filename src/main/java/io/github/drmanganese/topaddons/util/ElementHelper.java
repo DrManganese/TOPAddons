@@ -1,5 +1,6 @@
 package io.github.drmanganese.topaddons.util;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.network.PacketBuffer;
 
@@ -87,5 +88,13 @@ public final class ElementHelper {
             .numberFormat(NumberFormat.values()[buf.readByte()])
             .lifeBar(buf.readBoolean()).armorBar(buf.readBoolean());
         return style;
+    }
+
+    public static int drawSmallText(MatrixStack matrixStack, Minecraft mc, int x, int y, String text, int color) {
+        matrixStack.push();
+        matrixStack.scale(0.5F, 0.5F, 1.0F);
+        mc.fontRenderer.drawStringWithShadow(matrixStack, text, x * 2, y * 2, color);
+        matrixStack.pop();
+        return mc.fontRenderer.getStringWidth(text) / 2;
     }
 }

@@ -1,5 +1,7 @@
 {
   "topaddons:n_ticks": "%d ticks",
+  "topaddons:generating": "Genereert",
+  "topaddons:disabled": "Uitgeschakeld",
   "topaddons.vanilla:fuel": "Brandstof",
   "topaddons.vanilla:instrument": "Instrument",
   "topaddons.vanilla:pitch": "Toonhoogte",
@@ -12,5 +14,11 @@
   "topaddons.forge:empty": "Leeg",
   "topaddons.thermal:fractioning_still_0": "Invoer",
   "topaddons.thermal:fractioning_still_1": "Uitvoer A",
-  "topaddons.thermal:fractioning_still_2": "Uitvoer B"
+  "topaddons.thermal:fractioning_still_2": "Uitvoer B",
+  "topaddons.thermal_expansion:consumption": "Verbruik",
+  "topaddons.industrialforegoing:entity": "Entiteit",
+  "topaddons.bloodmagic:filling": "Netwerk vullen",
+  "topaddons.bloodmagic:consumption": "Verbruik",
+  "topaddons.bloodmagic:tranquility": "Kalmte",
+  "topaddons.bloodmagic:bonus": "Bonus"
 }
