@@ -1,21 +1,22 @@
 package io.github.drmanganese.topaddons.addons.bloodmagic;
 
+import io.github.drmanganese.topaddons.ObjectHolders;
 import io.github.drmanganese.topaddons.addons.TopAddon;
 import io.github.drmanganese.topaddons.addons.bloodmagic.tiles.TileAlchemicalReactorInfo;
 import io.github.drmanganese.topaddons.addons.bloodmagic.tiles.TileAltarInfo;
 import io.github.drmanganese.topaddons.addons.bloodmagic.tiles.TileIncenseAltarInfo;
-import io.github.drmanganese.topaddons.api.*;
+import io.github.drmanganese.topaddons.api.IAddonBlocks;
+import io.github.drmanganese.topaddons.api.IAddonConfig;
+import io.github.drmanganese.topaddons.api.IAddonElements;
+import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.capabilities.ElementSync;
 import io.github.drmanganese.topaddons.elements.bloodmagic.BloodAltarProgressElement;
 import io.github.drmanganese.topaddons.util.PlayerHelper;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
-
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.registries.ObjectHolder;
 
 import com.google.common.collect.ImmutableMultimap;
 import mcjty.theoneprobe.api.ITheOneProbe;
@@ -28,11 +29,6 @@ import javax.annotation.Nonnull;
 public class BloodMagicAddon extends TopAddon implements IAddonBlocks, IAddonElements, IAddonConfig {
 
     public static final String PROGRESS_ELEMENT_ID = "bm_altar_progress";
-
-    @ObjectHolder("bloodmagic:seersigil")
-    private static Item SEER_SIGIL;
-    @ObjectHolder("bloodmagic:divinationsigil")
-    private static Item DIVINATION_SIGIL;
 
     private static final ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> TILES = ImmutableMultimap.of(
         TileAltar.class, new TileAltarInfo(),
@@ -47,7 +43,8 @@ public class BloodMagicAddon extends TopAddon implements IAddonBlocks, IAddonEle
     }
 
     public static boolean isHoldingSigil(PlayerEntity player) {
-        return PlayerHelper.isPlayerHolding(player, SEER_SIGIL) || PlayerHelper.isPlayerHolding(player, DIVINATION_SIGIL);
+        return PlayerHelper.isPlayerHolding(player, ObjectHolders.BloodMagic.SEER_SIGIL) ||
+            PlayerHelper.isPlayerHolding(player, ObjectHolders.BloodMagic.DIVINATION_SIGIL);
     }
 
     @Nonnull
