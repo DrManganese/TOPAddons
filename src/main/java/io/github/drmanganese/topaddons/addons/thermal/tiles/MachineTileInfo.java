@@ -9,7 +9,7 @@ import net.minecraft.item.DyeColor;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
-import cofh.thermal.core.tileentity.MachineTileProcess;
+import cofh.thermal.lib.tileentity.MachineTileProcess;
 import com.google.common.collect.ImmutableMap;
 import mcjty.theoneprobe.api.*;
 
