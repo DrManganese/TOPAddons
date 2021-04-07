@@ -13,9 +13,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 
-import cofh.thermal.core.tileentity.DynamoTileBase;
-import cofh.thermal.core.tileentity.MachineTileProcess;
-import cofh.thermal.core.tileentity.ThermalTileBase;
+import cofh.thermal.lib.tileentity.DynamoTileBase;
+import cofh.thermal.lib.tileentity.MachineTileProcess;
+import cofh.thermal.lib.tileentity.ThermalTileBase;
 import cofh.thermal.core.tileentity.storage.EnergyCellTile;
 import com.google.common.collect.ImmutableMultimap;
 
