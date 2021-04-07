@@ -45,6 +45,6 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: topaddons.jar
+          files: /home/runner/work/TOPAddons/TOPAddons/topaddons.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
