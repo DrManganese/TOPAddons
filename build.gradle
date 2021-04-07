@@ -63,6 +63,10 @@ repositories {
         name = "cursemaven" // thermal
         url = "https://www.cursemaven.com"
     }
+    maven {
+        name = "blamejared" // patchouli
+        url = "https://maven.blamejared.com"
+    }
 }
 
 dependencies {
@@ -79,7 +83,10 @@ dependencies {
     compile fg.deobf("curse.maven:thermal-foundation-222880:3155830")
     compile fg.deobf("curse.maven:thermal-expansion-69163:3155832")
 
+    compile fg.deobf("curse.maven:blood-magic-224791:3184485")
+
     runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:+")
+    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
 }
 
 jar {

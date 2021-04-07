@@ -30,6 +30,7 @@ import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.function.Function;
 
+// FIXME: Segment disappears sometimes (test with blood altar)
 public class FluidGaugeElement implements IElement {
 
     private static final int INNER_WIDTH = 98;
