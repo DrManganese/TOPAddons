@@ -162,7 +162,7 @@ public class FluidGaugeElement implements IElement {
     private void renderFluid(MatrixStack matrixStack, int x, int y, Fluid fluid) {
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder buffer = tessellator.getBuffer();
-        final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTexture(fluid);
+        final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTextureSafe(fluid);
         Minecraft.getInstance().getTextureManager().bindTexture(texture.getAtlasTexture().getTextureLocation());
 
         final int textureWidth = texture.getWidth();
