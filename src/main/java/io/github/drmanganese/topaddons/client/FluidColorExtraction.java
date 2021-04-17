@@ -4,20 +4,23 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.PlayerContainer;
 
 public class FluidColorExtraction {
 
+    private static final Fluid DEFAULT = Fluids.WATER;
+
     private static final AtlasTexture TEXTURE = Minecraft.getInstance().getModelManager().getAtlasTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
 
     static int extractTopLeftFluidColorFromTexture(Fluid fluid) {
-        final TextureAtlasSprite sprite = getStillFluidTexture(fluid);
+        final TextureAtlasSprite sprite = getStillFluidTextureSafe(fluid);
         final int abgr = sprite.getPixelRGBA(0, 0, 0);
         return (0xff << 24) | (red(abgr) << 16) | (green(abgr) << 8) | blue(abgr);
     }
 
     static int extractAvgFluidColorFromTexture(Fluid fluid) {
-        final TextureAtlasSprite sprite = getStillFluidTexture(fluid);
+        final TextureAtlasSprite sprite = getStillFluidTextureSafe(fluid);
         final int width = sprite.getWidth();
         final int n = width * width;
         int r = 0;
@@ -33,9 +36,16 @@ public class FluidColorExtraction {
         }
         return (0xff << 24) | (sqrt(r / n) << 16) | (sqrt(g / n) << 8) | sqrt(b / n);
     }
-    
-    public static TextureAtlasSprite getStillFluidTexture(Fluid fluid) {
+
+    private static TextureAtlasSprite getStillFluidTexture(Fluid fluid) {
         return TEXTURE.getSprite(fluid.getAttributes().getStillTexture());
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    // In the rare case that a fluid returns a null sprite (should be impossible) we return water's texture
+    public static TextureAtlasSprite getStillFluidTextureSafe(Fluid fluid) {
+        final TextureAtlasSprite stillFluidTexture = getStillFluidTexture(fluid);
+        return stillFluidTexture == null ? getStillFluidTexture(DEFAULT) : stillFluidTexture;
     }
 
     private static int red(int abgr) {
