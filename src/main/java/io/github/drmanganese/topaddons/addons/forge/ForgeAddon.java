@@ -81,7 +81,7 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
         }
 
         if (type == ModConfig.Type.COMMON)
-            gaugeModBlacklist = builder.comment("List of mod IDs for which no TOP Addons fluid gauge should be shown").define("gaugeModBlacklist", Arrays.asList("mekanism", "fluidtank"));
+            gaugeModBlacklist = builder.comment("List of mod IDs for which no TOP Addons fluid gauge should be shown").define("gaugeModBlacklist", Arrays.asList("mekanism", "mekanismgenerators", "fluidtank"));
         builder.pop();
     }
 
