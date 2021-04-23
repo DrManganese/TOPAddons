@@ -13,14 +13,12 @@ public class FluidColorExtraction {
 
     private static final AtlasTexture TEXTURE = Minecraft.getInstance().getModelManager().getAtlasTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
 
-    static int extractTopLeftFluidColorFromTexture(Fluid fluid) {
-        final TextureAtlasSprite sprite = getStillFluidTextureSafe(fluid);
+    static int extractTopLeftColorFromTexture(TextureAtlasSprite sprite) {
         final int abgr = sprite.getPixelRGBA(0, 0, 0);
         return (0xff << 24) | (red(abgr) << 16) | (green(abgr) << 8) | blue(abgr);
     }
 
-    static int extractAvgFluidColorFromTexture(Fluid fluid) {
-        final TextureAtlasSprite sprite = getStillFluidTextureSafe(fluid);
+    static int extractAvgColorFromTexture(TextureAtlasSprite sprite) {
         final int width = sprite.getWidth();
         final int n = width * width;
         int r = 0;
