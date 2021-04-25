@@ -35,6 +35,7 @@ description="The One Probe integration for various mods"
 [[dependencies.topaddons]]
     modId="storagedrawers"
     mandatory=false
+    versionRange="[8.2.2,)"
     ordering="AFTER"
 [[dependencies.topaddons]]
     modId="cofh_core"
