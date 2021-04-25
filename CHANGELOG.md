@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.16.5-2.1.3-beta
+
+- \[Forge] Added optional dependency versions to fix exception with Forge 31.1.10
+
+## 1.16.5-2.1.2-beta
+
+- \[Forge] Attempt fix for NPE while rendering fluid gauge
+
 ## 1.16.5-2.1.1-beta
 
 - \[Thermal] Updated support to CoFH 1.2 (!! Previous versions are not compatible)
