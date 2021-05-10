@@ -3,7 +3,6 @@ package io.github.drmanganese.topaddons.addons.vanilla;
 import io.github.drmanganese.topaddons.addons.TopAddon;
 import io.github.drmanganese.topaddons.addons.vanilla.blocks.BeehiveInfo;
 import io.github.drmanganese.topaddons.addons.vanilla.blocks.ComposterInfo;
-import io.github.drmanganese.topaddons.addons.vanilla.blocks.NoteBlockInfo;
 import io.github.drmanganese.topaddons.addons.vanilla.entities.BreedCoolDownInfo;
 import io.github.drmanganese.topaddons.addons.vanilla.tiles.BeaconInfo;
 import io.github.drmanganese.topaddons.addons.vanilla.tiles.FurnaceInfo;
@@ -28,7 +27,6 @@ import javax.annotation.Nonnull;
 public class VanillaAddon extends TopAddon implements IAddonBlocks, IAddonEntities, IAddonConfig {
 
     private static final ImmutableMap<Block, IBlockInfo> BLOCKS = ImmutableMap.of(
-        Blocks.NOTE_BLOCK, new NoteBlockInfo(),
         Blocks.COMPOSTER, new ComposterInfo(),
         Blocks.BEE_NEST, BeehiveInfo.INSTANCE,
         Blocks.BEEHIVE, BeehiveInfo.INSTANCE
