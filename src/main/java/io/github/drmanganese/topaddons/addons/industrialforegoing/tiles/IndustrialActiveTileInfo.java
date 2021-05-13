@@ -46,7 +46,7 @@ public class IndustrialActiveTileInfo implements ITileInfo<ActiveTile<?>> {
                         case "blue":  // Mixing
                         case "bar":   // Bioreactor
                         case "blaze": // Potion brewer
-                            tinyIndustrialProgressBar(probeInfo, player, progressBar);
+                            tinyIndustrialProgressBar(probeInfo, player, probeMode, progressBar);
                             break;
                         case "progressBar":
                             industrialProgressBar(probeInfo, player, progressBar, "Progress: ");
@@ -61,7 +61,10 @@ public class IndustrialActiveTileInfo implements ITileInfo<ActiveTile<?>> {
             );
     }
 
+    @SuppressWarnings("unchecked")
     private static void industrialProgressBar(IProbeInfo probeInfo, PlayerEntity player, ProgressBarComponent<?> progressBar, String prefix) {
+        final Predicate<ActiveTile<?>> canIncrease = (Predicate<ActiveTile<?>>) progressBar.getCanIncrease();
+        if (!canIncrease.test((ActiveTile<?>) progressBar.getComponentHarness()) && progressBar.getProgress() == 0) return;
         final Colors colors = Colors.fromDye(progressBar.getColor() == DyeColor.WHITE ? DyeColor.LIGHT_GRAY : progressBar.getColor());
         final IProgressStyle style = Styles.machineProgress(player)
             .filledColor(colors.dyeColor)
@@ -70,7 +73,8 @@ public class IndustrialActiveTileInfo implements ITileInfo<ActiveTile<?>> {
         InfoHelper.progressCenteredScaled(probeInfo, player, progressBar.getProgress(), progressBar.getMaxProgress(), 100, style, null);
     }
 
-    private static void tinyIndustrialProgressBar(IProbeInfo probeInfo, PlayerEntity player, ProgressBarComponent<?> progressBar) {
+    private static void tinyIndustrialProgressBar(IProbeInfo probeInfo, PlayerEntity player, ProbeMode probeMode, ProgressBarComponent<?> progressBar) {
+        if (progressBar.getProgress() == 0 && probeMode == ProbeMode.NORMAL) return;
         final Colors colors = Colors.fromDye(progressBar.getColor());
         tinyIndustrialProgressBar(probeInfo, player, progressBar, colors.dyeColor, colors.darkerColor);
     }
