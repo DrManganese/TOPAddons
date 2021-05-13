@@ -2,7 +2,6 @@ buildscript {
     repositories {
         maven { url = "https://files.minecraftforge.net/maven" }
         maven { url 'https://plugins.gradle.org/m2/' }
-        jcenter()
         mavenCentral()
     }
     dependencies {
@@ -74,7 +73,8 @@ dependencies {
     compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:1.16-3.0.7-13") {transitive = false}
 
     // Addon dependencies. Set to compileOnly for quicker test client launching
-    compile fg.deobf("com.jaquadro.minecraft.storagedrawers:StorageDrawers:1.16.3-8.2.2")
+    //compile fg.deobf("com.jaquadro.minecraft.storagedrawers:StorageDrawers:1.16.3-8.2.2")
+    compile fg.deobf("curse.maven:storage-drawers-2235852:3180569")
 
     compile fg.deobf("curse.maven:industrial-foregoing-266515:3223241")
     compile fg.deobf("curse.maven:titanium-287342:3223141")
