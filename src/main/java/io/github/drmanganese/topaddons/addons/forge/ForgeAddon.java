@@ -76,8 +76,8 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
             gaugeRenderFluidTexture = builder.comment("Use the fluid's texture in the fluid gauge instead of the TOP lines.").define("gaugeRenderFluidTexture", true);
             gaugeFluidTextureAlignment = builder.comment("Alignment of the fluid's texture when gaugeRenderFluidTexture is enabled.").defineEnum("fluidTextureAlignment", FluidTextureAlignment.MIDDLE);
             builder.pop();
-            machineProgressBackgroundColor = new ColorValue(builder.comment("Machine progress bar background color").define("machineProgressBackgroundColor", "#55363636", ColorValue::test));
-            machineProgressBorderColor = new ColorValue(builder.comment("Machine progress bar border color").define("machineProgressBorderColor", "#ff969696", ColorValue::test));
+            machineProgressBackgroundColor = new ColorValue(builder.comment("Machine progress bar background color").define("machineProgressBackgroundColor", "#55666666", ColorValue::test));
+            machineProgressBorderColor = new ColorValue(builder.comment("Machine progress bar border color").define("machineProgressBorderColor", "#ff666666", ColorValue::test));
         }
 
         if (type == ModConfig.Type.COMMON)

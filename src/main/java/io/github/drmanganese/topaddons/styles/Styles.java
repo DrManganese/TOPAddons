@@ -44,11 +44,13 @@ public final class Styles {
         public final DyeColor dye;
         public final int dyeColor;
         public final int darkerColor;
+        public final int semiTransparentColor;
 
         private Colors(DyeColor dyeColor) {
             this.dye = dyeColor;
             this.dyeColor = dyeColor.getColorValue() | 0xff000000;
             this.darkerColor = new Color(this.dyeColor).darker().hashCode();
+            this.semiTransparentColor = this.darkerColor & 0x33ffffff;
         }
 
         public static Colors fromDye(DyeColor dyeColor) {
