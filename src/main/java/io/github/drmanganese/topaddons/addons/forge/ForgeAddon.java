@@ -43,7 +43,9 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
     public static ColorValue machineProgressBorderColor;
 
     // Common
-    public static ForgeConfigSpec.ConfigValue<List<String>> gaugeModBlacklist;
+    public static ForgeConfigSpec.ConfigValue<List<? extends String>> gaugeModBlacklist;
+    private static final List<? extends String> DEFAULT_BLACKLIST = Arrays.asList("mekanism", "mekanismgenerators", "fluidtank");
+
 
     public ForgeAddon() {
         super("forge");
@@ -81,7 +83,7 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
         }
 
         if (type == ModConfig.Type.COMMON)
-            gaugeModBlacklist = builder.comment("List of mod IDs for which no TOP Addons fluid gauge should be shown").define("gaugeModBlacklist", Arrays.asList("mekanism", "mekanismgenerators", "fluidtank"));
+            gaugeModBlacklist = builder.comment("List of mod IDs for which no TOP Addons fluid gauge should be shown").defineList("gaugeModBlacklist", DEFAULT_BLACKLIST, o -> true);
         builder.pop();
     }
 
