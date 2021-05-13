@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.16.5-2.1.4-beta
+
+- Various fixes and improvements
+
 ## 1.16.5-2.1.3-beta
 
 - \[Forge] Added optional dependency versions to fix exception with Forge 31.1.10
