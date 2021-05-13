@@ -17,7 +17,7 @@ description="The One Probe integration for various mods"
 [[dependencies.topaddons]]
     modId="forge"
     mandatory=true
-    versionRange="[36.0.42,)"
+    versionRange="[36.0.53,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.topaddons]]
