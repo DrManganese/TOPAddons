@@ -2,7 +2,6 @@ package io.github.drmanganese.topaddons.addons.industrialforegoing;
 
 import io.github.drmanganese.topaddons.addons.TopAddon;
 import io.github.drmanganese.topaddons.addons.industrialforegoing.tiles.IndustrialActiveTileInfo;
-import io.github.drmanganese.topaddons.addons.industrialforegoing.tiles.IndustrialGeneratorTileInfo;
 import io.github.drmanganese.topaddons.addons.industrialforegoing.tiles.MobDuplicatorTileInfo;
 import io.github.drmanganese.topaddons.api.IAddonBlocks;
 import io.github.drmanganese.topaddons.api.IAddonConfig;
@@ -16,7 +15,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 import com.buuz135.industrial.block.agriculturehusbandry.tile.MobDuplicatorTile;
-import com.buuz135.industrial.block.tile.IndustrialGeneratorTile;
 import com.google.common.collect.ImmutableMultimap;
 import com.hrznstudio.titanium.block.tile.ActiveTile;
 
@@ -27,7 +25,6 @@ public class IndustrialForegoingAddon extends TopAddon implements IAddonBlocks, 
 
     private final ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> TILES = ImmutableMultimap.of(
         ActiveTile.class, new IndustrialActiveTileInfo(),
-        IndustrialGeneratorTile.class, new IndustrialGeneratorTileInfo(),
         MobDuplicatorTile.class, new MobDuplicatorTileInfo()
     );
 

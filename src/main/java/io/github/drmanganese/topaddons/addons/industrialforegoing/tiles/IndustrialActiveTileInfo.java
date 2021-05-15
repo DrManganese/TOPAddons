@@ -16,11 +16,9 @@ import net.minecraft.world.World;
 import com.buuz135.industrial.block.generator.tile.MycelialGeneratorTile;
 import com.google.common.collect.LinkedHashMultimap;
 import com.hrznstudio.titanium.block.tile.ActiveTile;
+import com.hrznstudio.titanium.block.tile.GeneratorTile;
 import com.hrznstudio.titanium.component.progress.ProgressBarComponent;
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.IProgressStyle;
-import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.*;
 import org.apache.commons.lang3.ClassUtils;
 
 import javax.annotation.Nonnull;
@@ -39,6 +37,14 @@ public class IndustrialActiveTileInfo implements ITileInfo<ActiveTile<?>> {
             .filter(progressBarHolder -> !(tile instanceof MycelialGeneratorTile && progressBarHolder.fieldName.equals("bar")))
             .forEach(progressBarHolder -> {
                     final ProgressBarComponent<?> progressBar = progressBarHolder.progressBar;
+
+                    if (tile instanceof GeneratorTile<?>) {
+                        final GeneratorTile<?> generatorTile = (GeneratorTile<?>) tile;
+                        if (progressBar.getProgress() > 0)
+                            probeInfo.text(CompoundText.createLabelInfo("{*topaddons:generating*}: ", generatorTile.getEnergyProducedEveryTick()).label(" FE/t"));
+                        tinyIndustrialProgressBar(probeInfo, player, probeMode, progressBar);
+                        return;
+                    }
 
                     switch (progressBarHolder.fieldName) {
                         case "work":
