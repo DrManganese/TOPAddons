@@ -11,15 +11,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import mcjty.theoneprobe.api.*;
-import mcjty.theoneprobe.apiimpl.styles.IconStyle;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class BeaconInfo implements ITileInfo<BeaconTileEntity> {
 
-    private static final IIconStyle SMALL_ICON_STYLE = new IconStyle().textureWidth(8).textureHeight(8).width(8).height(8);
-    private static final IIconStyle FULL_ICON_STYLE = new IconStyle().textureWidth(18).textureHeight(18).width(18).height(18);
+    private static final IIconStyle SMALL_ICON_STYLE = IIconStyle.createBounds(8, 8).textureBounds(8, 8);
+    private static final IIconStyle FULL_ICON_STYLE = IIconStyle.createBounds(18, 18).textureBounds(18, 18);
+    private static final ILayoutStyle FULL_LAYOUT_STYLE = Styles.CENTERED.copy().spacing(2);
 
     @Override
     public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData hitData, @Nonnull BeaconTileEntity tile) {
@@ -50,7 +50,7 @@ public class BeaconInfo implements ITileInfo<BeaconTileEntity> {
     }
 
     private void drawEffectIconAndName(IProbeInfo probeInfo, Effect effect, String level) {
-        final IProbeInfo horizontal = probeInfo.horizontal(Styles.horiCentered().spacing(2));
+        final IProbeInfo horizontal = probeInfo.horizontal(FULL_LAYOUT_STYLE);
         drawEffectIcon(horizontal, effect, FULL_ICON_STYLE)
             .text(CompoundText.create().text(effect.getDisplayName()).text(" " + level));
     }

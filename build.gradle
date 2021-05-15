@@ -70,7 +70,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
-    compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:1.16-3.0.7-13") {transitive = false}
+    compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:$top_version") {transitive = false}
 
     // Addon dependencies. Set to compileOnly for quicker test client launching
     //compile fg.deobf("com.jaquadro.minecraft.storagedrawers:StorageDrawers:1.16.3-8.2.2")

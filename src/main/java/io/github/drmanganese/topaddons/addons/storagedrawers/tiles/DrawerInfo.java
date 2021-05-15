@@ -31,6 +31,9 @@ public class DrawerInfo implements ITileInfo<TileEntityDrawers>, ITileConfigProv
     //∞
     private static final String INFINITY = "\u221e";
 
+    private static final ILayoutStyle NO_SPACING = ILayoutStyle.createSpacing(0);
+    private static final ILayoutStyle INVENTORY = ILayoutStyle.createSpacing(2).borderColor(chestContentsBorderColor);
+
     @Override
     public void getProbeConfig(IProbeConfig config, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
         final TileEntityDrawers tile = Objects.requireNonNull((TileEntityDrawers) world.getTileEntity(data.getPos()));
@@ -52,7 +55,7 @@ public class DrawerInfo implements ITileInfo<TileEntityDrawers>, ITileConfigProv
 
         if (!drawers.isEmpty()) {
             final boolean hasVendingUpgrade = tile.getDrawerAttributes().isUnlimitedVending();
-            final IProbeInfo vert = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(chestContentsBorderColor).spacing(2));
+            final IProbeInfo vert = probeInfo.vertical(INVENTORY);
             drawers.forEach(drawer -> displayDrawerInfo(vert, drawer, hasVendingUpgrade));
         }
 
@@ -66,14 +69,14 @@ public class DrawerInfo implements ITileInfo<TileEntityDrawers>, ITileConfigProv
     }
 
     private static void displayDrawerInfo(IProbeInfo probeInfo, IDrawer drawer, Boolean hasVendingUpgrade) {
-        final IProbeInfo horizontal = probeInfo.horizontal(probeInfo.defaultLayoutStyle().spacing(0));
+        final IProbeInfo horizontal = probeInfo.horizontal(NO_SPACING);
         final ItemStack stack = drawer.getStoredItemPrototype().copy();
 
         // Minimum of 0 to handle empty locked drawers
         stack.setCount(Math.max(1, drawer.getStoredItemCount()));
         horizontal.item(stack);
 
-        final IProbeInfo vertical = horizontal.vertical(probeInfo.defaultLayoutStyle().spacing(0));
+        final IProbeInfo vertical = horizontal.vertical(NO_SPACING);
         vertical.itemLabel(drawer.getStoredItemPrototype());
         vertical.text(
             CompoundText.create()

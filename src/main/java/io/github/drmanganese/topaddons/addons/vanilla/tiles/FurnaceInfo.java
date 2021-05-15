@@ -12,7 +12,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 import mcjty.theoneprobe.api.*;
-import mcjty.theoneprobe.apiimpl.styles.IconStyle;
 
 import javax.annotation.Nonnull;
 
@@ -20,7 +19,7 @@ import static mcjty.theoneprobe.api.TextStyleClass.INFO;
 
 public class FurnaceInfo implements ITileInfo<AbstractFurnaceTileEntity> {
 
-    private static final IIconStyle FIRE_STYLE = new IconStyle().textureWidth(8).textureHeight(64).width(8).height(8);
+    private static final IIconStyle FIRE_STYLE = IIconStyle.createBounds(8, 8).textureBounds(8, 64);
     private static final ResourceLocation FIRE_ICON = new ResourceLocation("minecraft:textures/block/campfire_fire.png");
 
     @Override
@@ -32,7 +31,7 @@ public class FurnaceInfo implements ITileInfo<AbstractFurnaceTileEntity> {
         if (burnTime > 0)
             probeInfo
                 .horizontal()
-                .icon(FIRE_ICON, 0, (int) (world.getGameTime() % 8 * 16), FIRE_STYLE.getWidth(), FIRE_STYLE.getHeight(), new IconStyle().textureWidth(8).textureHeight(64).width(8).height(8))
+                .icon(FIRE_ICON, 0, (int) (world.getGameTime() % 8 * 16), FIRE_STYLE.getWidth(), FIRE_STYLE.getHeight(), FIRE_STYLE)
                 .text(
                     CompoundText.create()
                         .label("topaddons.vanilla:fuel")
@@ -42,7 +41,7 @@ public class FurnaceInfo implements ITileInfo<AbstractFurnaceTileEntity> {
                 );
 
         if (cookTime > 0) {
-            final String prefixWord = (tile instanceof SmokerTileEntity) ? "Smoking" : "Smelting";
+            final String prefixWord = (tile instanceof SmokerTileEntity) ? "topaddons.vanilla:smoking" : "topaddons.vanilla:smelting";
             probeInfo.progress(100 * cookTime / cookTimeTotal, 100, Styles.machineProgress(player, prefixWord).alternateFilledColor(0xff777777));
         }
     }
