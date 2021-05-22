@@ -16,6 +16,7 @@ import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawerGroup;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import mcjty.theoneprobe.api.*;
+import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -30,6 +31,9 @@ public class DrawerInfo implements ITileInfo<TileEntityDrawers>, ITileConfigProv
 
     //∞
     private static final String INFINITY = "\u221e";
+
+    private static final ILayoutStyle NO_SPACING = new LayoutStyle().spacing(0);
+    private static final ILayoutStyle INVENTORY = new LayoutStyle().spacing(2).borderColor(chestContentsBorderColor);
 
     @Override
     public void getProbeConfig(IProbeConfig config, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
@@ -52,7 +56,7 @@ public class DrawerInfo implements ITileInfo<TileEntityDrawers>, ITileConfigProv
 
         if (!drawers.isEmpty()) {
             final boolean hasVendingUpgrade = tile.getDrawerAttributes().isUnlimitedVending();
-            final IProbeInfo vert = probeInfo.vertical(probeInfo.defaultLayoutStyle().borderColor(chestContentsBorderColor).spacing(2));
+            final IProbeInfo vert = probeInfo.vertical(INVENTORY);
             drawers.forEach(drawer -> displayDrawerInfo(vert, drawer, hasVendingUpgrade));
         }
 
@@ -66,14 +70,14 @@ public class DrawerInfo implements ITileInfo<TileEntityDrawers>, ITileConfigProv
     }
 
     private static void displayDrawerInfo(IProbeInfo probeInfo, IDrawer drawer, Boolean hasVendingUpgrade) {
-        final IProbeInfo horizontal = probeInfo.horizontal(probeInfo.defaultLayoutStyle().spacing(0));
+        final IProbeInfo horizontal = probeInfo.horizontal(NO_SPACING);
         final ItemStack stack = drawer.getStoredItemPrototype().copy();
 
         // Minimum of 0 to handle empty locked drawers
         stack.setCount(Math.max(1, drawer.getStoredItemCount()));
         horizontal.item(stack);
 
-        final IProbeInfo vertical = horizontal.vertical(probeInfo.defaultLayoutStyle().spacing(0));
+        final IProbeInfo vertical = horizontal.vertical(NO_SPACING);
         vertical.itemLabel(drawer.getStoredItemPrototype());
         vertical.text(
             CompoundText.create()

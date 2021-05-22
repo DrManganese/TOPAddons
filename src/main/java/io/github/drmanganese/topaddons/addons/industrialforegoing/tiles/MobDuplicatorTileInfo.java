@@ -13,12 +13,15 @@ import net.minecraft.world.World;
 import com.buuz135.industrial.block.agriculturehusbandry.tile.MobDuplicatorTile;
 import com.buuz135.industrial.item.MobImprisonmentToolItem;
 import mcjty.theoneprobe.api.*;
+import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 
 import javax.annotation.Nonnull;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class MobDuplicatorTileInfo implements ITileInfo<MobDuplicatorTile> {
+
+    private static final ILayoutStyle LAYOUT_STYLE = new LayoutStyle().alignment(ElementAlignment.ALIGN_BOTTOMRIGHT).spacing(4);
 
     @Override
     public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData hitData, @Nonnull MobDuplicatorTile tile) {
@@ -34,7 +37,7 @@ public class MobDuplicatorTileInfo implements ITileInfo<MobDuplicatorTile> {
         if (mobImprisonmentToolItem.containsEntity(itemStack)) {
             final Entity mob = mobImprisonmentToolItem.getEntityFromStack(itemStack, world, false);
             probeInfo
-                .horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_BOTTOMRIGHT).spacing(4))
+                .horizontal(LAYOUT_STYLE)
                 .text(CompoundText.create().label("{*topaddons.industrialforegoing:entity*}: ").info(mob.getDisplayName()))
                 .entity(mob);
         } else {

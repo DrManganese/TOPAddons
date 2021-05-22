@@ -5,6 +5,7 @@ import io.github.drmanganese.topaddons.config.Config;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import com.google.common.collect.ImmutableMap;
 import mcjty.theoneprobe.api.ElementAlignment;
@@ -20,24 +21,25 @@ import java.util.stream.Collectors;
 
 public final class Styles {
 
-    private static final ImmutableMap<DyeColor, Colors> DYE_COLORS = ImmutableMap.copyOf(Arrays.stream(DyeColor.values()).collect(Collectors.toMap(Function.identity(), Colors::new)));
+    public static final ILayoutStyle CENTERED = new LayoutStyle().alignment(ElementAlignment.ALIGN_CENTER);
+
+    private static final ImmutableMap<DyeColor, Colors> DYE_COLORS = ImmutableMap
+        .copyOf(Arrays.stream(DyeColor.values()).collect(Collectors.toMap(Function.identity(), Colors::new)));
+
+    private static final IProgressStyle MACHINE_PROGRESS_STYLE = new ProgressStyle().suffix("%");
 
     public static IProgressStyle machineProgress(PlayerEntity player) {
-        return machineProgress(player, "Progress");
+        return machineProgress(player, "topaddons:progress");
     }
 
     public static IProgressStyle machineProgress(PlayerEntity player, String prefixWord) {
         final int borderColor = Config.getSyncedColor(player, ForgeAddon.machineProgressBorderColor);
         final int backgroundColor = Config.getSyncedColor(player, ForgeAddon.machineProgressBackgroundColor);
-        return new ProgressStyle()
+        return MACHINE_PROGRESS_STYLE
+            .copy()
             .borderColor(borderColor)
             .backgroundColor(backgroundColor)
-            .prefix(prefixWord + ": ")
-            .suffix("%");
-    }
-
-    public static ILayoutStyle horiCentered() {
-        return new LayoutStyle().alignment(ElementAlignment.ALIGN_CENTER);
+            .prefix(new TranslationTextComponent(prefixWord).appendString(": "));
     }
 
     public static class Colors {

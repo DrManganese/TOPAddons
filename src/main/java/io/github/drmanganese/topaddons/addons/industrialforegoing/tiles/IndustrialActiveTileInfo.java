@@ -5,7 +5,6 @@ import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.styles.Styles;
 import io.github.drmanganese.topaddons.styles.Styles.Colors;
-import io.github.drmanganese.topaddons.util.InfoHelper;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -57,7 +56,7 @@ public class IndustrialActiveTileInfo implements ITileInfo<ActiveTile<?>> {
                             tinyIndustrialProgressBar(probeInfo, player, probeMode, progressBar);
                             break;
                         case "progressBar":
-                            industrialProgressBar(probeInfo, player, progressBar, "Progress: ");
+                            industrialProgressBar(probeInfo, player, progressBar);
                             break;
                         case "etherBuffer": // Hydroponics
                             tinyIndustrialProgressBar(probeInfo, player, progressBar, -5385004, -8809324, -8809324 & 0x33ffffff);
@@ -70,15 +69,16 @@ public class IndustrialActiveTileInfo implements ITileInfo<ActiveTile<?>> {
     }
 
     @SuppressWarnings("unchecked")
-    private static void industrialProgressBar(IProbeInfo probeInfo, PlayerEntity player, ProgressBarComponent<?> progressBar, String prefix) {
+    private static void industrialProgressBar(IProbeInfo probeInfo, PlayerEntity player, ProgressBarComponent<?> progressBar) {
         final Predicate<ActiveTile<?>> canIncrease = (Predicate<ActiveTile<?>>) progressBar.getCanIncrease();
         if (!canIncrease.test((ActiveTile<?>) progressBar.getComponentHarness()) && progressBar.getProgress() == 0) return;
         final Colors colors = Colors.fromDye(progressBar.getColor() == DyeColor.WHITE ? DyeColor.LIGHT_GRAY : progressBar.getColor());
         final IProgressStyle style = Styles.machineProgress(player)
             .filledColor(colors.dyeColor)
             .alternateFilledColor(colors.darkerColor)
-            .prefix(prefix);
-        InfoHelper.progressCenteredScaled(probeInfo, player, progressBar.getProgress(), progressBar.getMaxProgress(), 100, style, null);
+            .alignment(ElementAlignment.ALIGN_CENTER);
+        final int progressScaled = 100 * progressBar.getProgress() / progressBar.getMaxProgress();
+        probeInfo.progress(progressScaled, 100, style);
     }
 
     private static void tinyIndustrialProgressBar(IProbeInfo probeInfo, PlayerEntity player, ProbeMode probeMode, ProgressBarComponent<?> progressBar) {
@@ -88,7 +88,7 @@ public class IndustrialActiveTileInfo implements ITileInfo<ActiveTile<?>> {
     }
 
     private static void tinyIndustrialProgressBar(IProbeInfo probeInfo, PlayerEntity player, ProgressBarComponent<?> progressBar, int filledColor, int alternateFilledColor, int backgroundColor) {
-        IProgressStyle style = Styles.machineProgress(player)
+        final IProgressStyle style = Styles.machineProgress(player)
             .showText(false)
             .height(probeInfo.defaultProgressStyle().getHeight() / 2)
             .filledColor(filledColor)

@@ -8,7 +8,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-import mcjty.theoneprobe.api.*;
+import mcjty.theoneprobe.api.CompoundText;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import wayoftime.bloodmagic.tile.TileAlchemicalReactionChamber;
 
 import javax.annotation.Nonnull;
@@ -20,7 +23,7 @@ public class TileAlchemicalReactorInfo implements ITileInfo<TileAlchemicalReacti
         final ItemStack arcTool = tile.getStackInSlot(TileAlchemicalReactionChamber.ARC_TOOL_SLOT);
         if (!arcTool.isEmpty())
             probeInfo
-                .horizontal(probeInfo.defaultLayoutStyle().alignment(ElementAlignment.ALIGN_CENTER))
+                .horizontal(Styles.CENTERED)
                 .text(CompoundText.create().label("{*topaddons.bloodmagic:arc_tool*}: "))
                 .item(arcTool);
 
