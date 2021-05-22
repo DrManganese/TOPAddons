@@ -11,6 +11,8 @@ import com.google.common.collect.ImmutableMap;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.ILayoutStyle;
 import mcjty.theoneprobe.api.IProgressStyle;
+import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
+import mcjty.theoneprobe.apiimpl.styles.ProgressStyle;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -19,14 +21,12 @@ import java.util.stream.Collectors;
 
 public final class Styles {
 
-    public static final ILayoutStyle CENTERED = ILayoutStyle.createAligned(ElementAlignment.ALIGN_CENTER);
+    public static final ILayoutStyle CENTERED = new LayoutStyle().alignment(ElementAlignment.ALIGN_CENTER);
 
     private static final ImmutableMap<DyeColor, Colors> DYE_COLORS = ImmutableMap
         .copyOf(Arrays.stream(DyeColor.values()).collect(Collectors.toMap(Function.identity(), Colors::new)));
 
-    private static final IProgressStyle MACHINE_PROGRESS_STYLE = IProgressStyle
-        .createDefault()
-        .suffix("%");
+    private static final IProgressStyle MACHINE_PROGRESS_STYLE = new ProgressStyle().suffix("%");
 
     public static IProgressStyle machineProgress(PlayerEntity player) {
         return machineProgress(player, "topaddons:progress");

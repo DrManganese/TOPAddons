@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import com.buuz135.industrial.block.agriculturehusbandry.tile.MobDuplicatorTile;
 import com.buuz135.industrial.item.MobImprisonmentToolItem;
 import mcjty.theoneprobe.api.*;
+import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 
 import javax.annotation.Nonnull;
 import java.util.stream.IntStream;
@@ -20,7 +21,7 @@ import java.util.stream.Stream;
 
 public class MobDuplicatorTileInfo implements ITileInfo<MobDuplicatorTile> {
 
-    private static final ILayoutStyle LAYOUT_STYLE = ILayoutStyle.createAligned(ElementAlignment.ALIGN_BOTTOMRIGHT).spacing(4);
+    private static final ILayoutStyle LAYOUT_STYLE = new LayoutStyle().alignment(ElementAlignment.ALIGN_BOTTOMRIGHT).spacing(4);
 
     @Override
     public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData hitData, @Nonnull MobDuplicatorTile tile) {

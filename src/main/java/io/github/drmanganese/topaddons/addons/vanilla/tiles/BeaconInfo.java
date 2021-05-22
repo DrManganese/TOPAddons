@@ -11,14 +11,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import mcjty.theoneprobe.api.*;
+import mcjty.theoneprobe.apiimpl.styles.IconStyle;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class BeaconInfo implements ITileInfo<BeaconTileEntity> {
 
-    private static final IIconStyle SMALL_ICON_STYLE = IIconStyle.createBounds(8, 8).textureBounds(8, 8);
-    private static final IIconStyle FULL_ICON_STYLE = IIconStyle.createBounds(18, 18).textureBounds(18, 18);
+    private static final IIconStyle SMALL_ICON_STYLE = new IconStyle().bounds(8, 8).textureBounds(8, 8);
+    private static final IIconStyle FULL_ICON_STYLE =  new IconStyle().bounds(18, 18).textureBounds(18, 18);
     private static final ILayoutStyle FULL_LAYOUT_STYLE = Styles.CENTERED.copy().spacing(2);
 
     @Override

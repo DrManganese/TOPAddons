@@ -13,13 +13,14 @@ import net.minecraft.world.World;
 
 import cofh.thermal.core.tileentity.storage.EnergyCellTile;
 import mcjty.theoneprobe.api.*;
+import mcjty.theoneprobe.apiimpl.styles.IconStyle;
 
 import javax.annotation.Nonnull;
 
 public class EnergyCellTileInfo implements ITileInfo<EnergyCellTile> {
 
     private static final ILayoutStyle ICON_LAYOUT_STYLE = Styles.CENTERED.copy().spacing(1);
-    private static final IIconStyle ICON_STYLE = IIconStyle.createBounds(10, 10).textureBounds(16, 16);
+    private static final IIconStyle ICON_STYLE = new IconStyle().bounds(10, 10).textureBounds(16, 16);
     private static final ResourceLocation INPUT_ICON = new ResourceLocation("cofh_core:textures/gui/icons/icon_input.png");
     private static final ResourceLocation OUTPUT_ICON = new ResourceLocation("cofh_core:textures/gui/icons/icon_output.png");
 

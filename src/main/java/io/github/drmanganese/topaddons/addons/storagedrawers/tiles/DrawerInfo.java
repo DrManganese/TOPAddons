@@ -16,6 +16,7 @@ import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawer;
 import com.jaquadro.minecraft.storagedrawers.api.storage.IDrawerGroup;
 import com.jaquadro.minecraft.storagedrawers.block.tile.TileEntityDrawers;
 import mcjty.theoneprobe.api.*;
+import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -31,8 +32,8 @@ public class DrawerInfo implements ITileInfo<TileEntityDrawers>, ITileConfigProv
     //∞
     private static final String INFINITY = "\u221e";
 
-    private static final ILayoutStyle NO_SPACING = ILayoutStyle.createSpacing(0);
-    private static final ILayoutStyle INVENTORY = ILayoutStyle.createSpacing(2).borderColor(chestContentsBorderColor);
+    private static final ILayoutStyle NO_SPACING = new LayoutStyle().spacing(0);
+    private static final ILayoutStyle INVENTORY = new LayoutStyle().spacing(2).borderColor(chestContentsBorderColor);
 
     @Override
     public void getProbeConfig(IProbeConfig config, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
