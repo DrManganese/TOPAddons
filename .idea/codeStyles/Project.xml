@@ -18,6 +18,9 @@
         </value>
       </option>
     </JavaCodeStyleSettings>
+    <MarkdownNavigatorCodeStyleSettings>
+      <option name="RIGHT_MARGIN" value="120" />
+    </MarkdownNavigatorCodeStyleSettings>
     <codeStyleSettings language="JAVA">
       <indentOptions>
         <option name="CONTINUATION_INDENT_SIZE" value="4" />
