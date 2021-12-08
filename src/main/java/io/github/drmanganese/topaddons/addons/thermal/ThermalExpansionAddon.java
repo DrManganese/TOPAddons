@@ -13,10 +13,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 
-import cofh.thermal.lib.tileentity.ThermalTileAugmentable;
+import cofh.thermal.core.tileentity.device.DeviceRockGenTile;
+import cofh.thermal.core.tileentity.storage.EnergyCellTile;
 import cofh.thermal.lib.tileentity.DynamoTileBase;
 import cofh.thermal.lib.tileentity.MachineTileProcess;
-import cofh.thermal.core.tileentity.storage.EnergyCellTile;
+import cofh.thermal.lib.tileentity.ThermalTileAugmentable;
 import com.google.common.collect.ImmutableMultimap;
 
 import javax.annotation.Nonnull;
@@ -25,14 +26,18 @@ import java.util.List;
 
 public class ThermalExpansionAddon extends TopAddon implements IAddonBlocks, IAddonConfig {
 
-    private static final ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> TILES = ImmutableMultimap.of(
-        DynamoTileBase.class, new DynamoTileInfo(),
-        EnergyCellTile.class, new EnergyCellTileInfo(),
-        MachineTileProcess.class, new MachineTileInfo(),
-        ThermalTileAugmentable.class, new RedstoneControlTileInfo()
-    );
-
+    private static final ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> TILES;
     public static ForgeConfigSpec.BooleanValue alwaysShowCellIo;
+
+    static {
+        final ImmutableMultimap.Builder<Class<? extends TileEntity>, ITileInfo> builder = ImmutableMultimap.builder();
+        builder.put(DynamoTileBase.class, new DynamoTileInfo());
+        builder.put(EnergyCellTile.class, new EnergyCellTileInfo());
+        builder.put(MachineTileProcess.class, MachineTileInfo.INSTANCE);
+        builder.put(DeviceRockGenTile.class, MachineTileInfo.INSTANCE);
+        builder.put(ThermalTileAugmentable.class, new RedstoneControlTileInfo());
+        TILES = builder.build();
+    }
 
     public ThermalExpansionAddon() {
         super("thermal_expansion");
