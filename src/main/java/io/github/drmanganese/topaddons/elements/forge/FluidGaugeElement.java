@@ -142,6 +142,8 @@ public class FluidGaugeElement implements IElement {
      * calculated with awt.Color.darker (0.7 * r/g/b).
      */
     private void renderFluid(MatrixStack matrixStack, int x, int y, int color) {
+        if (capacity == 0)
+            return;
         color = (color & 0x00ffffff) | (ForgeAddon.gaugeFluidColorTransparency.get()) << 24;
         final int darkerColor = new Color(color, true).darker().hashCode();
         for (int i = 0; i < Math.min(INNER_WIDTH * amount / capacity, INNER_WIDTH); i++) {
@@ -160,6 +162,8 @@ public class FluidGaugeElement implements IElement {
      * Render the fluid by tiling its texture. Eac
      */
     private void renderFluid(MatrixStack matrixStack, int x, int y, Fluid fluid) {
+        if (capacity == 0)
+            return;
         final Tessellator tessellator = Tessellator.getInstance();
         final BufferBuilder buffer = tessellator.getBuffer();
         final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTextureSafe(fluid);
