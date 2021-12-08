@@ -11,6 +11,6 @@ jobs:
     if: ${{ github.event.action == 'assigned' || contains(github.event.issue.labels.*.name, 'in development') }}
     steps:
       - name: Create Issue Branch
-        uses: robvanderleek/create-issue-branch@master
+        uses: robvanderleek/create-issue-branch@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
