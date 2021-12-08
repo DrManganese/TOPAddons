@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.16.5-2.2.0-beta
+
+- \[Forge] Bumped minimum Forge version to 36.2.0
+- \[Thermal] Fixed support for Thermal series mods versions 1.4 and up, older versions are not supported
+
 ## 1.16.5-2.1.5-beta
 
 - Various tech changes
