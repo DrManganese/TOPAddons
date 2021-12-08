@@ -51,10 +51,6 @@ repositories {
         url = "https://maven.tterrag.com"
     }
     maven {
-        name = "jaquadro" // storagedrawers
-        url = "https://dl.bintray.com/jaquadro/dev/"
-    }
-    maven {
         name = "Progwml6" // jei
         url = "https://dvs1.progwml6.com/files/maven/"
     }
