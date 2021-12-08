@@ -13,9 +13,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 
+import cofh.thermal.lib.tileentity.ThermalTileAugmentable;
 import cofh.thermal.lib.tileentity.DynamoTileBase;
 import cofh.thermal.lib.tileentity.MachineTileProcess;
-import cofh.thermal.lib.tileentity.ThermalTileBase;
 import cofh.thermal.core.tileentity.storage.EnergyCellTile;
 import com.google.common.collect.ImmutableMultimap;
 
@@ -29,7 +29,7 @@ public class ThermalExpansionAddon extends TopAddon implements IAddonBlocks, IAd
         DynamoTileBase.class, new DynamoTileInfo(),
         EnergyCellTile.class, new EnergyCellTileInfo(),
         MachineTileProcess.class, new MachineTileInfo(),
-        ThermalTileBase.class, new RedstoneControlTileInfo()
+        ThermalTileAugmentable.class, new RedstoneControlTileInfo()
     );
 
     public static ForgeConfigSpec.BooleanValue alwaysShowCellIo;

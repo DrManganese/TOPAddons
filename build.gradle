@@ -75,9 +75,9 @@ dependencies {
     compile fg.deobf("curse.maven:industrial-foregoing-266515:3223241")
     compile fg.deobf("curse.maven:titanium-287342:3223141")
 
-    compile fg.deobf("curse.maven:cofh-core-69162:3247581")
-    compile fg.deobf("curse.maven:thermal-foundation-222880:3248150")
-    compile fg.deobf("curse.maven:thermal-expansion-69163:3247000")
+    compile fg.deobf("curse.maven:cofh-core-69162:3554750")
+    compile fg.deobf("curse.maven:thermal-foundation-222880:3554756")
+    compile fg.deobf("curse.maven:thermal-expansion-69163:3554759")
 
     compile fg.deobf("curse.maven:blood-magic-224791:3184485")
 

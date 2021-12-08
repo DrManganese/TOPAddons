@@ -40,5 +40,20 @@ description="The One Probe integration for various mods"
 [[dependencies.topaddons]]
     modId="cofh_core"
     mandatory=false
-    versionRange="[1.2.0,)"
+    versionRange="[1.4.0.2,)"
+    ordering="AFTER"
+[[dependencies.topaddons]]
+    modId="thermal"
+    mandatory=false
+    versionRange="[1.4.0.4,)"
+    ordering="AFTER"
+[[dependencies.topaddons]]
+    modId="thermal_foundation"
+    mandatory=false
+    versionRange="[1.4.0.4,)"
+    ordering="AFTER"
+[[dependencies.topaddons]]
+    modId="thermal_expansion"
+    mandatory=false
+    versionRange="[1.4.0.1,)"
     ordering="AFTER"
