@@ -6,16 +6,19 @@ import io.github.drmanganese.topaddons.styles.Styles;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
-import cofh.thermal.lib.tileentity.MachineTileProcess;
+import cofh.thermal.lib.tileentity.ThermalTileAugmentable;
 import com.google.common.collect.ImmutableMap;
 import mcjty.theoneprobe.api.*;
 
 import javax.annotation.Nonnull;
 
-public class MachineTileInfo implements ITileInfo<MachineTileProcess> {
+public class MachineTileInfo implements ITileInfo<ThermalTileAugmentable> {
+
+    public static final MachineTileInfo INSTANCE = new MachineTileInfo();
 
     private static final ImmutableMap<String, Styles.Colors> MACHINE_COLORS =
         new ImmutableMap.Builder<String, Styles.Colors>()
@@ -29,13 +32,17 @@ public class MachineTileInfo implements ITileInfo<MachineTileProcess> {
             .build();
 
     @Override
-    public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData hitData, @Nonnull MachineTileProcess tile) {
+    public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData hitData, @Nonnull ThermalTileAugmentable tile) {
         if (tile.isActive) {
             final Styles.Colors color = MACHINE_COLORS.getOrDefault(blockState.getBlock().getRegistryName().toString(), Styles.Colors.fromDye(DyeColor.GRAY));
             final IProgressStyle progressStyle = Styles.machineProgress(player).filledColor(color.dyeColor).alternateFilledColor(color.darkerColor);
             probeInfo
-                .progress(tile.getScaledProgress(100), 100, progressStyle)
-                .text(CompoundText.createLabelInfo("{*topaddons.thermal_expansion:consumption*}: ", tile.getCurSpeed()).label(new StringTextComponent(" RF/t")));
+                .progress(tile.getScaledProgress(100), 100, progressStyle);
+
+            final int consumption = tile.getCurSpeed();
+            if (consumption > 0)
+                probeInfo
+                    .text(CompoundText.createLabelInfo("{*topaddons.thermal_expansion:consumption*}: ", consumption).label(new StringTextComponent(" RF/t")));
         }
     }
 }
