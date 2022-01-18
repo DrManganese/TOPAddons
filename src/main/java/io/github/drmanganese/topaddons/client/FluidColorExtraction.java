@@ -1,17 +1,19 @@
 package io.github.drmanganese.topaddons.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.AtlasTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.inventory.container.PlayerContainer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+
+import java.util.function.Function;
 
 public class FluidColorExtraction {
 
     private static final Fluid DEFAULT = Fluids.WATER;
 
-    private static final AtlasTexture TEXTURE = Minecraft.getInstance().getModelManager().getAtlasTexture(PlayerContainer.LOCATION_BLOCKS_TEXTURE);
+    private static final Function<ResourceLocation, TextureAtlasSprite> TEXTURE = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
 
     static int extractTopLeftColorFromTexture(TextureAtlasSprite sprite) {
         final int abgr = sprite.getPixelRGBA(0, 0, 0);
@@ -36,7 +38,7 @@ public class FluidColorExtraction {
     }
 
     private static TextureAtlasSprite getStillFluidTexture(Fluid fluid) {
-        return TEXTURE.getSprite(fluid.getAttributes().getStillTexture());
+        return TEXTURE.apply(fluid.getAttributes().getStillTexture());
     }
 
     @SuppressWarnings("ConstantConditions")

@@ -1,8 +1,8 @@
 package io.github.drmanganese.topaddons.api;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 import mcjty.theoneprobe.api.IProbeHitEntityData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -14,7 +14,8 @@ public interface IEntityInfo<T extends Entity> {
     /**
      * See {@link IProbeInfoEntityProvider#addProbeEntityInfo}.
      *
+     * @param world
      * @param entity Entity the player is looking at, cast to associated class in map.
      */
-    void getInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, T entity, IProbeHitEntityData data);
+    void getInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, T entity, IProbeHitEntityData data);
 }

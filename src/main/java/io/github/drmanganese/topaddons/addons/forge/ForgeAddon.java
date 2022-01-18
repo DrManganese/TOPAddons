@@ -1,30 +1,35 @@
 package io.github.drmanganese.topaddons.addons.forge;
 
+import io.github.drmanganese.topaddons.TopAddons;
 import io.github.drmanganese.topaddons.addons.TopAddon;
 import io.github.drmanganese.topaddons.addons.forge.tiles.FluidHandlerTileInfo;
 import io.github.drmanganese.topaddons.api.*;
-import io.github.drmanganese.topaddons.capabilities.ElementSync;
 import io.github.drmanganese.topaddons.config.ColorValue;
 import io.github.drmanganese.topaddons.config.Config;
 import io.github.drmanganese.topaddons.elements.forge.FluidGaugeElement;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.config.ModConfig;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Lists;
-import mcjty.theoneprobe.api.ITheOneProbe;
+import mcjty.theoneprobe.api.IElement;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements, IAddonConfig, IAddonConfigProviders {
 
-    public static final String GAUGE_ELEMENT_ID = "fluid_gauge";
+    public static final ResourceLocation GAUGE_ELEMENT_ID = new ResourceLocation(TopAddons.MOD_ID, "forge.fluid_gauge");
 
     // Client
     public static ForgeConfigSpec.EnumValue<FluidTextureAlignment> gaugeFluidTextureAlignment;
@@ -52,14 +57,14 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
     }
 
     @Override
-    public void registerElements(ITheOneProbe probe) {
-        ElementSync.registerElement(probe, GAUGE_ELEMENT_ID, FluidGaugeElement::new);
+    public List<Pair<ResourceLocation, Function<FriendlyByteBuf, IElement>>> getElements() {
+        return Collections.singletonList(Pair.of(GAUGE_ELEMENT_ID, FluidGaugeElement::new));
     }
 
     @Nonnull
     @Override
-    public ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> getTileInfos() {
-        return ImmutableMultimap.of(TileEntity.class, FluidHandlerTileInfo.INSTANCE);
+    public ImmutableMultimap<Class<? extends BlockEntity>, ITileInfo> getTileInfos() {
+        return ImmutableMultimap.of(BlockEntity.class, FluidHandlerTileInfo.INSTANCE);
     }
 
     @Override
@@ -100,7 +105,7 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
     @Override
     @Nonnull
     public ImmutableMap<Object, ITileConfigProvider> getBlockConfigProviders() {
-        return ImmutableMap.of(TileEntity.class, FluidHandlerTileInfo.INSTANCE);
+        return ImmutableMap.of(BlockEntity.class, FluidHandlerTileInfo.INSTANCE);
     }
 
     public enum FluidGaugeChoice {
@@ -116,7 +121,7 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
             this.hideTopAddonsGauge = hideTopAddonsGauge;
         }
 
-        public static FluidGaugeChoice getSyncedValueFor(PlayerEntity player) {
+        public static FluidGaugeChoice getSyncedValueFor(Player player) {
             return (FluidGaugeChoice) Config.getSyncedEnum(player, ForgeAddon.fluidGaugeChoice);
         }
     }

@@ -1,11 +1,11 @@
 package io.github.drmanganese.topaddons.api;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import com.google.common.collect.ImmutableMap;
 import mcjty.theoneprobe.api.IProbeConfig;
@@ -24,7 +24,7 @@ import java.util.List;
 public interface IAddonConfigProviders extends IProbeConfigProvider {
 
     @Override
-    default void getProbeConfig(IProbeConfig config, PlayerEntity player, World world, Entity entity, IProbeHitEntityData data) {
+    default void getProbeConfig(IProbeConfig config, Player player, Level world, Entity entity, IProbeHitEntityData data) {
 
     }
 
@@ -32,9 +32,9 @@ public interface IAddonConfigProviders extends IProbeConfigProvider {
      * See {@link IProbeConfigProvider#getProbeConfig}.
      */
     @Override
-    default void getProbeConfig(IProbeConfig config, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
-        //Get the tileentity's class and superclasses. All of these are TileEntity or children of TileEntity.
-        final TileEntity tile = world.getTileEntity(data.getPos());
+    default void getProbeConfig(IProbeConfig config, Player player, Level world, BlockState blockState, IProbeHitData data) {
+        //Get the tileentity's class and superclasses. All of these are BlockEntity or children of BlockEntity.
+        final BlockEntity tile = world.getBlockEntity(data.getPos());
         if (tile != null) {
             final List<Class<?>> classes = ClassUtils.getAllSuperclasses(tile.getClass());
             classes.add(tile.getClass());
@@ -53,7 +53,7 @@ public interface IAddonConfigProviders extends IProbeConfigProvider {
     }
 
     /**
-     * @return Map of {@link TileEntity} classes or Block instances this addon provides configs for.
+     * @return Map of {@link BlockEntity} classes or Block instances this addon provides configs for.
      */
     @Nonnull
     default ImmutableMap<Object, ITileConfigProvider> getBlockConfigProviders() {

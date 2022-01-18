@@ -1,22 +1,29 @@
 buildscript {
     repositories {
         maven { url = "https://files.minecraftforge.net/maven" }
-        maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url = "https://maven.parchmentmc.org"}
+        gradlePluginPortal()
         mavenCentral()
     }
     dependencies {
-        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "4.1.+", changing: true
-        classpath group: "gradle.plugin.com.matthewprenger", name : "CurseGradle", version: "1.4.0"
+        classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "5.1.+", changing: true
+        classpath group: "gradle.plugin.com.matthewprenger", name: "CurseGradle", version: "1.4.0"
+        classpath group: "org.parchmentmc", name: "librarian", version: "1.+"
     }
 }
 apply plugin: "net.minecraftforge.gradle"
 apply plugin: "com.matthewprenger.cursegradle"
+apply plugin: "org.parchmentmc.librarian.forgegradle"
 
 version = "$mc_version-$MAJOR.$MINOR.$PATCH"
 group = "io.github.drmanganese.topaddons"
 archivesBaseName = "topaddons"
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = "1.8"
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 minecraft {
     mappings channel: mcp_channel, version: mcp_mappings
@@ -46,43 +53,15 @@ minecraft {
 }
 
 repositories {
-    maven {
-        name = "tterag" // theoneprobe
-        url = "https://maven.tterrag.com"
-    }
-    maven {
-        name = "Progwml6" // jei
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
-    maven {
-        name = "cursemaven" // thermal
-        url = "https://www.cursemaven.com"
-    }
-    maven {
-        name = "blamejared" // patchouli
-        url = "https://maven.blamejared.com"
-    }
+    maven { url = "https://maven.k-4u.nl" }
+    maven { url = "https://www.cursemaven.com" }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
-    compile fg.deobf("mcjty.theoneprobe:TheOneProbe-1.16:$top_version") {transitive = false}
+    implementation fg.deobf("mcjty.theoneprobe:theoneprobe:$top_version") {transitive = false}
 
     // Addon dependencies. Set to compileOnly for quicker test client launching
-    //compile fg.deobf("com.jaquadro.minecraft.storagedrawers:StorageDrawers:1.16.3-8.2.2")
-    compile fg.deobf("curse.maven:storage-drawers-2235852:3180569")
-
-    compile fg.deobf("curse.maven:industrial-foregoing-266515:3223241")
-    compile fg.deobf("curse.maven:titanium-287342:3223141")
-
-    compile fg.deobf("curse.maven:cofh-core-69162:3554750")
-    compile fg.deobf("curse.maven:thermal-foundation-222880:3554756")
-    compile fg.deobf("curse.maven:thermal-expansion-69163:3554759")
-
-    compile fg.deobf("curse.maven:blood-magic-224791:3184485")
-
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:+")
-    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
 }
 
 jar {
@@ -104,6 +83,7 @@ curseforge {
     apiKey = curseforgeToken
     project {
         id = "247111"
+        addGameVersion "1.18"
         changelogType = "markdown"
         changelog = file("CHANGELOG.md")
         releaseType = "beta"

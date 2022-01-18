@@ -1,8 +1,10 @@
 package io.github.drmanganese.topaddons.api;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import io.github.drmanganese.topaddons.addons.TopAddon;
+
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 import com.google.common.collect.ImmutableMap;
 import mcjty.theoneprobe.api.IProbeHitEntityData;
@@ -17,13 +19,12 @@ import java.util.List;
 /**
  * Addons which implement this interface provide information for entities.
  */
-public interface IAddonEntities extends IProbeInfoEntityProvider {
+public interface IAddonEntities {
 
     /**
-     * See {@link IProbeInfoEntityProvider#addProbeEntityInfo}.
+     * See {@link IProbeInfoEntityProvider#addProbeEntityInfo} and {@link TopAddon#asEntityInfoProvider()}.
      */
-    @Override
-    default void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, Entity entity, IProbeHitEntityData data) {
+    default void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, Entity entity, IProbeHitEntityData data) {
         if (entity != null) {
             //Get the entity's class and superclasses. All of these are Entity or children of Entity.
             final List<Class<?>> classes = ClassUtils.getAllSuperclasses(entity.getClass());

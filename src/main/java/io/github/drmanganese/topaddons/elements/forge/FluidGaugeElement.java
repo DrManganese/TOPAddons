@@ -6,24 +6,22 @@ import io.github.drmanganese.topaddons.client.FluidColors;
 import io.github.drmanganese.topaddons.util.ElementHelper;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import mcjty.theoneprobe.api.IElement;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -41,10 +39,8 @@ public class FluidGaugeElement implements IElement {
     private final long amount, capacity;
     private final String tankNameKey;
     private final Fluid fluid;
-    private int id;
 
-    public FluidGaugeElement(int id, boolean extended, long amount, long capacity, String tankNameKey, Fluid fluid) {
-        this.id = id;
+    public FluidGaugeElement(boolean extended, long amount, long capacity, String tankNameKey, Fluid fluid) {
         this.extended = extended;
         this.amount = amount;
         this.capacity = capacity;
@@ -52,16 +48,16 @@ public class FluidGaugeElement implements IElement {
         this.fluid = fluid;
     }
 
-    public FluidGaugeElement(PacketBuffer buf) {
+    public FluidGaugeElement(FriendlyByteBuf buf) {
         this.extended = buf.readBoolean();
         this.amount = buf.readLong();
         this.capacity = buf.readLong();
-        this.tankNameKey = buf.readString();
-        this.fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(buf.readString()));
+        this.tankNameKey = buf.readUtf();
+        this.fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(buf.readUtf()));
     }
 
     @Override
-    public void render(MatrixStack stack, int x, int y) {
+    public void render(PoseStack stack, int x, int y) {
         final int borderColor = ForgeAddon.gaugeBorderColor.getInt();
         final int backgroundColor = ForgeAddon.gaugeBackgroundColor.getInt();
         final int fluidColor = ImmutableList.of(FluidColors.getOverrideColor(fluid), FluidColors.getForgeColor(fluid))
@@ -96,17 +92,17 @@ public class FluidGaugeElement implements IElement {
     }
 
     @Override
-    public void toBytes(PacketBuffer buf) {
+    public void toBytes(FriendlyByteBuf buf) {
         buf.writeBoolean(this.extended);
         buf.writeLong(this.amount);
         buf.writeLong(this.capacity);
-        buf.writeString(this.tankNameKey);
-        buf.writeString(fluid.getRegistryName().toString());
+        buf.writeUtf(this.tankNameKey);
+        buf.writeUtf(fluid.getRegistryName().toString());
     }
 
     @Override
-    public int getID() {
-        return id;
+    public ResourceLocation getID() {
+        return ForgeAddon.GAUGE_ELEMENT_ID;
     }
 
     private static float red(int color) {
@@ -125,15 +121,15 @@ public class FluidGaugeElement implements IElement {
         return (color >> 24 & 0xFF) / 255.0F;
     }
 
-    private void renderBackground(MatrixStack matrixStack, int x, int y, int borderColor, int backgroundColor) {
+    private void renderBackground(PoseStack poseStack, int x, int y, int borderColor, int backgroundColor) {
         if (ForgeAddon.gaugeRounded.get()) {
-            AbstractGui.fill(matrixStack, x + 1, y + 1, x + INNER_WIDTH + 1, y + (extended ? 11 : 7), backgroundColor);
-            ElementHelper.drawHorizontalLine(matrixStack, x + (extended ? 2 : 1), y, extended ? 96 : 98, borderColor);
-            ElementHelper.drawHorizontalLine(matrixStack, x + (extended ? 2 : 1), y + (extended ? 11 : 7), extended ? 96 : 98, borderColor);
-            ElementHelper.drawVerticalLine(matrixStack, x, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
-            ElementHelper.drawVerticalLine(matrixStack, x + 99, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
+            Gui.fill(poseStack, x + 1, y + 1, x + INNER_WIDTH + 1, y + (extended ? 11 : 7), backgroundColor);
+            ElementHelper.drawHorizontalLine(poseStack, x + (extended ? 2 : 1), y, extended ? 96 : 98, borderColor);
+            ElementHelper.drawHorizontalLine(poseStack, x + (extended ? 2 : 1), y + (extended ? 11 : 7), extended ? 96 : 98, borderColor);
+            ElementHelper.drawVerticalLine(poseStack, x, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
+            ElementHelper.drawVerticalLine(poseStack, x + 99, y + (extended ? 2 : 1), extended ? 8 : 6, borderColor);
         } else {
-            ElementHelper.drawBox(matrixStack, x, y, getWidth(), extended ? 12 : 8, backgroundColor, 1, borderColor);
+            ElementHelper.drawBox(poseStack, x, y, getWidth(), extended ? 12 : 8, backgroundColor, 1, borderColor);
         }
     }
 
@@ -141,12 +137,12 @@ public class FluidGaugeElement implements IElement {
      * Render the fluid by drawing vertical lines of alternating colors. The color of the alternating color is
      * calculated with awt.Color.darker (0.7 * r/g/b).
      */
-    private void renderFluid(MatrixStack matrixStack, int x, int y, int color) {
+    private void renderFluid(PoseStack poseStack, int x, int y, int color) {
         color = (color & 0x00ffffff) | (ForgeAddon.gaugeFluidColorTransparency.get()) << 24;
         final int darkerColor = new Color(color, true).darker().hashCode();
         for (int i = 0; i < Math.min(INNER_WIDTH * amount / capacity, INNER_WIDTH); i++) {
-            AbstractGui.fill(
-                matrixStack,
+            Gui.fill(
+                poseStack,
                 x + i,
                 y,
                 x + i + 1,
@@ -159,17 +155,16 @@ public class FluidGaugeElement implements IElement {
     /**
      * Render the fluid by tiling its texture. Eac
      */
-    private void renderFluid(MatrixStack matrixStack, int x, int y, Fluid fluid) {
-        final Tessellator tessellator = Tessellator.getInstance();
-        final BufferBuilder buffer = tessellator.getBuffer();
+    private void renderFluid(PoseStack poseStack, int x, int y, Fluid fluid) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        final Tesselator tesselator = Tesselator.getInstance();
+        final BufferBuilder buffer = tesselator.getBuilder();
         final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTextureSafe(fluid);
-        Minecraft.getInstance().getTextureManager().bindTexture(texture.getAtlasTexture().getTextureLocation());
-
         final int textureWidth = texture.getWidth();
-        final float minU = texture.getMinU();
-        final float maxU = texture.getMaxU();
-        final float minV = texture.getMinV();
-        final float maxV = texture.getMaxV();
+        final float minU = texture.getU0();
+        final float maxU = texture.getU1();
+        final float minV = texture.getV0();
+        final float maxV = texture.getV1();
 
         final int tileHeight = extended ? INNER_HEIGHT_EXTENDED : INNER_HEIGHT;
         // Height to render relative to UV coordinate system
@@ -180,9 +175,9 @@ public class FluidGaugeElement implements IElement {
 
 
         RenderSystem.enableBlend();
+        RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
         final int fluidColor = fluid.getAttributes().getColor();
-        RenderSystem.color4f(red(fluidColor), green(fluidColor), blue(fluidColor), alpha(fluidColor));
-
+        RenderSystem.setShaderColor(red(fluidColor), green(fluidColor), blue(fluidColor), alpha(fluidColor));
         final int fullWidth = (int) Math.min(INNER_WIDTH, INNER_WIDTH * amount / capacity);
         final int nTiles = (fullWidth + textureWidth - 1) / textureWidth; // Ceil
         for (int tile = 0; tile < nTiles; tile++) {
@@ -196,65 +191,66 @@ public class FluidGaugeElement implements IElement {
                 minU + (maxU - minU) * (1.0F * w / textureWidth),
                 v1,
                 v2,
-                tessellator,
+                tesselator,
                 buffer
             );
         }
         RenderSystem.disableBlend();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     }
 
     // Draw counterclockwise starting at bottom left
-    private void drawFluidTiles(int x, int y, int w, int h, float u1, float u2, float v1, float v2, Tessellator tessellator, BufferBuilder buffer) {
-        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-        buffer.pos(x, y + h, 0).tex(u1, v2).endVertex();
-        buffer.pos(x + w, y + h, 0).tex(u2, v2).endVertex();
-        buffer.pos(x + w, y, 0).tex(u2, v1).endVertex();
-        buffer.pos(x, y, 0).tex(u1, v1).endVertex();
-        tessellator.draw();
+    private void drawFluidTiles(int x, int y, int w, int h, float u1, float u2, float v1, float v2, Tesselator tesselator, BufferBuilder buffer) {
+        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        buffer.vertex(x, y + h, 0).uv(u1, v2).endVertex();
+        buffer.vertex(x + w, y + h, 0).uv(u2, v2).endVertex();
+        buffer.vertex(x + w, y, 0).uv(u2, v1).endVertex();
+        buffer.vertex(x, y, 0).uv(u1, v1).endVertex();
+        tesselator.end();
     }
 
-    private void renderForeGround(MatrixStack matrixStack, int x, int y, int borderColor) {
+    private void renderForeGround(PoseStack poseStack, int x, int y, int borderColor) {
         if (extended) {
             if (ForgeAddon.gaugeRounded.get()) {
                 // Rounded corners overlap fluid
-                AbstractGui.fill(matrixStack, x + 1, y + 1, x + 2, y + 2, borderColor);
-                AbstractGui.fill(matrixStack, x + 1, y + 10, x + 2, y + 11, borderColor);
-                AbstractGui.fill(matrixStack, x + 98, y + 1, x + 99, y + 2, borderColor);
-                AbstractGui.fill(matrixStack, x + 98, y + 10, x + 99, y + 11, borderColor);
+                Gui.fill(poseStack, x + 1, y + 1, x + 2, y + 2, borderColor);
+                Gui.fill(poseStack, x + 1, y + 10, x + 2, y + 11, borderColor);
+                Gui.fill(poseStack, x + 98, y + 1, x + 99, y + 2, borderColor);
+                Gui.fill(poseStack, x + 98, y + 10, x + 99, y + 11, borderColor);
             }
 
             final int[] gaugeLineXs = {13, 25, 37, 49, 61, 73, 85};
             final int[] gaugeLineLengths = {5, 6, 5, 10, 5, 6, 5};
             for (int i = 0; i < gaugeLineXs.length; i++) {
-                AbstractGui.fill(matrixStack, x + gaugeLineXs[i], y + 1, x + gaugeLineXs[i] + 1, y + 1 + gaugeLineLengths[i], borderColor);
+                Gui.fill(poseStack, x + gaugeLineXs[i], y + 1, x + gaugeLineXs[i] + 1, y + 1 + gaugeLineLengths[i], borderColor);
             }
         }
     }
 
-    private void renderText(MatrixStack matrixStack, int x, int y, int color) {
-        final String tankDisplayName = new TranslationTextComponent(tankNameKey).getString();
-        final FontRenderer font = Minecraft.getInstance().fontRenderer;
+    private void renderText(PoseStack poseStack, int x, int y, int color) {
+        final String tankDisplayName = new TranslatableComponent(tankNameKey).getString();
+        final Font font = Minecraft.getInstance().font;
         if (extended) {
-            final String fluidDisplayName = new TranslationTextComponent(fluid.getAttributes().getTranslationKey()).getString();
-            font.drawStringWithShadow(matrixStack, amountText(), x + 3, y + 2, 0xffffffff);
-            matrixStack.push();
-            matrixStack.scale(0.5F, 0.5F, 0.5F);
-            font.drawStringWithShadow(matrixStack, tankDisplayName, x * 2, (y + 13) * 2, 0xffffffff);
+            final String fluidDisplayName = new TranslatableComponent(fluid.getAttributes().getTranslationKey()).getString();
+            font.drawShadow(poseStack, amountText(), x + 3, y + 2, 0xffffffff);
+            poseStack.pushPose();
+            poseStack.scale(0.5F, 0.5F, 0.5F);
+            font.drawShadow(poseStack, tankDisplayName, x * 2, (y + 13) * 2, 0xffffffff);
             if (fluid != Fluids.EMPTY)
-                font.drawStringWithShadow(matrixStack, fluidDisplayName, (x + getWidth()) * 2 - font.getStringWidth(fluidDisplayName), (y + 13) * 2, color);
-            matrixStack.pop();
+                font.drawShadow(poseStack, fluidDisplayName, (x + getWidth()) * 2 - font.width(fluidDisplayName), (y + 13) * 2, color);
+            poseStack.popPose();
         } else {
-            matrixStack.push();
-            matrixStack.scale(0.5F, 0.5F, 0.5F);
-            font.drawStringWithShadow(matrixStack, tankDisplayName, (x + 2) * 2, (y + 2) * 2, 0xffffffff);
-            matrixStack.pop();
+            poseStack.pushPose();
+            poseStack.scale(0.5F, 0.5F, 0.5F);
+            font.drawShadow(poseStack, tankDisplayName, (x + 2) * 2, (y + 2) * 2, 0xffffffff);
+            poseStack.popPose();
         }
     }
 
     // TODO: Auto-fit option? (recurse until amountText's width <= INNER_WIDTH + padding)
     private String amountText() {
         if (this.amount == 0 && !ForgeAddon.gaugeShowCapacity.get())
-            return new TranslationTextComponent("topaddons.forge:empty").getString();
+            return new TranslatableComponent("topaddons.forge:empty").getString();
         else {
             final String amount = new DecimalFormat("#.#").format(this.capacity < 100000 ? this.amount : this.amount / 1000);
             final long capacity = this.capacity < 100000 ? this.capacity : this.capacity / 1000;

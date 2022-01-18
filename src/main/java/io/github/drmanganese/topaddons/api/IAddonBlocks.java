@@ -1,10 +1,12 @@
 package io.github.drmanganese.topaddons.api;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import io.github.drmanganese.topaddons.addons.TopAddon;
+
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
@@ -20,24 +22,22 @@ import java.util.List;
 /**
  * Addons which implement this interface provide information for blocks and tile entities.
  */
-public interface IAddonBlocks extends IProbeInfoProvider {
-
+public interface IAddonBlocks {
 
     /**
-     * See {@link IProbeInfoProvider#addProbeInfo}.
+     * See {@link IProbeInfoProvider#addProbeInfo} and {@link TopAddon#asBlockInfoProvider()}.
      */
-    @Override
-    default void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
+    default void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData data) {
         // TILE CLASS
-        final TileEntity tile = world.getTileEntity(data.getPos());
+        final BlockEntity tile = world.getBlockEntity(data.getPos());
         if (tile != null) {
             final List<Class<?>> tileClasses = ClassUtils.getAllSuperclasses(tile.getClass());
             tileClasses.add(tile.getClass());
 
             //noinspection unchecked
             tileClasses
-                .stream().filter(TileEntity.class::isAssignableFrom)
-                .map(c -> (Class<? extends TileEntity>) c)
+                .stream().filter(BlockEntity.class::isAssignableFrom)
+                .map(c -> (Class<? extends BlockEntity>) c)
                 .forEach(cls -> getTileInfos().get(cls).forEach(o -> o.addProbeInfo(mode, probeInfo, player, world, blockState, data, cls.cast(tile))));
         }
 
@@ -58,10 +58,10 @@ public interface IAddonBlocks extends IProbeInfoProvider {
     }
 
     /**
-     * @return Map of {@link TileEntity} classes this addon provides info for.
+     * @return Map of {@link BlockEntity} classes this addon provides info for.
      */
     @Nonnull
-    default ImmutableMultimap<Class<? extends TileEntity>, ITileInfo> getTileInfos() {
+    default ImmutableMultimap<Class<? extends BlockEntity>, ITileInfo> getTileInfos() {
         return ImmutableMultimap.of();
     }
 

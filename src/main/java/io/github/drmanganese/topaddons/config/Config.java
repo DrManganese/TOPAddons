@@ -7,11 +7,12 @@ import io.github.drmanganese.topaddons.capabilities.ClientCfgCapability;
 import io.github.drmanganese.topaddons.network.PacketHandler;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,8 @@ public final class Config {
     }
 
     @SubscribeEvent
-    public static void onConfigReload(final ModConfig.Reloading modConfigEvent) {
-        if (modConfigEvent.getConfig().getType() == ModConfig.Type.CLIENT && Minecraft.getInstance().world != null)
+    public static void onModConfigReloading(ModConfigEvent.Reloading modConfigEvent) {
+        if (modConfigEvent.getConfig().getType() == ModConfig.Type.CLIENT && Minecraft.getInstance().level != null)
             PacketHandler.sendClientCfg(collectClientConfigValues());
     }
 
@@ -48,24 +49,24 @@ public final class Config {
             .collect(Collectors.toMap(Config::fullPathFromConfigValue, Config::configValueToString));
     }
 
-    public static boolean getSyncedBoolean(PlayerEntity player, ForgeConfigSpec.BooleanValue configValue) {
+    public static boolean getSyncedBoolean(Player player, ForgeConfigSpec.BooleanValue configValue) {
         return getSynced(player, configValue, ClientCfgCapability::getBool);
     }
 
-    public static String getSyncedString(PlayerEntity player, ForgeConfigSpec.ConfigValue<String> configValue) {
+    public static String getSyncedString(Player player, ForgeConfigSpec.ConfigValue<String> configValue) {
         return getSynced(player, configValue, ClientCfgCapability::getString);
     }
 
-    public static int getSyncedColor(PlayerEntity player, ColorValue colorValue) {
+    public static int getSyncedColor(Player player, ColorValue colorValue) {
         return ColorValue.decodeString(getSyncedString(player, colorValue.configValue));
     }
 
-    public static <E extends Enum<E>> Enum<E> getSyncedEnum(PlayerEntity player, ForgeConfigSpec.EnumValue<E> configValue) {
+    public static <E extends Enum<E>> Enum<E> getSyncedEnum(Player player, ForgeConfigSpec.EnumValue<E> configValue) {
         final BiFunction<ClientCfgCapability, String, Optional<E>> clientCfgGetter = (cap, key) -> cap.getEnum(key, configValue.get().getDeclaringClass());
         return getSynced(player, configValue, clientCfgGetter);
     }
 
-    private static <T> T getSynced(PlayerEntity player, ForgeConfigSpec.ConfigValue<T> configValue, BiFunction<ClientCfgCapability, String, Optional<T>> clientCfgGetter) {
+    private static <T> T getSynced(Player player, ForgeConfigSpec.ConfigValue<T> configValue, BiFunction<ClientCfgCapability, String, Optional<T>> clientCfgGetter) {
         final String path = fullPathFromConfigValue(configValue);
         final Optional<T> syncedValue = player.getCapability(TopAddons.CLIENT_CFG_CAP).map(cap -> clientCfgGetter.apply(cap, path)).orElse(Optional.empty());
 

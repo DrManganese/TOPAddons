@@ -1,10 +1,9 @@
 package io.github.drmanganese.topaddons.util;
 
-import io.github.drmanganese.topaddons.capabilities.ElementSync;
 import io.github.drmanganese.topaddons.elements.top.ElementItemStackBackground;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
 import mcjty.theoneprobe.api.CompoundText;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -20,7 +19,7 @@ public final class InfoHelper {
         return probeInfo.text(CompoundText.createLabelInfo(prefix + ":", " " + info));
     }
 
-    public static IProbeInfo itemStackBackground(IProbeInfo probeInfo, PlayerEntity player, ItemStack itemStack, int color) {
-        return probeInfo.element(new ElementItemStackBackground(ElementSync.getId("itemstack_background", player), itemStack, color, new ItemStyle()));
+    public static IProbeInfo itemStackBackground(IProbeInfo probeInfo, Player player, ItemStack itemStack, int color) {
+        return probeInfo.element(new ElementItemStackBackground(itemStack, color, new ItemStyle()));
     }
 }

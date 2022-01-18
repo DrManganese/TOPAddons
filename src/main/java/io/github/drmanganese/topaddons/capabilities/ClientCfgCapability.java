@@ -7,7 +7,7 @@ import java.util.Optional;
 
 /**
  * Player capability which holds client-only configuration settings on the server. These options need to be synced
- * because probe information is creation on the server-side.
+ * because probe information is created on the server-side.
  * <p>
  * All values are stored as strings.
  */

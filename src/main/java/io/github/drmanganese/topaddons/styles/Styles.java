@@ -3,9 +3,9 @@ package io.github.drmanganese.topaddons.styles;
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
 import io.github.drmanganese.topaddons.config.Config;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.DyeColor;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 
 import com.google.common.collect.ImmutableMap;
 import mcjty.theoneprobe.api.ElementAlignment;
@@ -28,18 +28,18 @@ public final class Styles {
 
     private static final IProgressStyle MACHINE_PROGRESS_STYLE = new ProgressStyle().suffix("%");
 
-    public static IProgressStyle machineProgress(PlayerEntity player) {
+    public static IProgressStyle machineProgress(Player player) {
         return machineProgress(player, "topaddons:progress");
     }
 
-    public static IProgressStyle machineProgress(PlayerEntity player, String prefixWord) {
+    public static IProgressStyle machineProgress(Player player, String prefixWord) {
         final int borderColor = Config.getSyncedColor(player, ForgeAddon.machineProgressBorderColor);
         final int backgroundColor = Config.getSyncedColor(player, ForgeAddon.machineProgressBackgroundColor);
         return MACHINE_PROGRESS_STYLE
             .copy()
             .borderColor(borderColor)
             .backgroundColor(backgroundColor)
-            .prefix(new TranslationTextComponent(prefixWord).appendString(": "));
+            .prefix(new TranslatableComponent(prefixWord).append(": "));
     }
 
     public static class Colors {
@@ -50,7 +50,7 @@ public final class Styles {
 
         private Colors(DyeColor dyeColor) {
             this.dye = dyeColor;
-            this.dyeColor = dyeColor.getColorValue() | 0xff000000;
+            this.dyeColor = dyeColor.getTextColor() | 0xff000000; // TODO: test me
             this.darkerColor = new Color(this.dyeColor).darker().hashCode();
             this.semiTransparentColor = this.darkerColor & 0x33ffffff;
         }

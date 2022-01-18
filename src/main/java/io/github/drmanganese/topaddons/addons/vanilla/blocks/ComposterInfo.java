@@ -3,18 +3,18 @@ package io.github.drmanganese.topaddons.addons.vanilla.blocks;
 import io.github.drmanganese.topaddons.api.IBlockInfo;
 import io.github.drmanganese.topaddons.styles.Styles;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ComposterBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.ComposterBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 import mcjty.theoneprobe.api.*;
 
 public class ComposterInfo implements IBlockInfo {
 
     @Override
-    public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData hitData) {
-        final int compostLevel = blockState.get(ComposterBlock.LEVEL);
+    public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData hitData) {
+        final int compostLevel = blockState.getValue(ComposterBlock.LEVEL);
         final IProgressStyle progressStyle =  Styles.machineProgress(player)
             .filledColor(0xff523c18)
             .alternateFilledColor(0xff4a3018)

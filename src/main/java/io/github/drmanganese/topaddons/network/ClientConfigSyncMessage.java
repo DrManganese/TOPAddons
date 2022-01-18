@@ -2,8 +2,8 @@ package io.github.drmanganese.topaddons.network;
 
 import io.github.drmanganese.topaddons.TopAddons;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,13 +22,13 @@ public class ClientConfigSyncMessage {
 
     ClientConfigSyncMessage(Map<String, String> syncMap) {
         this.syncMap = new HashMap<>(syncMap.size());
-        syncMap.forEach(this.syncMap::put);
+        this.syncMap.putAll(syncMap);
     }
 
-    static ClientConfigSyncMessage decode(PacketBuffer buf) {
+    static ClientConfigSyncMessage decode(FriendlyByteBuf buf) {
         final int size = buf.readInt();
         final HashMap<String, String> syncMap = new HashMap<>(size);
-        for (int i = 0; i < size; i++) syncMap.put(buf.readString(32767), buf.readString(32767));
+        for (int i = 0; i < size; i++) syncMap.put(buf.readUtf(32767), buf.readUtf(32767));
 
         return new ClientConfigSyncMessage(syncMap);
     }
@@ -40,11 +40,11 @@ public class ClientConfigSyncMessage {
                 .ifPresent(cap -> cap.fromMap(message.syncMap)));
     }
 
-    void encode(PacketBuffer buf) {
+    void encode(FriendlyByteBuf buf) {
         buf.writeInt(syncMap.size());
         syncMap.forEach((key, value) -> {
-            buf.writeString(key);
-            buf.writeString(value);
+            buf.writeUtf(key);
+            buf.writeUtf(value);
         });
     }
 }

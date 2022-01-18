@@ -3,7 +3,7 @@ package io.github.drmanganese.topaddons.client;
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.fluid.Fluid;
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,14 +26,11 @@ public class FluidColors {
         final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTextureSafe(fluid);
         if (texture == null) return -16776995;
 
-        switch (algorithm) {
-            case AVERAGE_COLOR:
-                return AVERAGE_COLORS.get(texture);
-            case TOP_LEFT_COLOR:
-                return TOP_LEFT_COLORS.get(texture);
-            default:
-                throw new IllegalArgumentException("Illegal Fluid Color Algorithm");
-        }
+        return switch (algorithm) {
+            case AVERAGE_COLOR -> AVERAGE_COLORS.get(texture);
+            case TOP_LEFT_COLOR -> TOP_LEFT_COLORS.get(texture);
+            default -> throw new IllegalArgumentException("Illegal Fluid Color Algorithm");
+        };
     }
 
     public static Optional<Integer> getForgeColor(Fluid fluid) {
@@ -45,7 +42,7 @@ public class FluidColors {
     }
 
     private static Map<TextureAtlasSprite, Integer> hashMapWithDefault(Function<TextureAtlasSprite, Integer> defaultFunction) {
-        return new HashMap<TextureAtlasSprite, Integer>() {
+        return new HashMap<>() {
             @Override
             public Integer get(Object key) {
                 if (!containsKey(key))

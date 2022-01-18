@@ -1,11 +1,13 @@
 package io.github.drmanganese.topaddons.elements.top;
 
+import io.github.drmanganese.topaddons.TopAddons;
 import io.github.drmanganese.topaddons.util.ElementHelper;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcjty.theoneprobe.api.IElement;
 import mcjty.theoneprobe.api.IItemStyle;
 import mcjty.theoneprobe.apiimpl.client.ElementItemStackRender;
@@ -16,21 +18,20 @@ import mcjty.theoneprobe.apiimpl.styles.ItemStyle;
  */
 public class ElementItemStackBackground implements IElement {
 
+    public static final ResourceLocation ID = new ResourceLocation(TopAddons.MOD_ID, "itemstack_background");
+    
     private final ItemStack itemStack;
     private final int color;
     private final IItemStyle style;
 
-    private int id;
-
-    public ElementItemStackBackground(int id, ItemStack itemStack, int color, IItemStyle style) {
-        this.id = id;
+    public ElementItemStackBackground(ItemStack itemStack, int color, IItemStyle style) {
         this.itemStack = itemStack;
         this.color = color;
         this.style = style;
     }
 
-    public ElementItemStackBackground(PacketBuffer buf) {
-        this.itemStack = buf.readItemStack();
+    public ElementItemStackBackground(FriendlyByteBuf buf) {
+        this.itemStack = buf.readItem();
         this.color = buf.readInt();
         this.style = new ItemStyle()
             .width(buf.readInt())
@@ -38,9 +39,9 @@ public class ElementItemStackBackground implements IElement {
     }
 
     @Override
-    public void render(MatrixStack matrixStack, int x, int y) {
-        ElementHelper.drawBox(matrixStack, x, y, style.getWidth(), style.getHeight(), this.color, 0, -1);
-        ElementItemStackRender.render(this.itemStack, this.style, matrixStack, x + 1, y + 1);
+    public void render(PoseStack poseStack, int x, int y) {
+        ElementHelper.drawBox(poseStack, x, y, style.getWidth(), style.getHeight(), this.color, 0, -1);
+        ElementItemStackRender.render(this.itemStack, this.style, poseStack, x + 1, y + 1);
     }
 
     @Override
@@ -54,13 +55,13 @@ public class ElementItemStackBackground implements IElement {
     }
 
     @Override
-    public int getID() {
-        return this.id;
+    public ResourceLocation getID() {
+        return ID;
     }
 
     @Override
-    public void toBytes(PacketBuffer buf) {
-        buf.writeItemStack(this.itemStack);
+    public void toBytes(FriendlyByteBuf buf) {
+        buf.writeItem(this.itemStack);
         buf.writeInt(this.color);
         buf.writeInt(this.style.getWidth());
         buf.writeInt(this.style.getHeight());

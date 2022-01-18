@@ -1,9 +1,9 @@
 package io.github.drmanganese.topaddons.util;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ObjectHolder;
 
 import mcjty.theoneprobe.api.ProbeMode;
@@ -16,15 +16,15 @@ public final class PlayerHelper {
     @ObjectHolder("theoneprobe:probe")
     private static Item PROBE;
 
-    public static ProbeMode getProbeMode(PlayerEntity player) {
-        if (Config.extendedInMain.get() && player.getHeldItemMainhand().getItem() == PROBE) {
+    public static ProbeMode getProbeMode(Player player) {
+        if (Config.extendedInMain.get() && player.getMainHandItem().getItem() == PROBE) {
             return ProbeMode.EXTENDED;
         } else {
-            return player.isSneaking() ? ProbeMode.EXTENDED : ProbeMode.NORMAL;
+            return player.isCrouching() ? ProbeMode.EXTENDED : ProbeMode.NORMAL;
         }
     }
 
-    public static boolean isPlayerHolding(PlayerEntity player, Item item) {
-        return Arrays.stream(Hand.values()).map(player::getHeldItem).map(ItemStack::getItem).anyMatch(item::equals);
+    public static boolean isPlayerHolding(Player player, Item item) {
+        return Arrays.stream(InteractionHand.values()).map(player::getItemInHand).map(ItemStack::getItem).anyMatch(item::equals);
     }
 }

@@ -1,13 +1,13 @@
 package io.github.drmanganese.topaddons.api;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
 
 public interface ITileConfigProvider {
 
-    void getProbeConfig(IProbeConfig config, PlayerEntity player, World world, BlockState blockState, IProbeHitData data);
+    void getProbeConfig(IProbeConfig config, Player player, Level world, BlockState blockState, IProbeHitData data);
 }

@@ -3,7 +3,7 @@ package io.github.drmanganese.topaddons.network;
 import io.github.drmanganese.topaddons.TopAddons;
 import io.github.drmanganese.topaddons.client.FluidColors;
 
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 

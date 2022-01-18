@@ -1,8 +1,8 @@
 package io.github.drmanganese.topaddons.api;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -16,7 +16,7 @@ public interface ITileInfo<T> {
     /**
      * See {@link IProbeInfoProvider#addProbeInfo}.
      *
-     * @param tile TileEntity the player is looking at, cast to entry given in map.
+     * @param tile BlockEntity the player is looking at, cast to entry given in map.
      */
-    void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData hitData, @Nonnull T tile);
+    void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData hitData, @Nonnull T tile);
 }
