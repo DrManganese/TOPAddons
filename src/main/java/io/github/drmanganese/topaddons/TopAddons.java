@@ -1,5 +1,6 @@
 package io.github.drmanganese.topaddons;
 
+import io.github.drmanganese.topaddons.addons.bloodmagic.BloodMagicAddon;
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
 import io.github.drmanganese.topaddons.addons.thermal.ThermalExpansionAddon;
 import io.github.drmanganese.topaddons.addons.vanilla.VanillaAddon;
@@ -48,6 +49,7 @@ public final class TopAddons {
         AddonRegistry.registerAddon(ForgeAddon::new);
         AddonRegistry.registerAddon(VanillaAddon::new);
         AddonRegistry.registerAddon(ThermalExpansionAddon::new, "thermal_expansion");
+        AddonRegistry.registerAddon(BloodMagicAddon::new, "bloodmagic");
         stopwatch.stop();
         LOGGER.debug("Registered {} addons in {}", AddonRegistry.getAddonStream().count(), stopwatch);
     }
