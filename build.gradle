@@ -59,6 +59,7 @@ repositories {
     maven { url = "https://maven.k-4u.nl" }
     maven { url = "https://www.cursemaven.com" }
     maven { url = "https://maven.blamejared.com" }
+    maven { url = "https://cdn.hrzn.studio/maven/" }
 }
 
 dependencies {
@@ -72,6 +73,9 @@ dependencies {
 
     implementation fg.deobf("curse.maven:blood-magic-224791:3926937")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-71.1")
+
+    implementation fg.deobf("curse.maven:industrial-foregoing-266515:3848558")
+    implementation fg.deobf("curse.maven:titanium-287342:3819942")
 }
 
 jar {
