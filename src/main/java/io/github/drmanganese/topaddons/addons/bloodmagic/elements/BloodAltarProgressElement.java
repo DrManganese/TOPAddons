@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.elements.bloodmagic;
+package io.github.drmanganese.topaddons.addons.bloodmagic.elements;
 
 import io.github.drmanganese.topaddons.addons.bloodmagic.BloodMagicAddon;
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;

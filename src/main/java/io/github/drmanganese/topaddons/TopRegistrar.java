@@ -3,7 +3,7 @@ package io.github.drmanganese.topaddons;
 import io.github.drmanganese.topaddons.addons.TopAddon;
 import io.github.drmanganese.topaddons.api.IAddonConfigProviders;
 import io.github.drmanganese.topaddons.api.IAddonElements;
-import io.github.drmanganese.topaddons.elements.top.ElementItemStackBackground;
+import io.github.drmanganese.topaddons.addons.top.elements.ElementItemStackBackground;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

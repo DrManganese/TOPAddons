@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.elements.forge;
+package io.github.drmanganese.topaddons.addons.forge.elements;
 
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
 import io.github.drmanganese.topaddons.client.FluidColorExtraction;
@@ -28,7 +28,6 @@ import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.function.Function;
 
-// FIXME: Segment disappears sometimes (test with blood altar)
 public class FluidGaugeElement implements IElement {
 
     private static final int INNER_WIDTH = 98;
@@ -71,7 +70,7 @@ public class FluidGaugeElement implements IElement {
         if (ForgeAddon.gaugeRenderFluidTexture.get()) {
             try {
                 renderFluid(stack, x + 1, y + 1, fluid);
-            } catch (NullPointerException e) {
+            } catch (final NullPointerException e) {
                 renderFluid(stack, x + 1, y + 1, fluidColor);
             }
         } else {
@@ -153,7 +152,7 @@ public class FluidGaugeElement implements IElement {
     }
 
     /**
-     * Render the fluid by tiling its texture. Eac
+     * Render the fluid by tiling its texture.
      */
     private void renderFluid(PoseStack poseStack, int x, int y, Fluid fluid) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -179,9 +178,12 @@ public class FluidGaugeElement implements IElement {
         final int fluidColor = fluid.getAttributes().getColor();
         RenderSystem.setShaderColor(red(fluidColor), green(fluidColor), blue(fluidColor), alpha(fluidColor));
         final int fullWidth = (int) Math.min(INNER_WIDTH, INNER_WIDTH * amount / capacity);
-        final int nTiles = (fullWidth + textureWidth - 1) / textureWidth; // Ceil
+        final int nTiles = fullWidth > 0 ? (fullWidth + textureWidth - 1) / textureWidth : 0; // Ceil
         for (int tile = 0; tile < nTiles; tile++) {
-            final int w = tile == nTiles - 1 ? fullWidth % textureWidth : textureWidth;
+            // Use remainder of fullWidth/textureWidth for the last tile, unless it would be 0, then set to textureWidth
+            // 0/textureWidth would break this logic, but this is already mitigated above by setting nTiles to 0 when
+            // fullWidth is 0
+            final int w = tile == nTiles - 1 && fullWidth % textureWidth > 0 ? fullWidth % textureWidth : textureWidth;
             drawFluidTiles(
                 x + tile * textureWidth,
                 y,

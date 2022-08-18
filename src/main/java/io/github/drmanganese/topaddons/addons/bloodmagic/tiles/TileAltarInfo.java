@@ -2,7 +2,7 @@ package io.github.drmanganese.topaddons.addons.bloodmagic.tiles;
 
 import io.github.drmanganese.topaddons.addons.bloodmagic.BloodMagicAddon;
 import io.github.drmanganese.topaddons.api.ITileInfo;
-import io.github.drmanganese.topaddons.elements.bloodmagic.BloodAltarProgressElement;
+import io.github.drmanganese.topaddons.addons.bloodmagic.elements.BloodAltarProgressElement;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

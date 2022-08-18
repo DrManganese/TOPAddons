@@ -11,7 +11,7 @@ import io.github.drmanganese.topaddons.api.IAddonBlocks;
 import io.github.drmanganese.topaddons.api.IAddonConfig;
 import io.github.drmanganese.topaddons.api.IAddonElements;
 import io.github.drmanganese.topaddons.api.ITileInfo;
-import io.github.drmanganese.topaddons.elements.bloodmagic.BloodAltarProgressElement;
+import io.github.drmanganese.topaddons.addons.bloodmagic.elements.BloodAltarProgressElement;
 import io.github.drmanganese.topaddons.util.PlayerHelper;
 
 import net.minecraft.network.FriendlyByteBuf;

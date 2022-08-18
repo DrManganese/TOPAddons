@@ -1,6 +1,6 @@
 package io.github.drmanganese.topaddons.util;
 
-import io.github.drmanganese.topaddons.elements.top.ElementItemStackBackground;
+import io.github.drmanganese.topaddons.addons.top.elements.ElementItemStackBackground;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;

@@ -1,4 +1,4 @@
-package io.github.drmanganese.topaddons.elements.top;
+package io.github.drmanganese.topaddons.addons.top.elements;
 
 import io.github.drmanganese.topaddons.TopAddons;
 import io.github.drmanganese.topaddons.util.ElementHelper;

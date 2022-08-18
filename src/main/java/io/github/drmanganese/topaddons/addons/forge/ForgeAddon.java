@@ -6,7 +6,7 @@ import io.github.drmanganese.topaddons.addons.forge.tiles.FluidHandlerTileInfo;
 import io.github.drmanganese.topaddons.api.*;
 import io.github.drmanganese.topaddons.config.ColorValue;
 import io.github.drmanganese.topaddons.config.Config;
-import io.github.drmanganese.topaddons.elements.forge.FluidGaugeElement;
+import io.github.drmanganese.topaddons.addons.forge.elements.FluidGaugeElement;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
