@@ -2,16 +2,18 @@ package io.github.drmanganese.topaddons.addons.forge.tiles;
 
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon.FluidGaugeChoice;
+import io.github.drmanganese.topaddons.addons.forge.elements.FluidGaugeElement;
 import io.github.drmanganese.topaddons.api.ITileConfigProvider;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.config.Config;
-import io.github.drmanganese.topaddons.elements.forge.FluidGaugeElement;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -23,11 +25,14 @@ import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 
 import javax.annotation.Nonnull;
+import java.awt.*; // TODO: Remove awt Color usage, replace with TOP API
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
+import java.util.Objects;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
+
+import static mcjty.theoneprobe.config.Config.*;
 
 public class FluidHandlerTileInfo implements ITileInfo<BlockEntity>, ITileConfigProvider {
 
@@ -40,24 +45,75 @@ public class FluidHandlerTileInfo implements ITileInfo<BlockEntity>, ITileConfig
 
     @Override
     public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData hitData, @Nonnull BlockEntity tile) {
-        if (FluidGaugeChoice.getSyncedValueFor(player).hideTopAddonsGauge) return;
-        final Block block = blockState.getBlock();
-        if (!ForgeAddon.gaugeModBlacklist.get().contains(ForgeRegistries.BLOCKS.getKey(block).getNamespace())) {
-            tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(fluidHandler -> {
-                final IntFunction<FluidTank> tankMaker = i -> new FluidTank(fluidHandler, block, i, player);
+        final int tankMode = mcjty.theoneprobe.config.Config.getDefaultConfig().getTankMode();
+        getTileFluidHandler(blockState, tile)
+            .ifPresent(fluidHandler -> {
+                final IntFunction<FluidTank> tankMaker = i -> new FluidTank(fluidHandler, blockState.getBlock(), i, player);
                 IntStream.range(0, fluidHandler.getTanks())
                     .mapToObj(tankMaker)
                     .filter(FluidTank::isValidTank)
-                    .map(FluidTank::elementMaker)
-                    .forEachOrdered(maker -> probeInfo.element(maker.apply(player, probeMode)));
+                    .forEachOrdered(tank -> {
+                        if (FluidGaugeChoice.getSyncedValueFor(player).hideTopAddonsGauge)
+                            addCompactVanillaGauge(probeInfo, probeMode, player, tank, tankMode);
+                        else
+                            addTopAddonsGauge(probeMode, probeInfo, player, tank);
+                    });
             });
-        }
     }
 
     @Override
     public void getProbeConfig(IProbeConfig config, Player player, Level world, BlockState blockState, IProbeHitData data) {
         if (FluidGaugeChoice.getSyncedValueFor(player).hideOriginal)
             config.showTankSetting(IProbeConfig.ConfigMode.NOT);
+    }
+
+    private static boolean shouldAddCompactVanillaGauge(ProbeMode probeMode, Player player, int tankMode) {
+        return probeMode == ProbeMode.NORMAL &&
+            Config.getSyncedBoolean(player, ForgeAddon.gaugeShowCompactTop) &&
+            (tankMode == 1 || tankMode == 2);
+    }
+
+    private static void addTopAddonsGauge(ProbeMode probeMode, IProbeInfo probeInfo, Player player, FluidTank tank) {
+        if (tank.stack.getAmount() < 1 && Config.getSyncedBoolean(player, ForgeAddon.gaugeHideEmptyTanks)) return;
+        probeInfo.element(tank.makeElement(probeMode));
+    }
+
+    private static void addCompactVanillaGauge(IProbeInfo probeInfo, ProbeMode probeMode, Player player, FluidTank tank, int tankMode) {
+        if (!shouldAddCompactVanillaGauge(probeMode, player, tankMode) || tank.stack.isEmpty()) return;
+        final Color color;
+        if (Objects.equals(tank.stack.getFluid(), Fluids.LAVA)) {
+            color = new Color(255, 139, 27);
+        } else {
+            color = new Color(tank.stack.getFluid().getAttributes().getColor(tank.stack));
+        }
+        if (tankMode == 1)
+            probeInfo.tankSimple(
+                (int) tank.capacity,
+                tank.stack,
+                probeInfo.defaultProgressStyle()
+                    .height(6)
+                    .showText(false)
+                    .borderlessColor(color.hashCode(), color.darker().darker().hashCode())
+            );
+        else
+            probeInfo.progress(
+                tank.stack.getAmount(),
+                tank.capacity,
+                probeInfo.defaultProgressStyle()
+                    .filledColor(tankbarFilledColor)
+                    .alternateFilledColor(tankbarAlternateFilledColor)
+                    .borderColor(tankbarBorderColor)
+                    .showText(false)
+                    .height(6)
+            );
+    }
+
+    private LazyOptional<IFluidHandler> getTileFluidHandler(BlockState blockState, BlockEntity tile) {
+        final Block block = blockState.getBlock();
+        if (!ForgeAddon.gaugeModBlacklist.get().contains(ForgeRegistries.BLOCKS.getKey(block).getNamespace()))
+            return tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+        else
+            return LazyOptional.empty();
     }
 
     private static class FluidTank {
@@ -72,8 +128,8 @@ public class FluidHandlerTileInfo implements ITileInfo<BlockEntity>, ITileConfig
             this.translationKey = getTranslationKey(block.getRegistryName().toString(), tankIndex, player);
         }
 
-        private BiFunction<Player, ProbeMode, FluidGaugeElement> elementMaker() {
-            return (player, mode) -> new FluidGaugeElement(
+        private FluidGaugeElement makeElement(ProbeMode mode) {
+            return new FluidGaugeElement(
                 mode == ProbeMode.EXTENDED,
                 stack.getAmount(),
                 capacity,

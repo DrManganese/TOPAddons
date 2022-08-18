@@ -43,7 +43,9 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
 
     // Synced
     public static ForgeConfigSpec.EnumValue<FluidGaugeChoice> fluidGaugeChoice;
+    public static ForgeConfigSpec.BooleanValue gaugeShowCompactTop;
     public static ForgeConfigSpec.BooleanValue gaugeUseCustomTankNames;
+    public static ForgeConfigSpec.BooleanValue gaugeHideEmptyTanks;
     public static ColorValue machineProgressBackgroundColor;
     public static ColorValue machineProgressBorderColor;
 
@@ -82,6 +84,8 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
             gaugeFluidColorTransparency = builder.comment("Fluid color transparency.").defineInRange("gaugeFluidColorTransparency", 255, 0, 255);
             gaugeRenderFluidTexture = builder.comment("Use the fluid's texture in the fluid gauge instead of the TOP lines.").define("gaugeRenderFluidTexture", true);
             gaugeFluidTextureAlignment = builder.comment("Alignment of the fluid's texture when gaugeRenderFluidTexture is enabled.").defineEnum("fluidTextureAlignment", FluidTextureAlignment.MIDDLE);
+            gaugeShowCompactTop = builder.comment("When 'fluidGaugeChoice' is set to THE_ONE_PROBE_ONLY show a compact version of it's tank gauge.").define("gaugeShowCompactTop", true);
+            gaugeHideEmptyTanks = builder.comment("Hide empty thanks when displaying the TOP Addons fluid gauge (same behaviour as vanilla TOP).").define("gaugeHideEmptyTanks", false);
             builder.pop();
             machineProgressBackgroundColor = new ColorValue(builder.comment("Machine progress bar background color").define("machineProgressBackgroundColor", "#55666666", ColorValue::test));
             machineProgressBorderColor = new ColorValue(builder.comment("Machine progress bar border color").define("machineProgressBorderColor", "#ff666666", ColorValue::test));
@@ -98,7 +102,9 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
             fluidGaugeChoice,
             machineProgressBackgroundColor.configValue,
             machineProgressBorderColor.configValue,
-            gaugeUseCustomTankNames
+            gaugeUseCustomTankNames,
+            gaugeShowCompactTop,
+            gaugeHideEmptyTanks
         );
     }
 
