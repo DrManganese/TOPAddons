@@ -22,8 +22,8 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import mcjty.theoneprobe.api.IElement;
+import mcjty.theoneprobe.api.Color;
 
-import java.awt.*;
 import java.text.DecimalFormat;
 import java.util.Optional;
 import java.util.function.Function;
@@ -104,22 +104,6 @@ public class FluidGaugeElement implements IElement {
         return ForgeAddon.GAUGE_ELEMENT_ID;
     }
 
-    private static float red(int color) {
-        return (color >> 16 & 0xFF) / 255.0F;
-    }
-
-    private static float green(int color) {
-        return (color >> 8 & 0xFF) / 255.0F;
-    }
-
-    private static float blue(int color) {
-        return (color & 0xFF) / 255.0F;
-    }
-
-    private static float alpha(int color) {
-        return (color >> 24 & 0xFF) / 255.0F;
-    }
-
     private void renderBackground(PoseStack poseStack, int x, int y, int borderColor, int backgroundColor) {
         if (ForgeAddon.gaugeRounded.get()) {
             Gui.fill(poseStack, x + 1, y + 1, x + INNER_WIDTH + 1, y + (extended ? 11 : 7), backgroundColor);
@@ -134,11 +118,11 @@ public class FluidGaugeElement implements IElement {
 
     /**
      * Render the fluid by drawing vertical lines of alternating colors. The color of the alternating color is
-     * calculated with awt.Color.darker (0.7 * r/g/b).
+     * calculated with Color.darker (0.7 * r/g/b).
      */
     private void renderFluid(PoseStack poseStack, int x, int y, int color) {
         color = (color & 0x00ffffff) | (ForgeAddon.gaugeFluidColorTransparency.get()) << 24;
-        final int darkerColor = new Color(color, true).darker().hashCode();
+        final int darkerColor = new Color(color).darker().hashCode();
         for (int i = 0; i < Math.min(INNER_WIDTH * amount / capacity, INNER_WIDTH); i++) {
             Gui.fill(
                 poseStack,
@@ -175,8 +159,8 @@ public class FluidGaugeElement implements IElement {
 
         RenderSystem.enableBlend();
         RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-        final int fluidColor = fluid.getAttributes().getColor();
-        RenderSystem.setShaderColor(red(fluidColor), green(fluidColor), blue(fluidColor), alpha(fluidColor));
+        final Color fluidColor = new Color(fluid.getAttributes().getColor());
+        RenderSystem.setShaderColor(fluidColor.getRed()/ 255.0F, fluidColor.getGreen()/ 255.0F, fluidColor.getBlue()/ 255.0F, fluidColor.getAlpha()/ 255.0F);
         final int fullWidth = (int) Math.min(INNER_WIDTH, INNER_WIDTH * amount / capacity);
         final int nTiles = fullWidth > 0 ? (fullWidth + textureWidth - 1) / textureWidth : 0; // Ceil
         for (int tile = 0; tile < nTiles; tile++) {

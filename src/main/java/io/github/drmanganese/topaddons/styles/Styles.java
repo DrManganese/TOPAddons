@@ -8,13 +8,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 
 import com.google.common.collect.ImmutableMap;
+import mcjty.theoneprobe.api.Color;
 import mcjty.theoneprobe.api.ElementAlignment;
 import mcjty.theoneprobe.api.ILayoutStyle;
 import mcjty.theoneprobe.api.IProgressStyle;
 import mcjty.theoneprobe.apiimpl.styles.LayoutStyle;
 import mcjty.theoneprobe.apiimpl.styles.ProgressStyle;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.function.Function;
 import java.util.stream.Collectors;

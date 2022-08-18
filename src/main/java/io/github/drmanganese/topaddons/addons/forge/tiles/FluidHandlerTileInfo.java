@@ -23,9 +23,9 @@ import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
+import mcjty.theoneprobe.api.Color;
 
 import javax.annotation.Nonnull;
-import java.awt.*; // TODO: Remove awt Color usage, replace with TOP API
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -93,7 +93,7 @@ public class FluidHandlerTileInfo implements ITileInfo<BlockEntity>, ITileConfig
                 probeInfo.defaultProgressStyle()
                     .height(6)
                     .showText(false)
-                    .borderlessColor(color.hashCode(), color.darker().darker().hashCode())
+                    .borderlessColor(color, color.darker(0.47))
             );
         else
             probeInfo.progress(
