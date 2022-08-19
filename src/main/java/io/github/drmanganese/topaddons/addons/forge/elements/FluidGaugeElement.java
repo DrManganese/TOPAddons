@@ -21,8 +21,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import mcjty.theoneprobe.api.IElement;
 import mcjty.theoneprobe.api.Color;
+import mcjty.theoneprobe.api.IElement;
 
 import java.text.DecimalFormat;
 import java.util.Optional;
@@ -33,6 +33,8 @@ public class FluidGaugeElement implements IElement {
     private static final int INNER_WIDTH = 98;
     private static final int INNER_HEIGHT = 6;
     private static final int INNER_HEIGHT_EXTENDED = 10;
+    public static final String EMPTY = new TranslatableComponent("topaddons.forge:empty").getString();
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.0");
 
     private final boolean extended;
     private final long amount, capacity;
@@ -233,16 +235,22 @@ public class FluidGaugeElement implements IElement {
         }
     }
 
-    // TODO: Auto-fit option? (recurse until amountText's width <= INNER_WIDTH + padding)
     private String amountText() {
-        if (this.amount == 0 && !ForgeAddon.gaugeShowCapacity.get())
-            return new TranslatableComponent("topaddons.forge:empty").getString();
-        else {
-            final String amount = new DecimalFormat("#.#").format(this.capacity < 100000 ? this.amount : this.amount / 1000);
-            final long capacity = this.capacity < 100000 ? this.capacity : this.capacity / 1000;
-            final String unit = this.capacity < 100000 ? "mB" : "B";
-            final Boolean showCapacity = ForgeAddon.gaugeShowCapacity.get();
-            return String.format("%s%s%s %s", amount, showCapacity ? "/" : "", showCapacity ? capacity : "", unit);
-        }
+        final boolean showCapacity = ForgeAddon.gaugeShowCapacity.get();
+        if (!showCapacity && amount == 0) return EMPTY;
+
+        final long sizeCheck = showCapacity ? capacity : amount;
+        float factor = 1f;
+        String unit = "m";
+        if (sizeCheck >= 100000000000L) { factor = 1000000000f; unit = "M"; }
+        else if (sizeCheck >= 100000000L) { factor = 1000000f; unit = "k"; }
+        else if (sizeCheck >= 100000L) { factor = 1000f; unit = ""; }
+
+        final String amount = factor > 1 ? DECIMAL_FORMAT.format(this.amount / factor) : String.valueOf(this.amount);
+        final String capacity = factor > 1 ? DECIMAL_FORMAT.format(this.capacity / factor) : String.valueOf(this.capacity);
+        if (showCapacity)
+            return String.format("%s/%s %sB", amount, capacity, unit);
+        else
+            return String.format("%s %sB", amount, unit);
     }
 }

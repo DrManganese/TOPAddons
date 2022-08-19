@@ -51,7 +51,7 @@ public class ForgeAddon extends TopAddon implements IAddonBlocks, IAddonElements
 
     // Common
     public static ForgeConfigSpec.ConfigValue<List<? extends String>> gaugeModBlacklist;
-    private static final List<? extends String> DEFAULT_BLACKLIST = Arrays.asList("mekanism", "mekanismgenerators", "fluidtank");
+    private static final List<? extends String> DEFAULT_BLACKLIST = Arrays.asList("mekanism", "mekanismgenerators", "fluidtank", "endertanks");
 
 
     public ForgeAddon() {
