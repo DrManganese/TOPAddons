@@ -34,7 +34,7 @@ public class MachineTileInfo implements ITileInfo<ThermalTileAugmentable> {
     public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData hitData, @Nonnull ThermalTileAugmentable tile) {
         if (tile.isActive) {
             final Styles.Colors color = MACHINE_COLORS.getOrDefault(blockState.getBlock().getRegistryName().toString(), Styles.Colors.fromDye(DyeColor.GRAY));
-            final IProgressStyle progressStyle = Styles.machineProgress(player).filledColor(color.dyeColor).alternateFilledColor(color.darkerColor);
+            final IProgressStyle progressStyle = Styles.machineProgress(player).filledColor(color.color).alternateFilledColor(color.darkerColor);
             probeInfo
                 .progress(tile.getScaledProgress(100), 100, progressStyle);
 

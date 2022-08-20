@@ -6,6 +6,7 @@ import io.github.drmanganese.topaddons.config.Config;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.material.MaterialColor;
 
 import com.google.common.collect.ImmutableMap;
 import mcjty.theoneprobe.api.Color;
@@ -43,16 +44,22 @@ public final class Styles {
     }
 
     public static class Colors {
-        public final DyeColor dye;
-        public final int dyeColor;
+        public final int color;
         public final int darkerColor;
         public final int semiTransparentColor;
 
-        private Colors(DyeColor dyeColor) {
-            this.dye = dyeColor;
-            this.dyeColor = dyeColor.getTextColor() | 0xff000000; // TODO: test me
-            this.darkerColor = new Color(this.dyeColor).darker().hashCode();
+        private Colors(DyeColor color) {
+            this(color.getTextColor() | 0xff000000);
+        }
+
+        public Colors(int color) {
+            this.color = color;
+            this.darkerColor = new Color(this.color).darker().hashCode();
             this.semiTransparentColor = this.darkerColor & 0x33ffffff;
+        }
+
+        public Colors(MaterialColor color) {
+            this(color.col | 0xff000000);
         }
 
         public static Colors fromDye(DyeColor dyeColor) {

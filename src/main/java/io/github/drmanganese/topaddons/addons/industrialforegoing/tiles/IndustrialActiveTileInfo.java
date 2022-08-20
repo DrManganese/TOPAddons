@@ -73,7 +73,7 @@ public class IndustrialActiveTileInfo implements ITileInfo<ActiveTile<?>> {
         if (!canIncrease.test((ActiveTile<?>) progressBar.getComponentHarness()) && progressBar.getProgress() == 0) return;
         final Colors colors = Colors.fromDye(progressBar.getColor() == DyeColor.WHITE ? DyeColor.LIGHT_GRAY : progressBar.getColor());
         final IProgressStyle style = Styles.machineProgress(player)
-            .filledColor(colors.dyeColor)
+            .filledColor(colors.color)
             .alternateFilledColor(colors.darkerColor)
             .alignment(ElementAlignment.ALIGN_CENTER);
         final int progressScaled = 100 * progressBar.getProgress() / progressBar.getMaxProgress();
@@ -83,7 +83,7 @@ public class IndustrialActiveTileInfo implements ITileInfo<ActiveTile<?>> {
     private static void tinyIndustrialProgressBar(IProbeInfo probeInfo, Player player, ProbeMode probeMode, ProgressBarComponent<?> progressBar) {
         if (progressBar.getProgress() == 0 && probeMode == ProbeMode.NORMAL) return;
         final Colors colors = Colors.fromDye(progressBar.getColor());
-        tinyIndustrialProgressBar(probeInfo, player, progressBar, colors.dyeColor, colors.darkerColor, colors.semiTransparentColor);
+        tinyIndustrialProgressBar(probeInfo, player, progressBar, colors.color, colors.darkerColor, colors.semiTransparentColor);
     }
 
     private static void tinyIndustrialProgressBar(IProbeInfo probeInfo, Player player, ProgressBarComponent<?> progressBar, int filledColor, int alternateFilledColor, int backgroundColor) {

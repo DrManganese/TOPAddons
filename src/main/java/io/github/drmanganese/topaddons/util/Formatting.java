@@ -1,6 +1,24 @@
 package io.github.drmanganese.topaddons.util;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
 public final class Formatting {
+
+    private static final String[] PREFIXES = {"", "k", "M", "G", "T", "P", "E"};
+
+    public static String formatRealNumberWithUnit(long number, String unit) {
+        return formatRealNumberWithUnit(number, unit, 0);
+    }
+
+    public static String formatRealNumberWithUnit(long number, String unit, int precision) {
+        final DecimalFormat df = new DecimalFormat("0", DecimalFormatSymbols.getInstance());
+        df.setMaximumFractionDigits(precision);
+
+        final int magnitude = number > 0 ? (int) (3 * Math.floor(Math.log10(number) / 3)) : 0;
+        final String fmtNumber = df.format((float) number / Math.pow(10, magnitude));
+        return String.format("%s %s%s", fmtNumber, PREFIXES[magnitude / 3], unit);
+    }
 
     /**
      * Formats the given value and unit to time in seconds.
