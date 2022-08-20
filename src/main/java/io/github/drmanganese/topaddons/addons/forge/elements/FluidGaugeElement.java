@@ -10,13 +10,13 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.fluids.FluidStack;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -39,14 +39,14 @@ public class FluidGaugeElement implements IElement {
     private final boolean extended;
     private final long amount, capacity;
     private final String tankNameKey;
-    private final Fluid fluid;
+    private final FluidStack fluidStack;
 
-    public FluidGaugeElement(boolean extended, long amount, long capacity, String tankNameKey, Fluid fluid) {
+    public FluidGaugeElement(boolean extended, long amount, long capacity, String tankNameKey, FluidStack fluidStack) {
         this.extended = extended;
         this.amount = amount;
         this.capacity = capacity;
         this.tankNameKey = tankNameKey;
-        this.fluid = fluid;
+        this.fluidStack = fluidStack;
     }
 
     public FluidGaugeElement(FriendlyByteBuf buf) {
@@ -54,24 +54,24 @@ public class FluidGaugeElement implements IElement {
         this.amount = buf.readLong();
         this.capacity = buf.readLong();
         this.tankNameKey = buf.readUtf();
-        this.fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(buf.readUtf()));
+        this.fluidStack = buf.readFluidStack();
     }
 
     @Override
     public void render(PoseStack stack, int x, int y) {
         final int borderColor = ForgeAddon.gaugeBorderColor.getInt();
         final int backgroundColor = ForgeAddon.gaugeBackgroundColor.getInt();
-        final int fluidColor = ImmutableList.of(FluidColors.getOverrideColor(fluid), FluidColors.getForgeColor(fluid))
+        final int fluidColor = ImmutableList.of(FluidColors.getOverrideColor(fluidStack.getFluid()), FluidColors.getForgeColor(fluidStack))
             .stream()
             .filter(Optional::isPresent)
             .findFirst()
             .flatMap(Function.identity())
-            .orElse(FluidColors.getForFluid(fluid, ForgeAddon.gaugeFluidColorAlgorithm.get()));
+            .orElse(FluidColors.getForFluid(fluidStack.getFluid(), ForgeAddon.gaugeFluidColorAlgorithm.get()));
 
         renderBackground(stack, x, y, borderColor, backgroundColor);
         if (ForgeAddon.gaugeRenderFluidTexture.get()) {
             try {
-                renderFluid(stack, x + 1, y + 1, fluid);
+                renderFluid(stack, x + 1, y + 1, fluidStack);
             } catch (final NullPointerException e) {
                 renderFluid(stack, x + 1, y + 1, fluidColor);
             }
@@ -98,7 +98,7 @@ public class FluidGaugeElement implements IElement {
         buf.writeLong(this.amount);
         buf.writeLong(this.capacity);
         buf.writeUtf(this.tankNameKey);
-        buf.writeUtf(fluid.getRegistryName().toString());
+        buf.writeFluidStack(this.fluidStack);
     }
 
     @Override
@@ -140,11 +140,11 @@ public class FluidGaugeElement implements IElement {
     /**
      * Render the fluid by tiling its texture.
      */
-    private void renderFluid(PoseStack poseStack, int x, int y, Fluid fluid) {
+    private void renderFluid(PoseStack poseStack, int x, int y, FluidStack fluidStack) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         final Tesselator tesselator = Tesselator.getInstance();
         final BufferBuilder buffer = tesselator.getBuilder();
-        final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTextureSafe(fluid);
+        final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTextureSafe(fluidStack.getFluid());
         final int textureWidth = texture.getWidth();
         final float minU = texture.getU0();
         final float maxU = texture.getU1();
@@ -161,7 +161,7 @@ public class FluidGaugeElement implements IElement {
 
         RenderSystem.enableBlend();
         RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-        final Color fluidColor = new Color(fluid.getAttributes().getColor());
+        final Color fluidColor = new Color(fluidStack.getFluid().getAttributes().getColor(fluidStack));
         RenderSystem.setShaderColor(fluidColor.getRed()/ 255.0F, fluidColor.getGreen()/ 255.0F, fluidColor.getBlue()/ 255.0F, fluidColor.getAlpha()/ 255.0F);
         final int fullWidth = (int) Math.min(INNER_WIDTH, INNER_WIDTH * amount / capacity);
         final int nTiles = fullWidth > 0 ? (fullWidth + textureWidth - 1) / textureWidth : 0; // Ceil
@@ -219,12 +219,12 @@ public class FluidGaugeElement implements IElement {
         final String tankDisplayName = new TranslatableComponent(tankNameKey).getString();
         final Font font = Minecraft.getInstance().font;
         if (extended) {
-            final String fluidDisplayName = new TranslatableComponent(fluid.getAttributes().getTranslationKey()).getString();
+            final String fluidDisplayName = new TranslatableComponent(fluidStack.getFluid().getAttributes().getTranslationKey(fluidStack)).getString();
             font.drawShadow(poseStack, amountText(), x + 3, y + 2, 0xffffffff);
             poseStack.pushPose();
             poseStack.scale(0.5F, 0.5F, 0.5F);
             font.drawShadow(poseStack, tankDisplayName, x * 2, (y + 13) * 2, 0xffffffff);
-            if (fluid != Fluids.EMPTY)
+            if (fluidStack.getFluid() != Fluids.EMPTY)
                 font.drawShadow(poseStack, fluidDisplayName, (x + getWidth()) * 2 - font.width(fluidDisplayName), (y + 13) * 2, color);
             poseStack.popPose();
         } else {

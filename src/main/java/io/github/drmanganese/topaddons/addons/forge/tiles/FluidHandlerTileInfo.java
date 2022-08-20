@@ -134,7 +134,7 @@ public class FluidHandlerTileInfo implements ITileInfo<BlockEntity>, ITileConfig
                 stack.getAmount(),
                 capacity,
                 translationKey,
-                stack.getFluid()
+                stack
             );
         }
 

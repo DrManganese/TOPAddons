@@ -4,6 +4,7 @@ import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,8 +34,8 @@ public class FluidColors {
         };
     }
 
-    public static Optional<Integer> getForgeColor(Fluid fluid) {
-        return Optional.of(fluid.getAttributes().getColor()).filter(i -> i != -1);
+    public static Optional<Integer> getForgeColor(FluidStack fluidStack) {
+        return Optional.of(fluidStack.getFluid().getAttributes().getColor(fluidStack)).filter(i -> i != -1);
     }
 
     public static Optional<Integer> getOverrideColor(Fluid fluid) {
