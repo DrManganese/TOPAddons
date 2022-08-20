@@ -17,6 +17,7 @@
   "topaddons.thermal:fractioning_still_2": "Output B",
   "topaddons.thermal_expansion:consumption": "Consumption",
   "topaddons.industrialforegoing:entity": "Entity",
+  "topaddons.industrialforegoing:fermentation_station_2": "Catalyst", 
   "topaddons.bloodmagic:filling": "Filling network",
   "topaddons.bloodmagic:consumption": "Consumption",
   "topaddons.bloodmagic:tranquility":  "Tranquility",

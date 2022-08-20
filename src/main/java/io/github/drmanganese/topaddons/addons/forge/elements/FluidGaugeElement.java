@@ -216,7 +216,7 @@ public class FluidGaugeElement implements IElement {
     }
 
     private void renderText(PoseStack poseStack, int x, int y, int color) {
-        final String tankDisplayName = new TranslatableComponent(tankNameKey).getString();
+        final String tankDisplayName = new TranslatableComponent(I18n.exists(tankNameKey) ? tankNameKey : "topaddons.forge:default_tank_name").getString();
         final Font font = Minecraft.getInstance().font;
         if (extended) {
             final String fluidDisplayName = new TranslatableComponent(fluidStack.getFluid().getAttributes().getTranslationKey(fluidStack)).getString();

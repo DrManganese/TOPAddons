@@ -1,6 +1,7 @@
 package io.github.drmanganese.topaddons.addons.industrialforegoing;
 
 import io.github.drmanganese.topaddons.addons.TopAddon;
+import io.github.drmanganese.topaddons.addons.forge.tiles.FluidHandlerTileInfo;
 import io.github.drmanganese.topaddons.addons.industrialforegoing.tiles.IndustrialActiveTileInfo;
 import io.github.drmanganese.topaddons.addons.industrialforegoing.tiles.MobDuplicatorTileInfo;
 import io.github.drmanganese.topaddons.api.IAddonBlocks;
@@ -34,6 +35,7 @@ public class IndustrialForegoingAddon extends TopAddon implements IAddonBlocks, 
 
     public IndustrialForegoingAddon() {
         super("industrialforegoing");
+        FluidHandlerTileInfo.CUSTOM_TANK_KEYS.put("industrialforegoing:fermentation_station", "topaddons.industrialforegoing:fermentation_station");
     }
 
     /**
