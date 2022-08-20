@@ -13,8 +13,6 @@ public class FluidColorExtraction {
 
     private static final Fluid DEFAULT = Fluids.WATER;
 
-    private static final Function<ResourceLocation, TextureAtlasSprite> TEXTURE = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS);
-
     static int extractTopLeftColorFromTexture(TextureAtlasSprite sprite) {
         final int abgr = sprite.getPixelRGBA(0, 0, 0);
         return (0xff << 24) | (red(abgr) << 16) | (green(abgr) << 8) | blue(abgr);
@@ -38,7 +36,9 @@ public class FluidColorExtraction {
     }
 
     private static TextureAtlasSprite getStillFluidTexture(Fluid fluid) {
-        return TEXTURE.apply(fluid.getAttributes().getStillTexture());
+        return Minecraft.getInstance()
+            .getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
+            .apply(fluid.getAttributes().getStillTexture());
     }
 
     @SuppressWarnings("ConstantConditions")
