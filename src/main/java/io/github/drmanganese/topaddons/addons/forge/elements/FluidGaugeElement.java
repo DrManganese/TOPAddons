@@ -34,7 +34,7 @@ public class FluidGaugeElement implements IElement {
     private static final int INNER_HEIGHT = 6;
     private static final int INNER_HEIGHT_EXTENDED = 10;
     public static final String EMPTY = new TranslatableComponent("topaddons.forge:empty").getString();
-    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.0");
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.#");
 
     private final boolean extended;
     private final long amount, capacity;
