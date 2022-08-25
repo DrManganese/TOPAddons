@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.18.2-2.3.0-beta
+
+* \[Forge\] Various improvements to fluid gauge
+* \[Powah\] Added support: Generation + transfer rates, reactor info
+
 ## 1.16.5-2.2.0-beta
 
 - \[Forge] Bumped minimum Forge version to 36.2.0
