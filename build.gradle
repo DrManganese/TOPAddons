@@ -67,9 +67,9 @@ dependencies {
     implementation fg.deobf("mcjty.theoneprobe:theoneprobe:$top_version") {transitive = false}
 
     // Addon dependencies. Set to compileOnly for quicker test client launching
-    implementation fg.deobf("curse.maven:cofh-core-69162:3838025")
-    implementation fg.deobf("curse.maven:thermal-foundation-222880:3837827")
-    implementation fg.deobf("curse.maven:thermal-expansion-69163:3837868")
+    implementation fg.deobf("curse.maven:cofh-core-69162:4385215")
+    implementation fg.deobf("curse.maven:thermal-foundation-222880:4382339")
+    implementation fg.deobf("curse.maven:thermal-expansion-69163:4382343")
 
     implementation fg.deobf("curse.maven:blood-magic-224791:3926937")
     runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-71.1")

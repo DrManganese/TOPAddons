@@ -9,13 +9,13 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import cofh.thermal.lib.tileentity.ThermalTileAugmentable;
+import cofh.thermal.lib.block.entity.AugmentableBlockEntity;
 import com.google.common.collect.ImmutableMap;
 import mcjty.theoneprobe.api.*;
 
 import javax.annotation.Nonnull;
 
-public class MachineTileInfo implements ITileInfo<ThermalTileAugmentable> {
+public class MachineTileInfo implements ITileInfo<AugmentableBlockEntity> {
 
     public static final MachineTileInfo INSTANCE = new MachineTileInfo();
 
@@ -31,7 +31,7 @@ public class MachineTileInfo implements ITileInfo<ThermalTileAugmentable> {
             .build();
 
     @Override
-    public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData hitData, @Nonnull ThermalTileAugmentable tile) {
+    public void addProbeInfo(ProbeMode probeMode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData hitData, @Nonnull AugmentableBlockEntity tile) {
         if (tile.isActive) {
             final Styles.Colors color = MACHINE_COLORS.getOrDefault(blockState.getBlock().getRegistryName().toString(), Styles.Colors.fromDye(DyeColor.GRAY));
             final IProgressStyle progressStyle = Styles.machineProgress(player).filledColor(color.color).alternateFilledColor(color.darkerColor);
