@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.18.2-2.3.1-beta
+
+* \[Thermal\] Support latest versions (TE 1.18.2-9.2.0.20)
+
 ## 1.18.2-2.3.0-beta
 
 * \[Forge\] Various improvements to fluid gauge
