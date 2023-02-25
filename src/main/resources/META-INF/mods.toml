@@ -1,7 +1,7 @@
 modLoader="javafml"
 loaderVersion="[40,)"
 issueTrackerURL="https://github.com/DrManganese/TOPAddons/issues"
-license="LGPL https://raw.githubusercontent.com/DrManganese/TOPAddons/master/LICENSE"
+license="GPLv3 https://raw.githubusercontent.com/DrManganese/TOPAddons/1.18/LICENSE"
 
 [[mods]]
 modId="topaddons"
