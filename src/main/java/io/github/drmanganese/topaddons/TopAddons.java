@@ -1,10 +1,6 @@
 package io.github.drmanganese.topaddons;
 
-import io.github.drmanganese.topaddons.addons.bloodmagic.BloodMagicAddon;
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
-import io.github.drmanganese.topaddons.addons.industrialforegoing.IndustrialForegoingAddon;
-import io.github.drmanganese.topaddons.addons.powah.PowahAddon;
-import io.github.drmanganese.topaddons.addons.thermal.ThermalExpansionAddon;
 import io.github.drmanganese.topaddons.addons.vanilla.VanillaAddon;
 import io.github.drmanganese.topaddons.capabilities.ClientCfgCapability;
 import io.github.drmanganese.topaddons.commands.TopAddonsCommands;
@@ -50,10 +46,6 @@ public final class TopAddons {
         final Stopwatch stopwatch = Stopwatch.createStarted();
         AddonRegistry.registerAddon(ForgeAddon::new);
         AddonRegistry.registerAddon(VanillaAddon::new);
-        AddonRegistry.registerAddon(ThermalExpansionAddon::new, "thermal_expansion");
-        AddonRegistry.registerAddon(BloodMagicAddon::new, "bloodmagic");
-        AddonRegistry.registerAddon(IndustrialForegoingAddon::new, "industrialforegoing");
-        AddonRegistry.registerAddon(PowahAddon::new, "powah");
         stopwatch.stop();
         LOGGER.debug("Registered {} addons in {}", AddonRegistry.getAddonStream().count(), stopwatch);
     }

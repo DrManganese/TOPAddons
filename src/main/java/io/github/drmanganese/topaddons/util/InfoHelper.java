@@ -3,7 +3,6 @@ package io.github.drmanganese.topaddons.util;
 import io.github.drmanganese.topaddons.addons.top.elements.ElementItemStackBackground;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.NonNullConsumer;
@@ -45,7 +44,7 @@ public final class InfoHelper {
                     .numberFormat(Config.rfFormat.get()));
         } else {
             final CompoundText compoundText = CompoundText.create().style(TextStyleClass.PROGRESS);
-            final Component content = ElementProgress.format(energy, Config.rfFormat.get(), new TextComponent("FE"));
+            final Component content = ElementProgress.format(energy, Config.rfFormat.get(), Component.literal("FE"));
             return probeInfo.text(compoundText.text("FE: " + content));
         }
     }

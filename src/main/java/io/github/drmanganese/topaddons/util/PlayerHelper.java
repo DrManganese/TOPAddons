@@ -13,7 +13,7 @@ import java.util.Arrays;
 
 public final class PlayerHelper {
 
-    @ObjectHolder("theoneprobe:probe")
+    @ObjectHolder(registryName = "item", value = "theoneprobe:probe")
     private static Item PROBE;
 
     public static ProbeMode getProbeMode(Player player) {

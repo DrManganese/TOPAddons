@@ -2,12 +2,11 @@ package io.github.drmanganese.topaddons.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
-import java.util.function.Function;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 
 public class FluidColorExtraction {
 
@@ -19,7 +18,7 @@ public class FluidColorExtraction {
     }
 
     static int extractAvgColorFromTexture(TextureAtlasSprite sprite) {
-        final int width = sprite.getWidth();
+        final int width = sprite.contents().width();
         final int n = width * width;
         int r = 0;
         int g = 0;
@@ -38,7 +37,7 @@ public class FluidColorExtraction {
     private static TextureAtlasSprite getStillFluidTexture(Fluid fluid) {
         return Minecraft.getInstance()
             .getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-            .apply(fluid.getAttributes().getStillTexture());
+            .apply(IClientFluidTypeExtensions.of(fluid).getStillTexture());
     }
 
     @SuppressWarnings("ConstantConditions")

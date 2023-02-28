@@ -6,14 +6,14 @@ import net.minecraftforge.registries.ObjectHolder;
 public final class ObjectHolders {
 
     public static final class BloodMagic {
-        @ObjectHolder("bloodmagic:seersigil")
+        @ObjectHolder(registryName = "item", value = "bloodmagic:seersigil")
         public static Item SEER_SIGIL;
-        @ObjectHolder("bloodmagic:divinationsigil")
+        @ObjectHolder(registryName = "item", value = "bloodmagic:divinationsigil")
         public static Item DIVINATION_SIGIL;
     }
 
     public static final class IndustrialForegoing {
-        @ObjectHolder("industrialforegoing:mob_imprisonment_tool")
+        @ObjectHolder(registryName = "item", value = "industrialforegoing:mob_imprisonment_tool")
         public static Item MOB_IMPRISONMENT_TOOL;
     }
 }

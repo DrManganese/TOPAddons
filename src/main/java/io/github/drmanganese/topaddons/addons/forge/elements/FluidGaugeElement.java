@@ -9,13 +9,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.google.common.collect.ImmutableList;
@@ -33,7 +35,7 @@ public class FluidGaugeElement implements IElement {
     private static final int INNER_WIDTH = 98;
     private static final int INNER_HEIGHT = 6;
     private static final int INNER_HEIGHT_EXTENDED = 10;
-    public static final String EMPTY = new TranslatableComponent("topaddons.forge:empty").getString();
+    public static final String EMPTY = Component.translatable("topaddons.forge:empty").getString();
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.#");
 
     private final boolean extended;
@@ -145,7 +147,7 @@ public class FluidGaugeElement implements IElement {
         final Tesselator tesselator = Tesselator.getInstance();
         final BufferBuilder buffer = tesselator.getBuilder();
         final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTextureSafe(fluidStack.getFluid());
-        final int textureWidth = texture.getWidth();
+        final int textureWidth = texture.contents().width();
         final float minU = texture.getU0();
         final float maxU = texture.getU1();
         final float minV = texture.getV0();
@@ -153,7 +155,7 @@ public class FluidGaugeElement implements IElement {
 
         final int tileHeight = extended ? INNER_HEIGHT_EXTENDED : INNER_HEIGHT;
         // Height to render relative to UV coordinate system
-        final float vHeight = (maxV - minV) * 1.0F * tileHeight / texture.getHeight();
+        final float vHeight = (maxV - minV) * 1.0F * tileHeight / texture.contents().height();
         // UV ordinates to  use is based on the gaugeFluidTextureAlignment configuration setting
         final float v1 = ForgeAddon.gaugeFluidTextureAlignment.get().fv1.apply(minV, maxV, vHeight);
         final float v2 = ForgeAddon.gaugeFluidTextureAlignment.get().fv2.apply(minV, maxV, vHeight);
@@ -161,7 +163,7 @@ public class FluidGaugeElement implements IElement {
 
         RenderSystem.enableBlend();
         RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-        final Color fluidColor = new Color(fluidStack.getFluid().getAttributes().getColor(fluidStack));
+        final Color fluidColor = new Color(IClientFluidTypeExtensions.of(fluidStack.getFluid()).getTintColor(fluidStack));
         RenderSystem.setShaderColor(fluidColor.getRed()/ 255.0F, fluidColor.getGreen()/ 255.0F, fluidColor.getBlue()/ 255.0F, fluidColor.getAlpha()/ 255.0F);
         final int fullWidth = (int) Math.min(INNER_WIDTH, INNER_WIDTH * amount / capacity);
         final int nTiles = fullWidth > 0 ? (fullWidth + textureWidth - 1) / textureWidth : 0; // Ceil
@@ -216,10 +218,10 @@ public class FluidGaugeElement implements IElement {
     }
 
     private void renderText(PoseStack poseStack, int x, int y, int color) {
-        final String tankDisplayName = new TranslatableComponent(I18n.exists(tankNameKey) ? tankNameKey : "topaddons.forge:default_tank_name").getString();
+        final String tankDisplayName = Component.translatable(I18n.exists(tankNameKey) ? tankNameKey : "topaddons.forge:default_tank_name").getString();
         final Font font = Minecraft.getInstance().font;
         if (extended) {
-            final String fluidDisplayName = new TranslatableComponent(fluidStack.getFluid().getAttributes().getTranslationKey(fluidStack)).getString();
+            final String fluidDisplayName = fluidStack.getDisplayName().toString();
             font.drawShadow(poseStack, amountText(), x + 3, y + 2, 0xffffffff);
             poseStack.pushPose();
             poseStack.scale(0.5F, 0.5F, 0.5F);

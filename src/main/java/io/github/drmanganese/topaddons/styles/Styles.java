@@ -3,7 +3,8 @@ package io.github.drmanganese.topaddons.styles;
 import io.github.drmanganese.topaddons.addons.forge.ForgeAddon;
 import io.github.drmanganese.topaddons.config.Config;
 
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.material.MaterialColor;
@@ -40,7 +41,7 @@ public final class Styles {
             .copy()
             .borderColor(borderColor)
             .backgroundColor(backgroundColor)
-            .prefix(new TranslatableComponent(prefixWord).append(": "));
+            .prefix(Component.translatable(prefixWord) + ": ");
     }
 
     public static class Colors {

@@ -3,7 +3,7 @@ package io.github.drmanganese.topaddons.addons.vanilla.tiles;
 import io.github.drmanganese.topaddons.api.ITileInfo;
 import io.github.drmanganese.topaddons.styles.Styles;
 
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -36,7 +36,7 @@ public class FurnaceInfo implements ITileInfo<AbstractFurnaceBlockEntity> {
                         .label("topaddons.vanilla:fuel")
                         .text(": ")
                         .style(INFO)
-                        .text(new TranslatableComponent("topaddons:n_ticks", burnTime))
+                        .text(Component.translatable("topaddons:n_ticks", burnTime))
                 );
 
         if (cookTime > 0) {

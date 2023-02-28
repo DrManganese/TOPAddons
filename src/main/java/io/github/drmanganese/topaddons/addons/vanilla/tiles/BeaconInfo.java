@@ -9,6 +9,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import mcjty.theoneprobe.api.*;
 import mcjty.theoneprobe.apiimpl.styles.IconStyle;
@@ -61,7 +62,7 @@ public class BeaconInfo implements ITileInfo<BeaconBlockEntity> {
     }
 
     private ResourceLocation getEffectIconRL(MobEffect effect) {
-        final String effectName = Objects.requireNonNull(effect.getRegistryName()).getPath();
+        final String effectName = Objects.requireNonNull(ForgeRegistries.MOB_EFFECTS.getKey(effect)).getPath();
         return new ResourceLocation("minecraft:textures/mob_effect/" + effectName + ".png");
     }
 }

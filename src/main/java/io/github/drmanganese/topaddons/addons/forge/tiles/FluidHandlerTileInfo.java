@@ -13,9 +13,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -84,7 +85,7 @@ public class FluidHandlerTileInfo implements ITileInfo<BlockEntity>, ITileConfig
         if (Objects.equals(tank.stack.getFluid(), Fluids.LAVA)) {
             color = new Color(255, 139, 27);
         } else {
-            color = new Color(tank.stack.getFluid().getAttributes().getColor(tank.stack));
+            color = new Color(IClientFluidTypeExtensions.of(tank.stack.getFluid()).getTintColor(tank.stack));
         }
         if (tankMode == 1)
             probeInfo.tankSimple(
@@ -111,7 +112,7 @@ public class FluidHandlerTileInfo implements ITileInfo<BlockEntity>, ITileConfig
     private LazyOptional<IFluidHandler> getTileFluidHandler(BlockState blockState, BlockEntity tile) {
         final Block block = blockState.getBlock();
         if (!ForgeAddon.gaugeModBlacklist.get().contains(ForgeRegistries.BLOCKS.getKey(block).getNamespace()))
-            return tile.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
+            return tile.getCapability(ForgeCapabilities.FLUID_HANDLER);
         else
             return LazyOptional.empty();
     }
@@ -125,7 +126,7 @@ public class FluidHandlerTileInfo implements ITileInfo<BlockEntity>, ITileConfig
         private FluidTank(IFluidHandler handler, Block block, int tankIndex, Player player) {
             this.stack = handler.getFluidInTank(tankIndex);
             this.capacity = handler.getTankCapacity(tankIndex);
-            this.translationKey = getTranslationKey(block.getRegistryName().toString(), tankIndex, player);
+            this.translationKey = getTranslationKey(ForgeRegistries.BLOCKS.getKey(block).toString(), tankIndex, player);
         }
 
         private FluidGaugeElement makeElement(ProbeMode mode) {
