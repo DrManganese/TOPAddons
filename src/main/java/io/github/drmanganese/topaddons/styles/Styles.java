@@ -41,7 +41,7 @@ public final class Styles {
             .copy()
             .borderColor(borderColor)
             .backgroundColor(backgroundColor)
-            .prefix(Component.translatable(prefixWord) + ": ");
+            .prefix(Component.translatable(prefixWord).append(": "));
     }
 
     public static class Colors {

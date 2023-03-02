@@ -60,11 +60,26 @@ repositories {
     maven { url = "https://www.cursemaven.com" }
     maven { url = "https://maven.blamejared.com" }
     maven { url = "https://cdn.hrzn.studio/maven/" }
+    maven { url = "https://maven.covers1624.net/" }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:$mc_version-$forge_version"
     implementation fg.deobf("mcjty.theoneprobe:theoneprobe:$top_version") {transitive = false}
+
+    implementation fg.deobf("com.teamcofh:cofh_core:${mc_version}-10.2.0.+")
+    implementation fg.deobf("com.teamcofh:thermal_core:${mc_version}-10.2.0.+")
+    implementation fg.deobf("curse.maven:thermal-foundation-222880:4382373")
+    implementation fg.deobf("curse.maven:thermal-expansion-69163:4382371")
+
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.19.2-77")
+
+    implementation fg.deobf("curse.maven:industrial-foregoing-266515:4401699")
+    implementation fg.deobf("curse.maven:titanium-287342:4391554")
+
+    implementation fg.deobf("curse.maven:powah-rearchitected-633483:4183078")
+    runtimeOnly fg.deobf("curse.maven:architectury-api-419699:4384406")
+    runtimeOnly fg.deobf("curse.maven:cloth-config-348521:3972423")
 }
 
 jar {

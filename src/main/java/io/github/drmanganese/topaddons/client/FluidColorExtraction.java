@@ -18,7 +18,7 @@ public class FluidColorExtraction {
     }
 
     static int extractAvgColorFromTexture(TextureAtlasSprite sprite) {
-        final int width = sprite.contents().width();
+        final int width = sprite.getWidth();
         final int n = width * width;
         int r = 0;
         int g = 0;

@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.FriendlyByteBuf;
@@ -147,7 +146,7 @@ public class FluidGaugeElement implements IElement {
         final Tesselator tesselator = Tesselator.getInstance();
         final BufferBuilder buffer = tesselator.getBuilder();
         final TextureAtlasSprite texture = FluidColorExtraction.getStillFluidTextureSafe(fluidStack.getFluid());
-        final int textureWidth = texture.contents().width();
+        final int textureWidth = texture.getWidth();
         final float minU = texture.getU0();
         final float maxU = texture.getU1();
         final float minV = texture.getV0();
@@ -155,7 +154,7 @@ public class FluidGaugeElement implements IElement {
 
         final int tileHeight = extended ? INNER_HEIGHT_EXTENDED : INNER_HEIGHT;
         // Height to render relative to UV coordinate system
-        final float vHeight = (maxV - minV) * 1.0F * tileHeight / texture.contents().height();
+        final float vHeight = (maxV - minV) * 1.0F * tileHeight / texture.getHeight();
         // UV ordinates to  use is based on the gaugeFluidTextureAlignment configuration setting
         final float v1 = ForgeAddon.gaugeFluidTextureAlignment.get().fv1.apply(minV, maxV, vHeight);
         final float v2 = ForgeAddon.gaugeFluidTextureAlignment.get().fv2.apply(minV, maxV, vHeight);
@@ -218,10 +217,10 @@ public class FluidGaugeElement implements IElement {
     }
 
     private void renderText(PoseStack poseStack, int x, int y, int color) {
-        final String tankDisplayName = Component.translatable(I18n.exists(tankNameKey) ? tankNameKey : "topaddons.forge:default_tank_name").getString();
+        final Component tankDisplayName = Component.translatable(I18n.exists(tankNameKey) ? tankNameKey : "topaddons.forge:default_tank_name");
         final Font font = Minecraft.getInstance().font;
         if (extended) {
-            final String fluidDisplayName = fluidStack.getDisplayName().toString();
+            final Component fluidDisplayName = fluidStack.getDisplayName();
             font.drawShadow(poseStack, amountText(), x + 3, y + 2, 0xffffffff);
             poseStack.pushPose();
             poseStack.scale(0.5F, 0.5F, 0.5F);
